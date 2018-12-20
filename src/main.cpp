@@ -5,17 +5,17 @@
 *
 **/
 
-#include "Com/Order/OrderManager.h"
+#include "COM/Order/OrderManager.h"
 #include "Utils/Monitoring.h"
 #include <string>
 
 /* Interruptions d'asservissements */
 void motionControlInterrupt() {
-	static MotionControlSystem &motionControlSystem = MotionControlSystem::Instance();
-	motionControlSystem.updateTicks();
+	static MCS &motionControlSystem = MCS::Instance();
+	/* FIXME motionControlSystem.updateTicks();
 	motionControlSystem.control();
 	motionControlSystem.updatePosition();
-	motionControlSystem.manageStop();
+	motionControlSystem.manageStop();*/
 }
 
 int main(){

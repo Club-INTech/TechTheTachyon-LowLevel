@@ -5,7 +5,7 @@ OrderManager::OrderManager():
         hookList(HookList()),
         orderData(OrderData()),
         sensorMgr(SensorMgr::Instance()),
-        motionControlSystem(MotionControlSystem::Instance()),
+        motionControlSystem(MCS::Instance()),
         actuatorsMgr(ActuatorsMgr::Instance()),
         highLevel(ComMgr::Instance())
 {
@@ -31,13 +31,13 @@ void OrderManager::communicate() {
 
     if (checkMovement.check())
     {
-        if (!motionControlSystem.sentMoveAbnormal() && motionControlSystem.isMoveAbnormal()) {//Si on est bloqué et qu'on n'a pas encore prévenu
+        /* FIXME if (!motionControlSystem.sentMoveAbnormal() && motionControlSystem.isMoveAbnormal()) {//Si on est bloqué et qu'on n'a pas encore prévenu
             motionControlSystem.setMoveAbnormalSent(true);
             highLevel.sendEvent("unableToMove p");
         }
         else if (motionControlSystem.sentMoveAbnormal() && !motionControlSystem.isMoveAbnormal()) {//Si on est plus bloqué et qu'on avait prévenu
             motionControlSystem.setMoveAbnormalSent(false);
-        }
+        }*/
     }
 
     if (checkHooksTimer.check() && hooksEnabled)
@@ -48,50 +48,50 @@ void OrderManager::communicate() {
 
     static Metro sendPos = Metro(50);
     if (com_options & COM_OPTIONS::ETHERNET_W && sendPos.check()) {
-        if (motionControlSystem.isMoving()) {
-            float posToSend[3]={motionControlSystem.getX(), motionControlSystem.getY(), motionControlSystem.getAngleRadian()};
-            highLevel.sendPosition(posToSend);
-        } else {
-            if (motionControlSystem.previousIsMoving()){
-                highLevel.sendEvent("stoppedMoving");
-                motionControlSystem.setPreviousIsMoving(false);
-            }
-        }
-    }
-}
+        /* FIXME  if (motionControlSystem.isMoving()) {
+             float posToSend[3]={motionControlSystem.getX(), motionControlSystem.getY(), motionControlSystem.getAngleRadian()};
+             highLevel.sendPosition(posToSend);
+         } else {
+             if (motionControlSystem.previousIsMoving()){
+                 highLevel.sendEvent("stoppedMoving");
+                 motionControlSystem.setPreviousIsMoving(false);
+             }
+         }*/
+     }
+ }
 
 
 
 
-void OrderManager::execute(const char* orderToExecute)
-{
-    char str_order[RX_BUFFER_SIZE];
-    char orderBuffer[RX_BUFFER_SIZE];
-    strcpy(orderBuffer, orderToExecute);
+ void OrderManager::execute(const char* orderToExecute)
+ {
+     char str_order[RX_BUFFER_SIZE];
+     char orderBuffer[RX_BUFFER_SIZE];
+     strcpy(orderBuffer, orderToExecute);
 
-    int8_t n_param = split(orderBuffer, orderData,
-                           SEPARATOR);        //Sépare l'ordre en plusieurs mots, n_param=nombre de paramètres
+     int8_t n_param = split(orderBuffer, orderData,
+                            SEPARATOR);        //Sépare l'ordre en plusieurs mots, n_param=nombre de paramètres
 
-    if (n_param >= 0) {
-        strcpy(str_order, orderData.at(0));
+     if (n_param >= 0) {
+         strcpy(str_order, orderData.at(0));
 
-        Serial.println(orderToExecute);
+         Serial.println(orderToExecute);
 
-        auto it = orders.find(str_order);
-        if(it != orders.end())
-            it->second->exec(orderData);
-        else
-        {
-            highLevel.printfln(STD_HEADER,"ordre inconnu");
-            highLevel.printfln(DEBUG_HEADER,"T'es un déchêt");
-        }
-    }
-    checkHooks();
-}
+         auto it = orders.find(str_order);
+         if(it != orders.end())
+             it->second->exec(orderData);
+         else
+         {
+             highLevel.printfln(STD_HEADER,"ordre inconnu");
+             highLevel.printfln(DEBUG_HEADER,"T'es un déchêt");
+         }
+     }
+     checkHooks();
+ }
 
-/**
-*	Sépare une courte chaîne de caractères(RX_BUFFER_SIZE) selon un séparateur, dans un tableau output (au plus 4 mots)
-*/
+ /**
+ *	Sépare une courte chaîne de caractères(RX_BUFFER_SIZE) selon un séparateur, dans un tableau output (au plus 4 mots)
+ */
 
 int8_t OrderManager::split(char* input, OrderData& output, const char* separator) {
     char *token;
@@ -134,7 +134,7 @@ void OrderManager::checkJumper() {
 }
 
 void OrderManager::checkHooks() {
-    hookList.check(motionControlSystem.getX(), motionControlSystem.getY(),motionControlSystem.getAngleRadian());
+    // FIXME hookList.check(motionControlSystem.getX(), motionControlSystem.getY(),motionControlSystem.getAngleRadian());
 }
 
 void OrderManager::executeHooks() {
@@ -205,39 +205,6 @@ void OrderManager::init() {
     orders.insert( {"kpd", new ORDER_KPD} );
     orders.insert( {"kid", new ORDER_KID} );
     orders.insert( {"kdd", new ORDER_KDD} );
-
-    orders.insert( {"axm", new ORDER_AXM} );
-    orders.insert( {"axgm", new ORDER_AXGM} );
-    orders.insert( {"axs", new ORDER_AXS} );
-    orders.insert( {"axgs", new ORDER_AXGS} );
-
-    orders.insert( {"blbAvbei", new ORDER_BLBAVBEI} );
-    orders.insert( {"blbAv", new ORDER_BLBAV} );
-    orders.insert( {"rlbAv", new ORDER_RLBAV} );
-    orders.insert( {"blbArbei", new ORDER_BLBARBEI} );
-    orders.insert( {"blbAr", new ORDER_BLBAR} );
-    orders.insert( {"rlbAr", new ORDER_RLBAR} );
-
-    orders.insert( {"flpAv", new ORDER_FLPAV} );
-    orders.insert( {"olpAv", new ORDER_OLPAV} );
-    orders.insert( {"flpAr", new ORDER_FLPAR} );
-    orders.insert( {"olpAr", new ORDER_OLPAR} );
-    orders.insert( {"olpArp", new ORDER_OLPARP} );
-    orders.insert( {"olpAvp", new ORDER_OLPAVP} );
-
-    orders.insert( {"alp", new ORDER_ALP} );
-    orders.insert( {"dlp", new ORDER_DLP} );
-
-    orders.insert( {"aeAv", new ORDER_AEAV} );
-    orders.insert( {"deAv", new ORDER_DEAV} );
-    orders.insert( {"aeAr", new ORDER_AEAR} );
-    orders.insert( {"deAr", new ORDER_DEAR} );
-
-    orders.insert( {"sus", new ORDER_SUS} );
-    orders.insert( {"ccAv", new ORDER_CCAV} );
-    orders.insert( {"ccAr", new ORDER_CCAR} );
-    orders.insert( {"bde", new ORDER_BDE} );
-    orders.insert( {"bdd", new ORDER_BDD} );
 
     orders.insert( {"nh", new ORDER_NH} );
     orders.insert( {"eh", new ORDER_EH} );

@@ -7,7 +7,6 @@
 
 #include "AbstractOrder.h"
 #include "OrderManager.h"
-#include "MotionControl/trajectories.h"
 
 ORDER(PING,0);
 ORDER(J,0);
@@ -49,12 +48,6 @@ ORDER(CR0,0);
 ORDER(CR1,0);
 ORDER(CV0,0);
 ORDER(CV1,0);
-
-/*			 _________________________________
-* 		   *|                                 |*
-*		   *|			  Capteurs            |*
-*    	   *|_________________________________|*
-*/
 
 /*			 ___________________________
 * 		   *|                           |*
@@ -107,66 +100,6 @@ ORDER(KDG,1);
 ORDER(KPD,1);
 ORDER(KID,1);
 ORDER(KDD,1);
-
-/*			 _________________________________
-* 		   *|                                 |*
-*		   *|			 Actionneurs          |*
-*    	   *|_________________________________|*
-*/
-
-ORDER(AXM,2);
-ORDER(AXGM,2);
-ORDER(AXS,2);
-ORDER(AXGS,2);
-
-/*			 _________________________________
- * 		   *|                                 |*
- *		   *|     Actionneurs spécifiques     |*
- *    	   *|_________________________________|*
- */
-
-/*
- * BRAS
- */
-ORDER(BLBAVBEI,0);
-ORDER(BLBAV,0);
-ORDER(RLBAV,0);
-ORDER(BLBARBEI,0);
-ORDER(BLBAR,0);
-ORDER(RLBAR,0);
-/*
- * PORTES
- */
-ORDER(FLPAV,0);
-ORDER(OLPAV,0);
-ORDER(FLPAR,0);
-ORDER(OLPAR,0);
-ORDER(OLPAVP,0);
-ORDER(OLPARP,0);
-/*
- * POMPE
- */
-ORDER(ALP,0);
-ORDER(DLP,0);
-/*
- * ELECTROVANNES
- */
-ORDER(AEAV,0);
-ORDER(DEAV,0);
-ORDER(AEAR,0);
-ORDER(DEAR,0);
-
-/*			 _________________________________
-* 		   *|                                 |*
-*		   *|			  Capteurs            |*
-*    	   *|_________________________________|*
-*/
-
-ORDER(SUS,1);
-ORDER(CCAV,0);
-ORDER(CCAR,0);
-ORDER(BDE,0);
-ORDER(BDD,0);
 
 /*			 _________________________________
 * 		   *|                                 |*

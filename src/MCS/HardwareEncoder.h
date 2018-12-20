@@ -79,21 +79,21 @@ public:
         PORT_B = 0;
 
         /* configure pins to enable pullup mode */
-        if( option & ENCODERMODE::PULLUP )
+        if( (uint8_t)option & (uint8_t)ENCODERMODE::PULLUP )
         {
             PORT_A |= PORT_PCR_PE|PORT_PCR_PS;
             PORT_B |= PORT_PCR_PE|PORT_PCR_PS;
         }
 
         /* configure pins to enable pulldown mode */
-        else if( option & ENCODERMODE::PULLDOWN )
+        else if( (uint8_t)option & (uint8_t)ENCODERMODE::PULLDOWN )
         {
             PORT_A |= PORT_PCR_PE;
             PORT_B |= PORT_PCR_PE;
         }
 
         /* configure pins to enable the filter */
-        if( !(option & ENCODERMODE::FILTER_OFF) )
+        if( !( (uint8_t)option & (uint8_t)ENCODERMODE::FILTER_OFF) )
         {
             PORT_A |= PORT_PCR_PFE;
             PORT_B |= PORT_PCR_PFE;
@@ -233,7 +233,7 @@ public:
         ENABLE_PROTECTION();
     }
 
-    inline int32_t count const ()
+    inline int32_t count ()
     {
         return cnt_H*0x10000+CNT;
     }
@@ -246,15 +246,9 @@ static HardwareEncoder<1> Encoder1;
 static HardwareEncoder<2> Encoder2;
 
 /* Wrapper for over/under-flow interrupt on register CNT for FTM1 */
-void ftm1_isr()
-{
-    Encoder1.ofi();
-}
+extern void ftm1_isr();
 
 /* Wrapper for over/under-flow interrupt on register CNT for FTM2*/
-void ftm2_isr()
-{
-    Encoder2.ofi();
-}
+extern void ftm2_isr();
 
 #endif //HARDWAREENCODER_H

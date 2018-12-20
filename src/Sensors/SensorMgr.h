@@ -11,12 +11,13 @@
 #include "Utils/Median.h"
 #include "Utils/Singleton.hpp"
 #include "Utils/pin_mapping.h"
-#include "MotionControl/MotionControlSystem.h"
+#include "MCS/MCSReborn.h"
 #include "Utils/pin_mapping.h"
-#include "Com/ComMgr.h"
+#include "COM/ComMgr.h"
 #include "SRF10.h"
 #include "VL6180X.h"
 #include "AbstractSensorUS.h"
+#include "MCS/RobotStatus.h"
 
 
 class SensorMgr : public Singleton<SensorMgr>
@@ -36,7 +37,7 @@ private:
 	bool isMeasuring = false;
 	bool firstMeasure = true;
 	bool sendRequest= false;
-	MOVING_DIRECTION measure_direction;
+	MOVEMENT measure_direction;
 
 	bool jumperPlugged;
 	bool basicBlocked;
@@ -45,7 +46,7 @@ private:
 public:
 
 	SensorMgr();
-	void refreshUS(MOVING_DIRECTION dir);
+	void refreshUS(MOVEMENT dir);
 	void checkCubeAV();
 	void checkCubeAR();
 	void measureMeanAmbientLight();

@@ -16,17 +16,17 @@
 #include <Arduino.h>
 #include <WString.h>
 #include "Utils/Singleton.hpp"
-#include "MotionControl/MotionControlSystem.h"
+#include "MCS/MCSReborn.h"
 #include "Sensors/SensorMgr.h"
-#include "Com/ComMgr.h"
+#include "COM/ComMgr.h"
 #include "Actuators/ActuatorsMgr.h"
 #include "Utils/defines.h"
 #include "Utils/utils.h"
-#include "Com/Hooks/Hook.h"
+#include "COM/Hooks/Hook.h"
 #include "Actuators/DynamixelGroup.h"
 #include "OrderData.h"
 #include "Orders.h"
-#include "Com/Hooks/HookList.h"
+#include "COM/Hooks/HookList.h"
 
 class OrderManager : public Singleton<OrderManager>
 {
@@ -43,7 +43,7 @@ public:
 	HookList hookList;
 	OrderData orderData;
 	SensorMgr &sensorMgr;
-	MotionControlSystem& motionControlSystem;
+	MCS& motionControlSystem;
 	ActuatorsMgr &actuatorsMgr;
 	ComMgr& highLevel;
 
@@ -57,8 +57,8 @@ public:
 
     //COM&exec
     inline void refreshUS(){
-		if(isSendingUS)
-			sensorMgr.refreshUS(motionControlSystem.getMovingDirection());
+		// FIXME if(isSendingUS)
+			//sensorMgr.refreshUS(motionControlSystem.getMovingDirection());
 	}
 	inline void sendUS(){
 		sensorMgr.sendUS();

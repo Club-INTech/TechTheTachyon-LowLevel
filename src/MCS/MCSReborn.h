@@ -17,6 +17,7 @@ class MCS : public Singleton<MCS>
 {
 
 private:
+
     RobotStatus robotStatus;
     ControlSettings controlSettings;
 
@@ -38,6 +39,7 @@ private:
 
 
 public:
+    MCS();
 
     void control();
     void stop();

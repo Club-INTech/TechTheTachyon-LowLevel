@@ -17,28 +17,31 @@ void ORDER_J::impl(Args args)
 
 void ORDER_F::impl(Args args)
 {
-    orderManager.highLevel.printfln(STD_HEADER,"%d",orderManager.motionControlSystem.isMoving());
-    orderManager.highLevel.printfln(STD_HEADER,"%d",orderManager.motionControlSystem.isMoveAbnormal());
+    /* FIXME orderManager.highLevel.printfln(STD_HEADER,"%d",orderManager.motionControlSystem.isMoving());
+    orderManager.highLevel.printfln(STD_HEADER,"%d",orderManager.motionControlSystem.isMoveAbnormal());*/
 }
 
 void ORDER_XYO::impl(Args args)
 {
+    /* FIXME
     orderManager.highLevel.printfln(STD_HEADER,"%f",orderManager.motionControlSystem.getX());
     orderManager.highLevel.printfln(STD_HEADER,"%f",orderManager.motionControlSystem.getY());
     orderManager.highLevel.printfln(STD_HEADER,"%f",orderManager.motionControlSystem.getAngleRadian());
+*/
 }
 
 void ORDER_D::impl(Args args)
 {
-    int16_t deplacement = strtod(args[0], nullptr);
+  /* FIXME  int16_t deplacement = strtod(args[0], nullptr);
     orderManager.highLevel.printfln(DEBUG_HEADER,"distance : %d",deplacement);
     orderManager.motionControlSystem.disablePointToPoint();
     orderManager.motionControlSystem.orderTranslation(deplacement);
+*/
 }
 
 void ORDER_T::impl(Args args)
 {
-    float angle;
+  /* FIXME  float angle;
     if (!strcmp(args[0], "pi")) {
         angle = (float) PI;
     } else {
@@ -46,16 +49,16 @@ void ORDER_T::impl(Args args)
     }
     orderManager.highLevel.printfln(DEBUG_HEADER,"angle : %f", angle);
 
-    MotionControlSystem::RotationWay rotationWay = MotionControlSystem::FREE;
+    MCS::RotationWay rotationWay = MCS::FREE;
     if(args.nbrParams() > 1)
     {
         if(!strcmp(args[1],"trigo"))
         {
-            rotationWay = MotionControlSystem::TRIGO;
+            rotationWay = MCS::TRIGO;
         }
         else if(!strcmp(args[1],"antitrigo"))
         {
-            rotationWay = MotionControlSystem::ANTITRIGO;
+            rotationWay = MCS::ANTITRIGO;
         }
         else if(strcmp(args[1],"free") != 0)
         {
@@ -64,7 +67,7 @@ void ORDER_T::impl(Args args)
     }
 
     orderManager.motionControlSystem.disablePointToPoint();
-    orderManager.motionControlSystem.orderRotation(angle, rotationWay);
+    orderManager.motionControlSystem.orderRotation(angle, rotationWay);*/
 }
 
 void ORDER_GOTO::impl(Args args)
@@ -81,7 +84,7 @@ void ORDER_GOTO::impl(Args args)
     }
 //                if(-1500 <= targetX && targetX <= 1500 && 0 <= targetY && targetY <= 2000)
 //                {
-        orderManager.motionControlSystem.orderGoto(targetX,targetY, isSequential);
+       // FIXME orderManager.motionControlSystem.orderGoto(targetX,targetY, isSequential);
 //                }
 //                else
 //      {
@@ -93,7 +96,7 @@ void ORDER_FOLLOWTRAJECTORY::impl(Args args)
 {
     if(strtof(args[0], nullptr) == 0)
     {
-        orderManager.motionControlSystem.orderTrajectory(trajectory_S_path[0],trajectory_S_path[1],trajectory_S_size);
+     // FIXME   orderManager.motionControlSystem.orderTrajectory(trajectory_S_path[0],trajectory_S_path[1],trajectory_S_size);
     }
     else
     {
@@ -103,9 +106,7 @@ void ORDER_FOLLOWTRAJECTORY::impl(Args args)
 
 void ORDER_STOP::impl(Args args)
 {
-
-
-    orderManager.motionControlSystem.stop();
+    // FIXME orderManager.motionControlSystem.stop();
     orderManager.highLevel.printfln(DEBUG_HEADER,"A priori, je m'arrête");
 }
 
@@ -121,94 +122,94 @@ void ORDER_RESUMEEMERGENCYSTOP::impl(Args args)
 
 void ORDER_CX::impl(Args args)
 {
-    orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
+    // FIXME  orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
 }
 
 void ORDER_CY::impl(Args args)
 {
-    orderManager.motionControlSystem.setY(orderManager.parseFloat(args[0]));
+    // FIXME  orderManager.motionControlSystem.setY(orderManager.parseFloat(args[0]));
 }
 
 void ORDER_CO::impl(Args args)
 {
-    orderManager.motionControlSystem.setOriginalAngle(orderManager.parseFloat(args[0]));
+    // FIXME  orderManager.motionControlSystem.setOriginalAngle(orderManager.parseFloat(args[0]));
 }
 
 void ORDER_CXYO::impl(Args args)
 {
-    orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
-    orderManager.motionControlSystem.setY(orderManager.parseFloat(args[1]));
-    orderManager.motionControlSystem.setOriginalAngle(orderManager.parseFloat(args[2]));
+    // FIXME orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
+    // FIXME  orderManager.motionControlSystem.setY(orderManager.parseFloat(args[1]));
+    // FIXME orderManager.motionControlSystem.setOriginalAngle(orderManager.parseFloat(args[2]));
 }
 
 void ORDER_CTV::impl(Args args)
 {
-    orderManager.motionControlSystem.setTranslationSpeed(orderManager.parseFloat(args[0]));
+    // FIXME orderManager.motionControlSystem.setTranslationSpeed(orderManager.parseFloat(args[0]));
 }
 
 void ORDER_CRV::impl(Args args)
 {
-    orderManager.motionControlSystem.setRotationSpeed(orderManager.parseFloat(args[0]));
+    // FIXME orderManager.motionControlSystem.setRotationSpeed(orderManager.parseFloat(args[0]));
 }
 
 void ORDER_CTRV::impl(Args args)
 {
-    orderManager.motionControlSystem.setTranslationSpeed(orderManager.parseFloat(args[0]));
-    orderManager.motionControlSystem.setRotationSpeed(orderManager.parseFloat(args[1]));
+    // FIXME orderManager.motionControlSystem.setTranslationSpeed(orderManager.parseFloat(args[0]));
+    // FIXME orderManager.motionControlSystem.setRotationSpeed(orderManager.parseFloat(args[1]));
 }
 
 void ORDER_EFM::impl(Args args)
 {
-    orderManager.motionControlSystem.enableForcedMovement(true);
+    // FIXME  orderManager.motionControlSystem.enableForcedMovement(true);
 }
 
 void ORDER_DFM::impl(Args args)
 {
-    orderManager.motionControlSystem.enableForcedMovement(true);
+    // FIXME  orderManager.motionControlSystem.enableForcedMovement(true);
 }
 
 void ORDER_CT0::impl(Args args)
 {
-    orderManager.motionControlSystem.enableTranslationControl(false);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"non asservi en translation");
+    // FIXME  orderManager.motionControlSystem.enableTranslationControl(false);
+    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"non asservi en translation");
 }
 
 void ORDER_CT1::impl(Args args)
 {
-    orderManager.motionControlSystem.enableTranslationControl(true);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en translation");
+    // FIXME  orderManager.motionControlSystem.enableTranslationControl(true);
+    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en translation");
 }
 
 void ORDER_CR0::impl(Args args)
 {
-    orderManager.motionControlSystem.enableRotationControl(false);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"non asservi en rotation");
+// FIXME    orderManager.motionControlSystem.enableRotationControl(false);
+    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"non asservi en rotation");
 }
 
 void ORDER_CR1::impl(Args args)
 {
-    orderManager.motionControlSystem.enableRotationControl(true);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en rotation");
+    // FIXME  orderManager.motionControlSystem.enableRotationControl(true);
+    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en rotation");
 }
 
 void ORDER_CV0::impl(Args args)
 {
-    orderManager.motionControlSystem.enableSpeedControl(false);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"non asservi en vitesse");
+    // FIXME orderManager.motionControlSystem.enableSpeedControl(false);
+    // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"non asservi en vitesse");
 }
 
 void ORDER_CV1::impl(Args args)
 {
-    orderManager.motionControlSystem.enableSpeedControl(true);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en vitesse");
+    // FIXME orderManager.motionControlSystem.enableSpeedControl(true);
+    // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en vitesse");
 }
 
 void ORDER_COD::impl(Args args)
 {
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Gauche:");
-    orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getLeftTick());
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Droite:");
-    orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getRightTick());
+    // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"Gauche:");
+    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getLeftTick());
+    // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"Droite:");
+    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getRightTick());
 }
 
 void ORDER_PFDEBUG::impl(Args args)
@@ -223,24 +224,24 @@ void ORDER_PFDEBUG::impl(Args args)
 void ORDER_RAWPWM::impl(Args args)
 {
     uint8_t rawpwm = orderManager.parseInt(args[0]);
-    orderManager.motionControlSystem.orderRawPwm(Side::LEFT, rawpwm);
-    orderManager.motionControlSystem.orderRawPwm(Side::RIGHT, rawpwm);
+    // FIXME   orderManager.motionControlSystem.orderRawPwm(Side::LEFT, rawpwm);
+    // FIXME  orderManager.motionControlSystem.orderRawPwm(Side::RIGHT, rawpwm);
 }
 
 void ORDER_GETPWM::impl(Args args)
 {
     int32_t left, right;
-    orderManager.motionControlSystem.getPWMS(left, right);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"PWMS: %ld - %ld", left, right);
+    // FIXME   orderManager.motionControlSystem.getPWMS(left, right);
+    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"PWMS: %ld - %ld", left, right);
 }
 
 void ORDER_ERRORS::impl(Args args)
 {
     float leftProp, leftDer, leftInt, rightProp, rightDer, rightInt;
-    orderManager.motionControlSystem.getSpeedErrors(leftProp, leftInt, leftDer, rightProp, rightInt, rightDer);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Prop: %f - %f", leftProp, rightProp);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Deriv: %f - %f", leftDer, rightDer);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Integ: %f - %f", leftInt, rightInt);
+    // FIXME  orderManager.motionControlSystem.getSpeedErrors(leftProp, leftInt, leftDer, rightProp, rightInt, rightDer);
+    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"Prop: %f - %f", leftProp, rightProp);
+    // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"Deriv: %f - %f", leftDer, rightDer);
+    // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"Integ: %f - %f", leftInt, rightInt);
 }
 
 void ORDER_RAWSPEED::impl(Args args)
@@ -248,15 +249,15 @@ void ORDER_RAWSPEED::impl(Args args)
     int32_t leftsetpoint, rightsetpoint;
 
     //motionControlSystem.rawWheelSpeed(parseInt(orderData.at(1)), leftsetpoint, rightsetpoint);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Speed set");
-    orderManager.motionControlSystem.getSpeedSetpoints(leftsetpoint, rightsetpoint);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"speed setpoints: %ld - %ld", leftsetpoint, rightsetpoint);
+    // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"Speed set");
+    // FIXME orderManager.motionControlSystem.getSpeedSetpoints(leftsetpoint, rightsetpoint);
+    // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"speed setpoints: %ld - %ld", leftsetpoint, rightsetpoint);
 }
 
 void ORDER_RAWPOSDATA::impl(Args args)
 {
     int32_t leftsetpoint, rightsetpoint;
-    orderManager.motionControlSystem.getSpeedSetpoints(leftsetpoint, rightsetpoint);
+  /* FIXME  orderManager.motionControlSystem.getSpeedSetpoints(leftsetpoint, rightsetpoint);
     Serial.print(orderManager.motionControlSystem.getX());
     Serial.print(",");
     Serial.print(orderManager.motionControlSystem.getY());
@@ -269,7 +270,7 @@ void ORDER_RAWPOSDATA::impl(Args args)
     Serial.print(",");
     Serial.print(orderManager.motionControlSystem.getRightSpeed());
     Serial.print(",");
-    Serial.println(rightsetpoint);
+    Serial.println(rightsetpoint);*/
     //int32_t right, left;
     //motionControlSystem.getPWMS(left,right);
     //Serial.println(right);
@@ -280,43 +281,44 @@ void ORDER_RAWPOSDATA::impl(Args args)
 
 void ORDER_MONTLHERY::impl(Args args)
 {
-    orderManager.motionControlSystem.enableTranslationControl(false);
+  /* FIXME  orderManager.motionControlSystem.enableTranslationControl(false);
     orderManager.motionControlSystem.enableRotationControl(false);
-    orderManager.motionControlSystem.enableForcedMovement(true);
+    orderManager.motionControlSystem.enableForcedMovement(true);*/
 }
 
 void ORDER_AV::impl(Args args)
 {
-    orderManager.motionControlSystem.setRawPositiveTranslationSpeed();
+    // FIXME orderManager.motionControlSystem.setRawPositiveTranslationSpeed();
 }
 
 void ORDER_RC::impl(Args args)
 {
-    orderManager.motionControlSystem.setRawNegativeTranslationSpeed();
+    // FIXME  orderManager.motionControlSystem.setRawNegativeTranslationSpeed();
 }
 
 void ORDER_TD::impl(Args args)
 {
-    orderManager.motionControlSystem.setRawNegativeRotationSpeed();
+    // FIXME orderManager.motionControlSystem.setRawNegativeRotationSpeed();
 }
 
 void ORDER_TG::impl(Args args)
 {
-    orderManager.motionControlSystem.setRawPositiveRotationSpeed();
+    // FIXME orderManager.motionControlSystem.setRawPositiveRotationSpeed();
 }
 
 void ORDER_SSTOP::impl(Args args)
 {
-    orderManager.motionControlSystem.setRawNullSpeed();
+    // FIXME orderManager.motionControlSystem.setRawNullSpeed();
 }
 
 void ORDER_TOGGLE::impl(Args args)
 {
-    orderManager.motionControlSystem.translation = !orderManager.motionControlSystem.translation;   //Bascule entre le réglage d'asserv en translation et en rotation
+   /* FIXME orderManager.motionControlSystem.translation = !orderManager.motionControlSystem.translation;   //Bascule entre le réglage d'asserv en translation et en rotation
     if (orderManager.motionControlSystem.translation) {
         orderManager.highLevel.printfln(DEBUG_HEADER, "reglage de la translation");
     } else
         orderManager.highLevel.printfln(DEBUG_HEADER, "reglage de la rotation");
+*/
 }
 
 void ORDER_DISPLAY::impl(Args args)
@@ -326,7 +328,7 @@ void ORDER_DISPLAY::impl(Args args)
             kp_r, ki_r, kd_r,      // Rotation
             kp_g, ki_g, kd_g,      // Vitesse gauche
             kp_d, ki_d, kd_d;      // Vitesse droite
-    orderManager.motionControlSystem.getTranslationTunings(kp_t, ki_t, kd_t);
+ /* FIXME   orderManager.motionControlSystem.getTranslationTunings(kp_t, ki_t, kd_t);
     orderManager.motionControlSystem.getRotationTunings(kp_r, ki_r, kd_r);
     orderManager.motionControlSystem.getLeftSpeedTunings(kp_g, ki_g, kd_g);
     orderManager.motionControlSystem.getRightSpeedTunings(kp_d, ki_d, kd_d);
@@ -334,273 +336,137 @@ void ORDER_DISPLAY::impl(Args args)
     orderManager.highLevel.printfln(DEBUG_HEADER,"rot   : kp= %g ; ki= %g ; kd= %g", kp_r, ki_r, kd_r);
     orderManager.highLevel.printfln(DEBUG_HEADER,"gauche: kp= %g ; ki= %g ; kd= %g", kp_g, ki_g, kd_g);
     orderManager.highLevel.printfln(DEBUG_HEADER,"droite: kp= %g ; ki= %g ; kd= %g", kp_d, ki_d, kd_d);
+*/
 }
 
 void ORDER_KPT::impl(Args args)
 {
-    float kp, ki, kd;
+ /* FIXME   float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kp_trans ?");
     orderManager.motionControlSystem.getTranslationTunings(kp, ki, kd);
     kp = orderManager.parseFloat(args[0]);
     orderManager.motionControlSystem.setTranslationTunings(kp, ki, kd);
     orderManager.highLevel.printfln(DEBUG_HEADER,"kp_trans = %g", kp);
+*/
 }
 
 void ORDER_KDT::impl(Args args)
 {
-    float kp, ki, kd;
+   /* FIXME float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kd_trans ?");
     orderManager.motionControlSystem.getTranslationTunings(kp, ki, kd);
     kd = orderManager.parseFloat(args[0]);
     orderManager.motionControlSystem.setTranslationTunings(kp, ki, kd);
     orderManager.highLevel.printfln(DEBUG_HEADER,"kd_trans = %g", kd);
+*/
 }
 
 void ORDER_KIT::impl(Args args)
 {
-    float kp, ki, kd;
+/* FIXME    float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"ki_trans ?");
     orderManager.motionControlSystem.getTranslationTunings(kp, ki, kd);
     ki = orderManager.parseFloat(args[0]);
     orderManager.motionControlSystem.setTranslationTunings(kp, ki, kd);
     orderManager.highLevel.printfln(DEBUG_HEADER,"ki_trans = %g", ki);
+*/
 }
 
 void ORDER_KPR::impl(Args args)
 {
-    float kp, ki, kd;
+  /* FIXME  float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kp_rot ?");
     orderManager.motionControlSystem.getRotationTunings(kp, ki, kd);
     kp = orderManager.parseFloat(args[0]);
     orderManager.motionControlSystem.setRotationTunings(kp, ki, kd);
     orderManager.highLevel.printfln(DEBUG_HEADER,"kp_rot = %g", kp);
+*/
 }
 
 void ORDER_KIR::impl(Args args)
 {
-    float kp, ki, kd;
+/* FIXME    float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"ki_rot ?");
     orderManager.motionControlSystem.getRotationTunings(kp, ki, kd);
     ki = orderManager.parseFloat(args[0]);
     orderManager.motionControlSystem.setRotationTunings(kp, ki, kd);
     orderManager.highLevel.printfln(DEBUG_HEADER,"ki_rot = %g", ki);
-}
+*/}
 
 void ORDER_KDR::impl(Args args)
 {
-    float kp, ki, kd;
+/* FIXME    float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kd_rot ?");
     orderManager.motionControlSystem.getRotationTunings(kp, ki, kd);
     kd = orderManager.parseFloat(args[0]);
     orderManager.motionControlSystem.setRotationTunings(kp, ki, kd);
     orderManager.highLevel.printfln(DEBUG_HEADER,"kd_rot = %g", kd);
+*/
 }
 
 void ORDER_KPG::impl(Args args)
 {
-    float kp, ki, kd;
+/* FIXME    float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kp_gauche ?");
     orderManager.motionControlSystem.getLeftSpeedTunings(kp, ki, kd);
     kp = orderManager.parseFloat(args[0]);
     orderManager.motionControlSystem.setLeftSpeedTunings(kp, ki, kd);
     orderManager.highLevel.printfln(DEBUG_HEADER,"kp_gauche = %g", kp);
-}
+*/}
 
 void ORDER_KIG::impl(Args args)
 {
-    float kp, ki, kd;
+  /* FIXME  float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"ki_gauche ?");
     orderManager.motionControlSystem.getLeftSpeedTunings(kp, ki, kd);
     ki = orderManager.parseFloat(args[0]);
     orderManager.motionControlSystem.setLeftSpeedTunings(kp, ki, kd);
     orderManager.highLevel.printfln(DEBUG_HEADER,"ki_gauche = %g", ki);
-}
+*/}
 
 void ORDER_KDG::impl(Args args)
 {
-    float kp, ki, kd;
+ /* FIXME   float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kd_gauche ?");
     orderManager.motionControlSystem.getLeftSpeedTunings(kp, ki, kd);
     kd = orderManager.parseFloat(args[0]);
     orderManager.motionControlSystem.setLeftSpeedTunings(kp, ki, kd);
     orderManager.highLevel.printfln(DEBUG_HEADER,"kd_gauche = %g", kd);
-}
+*/}
 
 void ORDER_KPD::impl(Args args)
 {
-    float kp, ki, kd;
+/* FIXME    float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kp_droite ?");
     orderManager.motionControlSystem.getRightSpeedTunings(kp, ki, kd);
     kp = orderManager.parseFloat(args[0]);
     orderManager.motionControlSystem.setRightSpeedTunings(kp, ki, kd);
     orderManager.highLevel.printfln(DEBUG_HEADER,"kp_droite = %g", kp);
+*/
 }
 
 void ORDER_KID::impl(Args args)
 {
-    float kp, ki, kd;
+  /* FIXME  float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"ki_droite ?");
     orderManager.motionControlSystem.getRightSpeedTunings(kp, ki, kd);
     ki = orderManager.parseFloat(args[0]);
     orderManager.motionControlSystem.setRightSpeedTunings(kp, ki, kd);
     orderManager.highLevel.printfln(DEBUG_HEADER,"ki_droite = %g", ki);
+*/
 }
 
 void ORDER_KDD::impl(Args args)
 {
-    float kp, ki, kd;
+/* FIXME    float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kd_droite ?");
     orderManager.motionControlSystem.getRightSpeedTunings(kp, ki, kd);
     kd = orderManager.parseFloat(args[0]);
     orderManager.motionControlSystem.setRightSpeedTunings(kp, ki, kd);
     orderManager.highLevel.printfln(DEBUG_HEADER,"kd_droite = %g", kd);
+*/
 }
 
-void ORDER_AXM::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12(orderManager.parseInt(args[0]),(uint16_t)orderManager.parseInt(args[1]));
-}
-
-void ORDER_AXGM::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12G((unsigned int)orderManager.parseInt(args[0]),(uint16_t)orderManager.parseInt(args[1]));
-}
-
-void ORDER_AXS::impl(Args args)
-{
-    orderManager.actuatorsMgr.setAX12Speed(orderManager.parseInt(args[0]),(uint16_t)orderManager.parseInt(args[1]));
-}
-
-void ORDER_AXGS::impl(Args args)
-{
-    orderManager.actuatorsMgr.setAX12GSpeed((unsigned int)orderManager.parseInt(args[0]),(uint16_t)orderManager.parseInt(args[1]));
-}
-
-void ORDER_BLBAVBEI::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12G(frontArmGroup_ID, frontLowBee);
-}
-
-void ORDER_BLBAV::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12G(frontArmGroup_ID, frontLowCubes);
-}
-
-void ORDER_RLBAV::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12G(frontArmGroup_ID, frontFolded);
-}
-
-void ORDER_BLBARBEI::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12G(backArmGroup_ID, backLowBee);
-}
-
-void ORDER_BLBAR::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12G(backArmGroup_ID, backLowCubes);
-}
-
-void ORDER_RLBAR::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12G(backArmGroup_ID, backFolded);
-}
-
-void ORDER_FLPAV::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12(frontDoor_ID, frontDoorClosed);
-}
-
-void ORDER_OLPAV::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12(frontDoor_ID, frontDoorOpen);
-}
-
-void ORDER_FLPAR::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12(backDoor_ID, backDoorClosed);
-}
-
-void ORDER_OLPAR::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12(backDoor_ID, backDoorOpen);
-}
-
-void ORDER_OLPAVP::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12(frontDoor_ID, frontDoorClosed + doorSmallOpeningAngle);
-}
-
-void ORDER_OLPARP::impl(Args args)
-{
-    orderManager.actuatorsMgr.movAX12(backDoor_ID, backDoorClosed - doorSmallOpeningAngle);
-}
-
-void ORDER_ALP::impl(Args args)
-{
-    orderManager.actuatorsMgr.togglePumpState(true);
-}
-
-void ORDER_DLP::impl(Args args)
-{
-    orderManager.actuatorsMgr.togglePumpState(false);
-}
-
-void ORDER_AEAV::impl(Args args)
-{
-    orderManager.actuatorsMgr.setElecVanneAV(true);
-}
-
-void ORDER_DEAV::impl(Args args)
-{
-    orderManager.actuatorsMgr.setElecVanneAV(false);
-}
-
-void ORDER_AEAR::impl(Args args)
-{
-    orderManager.actuatorsMgr.setElecVanneAR(true);
-}
-
-void ORDER_DEAR::impl(Args args)
-{
-    orderManager.actuatorsMgr.setElecVanneAR(false);
-}
-
-void ORDER_SUS::impl(Args args)
-{
-    if(!strcmp(args[0],"on"))
-    {
-        orderManager.isSendingUS = true;
-        orderManager.highLevel.printfln(DEBUG_HEADER,"Activation US");
-    }
-    else if(!strcmp(args[0],"off"))
-    {
-        orderManager.isSendingUS = false;
-        orderManager.highLevel.printfln(DEBUG_HEADER,"Désactivation US");
-    }
-}
-
-void ORDER_CCAV::impl(Args args)
-{
-    orderManager.sensorMgr.checkCubeAV();
-}
-
-void ORDER_CCAR::impl(Args args)
-{
-    orderManager.sensorMgr.checkCubeAR();
-}
-
-void ORDER_BDE::impl(Args args)
-{
-    //orderManager.sensorMgr.enableBasicDetection(true);
-    //orderManager.sensorMgr.resetBasicBlocked();
-}
-
-void ORDER_BDD::impl(Args args)
-{
-    //orderManager.sensorMgr.enableBasicDetection(false);
-    //orderManager.sensorMgr.resetBasicBlocked();
-}
 
 void ORDER_NH::impl(Args args)
 {

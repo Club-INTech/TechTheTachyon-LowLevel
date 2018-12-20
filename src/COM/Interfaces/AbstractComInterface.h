@@ -9,7 +9,7 @@
 #include <vector>
 #include "Utils/average.hpp"
 #include "Utils/stdarg.h"
-#include "Com/SDLog.h"
+#include "COM/SDLog.h"
 
 class AbstractComInterface
 {

@@ -50,7 +50,7 @@ void SensorMgr::sendUS()
 	sendRequest=true;
 }
 
-void SensorMgr::refreshUS(MOVING_DIRECTION dir)
+void SensorMgr::refreshUS(MOVEMENT dir)
 {
 	if(NBR_OF_US_SENSOR)
 	{
@@ -60,7 +60,7 @@ void SensorMgr::refreshUS(MOVING_DIRECTION dir)
 			{
 				sendRequest=false;
 				highLevel.sendUS(distances);
-				if( dir == MOVING_DIRECTION::FORWARD || dir == MOVING_DIRECTION::NONE )
+				if( dir == MOVEMENT::FORWARD || dir == MOVEMENT::NONE )
 					currentMeasuringUS=0;
 				else
 					currentMeasuringUS=NBR_OF_US_SENSOR/2;
@@ -76,7 +76,7 @@ void SensorMgr::refreshUS(MOVING_DIRECTION dir)
 			distances[currentMeasuringUS].add(currentDistance);
 
 			isMeasuring=false;
-			if( measure_direction == MOVING_DIRECTION::FORWARD )
+			if( measure_direction == MOVEMENT::FORWARD )
 			{
 				if( currentMeasuringUS < NBR_OF_US_SENSOR/2-1 )
 					++currentMeasuringUS;
