@@ -60,3 +60,7 @@ void Motor::run(int16_t newpwm)
 	}
 	analogWrite(pin_pwm, pwm);
 }
+
+void Motor::stop() {
+	run(0);
+}

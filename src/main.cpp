@@ -12,10 +12,10 @@
 /* Interruptions d'asservissements */
 void motionControlInterrupt() {
 	static MCS &motionControlSystem = MCS::Instance();
-	/* FIXME motionControlSystem.updateTicks();
+	//motionControlSystem.updateTicks();
 	motionControlSystem.control();
-	motionControlSystem.updatePosition();
-	motionControlSystem.manageStop();*/
+	//motionControlSystem.updatePosition();
+	motionControlSystem.manageStop();
 }
 
 int main(){
