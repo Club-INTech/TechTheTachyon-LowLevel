@@ -1,4 +1,4 @@
-# TechTheTown-LowLevel
+# TechTheTachyon-LowLevel
 ## SETUP
 Pour pouvoir utiliser le projet:
 - Installez python2, puis platformio
