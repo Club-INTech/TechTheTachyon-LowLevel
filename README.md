@@ -82,27 +82,27 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 
 |   Ordres  |                       Actions                      | Arguments      |
 |:---------:|:--------------------------------------------------:|:---------------|
-|    XLm    |              Envoie le XL-430 à un α en °          | id XL / α      |
-|    XLs    |            Modifie la vitesse d'un XL-430          | id XL / speed  |
-|    dist   |         Envoie le bras à la position "distributeur"|side(left/right)|
-|grnd       |         Envoie le bras à la position "sol"         |side(left/right)|
-|     stock |            Envoie le bras à la position "ascenceur"|side(left/right)|
-|        up |               Monte l'ascenceur                    | steps          |
-|       down|                                 Descend l'ascenseur|steps           |
-|   push    |                 Pousse le palet dans l'accélérateur|side(left/right)|
-|       suck|                                     Active la pompe|side(left/right)|
-|     unsuck|                                  Désactive la pompe|side(left/right)|
-|  valveon  |                               Active l'électrovanne|side(left/right)|
-|valveoff   |                            Désactive l'électrovanne|side(left/right)|
-| gold      |           Envoie le bras à la position "goldonium" |      /         |
-| bal       |          Envoie le bras à la position "balance"    |side(left/right)|
-| elec      |  Démarre l'électron                                | /              |
+|    XLm    |Envoie le XL-430 à un α en °                        |id XL / α       |
+|    XLs    |Modifie la vitesse d'un XL-430                      |id XL / speed   |
+|    dist   |Envoie le bras à la position "distributeur"         |side(left/right)|
+|   grnd    |Envoie le bras à la position "sol"                  |side(left/right)|
+|   stock   |Envoie le bras à la position "ascenceur"            |side(left/right)|
+|     up    |Monte l'ascenceur                                   |steps           |
+|    down   |Descend l'ascenseur                                 |steps           |
+|    push   |Pousse le palet dans l'accélérateur                 |side(left/right)|
+|    suck   |Active la pompe                                     |side(left/right)|
+|  unsuck   |Désactive la pompe                                  |side(left/right)|
+|  valveon  |Active l'électrovanne                               |side(left/right)|
+|  valveoff |Désactive l'électrovanne                            |side(left/right)|
+|   gold    |Envoie le bras à la position "goldonium"            |      /         |
+|   bal     |Envoie le bras à la position "balance"              |side(left/right)|
+|   elec    |Démarre l'électron                                  | /              |
 
 ### ORDRES DE DEBUG
 |   Ordres  |                       Actions                      | Arguments      |
 |:---------:|:--------------------------------------------------:|:---------------|
-|   torque  |      Affiche le couple du bras                     |side(left/right)|
-| Ntorque   |      Affiche le couple du XL-430 numéro N          | id XL          |
+|  torque   |Affiche le couple du bras                           |side(left/right)|
+|  Ntorque  |Affiche le couple du XL-430 numéro N                |id XL           |
 
 
 
