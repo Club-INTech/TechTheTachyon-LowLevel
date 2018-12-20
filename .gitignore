@@ -378,3 +378,4 @@ __pycache__/
 # End of https://www.gitignore.io/api/clion,visualstudio,visualstudiocode
 .piolibdeps
 CMakeListsPrivate.txt
+test
