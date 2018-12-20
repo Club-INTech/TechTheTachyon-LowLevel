@@ -30,6 +30,7 @@ private:
     SelfContainedPID translationPID;
     SelfContainedPID rotationPID;
 
+    uint32_t lastPositionUpdateTime;
     int16_t targetX;
     int16_t targetY;
     int16_t targetDistance;
@@ -43,6 +44,7 @@ public:
     MCS();
 
     void manageStop();
+    void updatePosition(int32_t leftTicks, int32_t rightTicks);
     void control();
     void stop();
 
