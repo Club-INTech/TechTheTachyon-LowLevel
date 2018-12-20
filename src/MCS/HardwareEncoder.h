@@ -222,6 +222,7 @@ public:
 
         /* Resets count register */
         CNT=0;
+        cnt_H=0;
 
         /* Enables quadrature mode */
         QDCTRL=FTM_QDCTRL_PHAFLTREN|FTM_QDCTRL_PHBFLTREN|FTM_QDCTRL_QUADEN;;

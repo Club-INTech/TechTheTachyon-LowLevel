@@ -5,7 +5,6 @@ __vm
 lib
 .travis.yml
 CMakeLists.txt
-platformio.ini
 
 # Created by https://www.gitignore.io/api/clion,visualstudio,visualstudiocode
 

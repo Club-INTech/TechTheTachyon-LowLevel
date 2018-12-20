@@ -10,6 +10,7 @@
 #include "RobotStatus.h"
 #include "Motor.h"
 #include "pid.hpp"
+#include "SelfContainedPID.hpp"
 
 // TODO : Tout docu
 
@@ -24,10 +25,10 @@ private:
     Motor leftMotor;
     Motor rightMotor;
 
-    PID leftSpeedPID;
-    PID rightSpeedPID;
-    PID translationPID;
-    PID rotationPID;
+    SelfContainedPID leftSpeedPID;
+    SelfContainedPID rightSpeedPID;
+    SelfContainedPID translationPID;
+    SelfContainedPID rotationPID;
 
     int16_t targetX;
     int16_t targetY;
@@ -41,6 +42,7 @@ private:
 public:
     MCS();
 
+    void manageStop();
     void control();
     void stop();
 
