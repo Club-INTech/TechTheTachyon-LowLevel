@@ -1,0 +1,3 @@
+[submodule "Dynamixel-Com"]
+	path = Dynamixel-Com
+	url = https://github.com/Club-INTech/Dynamixel-Com
