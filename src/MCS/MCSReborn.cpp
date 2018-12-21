@@ -7,9 +7,8 @@
 #include "SelfContainedPID.hpp"
 #include "Utils/utils.h"
 #include "Utils/defines.h"
-#include "../Utils/utils.h"
 
-MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::LEFT) {}
+MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT) {}
 
 void MCS::updatePosition(int32_t leftTicks, int32_t rightTicks) {
 

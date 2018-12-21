@@ -6,7 +6,6 @@ Pour pouvoir utiliser le projet:
 - Ouvrez un terminal dans le dossier du dépot, et effectuez la commande \
 ```pio init --ide IDE board teensy35```\
 avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio Code
-- Ajoutez ```include_directories(src)``` avant la commande ```add_executable(...)``` dans le fichier CMakeLists.txt
 - Ouvrez le dossier du dépot avec CLion ou VSCode.
 - Gagnez la coupe
 
