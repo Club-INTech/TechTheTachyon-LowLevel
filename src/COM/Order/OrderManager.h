@@ -23,7 +23,6 @@
 #include "Utils/defines.h"
 #include "Utils/utils.h"
 #include "COM/Hooks/Hook.h"
-#include "Actuators/DynamixelGroup.h"
 #include "OrderData.h"
 #include "Orders.h"
 #include "COM/Hooks/HookList.h"
