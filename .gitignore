@@ -5,6 +5,7 @@ __vm
 lib
 .travis.yml
 CMakeLists.txt
+.directory
 
 # Created by https://www.gitignore.io/api/clion,visualstudio,visualstudiocode
 
