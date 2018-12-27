@@ -5,23 +5,23 @@
 
 #include "Orders.h"
 
-void ORDER_PING::impl(Args args)
+void ORDER_ping::impl(Args args)
 {
     orderManager.highLevel.printfln(STD_HEADER,"0");
 }
 
-void ORDER_J::impl(Args args)
+void ORDER_j::impl(Args args)
 {
     orderManager.HLWaiting = true;
 }
 
-void ORDER_F::impl(Args args)
+void ORDER_f::impl(Args args)
 {
     /* FIXME orderManager.highLevel.printfln(STD_HEADER,"%d",orderManager.motionControlSystem.isMoving());
     orderManager.highLevel.printfln(STD_HEADER,"%d",orderManager.motionControlSystem.isMoveAbnormal());*/
 }
 
-void ORDER_XYO::impl(Args args)
+void ORDER_xyo::impl(Args args)
 {
     /* FIXME
     orderManager.highLevel.printfln(STD_HEADER,"%f",orderManager.motionControlSystem.getX());
@@ -30,7 +30,7 @@ void ORDER_XYO::impl(Args args)
 */
 }
 
-void ORDER_D::impl(Args args)
+void ORDER_d::impl(Args args)
 {
   /* FIXME  int16_t deplacement = strtod(args[0], nullptr);
     orderManager.highLevel.printfln(DEBUG_HEADER,"distance : %d",deplacement);
@@ -39,7 +39,7 @@ void ORDER_D::impl(Args args)
 */
 }
 
-void ORDER_T::impl(Args args)
+void ORDER_t::impl(Args args)
 {
   /* FIXME  float angle;
     if (!strcmp(args[0], "pi")) {
@@ -70,7 +70,7 @@ void ORDER_T::impl(Args args)
     orderManager.motionControlSystem.orderRotation(angle, rotationWay);*/
 }
 
-void ORDER_GOTO::impl(Args args)
+void ORDER_goto::impl(Args args)
 {
     float targetX = strtof(args[0],nullptr);
     float targetY = strtof(args[1],nullptr);
@@ -92,7 +92,7 @@ void ORDER_GOTO::impl(Args args)
 //      }
 }
 
-void ORDER_FOLLOWTRAJECTORY::impl(Args args)
+void ORDER_followTrajectory::impl(Args args)
 {
     if(strtof(args[0], nullptr) == 0)
     {
@@ -104,107 +104,107 @@ void ORDER_FOLLOWTRAJECTORY::impl(Args args)
     }
 }
 
-void ORDER_STOP::impl(Args args)
+void ORDER_stop::impl(Args args)
 {
     // FIXME orderManager.motionControlSystem.stop();
     orderManager.highLevel.printfln(DEBUG_HEADER,"A priori, je m'arrête");
 }
 
-void ORDER_EMERGENCYSTOP::impl(Args args)
+void ORDER_emergencyStop::impl(Args args)
 {
 
 }
 
-void ORDER_RESUMEEMERGENCYSTOP::impl(Args args)
+void ORDER_resumeEmergencyStop::impl(Args args)
 {
 
 }
 
-void ORDER_CX::impl(Args args)
+void ORDER_cx::impl(Args args)
 {
     // FIXME  orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
 }
 
-void ORDER_CY::impl(Args args)
+void ORDER_cy::impl(Args args)
 {
     // FIXME  orderManager.motionControlSystem.setY(orderManager.parseFloat(args[0]));
 }
 
-void ORDER_CO::impl(Args args)
+void ORDER_co::impl(Args args)
 {
     // FIXME  orderManager.motionControlSystem.setOriginalAngle(orderManager.parseFloat(args[0]));
 }
 
-void ORDER_CXYO::impl(Args args)
+void ORDER_cxyo::impl(Args args)
 {
     // FIXME orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
     // FIXME  orderManager.motionControlSystem.setY(orderManager.parseFloat(args[1]));
     // FIXME orderManager.motionControlSystem.setOriginalAngle(orderManager.parseFloat(args[2]));
 }
 
-void ORDER_CTV::impl(Args args)
+void ORDER_ctv::impl(Args args)
 {
     // FIXME orderManager.motionControlSystem.setTranslationSpeed(orderManager.parseFloat(args[0]));
 }
 
-void ORDER_CRV::impl(Args args)
+void ORDER_crv::impl(Args args)
 {
     // FIXME orderManager.motionControlSystem.setRotationSpeed(orderManager.parseFloat(args[0]));
 }
 
-void ORDER_CTRV::impl(Args args)
+void ORDER_ctrv::impl(Args args)
 {
     // FIXME orderManager.motionControlSystem.setTranslationSpeed(orderManager.parseFloat(args[0]));
     // FIXME orderManager.motionControlSystem.setRotationSpeed(orderManager.parseFloat(args[1]));
 }
 
-void ORDER_EFM::impl(Args args)
+void ORDER_efm::impl(Args args)
 {
     // FIXME  orderManager.motionControlSystem.enableForcedMovement(true);
 }
 
-void ORDER_DFM::impl(Args args)
+void ORDER_dfm::impl(Args args)
 {
     // FIXME  orderManager.motionControlSystem.enableForcedMovement(true);
 }
 
-void ORDER_CT0::impl(Args args)
+void ORDER_ct0::impl(Args args)
 {
     // FIXME  orderManager.motionControlSystem.enableTranslationControl(false);
     // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"non asservi en translation");
 }
 
-void ORDER_CT1::impl(Args args)
+void ORDER_ct1::impl(Args args)
 {
     // FIXME  orderManager.motionControlSystem.enableTranslationControl(true);
     // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en translation");
 }
 
-void ORDER_CR0::impl(Args args)
+void ORDER_cr0::impl(Args args)
 {
 // FIXME    orderManager.motionControlSystem.enableRotationControl(false);
     // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"non asservi en rotation");
 }
 
-void ORDER_CR1::impl(Args args)
+void ORDER_cr1::impl(Args args)
 {
     // FIXME  orderManager.motionControlSystem.enableRotationControl(true);
     // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en rotation");
 }
 
-void ORDER_CV0::impl(Args args)
+void ORDER_cv0::impl(Args args)
 {
     // FIXME orderManager.motionControlSystem.enableSpeedControl(false);
     // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"non asservi en vitesse");
 }
 
-void ORDER_CV1::impl(Args args)
+void ORDER_cv1::impl(Args args)
 {
     // FIXME orderManager.motionControlSystem.enableSpeedControl(true);
     // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en vitesse");
 }
 
-void ORDER_COD::impl(Args args)
+void ORDER_cod::impl(Args args)
 {
     // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"Gauche:");
     // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getLeftTick());
@@ -212,7 +212,7 @@ void ORDER_COD::impl(Args args)
     // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getRightTick());
 }
 
-void ORDER_PFDEBUG::impl(Args args)
+void ORDER_pfdebug::impl(Args args)
 {
     //highLevel.printfln(STD_HEADER,"%d", (int)motionControlSystem.getRightSpeed());
     //highLevel.printfln(STD_HEADER,"%d", (int)motionControlSystem.getRightMotorDir());
@@ -221,21 +221,21 @@ void ORDER_PFDEBUG::impl(Args args)
     //highLevel.printfln(STD_HEADER,"%d", (int)motionControlSystem.getCodD());
 }
 
-void ORDER_RAWPWM::impl(Args args)
+void ORDER_rawpwm::impl(Args args)
 {
     uint8_t rawpwm = orderManager.parseInt(args[0]);
     // FIXME   orderManager.motionControlSystem.orderRawPwm(Side::LEFT, rawpwm);
     // FIXME  orderManager.motionControlSystem.orderRawPwm(Side::RIGHT, rawpwm);
 }
 
-void ORDER_GETPWM::impl(Args args)
+void ORDER_getpwm::impl(Args args)
 {
     int32_t left, right;
     // FIXME   orderManager.motionControlSystem.getPWMS(left, right);
     // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"PWMS: %ld - %ld", left, right);
 }
 
-void ORDER_ERRORS::impl(Args args)
+void ORDER_errors::impl(Args args)
 {
     float leftProp, leftDer, leftInt, rightProp, rightDer, rightInt;
     // FIXME  orderManager.motionControlSystem.getSpeedErrors(leftProp, leftInt, leftDer, rightProp, rightInt, rightDer);
@@ -244,7 +244,7 @@ void ORDER_ERRORS::impl(Args args)
     // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"Integ: %f - %f", leftInt, rightInt);
 }
 
-void ORDER_RAWSPEED::impl(Args args)
+void ORDER_rawspeed::impl(Args args)
 {
     int32_t leftsetpoint, rightsetpoint;
 
@@ -254,7 +254,7 @@ void ORDER_RAWSPEED::impl(Args args)
     // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"speed setpoints: %ld - %ld", leftsetpoint, rightsetpoint);
 }
 
-void ORDER_RAWPOSDATA::impl(Args args)
+void ORDER_rawposdata::impl(Args args)
 {
     int32_t leftsetpoint, rightsetpoint;
   /* FIXME  orderManager.motionControlSystem.getSpeedSetpoints(leftsetpoint, rightsetpoint);
@@ -279,39 +279,39 @@ void ORDER_RAWPOSDATA::impl(Args args)
     //Serial.println(rotaInt);
 }
 
-void ORDER_MONTLHERY::impl(Args args)
+void ORDER_montlhery::impl(Args args)
 {
   /* FIXME  orderManager.motionControlSystem.enableTranslationControl(false);
     orderManager.motionControlSystem.enableRotationControl(false);
     orderManager.motionControlSystem.enableForcedMovement(true);*/
 }
 
-void ORDER_AV::impl(Args args)
+void ORDER_av::impl(Args args)
 {
     // FIXME orderManager.motionControlSystem.setRawPositiveTranslationSpeed();
 }
 
-void ORDER_RC::impl(Args args)
+void ORDER_rc::impl(Args args)
 {
     // FIXME  orderManager.motionControlSystem.setRawNegativeTranslationSpeed();
 }
 
-void ORDER_TD::impl(Args args)
+void ORDER_td::impl(Args args)
 {
     // FIXME orderManager.motionControlSystem.setRawNegativeRotationSpeed();
 }
 
-void ORDER_TG::impl(Args args)
+void ORDER_tg::impl(Args args)
 {
     // FIXME orderManager.motionControlSystem.setRawPositiveRotationSpeed();
 }
 
-void ORDER_SSTOP::impl(Args args)
+void ORDER_sstop::impl(Args args)
 {
     // FIXME orderManager.motionControlSystem.setRawNullSpeed();
 }
 
-void ORDER_TOGGLE::impl(Args args)
+void ORDER_toggle::impl(Args args)
 {
    /* FIXME orderManager.motionControlSystem.translation = !orderManager.motionControlSystem.translation;   //Bascule entre le réglage d'asserv en translation et en rotation
     if (orderManager.motionControlSystem.translation) {
@@ -321,7 +321,7 @@ void ORDER_TOGGLE::impl(Args args)
 */
 }
 
-void ORDER_DISPLAY_ASSERV::impl(Args args)
+void ORDER_displayAsserv::impl(Args args)
 {
     float
             kp_t, ki_t, kd_t,      // Translation
@@ -339,7 +339,7 @@ void ORDER_DISPLAY_ASSERV::impl(Args args)
 */
 }
 
-void ORDER_KPT::impl(Args args)
+void ORDER_kpt::impl(Args args)
 {
  /* FIXME   float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kp_trans ?");
@@ -350,7 +350,7 @@ void ORDER_KPT::impl(Args args)
 */
 }
 
-void ORDER_KDT::impl(Args args)
+void ORDER_kdt::impl(Args args)
 {
    /* FIXME float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kd_trans ?");
@@ -361,7 +361,7 @@ void ORDER_KDT::impl(Args args)
 */
 }
 
-void ORDER_KIT::impl(Args args)
+void ORDER_kit::impl(Args args)
 {
 /* FIXME    float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"ki_trans ?");
@@ -372,7 +372,7 @@ void ORDER_KIT::impl(Args args)
 */
 }
 
-void ORDER_KPR::impl(Args args)
+void ORDER_kpr::impl(Args args)
 {
   /* FIXME  float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kp_rot ?");
@@ -383,7 +383,7 @@ void ORDER_KPR::impl(Args args)
 */
 }
 
-void ORDER_KIR::impl(Args args)
+void ORDER_kir::impl(Args args)
 {
 /* FIXME    float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"ki_rot ?");
@@ -393,7 +393,7 @@ void ORDER_KIR::impl(Args args)
     orderManager.highLevel.printfln(DEBUG_HEADER,"ki_rot = %g", ki);
 */}
 
-void ORDER_KDR::impl(Args args)
+void ORDER_kdr::impl(Args args)
 {
 /* FIXME    float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kd_rot ?");
@@ -404,7 +404,7 @@ void ORDER_KDR::impl(Args args)
 */
 }
 
-void ORDER_KPG::impl(Args args)
+void ORDER_kpg::impl(Args args)
 {
 /* FIXME    float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kp_gauche ?");
@@ -414,7 +414,7 @@ void ORDER_KPG::impl(Args args)
     orderManager.highLevel.printfln(DEBUG_HEADER,"kp_gauche = %g", kp);
 */}
 
-void ORDER_KIG::impl(Args args)
+void ORDER_kig::impl(Args args)
 {
   /* FIXME  float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"ki_gauche ?");
@@ -424,7 +424,7 @@ void ORDER_KIG::impl(Args args)
     orderManager.highLevel.printfln(DEBUG_HEADER,"ki_gauche = %g", ki);
 */}
 
-void ORDER_KDG::impl(Args args)
+void ORDER_kdg::impl(Args args)
 {
  /* FIXME   float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kd_gauche ?");
@@ -434,7 +434,7 @@ void ORDER_KDG::impl(Args args)
     orderManager.highLevel.printfln(DEBUG_HEADER,"kd_gauche = %g", kd);
 */}
 
-void ORDER_KPD::impl(Args args)
+void ORDER_kpd::impl(Args args)
 {
 /* FIXME    float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kp_droite ?");
@@ -445,7 +445,7 @@ void ORDER_KPD::impl(Args args)
 */
 }
 
-void ORDER_KID::impl(Args args)
+void ORDER_kid::impl(Args args)
 {
   /* FIXME  float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"ki_droite ?");
@@ -456,7 +456,7 @@ void ORDER_KID::impl(Args args)
 */
 }
 
-void ORDER_KDD::impl(Args args)
+void ORDER_kdd::impl(Args args)
 {
 /* FIXME    float kp, ki, kd;
     orderManager.highLevel.printfln(STD_HEADER,"kd_droite ?");
@@ -468,7 +468,7 @@ void ORDER_KDD::impl(Args args)
 }
 
 
-void ORDER_NH::impl(Args args)
+void ORDER_nh::impl(Args args)
 {
     uint8_t id;
     int32_t x;
@@ -498,7 +498,7 @@ void ORDER_NH::impl(Args args)
         Serial.println(orderManager.hookList.getHook(id).getOrder());
 }
 
-void ORDER_EH::impl(Args args)
+void ORDER_eh::impl(Args args)
 {
     int hookId = orderManager.parseInt(args[0]);
     if(orderManager.hookList.hookWithId(hookId))
@@ -511,7 +511,7 @@ void ORDER_EH::impl(Args args)
     }
 }
 
-void ORDER_DH::impl(Args args) {
+void ORDER_dh::impl(Args args) {
     int hookId = orderManager.parseInt(args[0]);
 
     if (orderManager.hookList.hookWithId(hookId)) {
@@ -521,11 +521,11 @@ void ORDER_DH::impl(Args args) {
     }
 }
 
-void ORDER_DEMO::impl(Args args) {
+void ORDER_demo::impl(Args args) {
 
 }
 
-void ORDER_PTPDEMO::impl(Args args)
+void ORDER_ptpdemo::impl(Args args)
 {
     orderManager.execute("goto 500 -700");
     delay(5000);
@@ -537,7 +537,7 @@ void ORDER_PTPDEMO::impl(Args args)
 }
 
 
-void ORDER_PTPDEMOSEQ::impl(Args args)
+void ORDER_ptpdemoseq::impl(Args args)
 {
     orderManager.execute("goto 500 -700 true");
     delay(5000);

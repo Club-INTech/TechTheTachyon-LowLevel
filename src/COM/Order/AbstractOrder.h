@@ -31,18 +31,16 @@ protected:
     OrderManager&           orderManager;
 };
 
-#define ORDER_ID(name,nbrparam,id)                                                   \
-struct ORDER_##name : public AbstractOrder, public Singleton<ORDER_##name>           \
+#define ORDER(name,nbrparam)                                                   \
+static struct ORDER_##name : public AbstractOrder, public Singleton<ORDER_##name>           \
 {                                                                                    \
     ORDER_##name() : AbstractOrder()                                                 \
     {                                                                                \
-        this->nbr_args = nbrparam;                                                 \
-        allOrders.insert({id, this});                                       \
+        this->nbr_args = nbrparam;                                                   \
+        allOrders.insert({#name, this});                                                \
     }                                                                                \
     void impl(Args);                                                                 \
-}                                                                                    \
-
-#define ORDER(name,nbrparam) ORDER_ID(name,nbrparam,convertToLowerCase(#name))
+} __ORDER_##name; \
 
 static std::map<String, AbstractOrder*> allOrders;
 
