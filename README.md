@@ -101,19 +101,19 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 
 ### ORDRES SPECIFIQUES LL
 
-|   Ordres  |                       Actions                      |
-|:---------:|:--------------------------------------------------:|
-|   toggle  |         Change le mode de réglage d'asserv         |
-|  display  |          Retourne les constantes d'asserv          |
-|    kpt    |              Set le kp de translation              |
-|    kdt    |              Set le kd de translation              |
-|    kit    |              Set le ki de translation              |
-|    kpr    |                Set le kp de rotation               |
-|    kdt    |                Set le kd de rotation               |
-|    kit    |                Set le ki de rotation               |
-|    kpg    |            Set le kp de vitesse à gauche           |
-|    kdg    |            Set le kd de vitesse à gauche           |
-|    kig    |            Set le ki de vitesse à gauche           |
-|    kpd    |            Set le kd de vitesse à droite           |
-|    kdg    |            Set le kd de vitesse à droite           |
-|    kig    |            Set le ki de vitesse à droite           |
+|   Ordres          |                       Actions                      |
+|:-----------------:|:--------------------------------------------------:|
+|   toggle          |         Change le mode de réglage d'asserv         |
+|   displayAsserv   |          Retourne les constantes d'asserv          |
+|   kpt             |              Set le kp de translation              |
+|   kdt             |              Set le kd de translation              |
+|   kit             |              Set le ki de translation              |
+|   kpr             |                Set le kp de rotation               |
+|   kdt             |                Set le kd de rotation               |
+|   kit             |                Set le ki de rotation               |
+|   kpg             |            Set le kp de vitesse à gauche           |
+|   kdg             |            Set le kd de vitesse à gauche           |
+|   kig             |            Set le ki de vitesse à gauche           |
+|   kpd             |            Set le kd de vitesse à droite           |
+|   kdg             |            Set le kd de vitesse à droite           |
+|   kig             |            Set le ki de vitesse à droite           |
