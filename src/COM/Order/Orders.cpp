@@ -321,7 +321,7 @@ void ORDER_TOGGLE::impl(Args args)
 */
 }
 
-void ORDER_DISPLAY::impl(Args args)
+void ORDER_DISPLAY_ASSERV::impl(Args args)
 {
     float
             kp_t, ki_t, kd_t,      // Translation

@@ -7,6 +7,7 @@
 
 #include "AbstractOrder.h"
 #include "OrderManager.h"
+#include "Utils/utils.h"
 
 ORDER(PING,0);
 ORDER(J,0);
@@ -87,7 +88,7 @@ ORDER(SSTOP,0);
 */
 
 ORDER(TOGGLE,0);
-ORDER(DISPLAY,0);
+ORDER_ID(DISPLAY_ASSERV,0, "displayAsserv");
 ORDER(KPT,1);
 ORDER(KDT,1);
 ORDER(KIT,1);

@@ -26,6 +26,12 @@ int modulo(int nombre, int modulo)
 	}
 }
 
+char* convertToLowerCase(char* str) {
+	while(*str++) {
+		*str = (char)tolower(*str);
+	}
+}
+
 /* Ce bout de code permet de gerer certaines exceptions de la std */
 namespace std {
 	void __throw_bad_alloc()

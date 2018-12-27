@@ -54,6 +54,13 @@ public:
 
     void init();
 
+    /**
+     * Enregistres un ordre avec l'id correspondant
+     * @param id l'identifiant de l'ordre
+     * @param order l'ordre à enregistrer
+     */
+    void registerOrder(String id, AbstractOrder* order);
+
     //COM&exec
     inline void refreshUS(){
 		// FIXME if(isSendingUS)

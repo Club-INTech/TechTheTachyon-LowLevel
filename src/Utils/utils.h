@@ -18,6 +18,7 @@ namespace std{
 
 extern "C" {
 #endif
+char* convertToLowerCase(char* str);
 
 int modulo(int nombre, int modulo);
 

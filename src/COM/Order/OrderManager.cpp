@@ -146,70 +146,10 @@ void OrderManager::executeHooks() {
     }
 }
 
+void OrderManager::registerOrder(String id, AbstractOrder *order) {
+    orders.insert( { id, order });
+}
+
 void OrderManager::init() {
-
-    orders.insert( {"?", new ORDER_PING} );
-
-    orders.insert( {"j", new ORDER_J} );
-    orders.insert( {"f", new ORDER_F} );
-    orders.insert( {"?xyo", new ORDER_XYO} );
-    orders.insert( {"d", new ORDER_D} );
-    orders.insert( {"t", new ORDER_T} );
-    orders.insert( {"goto", new ORDER_GOTO} );
-    orders.insert( {"followtrajectory", new ORDER_FOLLOWTRAJECTORY} );
-    orders.insert( {"stop", new ORDER_STOP} );
-    orders.insert( {"emergencyStop", new ORDER_EMERGENCYSTOP} );
-    orders.insert( {"resumeEmergencyStop", new ORDER_RESUMEEMERGENCYSTOP} );
-
-    orders.insert( {"cx", new ORDER_CX} );
-    orders.insert( {"cy", new ORDER_CY} );
-    orders.insert( {"co", new ORDER_CO} );
-    orders.insert( {"cxyo", new ORDER_CXYO} );
-    orders.insert( {"ctv", new ORDER_CTV} );
-    orders.insert( {"crv", new ORDER_CRV} );
-    orders.insert( {"ctrv", new ORDER_CTRV} );
-    orders.insert( {"efm", new ORDER_EFM} );
-    orders.insert( {"dfm", new ORDER_DFM} );
-
-    orders.insert( {"ct0", new ORDER_CT0} );
-    orders.insert( {"ct1", new ORDER_CT1} );
-    orders.insert( {"cr0", new ORDER_CR0} );
-    orders.insert( {"cr1", new ORDER_CR1} );
-    orders.insert( {"cv0", new ORDER_CV0} );
-    orders.insert( {"cv1", new ORDER_CV1} );
-
-    orders.insert( {"cod", new ORDER_COD} );
-    orders.insert( {"pfdebug", new ORDER_PFDEBUG} );
-    orders.insert( {"rawpwm", new ORDER_RAWPWM} );
-    orders.insert( {"getpwm", new ORDER_GETPWM} );
-    orders.insert( {"errors", new ORDER_ERRORS} );
-    orders.insert( {"rawposdata", new ORDER_RAWPOSDATA} );
-    orders.insert( {"rawspeed", new ORDER_RAWSPEED} );
-
-    orders.insert( {"montlhery", new ORDER_MONTLHERY} );
-    orders.insert( {"av", new ORDER_AV} );
-    orders.insert( {"rc", new ORDER_RC} );
-    orders.insert( {"td", new ORDER_TD} );
-    orders.insert( {"tg", new ORDER_TG} );
-    orders.insert( {"sstop", new ORDER_SSTOP} );
-
-    orders.insert( {"toggle", new ORDER_TOGGLE} );
-    orders.insert( {"display", new ORDER_DISPLAY} );
-    orders.insert( {"kpt", new ORDER_KPT} );
-    orders.insert( {"kdt", new ORDER_KDT} );
-    orders.insert( {"kit", new ORDER_KIT} );
-    orders.insert( {"kpr", new ORDER_KPR} );
-    orders.insert( {"kir", new ORDER_KIR} );
-    orders.insert( {"kdr", new ORDER_KDR} );
-    orders.insert( {"kpg", new ORDER_KPG} );
-    orders.insert( {"kpd", new ORDER_KPD} );
-    orders.insert( {"kid", new ORDER_KID} );
-    orders.insert( {"kdd", new ORDER_KDD} );
-
-    orders.insert( {"nh", new ORDER_NH} );
-    orders.insert( {"eh", new ORDER_EH} );
-    orders.insert( {"dh", new ORDER_DH} );
-
-    orders.insert( {"ptpdemo", new ORDER_PTPDEMO} );
-    orders.insert( {"ptpdemoseq",new ORDER_PTPDEMOSEQ} );
+    orders = allOrders;
 }
