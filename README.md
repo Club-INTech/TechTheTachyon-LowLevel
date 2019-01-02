@@ -87,8 +87,9 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |    dist   |Envoie le bras à la position "distributeur"         |side(left/right)|
 |   grnd    |Envoie le bras à la position "sol"                  |side(left/right)|
 |   stock   |Envoie le bras à la position "ascenceur"            |side(left/right)|
-|     up    |Monte l'ascenceur                                   |steps           |
-|    down   |Descend l'ascenseur                                 |steps           |
+|    acc    |Envoie le bras à la position "accélérateur"         |side(left/right)|
+|     up    |Monte l'ascenceur de la hauteur d'un palet          |side(left/right)|
+|    down   |Descend l'ascenseur de la hauteur d'un palet        |side(left/right)|
 |    push   |Pousse le palet dans l'accélérateur                 |side(left/right)|
 |    suck   |Active la pompe                                     |side(left/right)|
 |  unsuck   |Désactive la pompe                                  |side(left/right)|

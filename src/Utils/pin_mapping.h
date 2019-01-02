@@ -33,8 +33,11 @@
 #define PIN_ELECTROVANNE_AV 2
 #define PIN_ELECTROVANNE_AR 4
 
-/* Pompe a vide */
-#define PIN_PWM_POMPE 1
+/* Pompes à vide */
+#define PUMP_PIN_RIGHT 1
+#define PUMP_PIN_LEFT 2
+
+
 
 /* CAPTEURS */
     // IR
@@ -43,5 +46,14 @@
     // CONT
 #define PIN_JMPR 0
 #define PIN_CONT1 0
+
+/* Ascenceurs */
+#define STEP_PIN_RIGHT 18 //vitesse
+#define RST_PIN_RIGHT 19 //reset
+#define DIR_PIN_RIGHT 20 //direction
+
+#define STEP_PIN_LEFT 18 //vitesse
+#define RST_PIN_LEFT 19 //reset
+#define DIR_PIN_LEFT 20 //direction
 
 #endif //_PIN_MAPPING_h

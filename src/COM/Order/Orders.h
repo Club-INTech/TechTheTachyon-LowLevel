@@ -119,4 +119,40 @@ ORDER(DH,1);
 ORDER(DEMO,0);
 ORDER(PTPDEMO,0);
 ORDER(PTPDEMOSEQ,0);
+
+/*			 _________________________________
+* 		   *|                                 |*
+ *		   *|	      NOUVEAUX ORDRES         |*
+ *    	   *|_________________________________|*
+*/
+
+
+/* Bras */
+ORDER(XLM,2);
+ORDER(XLS,2);
+ORDER(DIST,1);
+ORDER(GRND,1);
+ORDER(STOCK,1);
+ORDER(ACC,1);
+ORDER(GOLD,0);
+ORDER(BAL,1);
+ORDER(PUSH,1);
+
+/* Ascenseurs */
+ORDER(UP,1);
+ORDER(DOWN,1);
+
+/*Pompes et électrovannes*/
+ORDER(SUCK,1);
+ORDER(UNSUCK,1);
+ORDER(VALVEON,1);
+ORDER(VALVEOFF,1);
+
+/*Electron*/
+ORDER(ELEC,0);
+
+/* Debug */
+ORDER(TORQUE,1);
+ORDER(NTORQUE,1);
+
 #endif //TECHTHETOWN_LOWLEVEL_ORDERS_H

@@ -547,3 +547,226 @@ void ORDER_PTPDEMOSEQ::impl(Args args)
     delay(5000);
     orderManager.execute("goto 0 0 true");
 }
+
+void ORDER_SUCK::impl(Args args)
+{
+    if (args[0]=="right") {
+        digitalWrite(PUMP_PIN_RIGHT, HIGH);
+    }
+    else {
+        digitalWrite(PUMP_PIN_LEFT, HIGH);
+    }
+}
+
+void ORDER_UNSUCK::impl(Args args)
+{
+    if (args[0]=="right") {
+        digitalWrite(PUMP_PIN_RIGHT, LOW);
+    }
+    else{
+        digitalWrite(PUMP_PIN_LEFT, LOW);
+    }
+}
+
+const unsigned int ELEVATOR_TEMPO = 800; //temporistaion entre les commandes du pas à pas
+
+void ORDER_UP::impl(Args args)
+{
+    int nbPas = 700;
+    if (args[0]=="right") {
+        digitalWrite(DIR_PIN_RIGHT, HIGH);
+
+        for (int i = 0; i < nbPas; ++i) {
+            digitalWrite(STEP_PIN_RIGHT, HIGH);
+            delayMicroseconds(ELEVATOR_TEMPO);
+            digitalWrite(STEP_PIN_RIGHT, LOW);
+            delayMicroseconds(ELEVATOR_TEMPO);
+        }
+    }
+    else{
+        digitalWrite(DIR_PIN_LEFT, HIGH);
+
+        for (int i = 0; i < nbPas; ++i) {
+            digitalWrite(STEP_PIN_LEFT, HIGH);
+            delayMicroseconds(ELEVATOR_TEMPO);
+            digitalWrite(STEP_PIN_LEFT, LOW);
+            delayMicroseconds(ELEVATOR_TEMPO);
+        }
+
+    }
+
+}
+
+void ORDER_DOWN::impl(Args args)
+{
+    int nbPas = 700;
+    if (args[0]=="right") {
+        digitalWrite(DIR_PIN_RIGHT, LOW);
+
+        for (int i = 0; i < nbPas; ++i) {
+            digitalWrite(STEP_PIN_RIGHT, HIGH);
+            delayMicroseconds(ELEVATOR_TEMPO);
+            digitalWrite(STEP_PIN_RIGHT, LOW);
+            delayMicroseconds(ELEVATOR_TEMPO);
+        }
+    }
+    else{
+        digitalWrite(DIR_PIN_LEFT, LOW);
+
+        for (int i = 0; i < nbPas; ++i) {
+            digitalWrite(STEP_PIN_LEFT, HIGH);
+            delayMicroseconds(ELEVATOR_TEMPO);
+            digitalWrite(STEP_PIN_LEFT, LOW);
+            delayMicroseconds(ELEVATOR_TEMPO);
+        }
+
+    }
+
+}
+
+
+
+
+
+
+// Liste des moteurs du bras
+static DynamixelManager* manager = new DynamixelManager(&Serial1);
+static XL430* motor1 = new XL430(1,*manager);
+static XL430* motor2 = new XL430(2,*manager);
+static XL430* motor3 = new XL430(3,*manager);
+static XL430* motor4 = new XL430(4,*manager);
+static XL430* motor5 = new XL430(5,*manager);
+static XL430* motor6 = new XL430(6,*manager);
+
+static std::vector<XL430*> motors{motor1,motor2,motor3};
+static std::vector<XL430*> motors{motor4,motor5,motor6};
+
+void ORDER_DIST::impl(Args args)
+{
+    if (args[0]=="right"){
+        Serial.println(motors.at(0)->setGoalAngle(234));
+        delay(100);
+        Serial.println(motors.at(1)->setGoalAngle(56));
+        delay(100);
+        Serial.println(motors.at(2)->setGoalAngle(93));
+    }
+    else{
+        Serial.println(motors.at(4)->setGoalAngle(234));
+        delay(100);
+        Serial.println(motors.at(5)->setGoalAngle(56));
+        delay(100);
+        Serial.println(motors.at(6)->setGoalAngle(93));
+
+    }
+}
+
+void ORDER_GRND::impl(Args args)
+{
+    if (args[0]=="right"){
+        Serial.println(motors.at(0)->setGoalAngle(272));
+        delay(100);
+        Serial.println(motors.at(1)->setGoalAngle(97));
+        delay(100);
+        Serial.println(motors.at(2)->setGoalAngle(189));
+    }
+    else{
+        Serial.println(motors.at(4)->setGoalAngle(272));
+        delay(100);
+        Serial.println(motors.at(5)->setGoalAngle(97));
+        delay(100);
+        Serial.println(motors.at(6)->setGoalAngle(189));
+
+    }
+}
+
+void ORDER_STOCK::impl(Args args)
+{
+    if (args[0]=="right"){
+        Serial.println(motors.at(0)->setGoalAngle(187));
+        delay(100);
+        Serial.println(motors.at(1)->setGoalAngle(268));
+        delay(100);
+        Serial.println(motors.at(2)->setGoalAngle(83));
+    }
+    else{
+        Serial.println(motors.at(4)->setGoalAngle(187));
+        delay(100);
+        Serial.println(motors.at(5)->setGoalAngle(268));
+        delay(100);
+        Serial.println(motors.at(6)->setGoalAngle(83));
+
+    }
+}
+
+void ORDER_ACC::impl(Args args)
+{
+    if (args[0]=="right"){
+        Serial.println(motors.at(0)->setGoalAngle(186));
+        delay(100);
+        Serial.println(motors.at(1)->setGoalAngle(55));
+        delay(100);
+        Serial.println(motors.at(2)->setGoalAngle(141));
+    }
+    else{
+        Serial.println(motors.at(4)->setGoalAngle(186));
+        delay(100);
+        Serial.println(motors.at(5)->setGoalAngle(55));
+        delay(100);
+        Serial.println(motors.at(6)->setGoalAngle(141));
+
+    }
+}
+void ORDER_BAL::impl(Args args)
+{
+    if (args[0]=="right"){
+        Serial.println(motors.at(0)->setGoalAngle(/*angle à pourvoir*/));
+        delay(100);
+        Serial.println(motors.at(1)->setGoalAngle(/*angle à pourvoir*/));
+        delay(100);
+        Serial.println(motors.at(2)->setGoalAngle(/*angle à pourvoir*/));
+    }
+    else{
+        Serial.println(motors.at(4)->setGoalAngle(/*angle à pourvoir*/));
+        delay(100);
+        Serial.println(motors.at(5)->setGoalAngle(/*angle à pourvoir*/));
+        delay(100);
+        Serial.println(motors.at(6)->setGoalAngle(/*angle à pourvoir*/));
+
+    }
+}
+void ORDER_GOLD::impl(Args args)
+{
+    if (args[0]=="right"){
+        Serial.println(motors.at(0)->setGoalAngle(/*angle à pourvoir*/));
+        delay(100);
+        Serial.println(motors.at(1)->setGoalAngle(/*angle à pourvoir*/));
+        delay(100);
+        Serial.println(motors.at(2)->setGoalAngle(/*angle à pourvoir*/));
+    }
+    else{
+        Serial.println(motors.at(4)->setGoalAngle(/*angle à pourvoir*/));
+        delay(100);
+        Serial.println(motors.at(5)->setGoalAngle(/*angle à pourvoir*/));
+        delay(100);
+        Serial.println(motors.at(6)->setGoalAngle(/*angle à pourvoir*/));
+
+    }
+}
+void ORDER_PUSH::impl(Args args)
+{
+    if (args[0]=="right"){
+        Serial.println(motors.at(0)->setGoalAngle(/*angle à pourvoir*/));
+        delay(100);
+        Serial.println(motors.at(1)->setGoalAngle(/*angle à pourvoir*/));
+        delay(100);
+        Serial.println(motors.at(2)->setGoalAngle(/*angle à pourvoir*/));
+    }
+    else{
+        Serial.println(motors.at(4)->setGoalAngle(/*angle à pourvoir*/));
+        delay(100);
+        Serial.println(motors.at(5)->setGoalAngle(/*angle à pourvoir*/));
+        delay(100);
+        Serial.println(motors.at(6)->setGoalAngle(/*angle à pourvoir*/));
+
+    }
+}
