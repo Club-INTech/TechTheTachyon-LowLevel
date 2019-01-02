@@ -23,7 +23,6 @@
 #include "Utils/defines.h"
 #include "Utils/utils.h"
 #include "COM/Hooks/Hook.h"
-#include "Actuators/DynamixelGroup.h"
 #include "OrderData.h"
 #include "Orders.h"
 #include "COM/Hooks/HookList.h"
@@ -54,6 +53,13 @@ public:
     OrderManager();
 
     void init();
+
+    /**
+     * Enregistres un ordre avec l'id correspondant
+     * @param id l'identifiant de l'ordre
+     * @param order l'ordre à enregistrer
+     */
+    void registerOrder(String id, AbstractOrder* order);
 
     //COM&exec
     inline void refreshUS(){

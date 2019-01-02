@@ -7,18 +7,19 @@
 
 #include "AbstractOrder.h"
 #include "OrderManager.h"
+#include "Utils/utils.h"
 
-ORDER(PING,0);
-ORDER(J,0);
-ORDER(F,0);
-ORDER(XYO,0);
-ORDER(D,1);
-ORDER(T,1);
-ORDER(GOTO,2);
-ORDER(FOLLOWTRAJECTORY,1);
-ORDER(STOP,0);
-ORDER(EMERGENCYSTOP,0);
-ORDER(RESUMEEMERGENCYSTOP,0);
+ORDER(ping,0);
+ORDER(j,0);
+ORDER(f,0);
+ORDER(xyo,0);
+ORDER(d,1);
+ORDER(t,1);
+ORDER(goto,2);
+ORDER(followTrajectory,1);
+ORDER(stop,0);
+ORDER(emergencyStop,0);
+ORDER(resumeEmergencyStop,0);
 
 /*			 __________________
 * 		   *|                  |*
@@ -26,15 +27,15 @@ ORDER(RESUMEEMERGENCYSTOP,0);
 *		   *|__________________|*
 */
 
-ORDER(CX,1);
-ORDER(CY,1);
-ORDER(CO,1);
-ORDER(CXYO,3);
-ORDER(CTV,1);
-ORDER(CRV,1);
-ORDER(CTRV,2);
-ORDER(EFM,0);
-ORDER(DFM,0);
+ORDER(cx,1);
+ORDER(cy,1);
+ORDER(co,1);
+ORDER(cxyo,3);
+ORDER(ctv,1);
+ORDER(crv,1);
+ORDER(ctrv,2);
+ORDER(efm,0);
+ORDER(dfm,0);
 
 /*			 ___________________
 * 		   *|                   |*
@@ -42,12 +43,12 @@ ORDER(DFM,0);
 *		   *|___________________|*
 */
 
-ORDER(CT0,0);
-ORDER(CT1,0);
-ORDER(CR0,0);
-ORDER(CR1,0);
-ORDER(CV0,0);
-ORDER(CV1,0);
+ORDER(ct0,0);
+ORDER(ct1,0);
+ORDER(cr0,0);
+ORDER(cr1,0);
+ORDER(cv0,0);
+ORDER(cv1,0);
 
 /*			 ___________________________
 * 		   *|                           |*
@@ -57,13 +58,13 @@ ORDER(CV1,0);
 *		   *|___________________________|*
 */
 
-ORDER(COD,0);
-ORDER(PFDEBUG,0);
-ORDER(RAWPWM,1);
-ORDER(GETPWM,0);
-ORDER(ERRORS,0);
-ORDER(RAWSPEED,0);
-ORDER(RAWPOSDATA,0);
+ORDER(cod,0);
+ORDER(pfdebug,0);
+ORDER(rawpwm,1);
+ORDER(getpwm,0);
+ORDER(errors,0);
+ORDER(rawspeed,0);
+ORDER(rawposdata,0);
 
 /*			 ___________________________
 * 		   *|                           |*
@@ -73,12 +74,12 @@ ORDER(RAWPOSDATA,0);
 *		   *|___________________________|*
 */
 
-ORDER(MONTLHERY,0);
-ORDER(AV,0);
-ORDER(RC,0);
-ORDER(TD,0);
-ORDER(TG,0);
-ORDER(SSTOP,0);
+ORDER(montlhery,0);
+ORDER(av,0);
+ORDER(rc,0);
+ORDER(td,0);
+ORDER(tg,0);
+ORDER(sstop,0);
 
 /*			 _________________________________
 * 		   *|                                 |*
@@ -86,20 +87,20 @@ ORDER(SSTOP,0);
 *    	   *|_________________________________|*
 */
 
-ORDER(TOGGLE,0);
-ORDER(DISPLAY,0);
-ORDER(KPT,1);
-ORDER(KDT,1);
-ORDER(KIT,1);
-ORDER(KPR,1);
-ORDER(KIR,1);
-ORDER(KDR,1);
-ORDER(KPG,1);
-ORDER(KIG,1);
-ORDER(KDG,1);
-ORDER(KPD,1);
-ORDER(KID,1);
-ORDER(KDD,1);
+ORDER(toggle,0);
+ORDER(displayAsserv,0);
+ORDER(kpt,1);
+ORDER(kdt,1);
+ORDER(kit,1);
+ORDER(kpr,1);
+ORDER(kir,1);
+ORDER(kdr,1);
+ORDER(kpg,1);
+ORDER(kig,1);
+ORDER(kdg,1);
+ORDER(kpd,1);
+ORDER(kid,1);
+ORDER(kdd,1);
 
 /*			 _________________________________
 * 		   *|                                 |*
@@ -107,18 +108,19 @@ ORDER(KDD,1);
 *    	   *|_________________________________|*
 */
 
-ORDER(NH,7);
-ORDER(EH,1);
-ORDER(DH,1);
+ORDER(nh,7);
+ORDER(eh,1);
+ORDER(dh,1);
 
 /*			 _________________________________
 * 		   *|                                 |*
  *		   *|	       ACKNOWLEDGEMENT        |*
  *    	   *|_________________________________|*
 */
-ORDER(DEMO,0);
-ORDER(PTPDEMO,0);
-ORDER(PTPDEMOSEQ,0);
+
+ORDER(demo,0);
+ORDER(ptpdemo,0);
+ORDER(ptpdemoseq,0);
 
 /*			 _________________________________
 * 		   *|                                 |*
@@ -128,31 +130,31 @@ ORDER(PTPDEMOSEQ,0);
 
 
 /* Bras */
-ORDER(XLM,2);
-ORDER(XLS,2);
-ORDER(DIST,1);
-ORDER(GRND,1);
-ORDER(STOCK,1);
-ORDER(ACC,1);
-ORDER(GOLD,0);
-ORDER(BAL,1);
-ORDER(PUSH,1);
+ORDER(XLm,2);
+ORDER(XLs,2);
+ORDER(dist,1);
+ORDER(grnd,1);
+ORDER(stock,1);
+ORDER(acc,1);
+ORDER(gold,0);
+ORDER(bal,1);
+ORDER(push,1);
 
 /* Ascenseurs */
-ORDER(UP,1);
-ORDER(DOWN,1);
+ORDER(up,1);
+ORDER(down,1);
 
 /*Pompes et électrovannes*/
-ORDER(SUCK,1);
-ORDER(UNSUCK,1);
-ORDER(VALVEON,1);
-ORDER(VALVEOFF,1);
+ORDER(suck,1);
+ORDER(unsuck,1);
+ORDER(valveon,1);
+ORDER(valveoff,1);
 
 /*Electron*/
-ORDER(ELEC,0);
+ORDER(elec,0);
 
 /* Debug */
-ORDER(TORQUE,1);
-ORDER(NTORQUE,1);
+ORDER(torque,1);
+ORDER(ntorque,1);
 
 #endif //TECHTHETOWN_LOWLEVEL_ORDERS_H

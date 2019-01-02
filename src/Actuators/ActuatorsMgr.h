@@ -6,10 +6,13 @@
 
 #include "Arduino.h"
 
-#include "DynamixelMgr.h"
+#include "DynamixelManager.h"
 
 #include "Utils/pin_mapping_select.h"
 #include "Utils/Singleton.hpp"
+
+static HardwareSerial& XLSerial = Serial1;
+static HardwareSerial& DebugSerial = Serial2;
 
 class ActuatorsMgr : public Singleton<ActuatorsMgr>
 {
@@ -23,25 +26,7 @@ public:
 
 
 	//Gestion des AX12
-    DynamixelMgr& dynamixelMgr;
-
-	//Contrôle des AX12
-	void movAX12(int, uint16_t);
-	void setAX12Speed(int, uint16_t);
-
-	void movAX12G(unsigned int, uint16_t);
-	void setAX12GSpeed(unsigned int, uint16_t);
-
-	//Contrôle de la pompe
-
-    bool isPumpOn;
-	bool togglePumpState(bool);
-
-    //Contrôle des électrovannes
-    bool isElecVanneAVOpen;
-    bool isElecVanneAROpen;
-    void setElecVanneAV(bool);
-    void setElecVanneAR(bool);
+    DynamixelManager* dynamixelManager;
 
 };
 

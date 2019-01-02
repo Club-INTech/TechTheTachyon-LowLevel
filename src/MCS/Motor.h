@@ -49,6 +49,13 @@ public:
 	int16_t pwm;
 	void init();
 	void run(int16_t);
+
+	/**
+	 * Stoppe le moteur.
+	 *
+	 * C'est juste mettre le PWM à 0 mais c'est plus propre niveau code :)
+	 */
+	void stop();
 };
 
 #endif //COMPLETE_LOW_LEVEL_MOTOR_H

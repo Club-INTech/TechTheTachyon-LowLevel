@@ -1,32 +1,23 @@
-# TechTheTown-LowLevel
+# TechTheTachyon-LowLevel
 ## SETUP
 Pour pouvoir utiliser le projet:
-- Installez python2, puis platformio
+- Installer Platformio ([Guide d'installation](https://club-intech.minet.net/images/9/97/Guide_PIO.pdf))
 - Clonez ce dépot
 - Ouvrez un terminal dans le dossier du dépot, et effectuez la commande \
-```pio init --ide IDE board teensy35```\
+```pio init --ide IDE --board teensy35```\
 avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio Code
-- Ajoutez ```include_directories(src)``` avant la commande ```add_executable(...)``` dans le fichier CMakeLists.txt
 - Ouvrez le dossier du dépot avec CLion ou VSCode.
 - Gagnez la coupe
 
 ## TODO
 
-- [x] Communication Ethernet de base
-- [x] Ordres Des Actionneurs
-- [x] Asservissement
-- [ ] Asservissement encore meilleur
-- [x] Capteurs
-- [x] Hooks
-- [x] Canal de Position (établir la fréquence d'envoie et le header associé avec le HL) & détection de fin de mouvement
-- [x] Détection des blocages physiques et transmission sur le canal Event
-- [x] Mise en place de la basic Detection (Envoi d'event si obstacle trop proche)
-- [x] Fusion de la gestion Série/Ethernet
-- [x] Gérer les ordres grâce à une classe pour que ce soit propre
-- [ ] Mise en place de cas d'erreur explicites et plus nombreux pour le HL
-- [ ] MotionControl point à point(avec réorientation progressive)
+- [ ] Compléter le nouveau MCS
+- [ ] Asservissement
+- [ ] Vérifier l'état de la communication LL/HL
+- [ ] Implémenter les nouveaux ordres
 - [ ] Ordre propre pour la récupération de données d'asservissement + scripts en conséquence
-- [ ] Penser à implémenter les nouveaux ordres
+- [ ] Mise en place de cas d'erreur explicites et plus nombreux pour le HL
+- [ ] Gagner la Coupe
 
 ## TABLE DES ORDRES
 ### ORDRES HL ⇒ LL
@@ -111,19 +102,19 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 
 ### ORDRES SPECIFIQUES LL
 
-|   Ordres  |                       Actions                      |
-|:---------:|:--------------------------------------------------:|
-|   toggle  |         Change le mode de réglage d'asserv         |
-|  display  |          Retourne les constantes d'asserv          |
-|    kpt    |              Set le kp de translation              |
-|    kdt    |              Set le kd de translation              |
-|    kit    |              Set le ki de translation              |
-|    kpr    |                Set le kp de rotation               |
-|    kdt    |                Set le kd de rotation               |
-|    kit    |                Set le ki de rotation               |
-|    kpg    |            Set le kp de vitesse à gauche           |
-|    kdg    |            Set le kd de vitesse à gauche           |
-|    kig    |            Set le ki de vitesse à gauche           |
-|    kpd    |            Set le kd de vitesse à droite           |
-|    kdg    |            Set le kd de vitesse à droite           |
-|    kig    |            Set le ki de vitesse à droite           |
+|   Ordres          |                       Actions                      |
+|:-----------------:|:--------------------------------------------------:|
+|   toggle          |         Change le mode de réglage d'asserv         |
+|   displayAsserv   |          Retourne les constantes d'asserv          |
+|   kpt             |              Set le kp de translation              |
+|   kdt             |              Set le kd de translation              |
+|   kit             |              Set le ki de translation              |
+|   kpr             |                Set le kp de rotation               |
+|   kdt             |                Set le kd de rotation               |
+|   kit             |                Set le ki de rotation               |
+|   kpg             |            Set le kp de vitesse à gauche           |
+|   kdg             |            Set le kd de vitesse à gauche           |
+|   kig             |            Set le ki de vitesse à gauche           |
+|   kpd             |            Set le kd de vitesse à droite           |
+|   kdg             |            Set le kd de vitesse à droite           |
+|   kig             |            Set le ki de vitesse à droite           |

@@ -10,6 +10,7 @@
 #include "Utils/defines.h"
 #include "Actuators/ActuatorValues.h"
 #include "Utils/Singleton.hpp"
+#include <map>
 
 typedef OrderData& Args;
 
@@ -30,13 +31,17 @@ protected:
     OrderManager&           orderManager;
 };
 
-#define ORDER(name,nbrparam)                                                         \
-struct ORDER_##name : public AbstractOrder                                           \
-{                                                                                    \
-    ORDER_##name() : AbstractOrder(nbrparam)                                         \
-    {}                                                                               \
-    void impl(Args);                                                                 \
-}                                                                                    \
+#define ORDER(name,nbrparam)                                                        \
+static struct ORDER_##name : public AbstractOrder, public Singleton<ORDER_##name>   \
+{                                                                                   \
+    ORDER_##name() : AbstractOrder()                                                \
+    {                                                                               \
+        this->nbr_args = nbrparam;                                                  \
+        allOrders.insert({#name, this});                                            \
+    }                                                                               \
+    void impl(Args);                                                                \
+} __ORDER_##name;
 
+static std::map<String, AbstractOrder*> allOrders;
 
 #endif //TECHTHETOWN_LOWLEVEL_ABSTRACTORDER_H
