@@ -1,7 +1,8 @@
 #ifndef ABSTRACTSENSORUS_H
 #define ABSTRACTSENSORUS_H
 
-#include <i2c_t3.h>
+//#include <Wire.h>
+//#include <i2c_t3.h>
 
 class AbstractI2CSensorUS
 {

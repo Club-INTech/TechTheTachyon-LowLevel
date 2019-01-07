@@ -7,6 +7,7 @@
 #include <array>
 #include <algorithm>
 #include <i2c_t3.h>
+//#include <Wire.h>
 
 #include "Utils/Median.h"
 #include "Utils/Singleton.hpp"
@@ -46,6 +47,7 @@ private:
 public:
 
 	SensorMgr();
+	void init();
 	void refreshUS(MOVEMENT dir);
 	void checkCubeAV();
 	void checkCubeAR();

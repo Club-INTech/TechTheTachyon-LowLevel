@@ -8,6 +8,7 @@
 #include "COM/Order/OrderManager.h"
 #include "Utils/Monitoring.h"
 #include <string>
+#include <Utils/pin_mapping_test_card.h>
 
 /* Interruptions d'asservissements */
 void motionControlInterrupt() {
@@ -18,7 +19,7 @@ void motionControlInterrupt() {
 	motionControlSystem.manageStop();
 }
 
-int main(){
+int main() {
 	/*************************
 	 * Initialisation du LL, gère:
 	 * La série
@@ -26,9 +27,13 @@ int main(){
 	 * L'asservissement
 	 *************************/
 	/* Série */
-	Serial.begin(115200);
+	SensorMgr::Instance().init();
+    pinMode(13, OUTPUT);
+    digitalWrite(13, HIGH);
 
-	Serial.flush();
+    Serial.begin(115200);
+
+    Serial.flush();
 	Serial.println("Série OK");
 	delay(250);
 
@@ -77,7 +82,7 @@ int main(){
     static Metro USSend = Metro(80);
 
     while (true) {
-        orderMgr.communicate();
+		orderMgr.communicate();
 		orderMgr.refreshUS();
 		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 		USSend.check() ? orderMgr.sendUS() : void();

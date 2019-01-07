@@ -3,9 +3,14 @@
 SensorMgr::SensorMgr()
 	:highLevel(ComMgr::Instance())
 {
-	Wire.begin();
+}
 
+void SensorMgr::init() {
 	pinMode(PIN_JMPR,INPUT_PULLUP);
+
+	Wire.begin();
+	pinMode(13, OUTPUT);
+	digitalWrite(13, HIGH);
 
 	/* CHANGEMENT PIN I2C */
 	CORE_PIN18_CONFIG = 0;  // turn off primary pins before enable alternates
@@ -13,14 +18,13 @@ SensorMgr::SensorMgr()
 	CORE_PIN16_CONFIG = PORT_PCR_MUX(2)|PORT_PCR_ODE|PORT_PCR_SRE|PORT_PCR_DSE;
 	CORE_PIN17_CONFIG = PORT_PCR_MUX(2)|PORT_PCR_ODE|PORT_PCR_SRE|PORT_PCR_DSE;
 
-
 	for( uint8_t i = 0 ; i < NBR_OF_US_SENSOR ; i++ )
 	{
 		US[i] = new SRF10(i,20,SRF10::GAIN::G70);
 		distances[i] = Median<uint16_t ,MEDIAN_US_SIZE>();
 	}
 
-	 //puts sensorcubeAR in sleep mode
+	//puts sensorcubeAR in sleep mode
 	pinMode(PIN_CUBE_AR_DETECTION_SLEEP,OUTPUT);
 	digitalWrite(PIN_CUBE_AR_DETECTION_SLEEP,LOW);
 
@@ -38,11 +42,10 @@ SensorMgr::SensorMgr()
 	sensorCubeAR.init();
 	sensorCubeAR.configureDefault();
 	sensorCubeAR.setRangeMaxConvergenceTime(63);
-    sensorCubeAR.setAmbiantGain(VL6180X::ALS_GAIN::G40);
+	sensorCubeAR.setAmbiantGain(VL6180X::ALS_GAIN::G40);
 
 	jumperPlugged = isJumperEngaged();
 	basicBlocked = false;
-
 }
 
 void SensorMgr::sendUS()

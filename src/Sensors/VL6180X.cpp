@@ -1,5 +1,6 @@
 #include "VL6180X.h"
-#include <i2c_t3.h>
+//#include <//Wire.h>
+//#include <i2c_t3.h>
 
 // Defines /////////////////////////////////////////////////////////////////////
 
@@ -143,35 +144,35 @@ void VL6180X::configureDefault(void)
 // Writes an 8-bit register
 void VL6180X::writeReg(uint16_t reg, uint8_t value)
 {
-  Wire.beginTransmission(address);
-  Wire.write((reg >> 8) & 0xff);  // reg high byte
-  Wire.write(reg & 0xff);         // reg low byte
-  Wire.write(value);
-  last_status = Wire.endTransmission();
+  //Wire.beginTransmission(address);
+  //Wire.write((reg >> 8) & 0xff);  // reg high byte
+  //Wire.write(reg & 0xff);         // reg low byte
+  //Wire.write(value);
+  last_status = 0;//Wire.endTransmission();
 }
 
 // Writes a 16-bit register
 void VL6180X::writeReg16Bit(uint16_t reg, uint16_t value)
 {
-  Wire.beginTransmission(address);
-  Wire.write((reg >> 8) & 0xff);  // reg high byte
-  Wire.write(reg & 0xff);         // reg low byte
-  Wire.write((value >> 8) & 0xff);  // value high byte
-  Wire.write(value & 0xff);         // value low byte
-  last_status = Wire.endTransmission();
+  //Wire.beginTransmission(address);
+  //Wire.write((reg >> 8) & 0xff);  // reg high byte
+  //Wire.write(reg & 0xff);         // reg low byte
+  //Wire.write((value >> 8) & 0xff);  // value high byte
+  //Wire.write(value & 0xff);         // value low byte
+  last_status = 0;//Wire.endTransmission();
 }
 
 // Writes a 32-bit register
 void VL6180X::writeReg32Bit(uint16_t reg, uint32_t value)
 {
-  Wire.beginTransmission(address);
-  Wire.write((reg >> 8) & 0xff);  // reg high byte
-  Wire.write(reg & 0xff);         // reg low byte
-  Wire.write((value >> 24) & 0xff); // value highest byte
-  Wire.write((value >> 16) & 0xff);
-  Wire.write((value >> 8) & 0xff);
-  Wire.write(value & 0xff);         // value lowest byte
-  last_status = Wire.endTransmission();
+  //Wire.beginTransmission(address);
+  //Wire.write((reg >> 8) & 0xff);  // reg high byte
+  //Wire.write(reg & 0xff);         // reg low byte
+  //Wire.write((value >> 24) & 0xff); // value highest byte
+  //Wire.write((value >> 16) & 0xff);
+  //Wire.write((value >> 8) & 0xff);
+  //Wire.write(value & 0xff);         // value lowest byte
+  last_status = 0;//Wire.endTransmission();
 }
 
 // Reads an 8-bit register
@@ -179,14 +180,14 @@ uint8_t VL6180X::readReg(uint16_t reg)
 {
   uint8_t value;
 
-  Wire.beginTransmission(address);
-  Wire.write((reg >> 8) & 0xff);  // reg high byte
-  Wire.write(reg & 0xff);         // reg low byte
-  last_status = Wire.endTransmission();
+  //Wire.beginTransmission(address);
+  //Wire.write((reg >> 8) & 0xff);  // reg high byte
+  //Wire.write(reg & 0xff);         // reg low byte
+  last_status = //Wire.endTransmission();
 
-  Wire.requestFrom(address, (uint8_t)1);
-  value = Wire.read();
-  Wire.endTransmission();
+  //Wire.requestFrom(address, (uint8_t)1);
+  value = 0;//Wire.read();
+  //Wire.endTransmission();
 
   return value;
 }
@@ -196,15 +197,15 @@ uint16_t VL6180X::readReg16Bit(uint16_t reg)
 {
   uint16_t value;
 
-  Wire.beginTransmission(address);
-  Wire.write((reg >> 8) & 0xff);  // reg high byte
-  Wire.write(reg & 0xff);         // reg low byte
-  last_status = Wire.endTransmission();
+  //Wire.beginTransmission(address);
+  //Wire.write((reg >> 8) & 0xff);  // reg high byte
+  //Wire.write(reg & 0xff);         // reg low byte
+  last_status = 0;//Wire.endTransmission();
 
-  Wire.requestFrom(address, (uint8_t)2);
-  value = (uint16_t)Wire.read() << 8; // value high byte
-  value |= Wire.read();               // value low byte
-  Wire.endTransmission();
+  //Wire.requestFrom(address, (uint8_t)2);
+  value = (uint16_t)0;//Wire.read() << 8; // value high byte
+  value |= 0;//Wire.read();               // value low byte
+  //Wire.endTransmission();
 
   return value;
 }
@@ -214,17 +215,17 @@ uint32_t VL6180X::readReg32Bit(uint16_t reg)
 {
   uint32_t value;
 
-  Wire.beginTransmission(address);
-  Wire.write((reg >> 8) & 0xff);  // reg high byte
-  Wire.write(reg & 0xff);         // reg low byte
-  last_status = Wire.endTransmission();
+  //Wire.beginTransmission(address);
+  //Wire.write((reg >> 8) & 0xff);  // reg high byte
+  //Wire.write(reg & 0xff);         // reg low byte
+  last_status = 0;//Wire.endTransmission();
 
-  Wire.requestFrom(address, (uint8_t)4);
-  value = (uint32_t)Wire.read() << 24;  // value highest byte
-  value |= (uint32_t)Wire.read() << 16;
-  value |= (uint16_t)Wire.read() << 8;
-  value |= Wire.read();                 // value lowest byte
-  Wire.endTransmission();
+  //Wire.requestFrom(address, (uint8_t)4);
+  value = (uint32_t)0;//Wire.read() << 24;  // value highest byte
+  value |= (uint32_t)0;//Wire.read() << 16;
+  value |= (uint16_t)0;//Wire.read() << 8;
+  value |= 0;//Wire.read();                 // value lowest byte
+  //Wire.endTransmission();
 
   return value;
 }

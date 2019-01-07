@@ -550,7 +550,7 @@ void ORDER_ptpdemoseq::impl(Args args)
 
 void ORDER_suck::impl(Args args)
 {
-    if (args[0]=="right") {
+    if (!strcmp(args[0], "right")) {
         digitalWrite(PUMP_PIN_RIGHT, HIGH);
     }
     else {
@@ -560,7 +560,7 @@ void ORDER_suck::impl(Args args)
 
 void ORDER_unsuck::impl(Args args)
 {
-    if (args[0]=="right") {
+    if (!strcmp(args[0], "right")) {
         digitalWrite(PUMP_PIN_RIGHT, LOW);
     }
     else{
@@ -573,7 +573,7 @@ const unsigned int ELEVATOR_TEMPO = 800; //temporistaion entre les commandes du 
 void ORDER_up::impl(Args args)
 {
     int nbPas = 700;
-    if (args[0]=="right") {
+    if (!strcmp(args[0], "right")) {
         digitalWrite(DIR_PIN_RIGHT, HIGH);
 
         for (int i = 0; i < nbPas; ++i) {
@@ -600,7 +600,7 @@ void ORDER_up::impl(Args args)
 void ORDER_down::impl(Args args)
 {
     int nbPas = 700;
-    if (args[0]=="right") {
+    if (!strcmp(args[0], "right")) {
         digitalWrite(DIR_PIN_RIGHT, LOW);
 
         for (int i = 0; i < nbPas; ++i) {
@@ -621,152 +621,81 @@ void ORDER_down::impl(Args args)
         }
 
     }
-
 }
-
-
-
-
-
-
-// Liste des moteurs du bras
-static DynamixelManager* manager = new DynamixelManager(&Serial1);
-static XL430* motor1 = new XL430(1,*manager);
-static XL430* motor2 = new XL430(2,*manager);
-static XL430* motor3 = new XL430(3,*manager);
-static XL430* motor4 = new XL430(4,*manager);
-static XL430* motor5 = new XL430(5,*manager);
-static XL430* motor6 = new XL430(6,*manager);
-
-static std::vector<XL430*> motors{motor1,motor2,motor3};
-static std::vector<XL430*> motors{motor4,motor5,motor6};
 
 void ORDER_dist::impl(Args args)
 {
-    if (args[0]=="right"){
-        Serial.println(motors.at(0)->setGoalAngle(234));
-        delay(100);
-        Serial.println(motors.at(1)->setGoalAngle(56));
-        delay(100);
-        Serial.println(motors.at(2)->setGoalAngle(93));
-    }
-    else{
-        Serial.println(motors.at(4)->setGoalAngle(234));
-        delay(100);
-        Serial.println(motors.at(5)->setGoalAngle(56));
-        delay(100);
-        Serial.println(motors.at(6)->setGoalAngle(93));
-
-    }
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionDistributeur);
 }
 
 void ORDER_grnd::impl(Args args)
 {
-    if (args[0]=="right"){
-        Serial.println(motors.at(0)->setGoalAngle(272));
-        delay(100);
-        Serial.println(motors.at(1)->setGoalAngle(97));
-        delay(100);
-        Serial.println(motors.at(2)->setGoalAngle(189));
-    }
-    else{
-        Serial.println(motors.at(4)->setGoalAngle(272));
-        delay(100);
-        Serial.println(motors.at(5)->setGoalAngle(97));
-        delay(100);
-        Serial.println(motors.at(6)->setGoalAngle(189));
-
-    }
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionSol);
 }
 
 void ORDER_stock::impl(Args args)
 {
-    if (args[0]=="right"){
-        Serial.println(motors.at(0)->setGoalAngle(187));
-        delay(100);
-        Serial.println(motors.at(1)->setGoalAngle(268));
-        delay(100);
-        Serial.println(motors.at(2)->setGoalAngle(83));
-    }
-    else{
-        Serial.println(motors.at(4)->setGoalAngle(187));
-        delay(100);
-        Serial.println(motors.at(5)->setGoalAngle(268));
-        delay(100);
-        Serial.println(motors.at(6)->setGoalAngle(83));
-
-    }
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionStockage);
 }
 
 void ORDER_acc::impl(Args args)
 {
-    if (args[0]=="right"){
-        Serial.println(motors.at(0)->setGoalAngle(186));
-        delay(100);
-        Serial.println(motors.at(1)->setGoalAngle(55));
-        delay(100);
-        Serial.println(motors.at(2)->setGoalAngle(141));
-    }
-    else{
-        Serial.println(motors.at(4)->setGoalAngle(186));
-        delay(100);
-        Serial.println(motors.at(5)->setGoalAngle(55));
-        delay(100);
-        Serial.println(motors.at(6)->setGoalAngle(141));
-
-    }
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionAccelerateur);
 }
+
 void ORDER_bal::impl(Args args)
 {
-    if (args[0]=="right"){
-        Serial.println(motors.at(0)->setGoalAngle(/*angle à pourvoir*/));
-        delay(100);
-        Serial.println(motors.at(1)->setGoalAngle(/*angle à pourvoir*/));
-        delay(100);
-        Serial.println(motors.at(2)->setGoalAngle(/*angle à pourvoir*/));
-    }
-    else{
-        Serial.println(motors.at(4)->setGoalAngle(/*angle à pourvoir*/));
-        delay(100);
-        Serial.println(motors.at(5)->setGoalAngle(/*angle à pourvoir*/));
-        delay(100);
-        Serial.println(motors.at(6)->setGoalAngle(/*angle à pourvoir*/));
-
-    }
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionDroit /*FIXME : a changer*/);
 }
+
 void ORDER_gold::impl(Args args)
 {
-    if (args[0]=="right"){
-        Serial.println(motors.at(0)->setGoalAngle(/*angle à pourvoir*/));
-        delay(100);
-        Serial.println(motors.at(1)->setGoalAngle(/*angle à pourvoir*/));
-        delay(100);
-        Serial.println(motors.at(2)->setGoalAngle(/*angle à pourvoir*/));
-    }
-    else{
-        Serial.println(motors.at(4)->setGoalAngle(/*angle à pourvoir*/));
-        delay(100);
-        Serial.println(motors.at(5)->setGoalAngle(/*angle à pourvoir*/));
-        delay(100);
-        Serial.println(motors.at(6)->setGoalAngle(/*angle à pourvoir*/));
-
-    }
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionDroit /*FIXME : a changer*/);
 }
+
 void ORDER_push::impl(Args args)
 {
-    if (args[0]=="right"){
-        Serial.println(motors.at(0)->setGoalAngle(/*angle à pourvoir*/));
-        delay(100);
-        Serial.println(motors.at(1)->setGoalAngle(/*angle à pourvoir*/));
-        delay(100);
-        Serial.println(motors.at(2)->setGoalAngle(/*angle à pourvoir*/));
-    }
-    else{
-        Serial.println(motors.at(4)->setGoalAngle(/*angle à pourvoir*/));
-        delay(100);
-        Serial.println(motors.at(5)->setGoalAngle(/*angle à pourvoir*/));
-        delay(100);
-        Serial.println(motors.at(6)->setGoalAngle(/*angle à pourvoir*/));
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionDroit /*FIXME : a changer*/);
+}
 
-    }
+void ORDER_XLm::impl(Args args) {
+    // TODO
+}
+
+void ORDER_XLs::impl(Args args) {
+    // TODO
+}
+
+void ORDER_valveon::impl(Args args) {
+    // TODO
+}
+
+void ORDER_valveoff::impl(Args args) {
+    // TODO
+}
+
+void ORDER_elec::impl(Args args) {
+    // TODO
+}
+
+void ORDER_torque::impl(Args args) {
+    // TODO
+}
+
+void ORDER_ntorque::impl(Args args) {
+    // TODO
 }

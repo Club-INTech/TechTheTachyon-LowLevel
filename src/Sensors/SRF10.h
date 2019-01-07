@@ -2,7 +2,8 @@
 #define SRF10_H
 
 #include <Arduino.h>
-#include <i2c_t3.h>
+//#include <Wire.h>
+//#include <i2c_t3.h>
 #include "AbstractSensorUS.h"
 
 class SRF10 : public AbstractI2CSensorUS
