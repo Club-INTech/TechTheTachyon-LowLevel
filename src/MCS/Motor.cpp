@@ -26,7 +26,7 @@ Motor::Motor(Side definedSide):side(definedSide), direction(Direction::FORWARD)
 	pwm = 0;
 }
 
-//Initialise le spins, le pwm, bref tout ce dont le moteur a besoin
+//Initialise les pins, le pwm, bref tout ce dont le moteur a besoin
 void Motor::init()
 {
 	if (side == Side::LEFT) {
@@ -44,7 +44,7 @@ void Motor::init()
 
 	//TODO: Initialiser les PWM
 	analogWriteResolution(8);
-	analogWriteFrequency(pin_pwm, 35156.25); //A CHANGER APRES NOUVEAU PONT EN H
+	analogWriteFrequency(pin_pwm, 35156.25); //FIXME: A CHANGER APRES NOUVEAU PONT EN H
 }
 
 void Motor::run(int16_t newpwm)

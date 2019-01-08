@@ -15,6 +15,11 @@ PointToPointTrajectory::PointToPointTrajectory()
 
 PointToPointTrajectory::PointToPointTrajectory(const double* xTable, const double* yTable, const int size)
 {
+    set(xTable, yTable, size);
+}
+
+void PointToPointTrajectory::set(const double * xTable, const double * yTable, int size)
+{
     counter = 0;
 
     this->xTable = xTable;
@@ -39,4 +44,12 @@ std::pair<double,double> PointToPointTrajectory::query()
 PointToPointTrajectory::operator bool()
 {
     return(counter < size);
+}
+
+void PointToPointTrajectory::clear()
+{
+    size = 0;
+    counter = 0;
+    xTable = nullptr;
+    yTable = nullptr;
 }

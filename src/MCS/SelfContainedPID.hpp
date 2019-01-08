@@ -18,6 +18,7 @@ public:
     int32_t compute(int32_t currentState);
     int32_t getCurrentGoal();
     int32_t getCurrentState();
+    int32_t getCurrentOutput();
     /**
      * Reset complet (erreurs et 'goal')
      */

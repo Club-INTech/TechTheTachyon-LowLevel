@@ -40,20 +40,19 @@
 
 
 /* CAPTEURS */
-    // IR
-#define PIN_CUBE_AR_DETECTION_SLEEP 14
 
     // CONT
 #define PIN_JMPR 0
 #define PIN_CONT1 0
 
+// TechTheTachyon
 /* Ascenceurs */
-#define STEP_PIN_RIGHT 18 //vitesse
-#define RST_PIN_RIGHT 19 //reset
-#define DIR_PIN_RIGHT 20 //direction
+constexpr uint8_t STEP_PIN_RIGHT = 1; //vitesse
+constexpr uint8_t RST_PIN_RIGHT = 14; //reset
+constexpr uint8_t DIR_PIN_RIGHT = 4; //direction
 
-#define STEP_PIN_LEFT 18 //vitesse
-#define RST_PIN_LEFT 19 //reset
-#define DIR_PIN_LEFT 20 //direction
+constexpr uint8_t STEP_PIN_LEFT = 8; //vitesse
+constexpr uint8_t RST_PIN_LEFT = 14; //reset
+constexpr uint8_t DIR_PIN_LEFT = 3; //direction
 
 #endif //_PIN_MAPPING_h

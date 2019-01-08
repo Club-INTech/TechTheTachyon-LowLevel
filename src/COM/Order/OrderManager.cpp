@@ -134,7 +134,7 @@ void OrderManager::checkJumper() {
 }
 
 void OrderManager::checkHooks() {
-    // FIXME hookList.check(motionControlSystem.getX(), motionControlSystem.getY(),motionControlSystem.getAngleRadian());
+    hookList.check(motionControlSystem.getX(), motionControlSystem.getY(),motionControlSystem.getAngle());
 }
 
 void OrderManager::executeHooks() {

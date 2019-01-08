@@ -15,8 +15,6 @@
 #include "MCS/MCSReborn.h"
 #include "Utils/pin_mapping.h"
 #include "COM/ComMgr.h"
-#include "SRF10.h"
-#include "VL6180X.h"
 #include "AbstractSensorUS.h"
 #include "MCS/RobotStatus.h"
 
@@ -29,35 +27,19 @@ private:
 
 	ComMgr& highLevel;
 
-	SRF10* US[NBR_OF_US_SENSOR];
-	VL6180X sensorCubeAV;
-	VL6180X sensorCubeAR;
-
 	std::array<Median<uint16_t ,MEDIAN_US_SIZE>,NBR_OF_US_SENSOR> distances;
-	uint8_t currentMeasuringUS = 0;
-	bool isMeasuring = false;
-	bool firstMeasure = true;
-	bool sendRequest= false;
 	MOVEMENT measure_direction;
 
 	bool jumperPlugged;
 	bool basicBlocked;
-
-	float meanAmbiantLight = CUBE_AVAR_DETECTION_AMBIANT_LUX;
 public:
 
 	SensorMgr();
 	void init();
-	void refreshUS(MOVEMENT dir);
-	void checkCubeAV();
-	void checkCubeAR();
-	void measureMeanAmbientLight();
-	void sendUS();
 
 	bool isJumperEngaged();
 	bool isReadyToGo();
 	bool isCont1Engaged();
-
 };
 
 #endif

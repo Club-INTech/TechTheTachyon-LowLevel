@@ -11,6 +11,7 @@
 #include "Motor.h"
 #include "pid.hpp"
 #include "SelfContainedPID.hpp"
+#include "PointToPointTrajectory.h"
 
 // TODO : Tout docu
 
@@ -33,11 +34,18 @@ private:
     uint32_t lastPositionUpdateTime;
     int16_t targetX;
     int16_t targetY;
+    int32_t leftTicks;
+    int32_t rightTicks;
+    int32_t previousLeftTicks;
+    int32_t previousRightTicks;
     int16_t targetDistance;
     float targetAngle;
+    float angleOffset;
 
     float targetLeftSpeed;
     float targetRightSpeed;
+    bool sequentialMovement;
+    PointToPointTrajectory trajectory;
 
 
 public:
@@ -51,6 +59,7 @@ public:
     void translate(int16_t);
     void rotate(float);
     void gotoPoint(int16_t,int16_t,bool);
+    void followTrajectory(const double* xTable, const double* yTable, int count);
 
     void toggleControl();
     void toggleTranslation();
@@ -59,6 +68,20 @@ public:
     int16_t getX();
     int16_t getY();
     float getAngle();
+    int32_t getLeftTicks();
+    int32_t getRightTicks();
+
+    /**
+     * Permet de définir une rotation à la fin d'un mouvement (au lieu de devoir attendre la fin du mouvement et de donner un ordre de rotation)
+     * /!\\ Cette valeur est réinitialisée dès la fin du mouvement!!! (Histoire de pas se décaler avec les mouvements suivants)
+     * @param offset l'angle, en radians, duquel le robot doit tourner à la fin du mouvement
+     */
+    void setAngleOffset(float offset);
+
+    /**
+     * Annule le suivi de trajectoire courant
+     */
+    void disableP2P();
 
     void setX(int16_t);
     void setY(int16_t);

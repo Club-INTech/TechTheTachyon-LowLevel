@@ -17,6 +17,10 @@ int32_t SelfContainedPID::getCurrentGoal() {
     return goal;
 }
 
+int32_t SelfContainedPID::getCurrentOutput() {
+    return output;
+}
+
 int32_t SelfContainedPID::getCurrentState() {
     return input;
 }

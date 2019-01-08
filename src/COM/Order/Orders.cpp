@@ -23,25 +23,22 @@ void ORDER_f::impl(Args args)
 
 void ORDER_xyo::impl(Args args)
 {
-    /* FIXME
-    orderManager.highLevel.printfln(STD_HEADER,"%f",orderManager.motionControlSystem.getX());
-    orderManager.highLevel.printfln(STD_HEADER,"%f",orderManager.motionControlSystem.getY());
-    orderManager.highLevel.printfln(STD_HEADER,"%f",orderManager.motionControlSystem.getAngleRadian());
-*/
+    orderManager.highLevel.printfln(STD_HEADER,"%i",orderManager.motionControlSystem.getX());
+    orderManager.highLevel.printfln(STD_HEADER,"%i",orderManager.motionControlSystem.getY());
+    orderManager.highLevel.printfln(STD_HEADER,"%f",orderManager.motionControlSystem.getAngle());
 }
 
 void ORDER_d::impl(Args args)
 {
-  /* FIXME  int16_t deplacement = strtod(args[0], nullptr);
+    int16_t deplacement = strtod(args[0], nullptr);
     orderManager.highLevel.printfln(DEBUG_HEADER,"distance : %d",deplacement);
     orderManager.motionControlSystem.disablePointToPoint();
-    orderManager.motionControlSystem.orderTranslation(deplacement);
-*/
+    orderManager.motionControlSystem.translate(deplacement);
 }
 
 void ORDER_t::impl(Args args)
 {
-  /* FIXME  float angle;
+    float angle;
     if (!strcmp(args[0], "pi")) {
         angle = (float) PI;
     } else {
@@ -49,25 +46,8 @@ void ORDER_t::impl(Args args)
     }
     orderManager.highLevel.printfln(DEBUG_HEADER,"angle : %f", angle);
 
-    MCS::RotationWay rotationWay = MCS::FREE;
-    if(args.nbrParams() > 1)
-    {
-        if(!strcmp(args[1],"trigo"))
-        {
-            rotationWay = MCS::TRIGO;
-        }
-        else if(!strcmp(args[1],"antitrigo"))
-        {
-            rotationWay = MCS::ANTITRIGO;
-        }
-        else if(strcmp(args[1],"free") != 0)
-        {
-            orderManager.highLevel.printfln(DEBUG_HEADER,"ARGUMENT INVALIDE");
-        }
-    }
-
-    orderManager.motionControlSystem.disablePointToPoint();
-    orderManager.motionControlSystem.orderRotation(angle, rotationWay);*/
+    orderManager.motionControlSystem.disableP2P();
+    orderManager.motionControlSystem.rotate(angle);
 }
 
 void ORDER_goto::impl(Args args)
@@ -84,7 +64,7 @@ void ORDER_goto::impl(Args args)
     }
 //                if(-1500 <= targetX && targetX <= 1500 && 0 <= targetY && targetY <= 2000)
 //                {
-       // FIXME orderManager.motionControlSystem.orderGoto(targetX,targetY, isSequential);
+       orderManager.motionControlSystem.gotoPoint(targetX,targetY, isSequential);
 //                }
 //                else
 //      {
@@ -96,7 +76,7 @@ void ORDER_followTrajectory::impl(Args args)
 {
     if(strtof(args[0], nullptr) == 0)
     {
-     // FIXME   orderManager.motionControlSystem.orderTrajectory(trajectory_S_path[0],trajectory_S_path[1],trajectory_S_size);
+        // FIXME orderManager.motionControlSystem.followTrajectory(trajectory_S_path[0],trajectory_S_path[1],trajectory_S_size);
     }
     else
     {
@@ -106,7 +86,7 @@ void ORDER_followTrajectory::impl(Args args)
 
 void ORDER_stop::impl(Args args)
 {
-    // FIXME orderManager.motionControlSystem.stop();
+    orderManager.motionControlSystem.stop();
     orderManager.highLevel.printfln(DEBUG_HEADER,"A priori, je m'arrête");
 }
 
@@ -122,24 +102,24 @@ void ORDER_resumeEmergencyStop::impl(Args args)
 
 void ORDER_cx::impl(Args args)
 {
-    // FIXME  orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
+    orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
 }
 
 void ORDER_cy::impl(Args args)
 {
-    // FIXME  orderManager.motionControlSystem.setY(orderManager.parseFloat(args[0]));
+    orderManager.motionControlSystem.setY(orderManager.parseFloat(args[0]));
 }
 
 void ORDER_co::impl(Args args)
 {
-    // FIXME  orderManager.motionControlSystem.setOriginalAngle(orderManager.parseFloat(args[0]));
+    orderManager.motionControlSystem.setAngle(orderManager.parseFloat(args[0]));
 }
 
 void ORDER_cxyo::impl(Args args)
 {
-    // FIXME orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
-    // FIXME  orderManager.motionControlSystem.setY(orderManager.parseFloat(args[1]));
-    // FIXME orderManager.motionControlSystem.setOriginalAngle(orderManager.parseFloat(args[2]));
+    orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
+    orderManager.motionControlSystem.setY(orderManager.parseFloat(args[1]));
+    orderManager.motionControlSystem.setAngle(orderManager.parseFloat(args[2]));
 }
 
 void ORDER_ctv::impl(Args args)
@@ -206,10 +186,10 @@ void ORDER_cv1::impl(Args args)
 
 void ORDER_cod::impl(Args args)
 {
-    // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"Gauche:");
-    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getLeftTick());
-    // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"Droite:");
-    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getRightTick());
+    orderManager.highLevel.printfln(DEBUG_HEADER,"Gauche:");
+    orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getLeftTicks());
+    orderManager.highLevel.printfln(DEBUG_HEADER,"Droite:");
+    orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getRightTicks());
 }
 
 void ORDER_pfdebug::impl(Args args)
