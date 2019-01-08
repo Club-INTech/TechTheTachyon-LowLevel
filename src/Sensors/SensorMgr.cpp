@@ -7,6 +7,7 @@ SensorMgr::SensorMgr()
 
 void SensorMgr::init() {
 	pinMode(PIN_JMPR,INPUT_PULLUP);
+	Serial.println("COucou Sensor");
 
 	Wire.begin();
 	pinMode(13, OUTPUT);

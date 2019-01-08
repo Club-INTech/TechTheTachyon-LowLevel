@@ -13,12 +13,18 @@
 #include "SelfContainedPID.hpp"
 #include "PointToPointTrajectory.h"
 
+#define ENCODER_OPTIMIZE_INTERRUPTS
+#include <Encoder.h>
+
 // TODO : Tout docu
 
 class MCS : public Singleton<MCS>
 {
 
 private:
+
+    Encoder* Encoder1 = nullptr;
+    Encoder* Encoder2 = nullptr;
 
     RobotStatus robotStatus;
     ControlSettings controlSettings;
@@ -50,6 +56,8 @@ private:
 
 public:
     MCS();
+
+    void initEncoders();
 
     void manageStop();
     void updatePosition(int32_t leftTicks, int32_t rightTicks);

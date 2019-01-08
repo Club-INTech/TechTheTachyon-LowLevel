@@ -27,7 +27,10 @@ int main() {
 	 * L'asservissement
 	 *************************/
 	/* Série */
-	SensorMgr::Instance().init();
+    SensorMgr::Instance().init();
+    MCS::Instance().initEncoders();
+    pinMode(18, INPUT_PULLUP);
+    pinMode(19, INPUT_PULLUP);
     pinMode(13, OUTPUT);
     digitalWrite(13, HIGH);
 
@@ -53,14 +56,6 @@ int main() {
 	OrderManager& orderMgr = OrderManager::Instance();
 	//ORDER_PTPDEMO a = ORDER_PTPDEMO();
 	orderMgr.init();
-
-    // AX12 initialisation
-    orderMgr.execute("rlbAv");
-	orderMgr.execute("rlbAr");
-    delay(1000);
-    orderMgr.execute("flpAv");
-	orderMgr.execute("flpAr");
-    delay(1000);
 
     // MotionControlSystem interrupt on timer
 	IntervalTimer motionControlInterruptTimer;

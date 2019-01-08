@@ -32,7 +32,7 @@ void ORDER_d::impl(Args args)
 {
     int16_t deplacement = strtod(args[0], nullptr);
     orderManager.highLevel.printfln(DEBUG_HEADER,"distance : %d",deplacement);
-    orderManager.motionControlSystem.disablePointToPoint();
+    orderManager.motionControlSystem.disableP2P();
     orderManager.motionControlSystem.translate(deplacement);
 }
 
