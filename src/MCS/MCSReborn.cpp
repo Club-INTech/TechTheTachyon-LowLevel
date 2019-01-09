@@ -9,6 +9,8 @@
 #include "Utils/defines.h"
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT) {
+    initSettings();
+    initStatus();
     robotStatus.controlled = true;
     robotStatus.controlledRotation = true;
     robotStatus.controlledTranslation = true;
@@ -26,11 +28,33 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT) {
     rightMotor.init();
 }
 
+void MCS::initSettings() {
+    // TODO: valeurs de TechTheTown, à changer si besoin
+    controlSettings.maxRotationSpeed = 314*2; //0.25 tour/s max
+    controlSettings.maxTranslationSpeed = 1000; // 1m/s max
+    controlSettings.tolerancyAngle = 0.25;
+    controlSettings.tolerancyTranslation = 10; // 1cm
+    controlSettings.tolerancyRadius = 10; // 1cm
+    controlSettings.maxSpeed = controlSettings.maxTranslationSpeed;
+    controlSettings.stopDelay = 25;
+    controlSettings.tolerancySpeed = 24;
+    controlSettings.maxAcceleration = 30;
+    controlSettings.minAcceleration = 1; // TODO
+}
+
+void MCS::initStatus() {
+    robotStatus.movement = MOVEMENT::NONE;
+    robotStatus.controlledP2P = false;
+    robotStatus.controlled = true;
+    robotStatus.controlledRotation = true;
+    robotStatus.controlledTranslation = true;
+}
+
 void MCS::initEncoders() {
     Serial.println("Coucou MCS");
 
-    this->Encoder1 = new Encoder(18, 19);
-    this->Encoder2 = new Encoder(20, 21);
+    this->Encoder1 = new Encoder(28, 29);//new Encoder(18, 19);
+    this->Encoder2 = new Encoder(21, 20);
 }
 
 void MCS::updatePosition(int32_t leftTicks, int32_t rightTicks) {
@@ -53,7 +77,9 @@ void MCS::updatePosition(int32_t leftTicks, int32_t rightTicks) {
     robotStatus.speedLeftWheel = leftDistance/dt;
     robotStatus.speedRightWheel = rightDistance/dt;
 
-    robotStatus.orientation = (rightTicks-leftTicks)/2 * TICK_TO_RADIAN;
+    currentDistance = distance;
+    currentRotation = ((rightTicks - currentDistance/TICK_TO_MM) - (leftTicks - currentDistance/TICK_TO_MM)) / 2 * TICK_TO_RADIAN;
+    robotStatus.orientation += currentRotation;
     robotStatus.speedRotation = robotStatus.orientation / dt;
 
     if(robotStatus.controlledP2P) { // si point-à-point
@@ -61,6 +87,8 @@ void MCS::updatePosition(int32_t leftTicks, int32_t rightTicks) {
         int16_t dy = robotStatus.y - targetY;
         float angleToGoal = atan2f(dy, dx);
         int16_t norm = (int16_t) sqrtf(dx*dx+dy*dy);
+
+        translationPID.setGoal(currentDistance);
 
         // remets l'angle dans ]-PI; PI[
         if(ABS(robotStatus.orientation-angleToGoal) > (float)PI) {
@@ -83,9 +111,7 @@ void MCS::updatePosition(int32_t leftTicks, int32_t rightTicks) {
                 robotStatus.controlledP2P = false;
                 trajectory.clear();
 
-                if(ABS(angleOffset) > controlSettings.tolerancyAngle) { // rotation demandée à la fin du mouvement
-                    rotate(robotStatus.orientation + angleOffset);
-                }
+                rotate(robotStatus.orientation + angleOffset);
                 angleOffset = 0.0f; // reset de l'offset pour pas décaler le reste des mouvements
             }
         }
@@ -104,32 +130,35 @@ void MCS::control() {
     //Encoder2.reset();
 //    Encoder1.write(0);
 //    Encoder2.write(0);
-    if(robotStatus.controlledTranslation && translationPID.active) {
-        int32_t distance = (leftTicks+rightTicks)/2;
-        int32_t state = translationPID.getCurrentState();
-        translationPID.compute(state+distance);
+    if(robotStatus.controlledTranslation) {
+        translationPID.compute(currentDistance);
     }
-    if(robotStatus.controlledRotation && rotationPID.active) {
-        int32_t distance = (rightTicks-leftTicks)/2; // moyenne des deux movements
-        int32_t state = rotationPID.getCurrentState();
-        rotationPID.compute(state+distance);
+    if(robotStatus.controlledRotation) {
+        rotationPID.compute(currentRotation);
     }
 
-    int32_t leftSpeed = (leftTicks - previousLeftTicks) * MC_FREQUENCY;
-    int32_t rightSpeed = (rightTicks - previousRightTicks) * MC_FREQUENCY;
+    int32_t leftSpeed = (leftTicks - previousLeftTicks) * TICK_TO_MM * MC_FREQUENCY;
+    int32_t rightSpeed = (rightTicks - previousRightTicks) * TICK_TO_MM  * MC_FREQUENCY;
+
     robotStatus.speedLeftWheel = leftSpeed;
-    robotStatus.speedRightWheel = leftSpeed;
+    robotStatus.speedRightWheel = rightSpeed;
 
     int32_t translationSpeed = MAX(-controlSettings.maxTranslationSpeed, MIN(controlSettings.maxTranslationSpeed, translationPID.getOutput())); // TODO: limites
-    int32_t rotationSpeed = MAX(-controlSettings.maxRotationSpeed, MIN(controlSettings.maxRotationSpeed, rotationPID.getOutput()));
+    int32_t rotationSpeed = MAX(-controlSettings.maxRotationSpeed, MIN(controlSettings.maxRotationSpeed, rotationPID.getOutput())) * DISTANCE_COD_GAUCHE_CENTRE;
 
     leftSpeedPID.setGoal(translationSpeed-rotationSpeed);
     rightSpeedPID.setGoal(translationSpeed+rotationSpeed);
 
+    averageLeftSpeed.add(leftSpeed);
+    averageRightSpeed.add(rightSpeed);
+
+    leftSpeed = averageLeftSpeed.value();
+    rightSpeed = averageRightSpeed.value();
+
     int32_t leftPWM = leftSpeedPID.compute(leftSpeed);
     int32_t rightPWM = rightSpeedPID.compute(rightSpeed);
     leftMotor.run(leftPWM);
-    leftMotor.run(rightPWM);
+    rightMotor.run(rightPWM);
 
     previousLeftTicks = leftTicks;
     previousRightTicks = rightTicks;
@@ -143,7 +172,7 @@ void MCS::manageStop() {
         }
     }
     if(rotationPID.active) {
-        if(ABS(rotationPID.getError()) <= controlSettings.tolerancyAngle) {
+        if(ABS(rotationPID.getError()) <= controlSettings.tolerancyRotation) {
             rotationPID.active = false;
             Serial.println("[DEBUG] On arrête la rotation à cause de la tolérance en rotation!");
         }
@@ -159,16 +188,23 @@ void MCS::stop() {
     rightMotor.stop();
     robotStatus.controlledP2P = false;
     trajectory.clear();
-    translationPID.fullReset();
-    rotationPID.fullReset();
-    leftSpeedPID.fullReset();
-    rightSpeedPID.fullReset();
+    translationPID.resetErrors();
+    rotationPID.resetErrors();
+    leftSpeedPID.resetErrors();
+    rightSpeedPID.resetErrors();
+
+    leftSpeedPID.setGoal(0);
+    rightSpeedPID.setGoal(0);
+
+    translationPID.resetOutput(0);
+    rotationPID.resetOutput(0);
+    translationPID.setGoal(currentDistance);
+    rotationPID.setGoal(currentRotation);
 
     if(robotStatus.movement != MOVEMENT::NONE) {
         Serial.println("[DEBUG] On s'arrête!!");
     }
     robotStatus.movement = MOVEMENT::NONE;
-
 }
 
 void MCS::translate(int16_t amount) {
@@ -183,9 +219,8 @@ void MCS::translate(int16_t amount) {
         translationPID.fullReset();
         translationPID.active = true;
     }
-    int32_t ticks = amount/TICK_TO_MM;
     robotStatus.movement = amount > 0 ? MOVEMENT::FORWARD : MOVEMENT::BACKWARD;
-    translationPID.setGoal(ticks + translationPID.getCurrentGoal());
+    translationPID.setGoal(amount + translationPID.getCurrentGoal());
 }
 
 void MCS::rotate(float angle) {
@@ -199,8 +234,7 @@ void MCS::rotate(float angle) {
         rotationPID.active = true;
     }
     robotStatus.movement = angle > 0.0 ? MOVEMENT::TRIGO : MOVEMENT::ANTITRIGO;
-    int32_t targetTick = angle/TICK_TO_RADIAN;
-    rotationPID.setGoal(targetTick + robotStatus.orientation/TICK_TO_RADIAN);
+    rotationPID.setGoal(angle + rotationPID.getCurrentGoal());
 }
 
 void MCS::gotoPoint(int16_t x, int16_t y, bool sequential) {

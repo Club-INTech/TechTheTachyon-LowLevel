@@ -15,6 +15,7 @@
 
 #define ENCODER_OPTIMIZE_INTERRUPTS
 #include <Encoder.h>
+#include <Utils/average.hpp>
 
 // TODO : Tout docu
 
@@ -32,12 +33,14 @@ private:
     Motor leftMotor;
     Motor rightMotor;
 
-    SelfContainedPID leftSpeedPID;
-    SelfContainedPID rightSpeedPID;
-    SelfContainedPID translationPID;
-    SelfContainedPID rotationPID;
+    SelfContainedPID<int32_t> leftSpeedPID;
+    SelfContainedPID<int32_t> rightSpeedPID;
+    SelfContainedPID<int32_t> translationPID;
+    SelfContainedPID<float> rotationPID;
 
     uint32_t lastPositionUpdateTime;
+    int32_t currentDistance;
+    float currentRotation;
     int16_t targetX;
     int16_t targetY;
     int32_t leftTicks;
@@ -47,6 +50,9 @@ private:
     int16_t targetDistance;
     float targetAngle;
     float angleOffset;
+
+    Average<int32_t, 256> averageLeftSpeed;
+    Average<int32_t, 256> averageRightSpeed;
 
     float targetLeftSpeed;
     float targetRightSpeed;
@@ -72,6 +78,8 @@ public:
     void toggleControl();
     void toggleTranslation();
     void toggleRotation();
+    void initSettings();
+    void initStatus();
 
     int16_t getX();
     int16_t getY();

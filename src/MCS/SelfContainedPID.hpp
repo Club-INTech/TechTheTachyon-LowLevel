@@ -7,27 +7,50 @@
 #include <stdint.h>
 #include "pid.hpp"
 
-class SelfContainedPID: public PID {
+template <typename T>
+class SelfContainedPID: public PID<T> {
 
 public:
-    SelfContainedPID(): PID(&input, &output, &goal), input(0), output(0), goal(0) {}
+    SelfContainedPID(): PID<T>(&input, &output, &goal), input(0), output(0), goal(0), active(false) {}
 
     bool active;
 
-    void setGoal(int32_t goal);
-    int32_t compute(int32_t currentState);
-    int32_t getCurrentGoal();
-    int32_t getCurrentState();
-    int32_t getCurrentOutput();
-    /**
-     * Reset complet (erreurs et 'goal')
-     */
-    void fullReset();
+    void setGoal(T goal) {
+        this->goal = goal;
+    }
+
+    T compute(T currentState) {
+        this->input = currentState;
+        PID<T>::compute(); // appel de la méthode de pid.h
+        return this->output;
+    }
+
+    T getCurrentGoal() {
+        return goal;
+    }
+
+    T getCurrentOutput() {
+        return output;
+    }
+
+    T getCurrentState() {
+        return input;
+    }
+
+    void fullReset() {
+        PID<T>::resetErrors();
+        // FIXME setGoal(0);
+    }
+
+    void resetOutput(T newValue) {
+        output = newValue;
+    }
+
 
 private:
-    int32_t input;
-    int32_t output;
-    int32_t goal;
+    T input;
+    T output;
+    T goal;
 };
 
 

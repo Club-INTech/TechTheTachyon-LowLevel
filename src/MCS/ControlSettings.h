@@ -26,7 +26,7 @@ public:
     uint8_t tolerancyDerivative;
 
     uint8_t tolerancyRadius;
-    uint8_t tolerancyAngle;
+    float tolerancyAngle;
 };
 
 #endif //LL_CONTROLSETTINGS_H

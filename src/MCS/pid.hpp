@@ -12,13 +12,13 @@
 #include <stdint.h>
 #include "Utils/utils.h"
 
-
+template <typename T>
 class PID
 {
 public:
 
 
-	PID(volatile int32_t* input, volatile int32_t* output, volatile int32_t* setPoint)
+	PID<T>(volatile T* input, volatile T* output, volatile T* setPoint)
 	{
 		this->output = output;
 		this->input = input;
@@ -35,12 +35,12 @@ public:
 
 	void compute() {
 
-		int32_t error = (*setPoint) - (*input);
+		T error = (*setPoint) - (*input);
 		derivative = error - pre_error;
 		integral += error;
 		pre_error = error;
 
-		int32_t result = (int32_t)(
+		T result = (T)(
 				kp * error + ki * integral + kd * derivative);
 
 		//Saturation
@@ -69,7 +69,7 @@ public:
 		this->kd = kd;
 	}
 
-	void setOutputLimits(int32_t min, int32_t max) {
+	void setOutputLimits(T min, T max) {
 		if (min >= max)
 			return;
 
@@ -82,17 +82,17 @@ public:
 			(*output) = outMin;
 	}
 
-	int32_t getOutputLimit() const {
+	T getOutputLimit() const {
 		return outMax;
 	}
 
-	void setEpsilon(int32_t seuil) {
+	void setEpsilon(T seuil) {
 		if(seuil < 0)
 			return;
 		epsilon = seuil;
 	}
 
-	int32_t getEpsilon() const {
+	T getEpsilon() const {
 		return epsilon;
 	}
 
@@ -110,15 +110,15 @@ public:
 		return kd;
 	}
 
-	int32_t getError() const {
+	T getError() const {
 		return pre_error;
 	}
 
-	int32_t getDerivativeError() const {
+	T getDerivativeError() const {
 		return derivative;
 	}
 
-	int32_t getIntegralErrol() const {
+	T getIntegralErrol() const {
 		return integral;
 	}
 
@@ -138,16 +138,16 @@ private:
 	float ki;
 	float kd;
 
-	volatile int32_t* input; 	//Valeur du codeur
-	volatile int32_t* output; 	//Output : pwm
-	volatile int32_t* setPoint; //Valeur à atteindre
+	volatile T* input; 	//Valeur du codeur
+	volatile T* output; 	//Output : pwm
+	volatile T* setPoint; //Valeur à atteindre
 
-	int32_t epsilon;
-	int32_t outMin, outMax;
+	T epsilon;
+	T outMin, outMax;
 
-	int32_t pre_error;
-	int32_t derivative;
-	int32_t integral;
+	T pre_error;
+	T derivative;
+	T integral;
 };
 
 #endif

@@ -32,15 +32,13 @@ void Motor::init()
 	if (side == Side::LEFT) {
 		pin_pwm = PIN_PWM_LEFT;
 		pin_dir = PIN_DIR_LEFT;
-		pinMode(PIN_DIR_LEFT, OUTPUT);
-		pinMode(PIN_PWM_LEFT, OUTPUT);
 	}
 	else if (side == Side::RIGHT) {
 		pin_pwm = PIN_PWM_RIGHT;
 		pin_dir = PIN_DIR_RIGHT;
-		pinMode(PIN_DIR_RIGHT, OUTPUT);
-		pinMode(PIN_PWM_RIGHT, OUTPUT);
 	}
+	pinMode(pin_dir, OUTPUT);
+	pinMode(pin_pwm, OUTPUT);
 
 	//TODO: Initialiser les PWM
 	analogWriteResolution(8);
