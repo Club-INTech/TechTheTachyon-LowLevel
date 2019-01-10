@@ -138,7 +138,6 @@ ORDER(stock,1);
 ORDER(acc,1);
 ORDER(gold,0);
 ORDER(bal,1);
-ORDER(push,1);
 
 /* Ascenseurs */
 ORDER(up,1);
@@ -153,8 +152,5 @@ ORDER(valveoff,1);
 /*Electron*/
 ORDER(elec,0);
 
-/* Debug */
-ORDER(torque,1);
-ORDER(ntorque,1);
 
 #endif //TECHTHETOWN_LOWLEVEL_ORDERS_H
