@@ -81,7 +81,6 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |    acc    |Envoie le bras à la position "accélérateur"         |side(left/right)|
 |     up    |Monte l'ascenceur de la hauteur d'un palet          |side(left/right)|
 |    down   |Descend l'ascenseur de la hauteur d'un palet        |side(left/right)|
-|    push   |Pousse le palet dans l'accélérateur                 |side(left/right)|
 |    suck   |Active la pompe                                     |side(left/right)|
 |  unsuck   |Désactive la pompe                                  |side(left/right)|
 |  valveon  |Active l'électrovanne                               |side(left/right)|
@@ -90,11 +89,6 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |   bal     |Envoie le bras à la position "balance"              |side(left/right)|
 |   elec    |Démarre l'électron                                  | /              |
 
-### ORDRES DE DEBUG
-|   Ordres  |                       Actions                      | Arguments      |
-|:---------:|:--------------------------------------------------:|:---------------|
-|  torque   |Affiche le couple du bras                           |side(left/right)|
-|  Ntorque  |Affiche le couple du XL-430 numéro N                |id XL           |
 
 
 

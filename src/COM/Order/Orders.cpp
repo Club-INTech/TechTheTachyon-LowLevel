@@ -635,22 +635,16 @@ void ORDER_bal::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionDroit /*FIXME : a changer*/);
+    arm->setPosition(positionBalance);
 }
 
 void ORDER_gold::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionDroit /*FIXME : a changer*/);
+    arm->setPosition(positionGoldonium);
 }
 
-void ORDER_push::impl(Args args)
-{
-    ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionDroit /*FIXME : a changer*/);
-}
 
 void ORDER_XLm::impl(Args args) {
     // TODO
@@ -672,10 +666,3 @@ void ORDER_elec::impl(Args args) {
     // TODO
 }
 
-void ORDER_torque::impl(Args args) {
-    // TODO
-}
-
-void ORDER_ntorque::impl(Args args) {
-    // TODO
-}
