@@ -621,6 +621,7 @@ void ORDER_stock::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionIntermediaire);
     arm->setPosition(positionStockage);
 }
 
@@ -654,12 +655,25 @@ void ORDER_XLs::impl(Args args) {
     // TODO
 }
 
-void ORDER_valveon::impl(Args args) {
-    // TODO
+void ORDER_valveon::impl(Args args)
+{
+    if (!strcmp(args[0], "right")) {
+        digitalWrite(PIN_ELECTROVANNE_AV, HIGH);
+    }
+    else {
+        digitalWrite(PIN_ELECTROVANNE_AR, HIGH);
+    }
 }
 
-void ORDER_valveoff::impl(Args args) {
-    // TODO
+
+void ORDER_valveoff::impl(Args args)
+{
+    if (!strcmp(args[0], "right")) {
+        digitalWrite(PIN_ELECTROVANNE_AV, LOW);
+    }
+    else {
+        digitalWrite(PIN_ELECTROVANNE_AR, LOW);
+    }
 }
 
 void ORDER_elec::impl(Args args) {
