@@ -19,10 +19,7 @@ void SensorMgr::init() {
 	CORE_PIN16_CONFIG = PORT_PCR_MUX(2)|PORT_PCR_ODE|PORT_PCR_SRE|PORT_PCR_DSE;
 	CORE_PIN17_CONFIG = PORT_PCR_MUX(2)|PORT_PCR_ODE|PORT_PCR_SRE|PORT_PCR_DSE;
 
-	for( uint8_t i = 0 ; i < NBR_OF_US_SENSOR ; i++ )
-	{
-		distances[i] = Median<uint16_t ,MEDIAN_US_SIZE>();
-	}
+	distanceSensors[0] = SICKDT35_B15851(14);
 
 	jumperPlugged = isJumperEngaged();
 	basicBlocked = false;
@@ -57,4 +54,8 @@ bool SensorMgr::isReadyToGo()
 bool SensorMgr::isCont1Engaged()
 {
 	return digitalRead(PIN_CONT1);
+}
+
+SICKDT35_B15851& SensorMgr::getDistanceSensor(size_t index) {
+	return distanceSensors[index];
 }

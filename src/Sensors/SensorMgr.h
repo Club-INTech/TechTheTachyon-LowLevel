@@ -17,6 +17,7 @@
 #include "COM/ComMgr.h"
 #include "AbstractSensorUS.h"
 #include "MCS/RobotStatus.h"
+#include "SICKDT35_B15851.h"
 
 
 class SensorMgr : public Singleton<SensorMgr>
@@ -27,6 +28,7 @@ private:
 
 	ComMgr& highLevel;
 
+	SICKDT35_B15851 distanceSensors[NBR_OF_DISTANCE_SENSOR];
 	std::array<Median<uint16_t ,MEDIAN_US_SIZE>,NBR_OF_US_SENSOR> distances;
 	MOVEMENT measure_direction;
 
@@ -40,6 +42,13 @@ public:
 	bool isJumperEngaged();
 	bool isReadyToGo();
 	bool isCont1Engaged();
+
+	/**
+	 * Récupère le capteur à l'indice donné
+	 * @param index l'indice du capteur
+	 * @return
+	 */
+	SICKDT35_B15851& getDistanceSensor(size_t index);
 };
 
 #endif

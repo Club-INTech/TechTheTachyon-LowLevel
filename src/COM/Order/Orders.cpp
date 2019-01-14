@@ -686,3 +686,13 @@ void ORDER_elec::impl(Args args) {
     // TODO
 }
 
+void ORDER_rangesick::impl(Args args) {
+    uint16_t min = (uint16_t) strtol(args[0], nullptr, DEC);
+    uint16_t max = (uint16_t) strtol(args[1], nullptr, DEC);
+    SensorMgr::Instance().getDistanceSensor(0).setRange(min, max);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Le SICK est maintenant dans l'intervalle [%i; %i]\n", min, max);
+}
+
+void ORDER_testsick::impl(Args args) {
+    orderManager.highLevel.printf(DEBUG_HEADER, "Le SICK lit: %i\n", SensorMgr::Instance().getDistanceSensor(0).readDistance());
+}
