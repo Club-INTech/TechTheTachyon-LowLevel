@@ -647,12 +647,18 @@ void ORDER_gold::impl(Args args)
 }
 
 
-void ORDER_XLm::impl(Args args) {
-    // TODO
+void ORDER_XLm::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
+    motor->setGoalAngle(orderManager.parseFloat(args[1]));
 }
 
-void ORDER_XLs::impl(Args args) {
-    // TODO
+void ORDER_XLs::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
+    motor->setGoalVelocity(orderManager.parseFloat(args[1]));
 }
 
 void ORDER_valveon::impl(Args args)
