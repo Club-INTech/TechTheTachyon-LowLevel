@@ -70,6 +70,12 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |    emergencyStop      |  Arrète brutalement le robot et ***DESACTIVE*** l'asserv  |
 |  resumeEmergencyStop  |          Redemarre l'asserv après un emergencyStop        |
 
+### Ordres pour les capteurs
+|   Ordres  |                       Actions                                          | Arguments      |
+|:---------:|:----------------------------------------------------------------------:|:---------------|
+|lectureSICK|Renvoie les 6 distances lues par les SICK (dans le sens trigo)          |N/A             |
+
+
 #### ORDRES DE CONTRÔLE D'ACTION
 
 |   Ordres  |                       Actions                      | Arguments      |

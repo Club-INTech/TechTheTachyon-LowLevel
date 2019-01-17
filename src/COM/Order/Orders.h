@@ -154,6 +154,7 @@ ORDER(elec,0);
 
 ORDER(testsick, 0);
 ORDER(rangesick, 2);
+ORDER(lectureSICK, 0);
 
 
 #endif //TECHTHETOWN_LOWLEVEL_ORDERS_H

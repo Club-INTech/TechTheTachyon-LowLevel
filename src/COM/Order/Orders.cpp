@@ -696,3 +696,14 @@ void ORDER_rangesick::impl(Args args) {
 void ORDER_testsick::impl(Args args) {
     orderManager.highLevel.printf(DEBUG_HEADER, "Le SICK lit: %i\n", SensorMgr::Instance().getDistanceSensor(0).readDistance());
 }
+
+void ORDER_lectureSICK::impl(Args args) {
+    SensorMgr mgr = SensorMgr::Instance();
+    orderManager.highLevel.printf(STD_HEADER, "%d %d %d %d %d %d\n",
+            mgr.getDistanceSensor(0).readDistance(),
+            mgr.getDistanceSensor(1).readDistance(),
+            mgr.getDistanceSensor(2).readDistance(),
+            mgr.getDistanceSensor(3).readDistance(),
+            mgr.getDistanceSensor(4).readDistance(),
+            mgr.getDistanceSensor(5).readDistance());
+}
