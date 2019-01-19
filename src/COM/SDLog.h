@@ -22,9 +22,8 @@ public:
     explicit operator bool();
 
 private:
-    const char* headerList[6]{STD_HEADER,DEBUG_HEADER,EVENT_HEADER,SENSOR_HEADER,POSITION_HEADER,ACK_HEADER};
-    const char* fileList[8]{"/full.txt","/input.txt","/standard.txt","/debug.txt",
-                            "/event.txt","/sensor.txt","/position.txt","/ack.txt"};
+    const char* headerList[4]{STD_HEADER,DEBUG_HEADER,SENSOR_HEADER,POSITION_HEADER};
+    const char* fileList[6]{"/full.txt","/input.txt","/standard.txt","/debug.txt","/sensor.txt","/position.txt"};
 
     uint32_t startingTime;
     bool sdStatus;

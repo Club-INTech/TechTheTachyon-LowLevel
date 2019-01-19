@@ -13,23 +13,6 @@ ComMgr::ComMgr()
     serial = new SerialInterface();
 }
 
-void ComMgr::sendUS(const std::array<Median<uint16_t, MEDIAN_US_SIZE>,NBR_OF_US_SENSOR> & data)
-{
-    String tmp = "";
-    for(uint8_t i=0;i<data.size();i++){
-        tmp.append(data[i].value());
-        tmp.append(" ");
-    }
-    printfln(SENSOR_HEADER,tmp.c_str());
-}
-
-void ComMgr::sendEvent(const char * data)
-{
-    char formatted[64];
-    strcat(formatted,data);
-    printfln(EVENT_HEADER,formatted);
-}
-
 void ComMgr::sendPosition(const float * data)
 {
     String tmp="";
@@ -94,7 +77,6 @@ void ComMgr::printf(Header header, const char *data, ...)
 
 void ComMgr::startMatch()
 {
-    sendEvent("BLITZKRIEG");
     sdlog.setStartingTime();
 }
 

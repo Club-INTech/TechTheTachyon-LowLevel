@@ -24,10 +24,8 @@ constexpr uint8_t HEADER_LENGTH = 2;
 using Header = const char[HEADER_LENGTH];
 Header STD_HEADER = {0x40,0x40};
 Header DEBUG_HEADER = {0x02,0x20};
-Header EVENT_HEADER = {0x14,0x17};
 Header SENSOR_HEADER = {0x01,0x06};
 Header POSITION_HEADER = {0x07,0x05};
-Header ACK_HEADER = {0x06,0x1A};
 
 Header SICK_HEADER = { 0x20, 0x25 };
 

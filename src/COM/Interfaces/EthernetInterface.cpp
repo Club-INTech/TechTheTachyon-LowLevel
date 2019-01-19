@@ -16,8 +16,12 @@ EthernetInterface::EthernetInterface():server{ PORT }
 		pinMode(LED_BUILTIN,OUTPUT);
 		digitalWrite(LED_BUILTIN,!digitalRead(LED_BUILTIN)); //La led de la teensy clignote si il y a erreur
 		delay(200);
-		Serial.println("ERR\tIP CONFIGURATON FAILED");
-        resetCard();
+		Serial.print("ERR\tIP CONFIGURATON FAILED, expected was ");
+		ip.printTo(Serial);
+		Serial.print(" got ");
+		Ethernet.localIP().printTo(Serial);
+		Serial.println();
+		resetCard();
 	}
 
     Serial.print("Ethernet Ready\nLocal ip: ");
@@ -47,7 +51,7 @@ void EthernetInterface::resetCard() {
 	delay(150);
 
 	Ethernet.begin(mac, ip, dns, gateway, subnet);
-    Ethernet.init(PIN_SPI_SS);
+    Ethernet.init(PIN_SPI_SS); // TODO: avant begin dans la doc?
     digitalWrite(30,LOW);
 }
 
