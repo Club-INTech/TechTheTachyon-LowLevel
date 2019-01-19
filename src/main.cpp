@@ -27,6 +27,7 @@ int main() {
 	 * L'asservissement
 	 *************************/
 	/* Série */
+	ActuatorsMgr::Instance().initPWMs();
     SensorMgr::Instance().init();
     MCS::Instance().initEncoders();
     pinMode(18, INPUT_PULLUP);
@@ -64,7 +65,14 @@ int main() {
 	motionControlInterruptTimer.priority(253);
     motionControlInterruptTimer.begin(motionControlInterrupt, MC_PERIOD); // Setup de l'interruption d'asservissement
 
-	delay(1500);//Laisse le temps aux capteurs de clignotter leur ID
+
+    // Timer pour steppers
+    IntervalTimer stepperTimer;
+    stepperTimer.priority(253);
+    stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
+
+
+    delay(1500);//Laisse le temps aux capteurs de clignotter leur ID
 
 	/**
 	 * Boucle principale, y est géré:

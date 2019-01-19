@@ -13,10 +13,10 @@
 // FIXME: Pins pour Nocturne2
 //Gauche
 #define PIN_DIR_LEFT 2
-#define PIN_PWM_LEFT 3
+#define PIN_PWM_LEFT 16
 //Droite
 #define PIN_DIR_RIGHT 4
-#define PIN_PWM_RIGHT 5
+#define PIN_PWM_RIGHT 17
 
 /* CAPTEURS */
 //CONT

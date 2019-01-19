@@ -18,10 +18,17 @@
 
 static HardwareSerial& XLSerial = Serial1;
 
+enum StepperDirection {
+	UP, DOWN
+};
+
 class ActuatorsMgr : public Singleton<ActuatorsMgr>
 {
 private:
-
+	StepperDirection leftDirection;
+	StepperDirection rightDirection;
+	volatile uint32_t leftStepCount;
+	volatile uint32_t rightStepCount;
 
 public:
     //Gestion des XL430
@@ -42,7 +49,15 @@ public:
 	ActuatorsMgr();
 	~ActuatorsMgr();
 
+	/**
+    * Appelé tous les 800 µs pour faire bouger les steppers
+    */
+	void handleInterrupt();
+	void initPWMs();
+	void moveLeftStepper(int32_t count);
+	void moveRightStepper(int32_t count);
 
 };
 
+void stepperInterrupt();
 #endif

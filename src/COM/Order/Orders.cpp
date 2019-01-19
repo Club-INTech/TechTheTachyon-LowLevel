@@ -554,25 +554,28 @@ void ORDER_up::impl(Args args)
 {
     int nbPas = 700;
     if (!strcmp(args[0], "right")) {
-        digitalWrite(DIR_PIN_RIGHT, HIGH);
+        /*digitalWrite(DIR_PIN_RIGHT, HIGH);
 
         for (int i = 0; i < nbPas; ++i) {
             digitalWrite(STEP_PIN_RIGHT, HIGH);
             delayMicroseconds(ELEVATOR_TEMPO);
             digitalWrite(STEP_PIN_RIGHT, LOW);
             delayMicroseconds(ELEVATOR_TEMPO);
-        }
+        }*/
+        ActuatorsMgr::Instance().moveRightStepper(1);
+        orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
     }
     else{
-        digitalWrite(DIR_PIN_LEFT, HIGH);
+        /*digitalWrite(DIR_PIN_LEFT, HIGH);
 
         for (int i = 0; i < nbPas; ++i) {
             digitalWrite(STEP_PIN_LEFT, HIGH);
             delayMicroseconds(ELEVATOR_TEMPO);
             digitalWrite(STEP_PIN_LEFT, LOW);
             delayMicroseconds(ELEVATOR_TEMPO);
-        }
-
+        }*/
+        orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper gauche de 1 unité!\n");
+        ActuatorsMgr::Instance().moveLeftStepper(1);
     }
 
 }
@@ -581,25 +584,29 @@ void ORDER_down::impl(Args args)
 {
     int nbPas = 700;
     if (!strcmp(args[0], "right")) {
-        digitalWrite(DIR_PIN_RIGHT, LOW);
+       /* digitalWrite(DIR_PIN_RIGHT, LOW);
 
         for (int i = 0; i < nbPas; ++i) {
             digitalWrite(STEP_PIN_RIGHT, HIGH);
             delayMicroseconds(ELEVATOR_TEMPO);
             digitalWrite(STEP_PIN_RIGHT, LOW);
             delayMicroseconds(ELEVATOR_TEMPO);
-        }
+        }*/
+
+        ActuatorsMgr::Instance().moveRightStepper(-1);
+        orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
     }
     else{
-        digitalWrite(DIR_PIN_LEFT, LOW);
+      /*  digitalWrite(DIR_PIN_LEFT, LOW);
 
         for (int i = 0; i < nbPas; ++i) {
             digitalWrite(STEP_PIN_LEFT, HIGH);
             delayMicroseconds(ELEVATOR_TEMPO);
             digitalWrite(STEP_PIN_LEFT, LOW);
             delayMicroseconds(ELEVATOR_TEMPO);
-        }
-
+        }*/
+        ActuatorsMgr::Instance().moveLeftStepper(-1);
+        orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper gauche de 1 unité!\n");
     }
 }
 

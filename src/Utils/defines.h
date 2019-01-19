@@ -45,6 +45,8 @@ constexpr uint8_t F_ENV_POS = 50;
 
 constexpr uint16_t  MC_FREQUENCY =              1000; //1Khz
 constexpr double    MC_PERIOD = 1000000.0 / MC_FREQUENCY; // Durée en µs entre deux mesures
+constexpr uint16_t  STEPPER_FREQUENCY = 625/2; // 625/2 Hz
+constexpr double    STEPPER_PERIOD = 1000000.0 / STEPPER_FREQUENCY; // Durée en µs entre deux mesures
 
 constexpr uint16_t  TICKS_PER_TURN =            2400;   // Unité : ticks
 constexpr float     COD_WHEEL_DIAMETER =        65.948;  // Unité : mm
@@ -66,4 +68,5 @@ constexpr uint8_t   MEDIAN_US_SIZE =            3;
  * Steppers
  */
 const unsigned int ELEVATOR_TEMPO = 800; //temporistaion entre les commandes du pas à pas
+const unsigned int STEP_COUNT = 700; //nombre de pas par palet
 #endif
