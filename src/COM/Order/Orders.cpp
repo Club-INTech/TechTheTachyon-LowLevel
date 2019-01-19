@@ -528,27 +528,27 @@ void ORDER_ptpdemoseq::impl(Args args)
     orderManager.execute("goto 0 0 true");
 }
 
+
+// TODO: pour les 2 qui suivent: électrovannes?
 void ORDER_suck::impl(Args args)
 {
     if (!strcmp(args[0], "right")) {
-        digitalWrite(PUMP_PIN_RIGHT, HIGH);
+        digitalWrite(RIGHT_PUMP_PIN, HIGH);
     }
     else {
-        digitalWrite(PUMP_PIN_LEFT, HIGH);
+        digitalWrite(LEFT_PUMP_PIN, HIGH);
     }
 }
 
 void ORDER_unsuck::impl(Args args)
 {
     if (!strcmp(args[0], "right")) {
-        digitalWrite(PUMP_PIN_RIGHT, LOW);
+        digitalWrite(RIGHT_PUMP_PIN, LOW);
     }
     else{
-        digitalWrite(PUMP_PIN_LEFT, LOW);
+        digitalWrite(LEFT_PUMP_PIN, LOW);
     }
 }
-
-const unsigned int ELEVATOR_TEMPO = 800; //temporistaion entre les commandes du pas à pas
 
 void ORDER_up::impl(Args args)
 {
@@ -664,10 +664,10 @@ void ORDER_XLs::impl(Args args)
 void ORDER_valveon::impl(Args args)
 {
     if (!strcmp(args[0], "right")) {
-        digitalWrite(PIN_ELECTROVANNE_AV, HIGH);
+        digitalWrite(RIGHT_VALVE_PIN, HIGH);
     }
     else {
-        digitalWrite(PIN_ELECTROVANNE_AR, HIGH);
+        digitalWrite(LEFT_VALVE_PIN, HIGH);
     }
 }
 
@@ -675,10 +675,10 @@ void ORDER_valveon::impl(Args args)
 void ORDER_valveoff::impl(Args args)
 {
     if (!strcmp(args[0], "right")) {
-        digitalWrite(PIN_ELECTROVANNE_AV, LOW);
+        digitalWrite(RIGHT_VALVE_PIN, LOW);
     }
     else {
-        digitalWrite(PIN_ELECTROVANNE_AR, LOW);
+        digitalWrite(LEFT_VALVE_PIN, LOW);
     }
 }
 
@@ -686,20 +686,32 @@ void ORDER_elec::impl(Args args) {
     // TODO
 }
 
-void ORDER_rangesick::impl(Args args) {
-    uint16_t min = (uint16_t) strtol(args[0], nullptr, DEC);
-    uint16_t max = (uint16_t) strtol(args[1], nullptr, DEC);
-    SensorMgr::Instance().getDistanceSensor(0).setRange(min, max);
-    orderManager.highLevel.printf(DEBUG_HEADER, "Le SICK est maintenant dans l'intervalle [%i; %i]\n", min, max);
+void ORDER_rangeSICK::impl(Args args) {
+    uint8_t index = (uint8_t) strtol(args[0], nullptr, DEC);
+    uint16_t min = (uint16_t) strtol(args[1], nullptr, DEC);
+    uint16_t max = (uint16_t) strtol(args[2], nullptr, DEC);
+    if(index < NBR_OF_DISTANCE_SENSOR) {
+        SensorMgr::Instance().getDistanceSensor(index).setRange(min, max);
+    } else {
+        orderManager.highLevel.printf(DEBUG_HEADER, "Aucun SICK à l'indice %i!\n", index);
+    }
+    orderManager.highLevel.printf(DEBUG_HEADER, "Le SICK %i est maintenant dans l'intervalle [%i; %i]\n", index, min, max);
 }
 
-void ORDER_testsick::impl(Args args) {
-    orderManager.highLevel.printf(DEBUG_HEADER, "Le SICK lit: %i\n", SensorMgr::Instance().getDistanceSensor(0).readDistance());
+void ORDER_testSICK::impl(Args args) {
+    if(args.size() > 0) {
+        uint8_t index = (uint8_t) orderManager.parseInt(args[0]);
+        if(index < NBR_OF_DISTANCE_SENSOR) {
+            orderManager.highLevel.printf(SICK_HEADER, "%i\n", SensorMgr::Instance().getDistanceSensor(index).readDistance());
+        } else {
+            orderManager.highLevel.printf(DEBUG_HEADER, "Aucun SICK à l'indice %i!\n", index);
+        }
+    }
 }
 
 void ORDER_lectureSICK::impl(Args args) {
     SensorMgr mgr = SensorMgr::Instance();
-    orderManager.highLevel.printf(STD_HEADER, "%d %d %d %d %d %d\n",
+    orderManager.highLevel.printf(SICK_HEADER, "%d %d %d %d %d %d\n",
             mgr.getDistanceSensor(0).readDistance(),
             mgr.getDistanceSensor(1).readDistance(),
             mgr.getDistanceSensor(2).readDistance(),

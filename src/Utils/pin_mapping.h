@@ -8,19 +8,6 @@
 #define PWD 24
 #define RST 9
 
-/* Serial RXTX */
-	//AX
-#define RX1 31
-#define TX1 32
-
-/* Codeuses */
-	//Gauche
-#define PIN_A_LEFT_ENCODER 18
-#define PIN_B_LEFT_ENCODER 19
-	//Droite
-#define PIN_A_RIGHT_ENCODER 20
-#define PIN_B_RIGHT_ENCODER 21
-
 /* Moteurs */
 	//Gauche
 #define PIN_DIR_LEFT 5

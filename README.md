@@ -71,9 +71,11 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |  resumeEmergencyStop  |          Redemarre l'asserv après un emergencyStop        |
 
 ### Ordres pour les capteurs
-|   Ordres  |                       Actions                                          | Arguments      |
-|:---------:|:----------------------------------------------------------------------:|:---------------|
-|lectureSICK|Renvoie les 6 distances lues par les SICK (dans le sens trigo)          |N/A             |
+|   Ordres  |                       Actions                                          			| Arguments      				|
+|:---------:|:---------------------------------------------------------------------------------:|:------------------------------|
+|lectureSICK|Renvoie les 6 distances lues par les SICK (dans le sens trigo)          			|N/A             				|
+|testSICK	|Renvoie la valeur d'un seul capteur SICK								 			|indice du capteur             	|
+|rangeSICK	|Configure la fenêtre de détection d'un SICK (pour que le LL connaisse les valeurs)	|indice, min, max	            |
 
 
 #### ORDRES DE CONTRÔLE D'ACTION

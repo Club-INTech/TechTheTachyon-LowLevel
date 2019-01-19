@@ -27,6 +27,7 @@ int modulo(int nombre, int modulo)
 }
 
 /* Ce bout de code permet de gerer certaines exceptions de la std */
+/*
 namespace std {
 	void __throw_bad_alloc()
 	{
@@ -66,4 +67,4 @@ namespace std {
 			delay(500);
 		}
 	}
-}
+}*/

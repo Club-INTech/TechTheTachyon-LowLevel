@@ -152,8 +152,8 @@ ORDER(valveoff,1);
 /*Electron*/
 ORDER(elec,0);
 
-ORDER(testsick, 0);
-ORDER(rangesick, 2);
+ORDER(testSICK, 1);
+ORDER(rangeSICK, 3);
 ORDER(lectureSICK, 0);
 
 

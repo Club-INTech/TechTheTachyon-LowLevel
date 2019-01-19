@@ -29,6 +29,8 @@ Header SENSOR_HEADER = {0x01,0x06};
 Header POSITION_HEADER = {0x07,0x05};
 Header ACK_HEADER = {0x06,0x1A};
 
+Header SICK_HEADER = { 0x20, 0x25 };
+
 
 // Séparateurs des mots d'ordres
 #define SEPARATOR  " "
@@ -38,11 +40,11 @@ constexpr uint8_t F_ENV_POS = 50;
 
 
 /**
-*ASSERVISSEMENT
+* Asservissement
 */
 
 constexpr uint16_t  MC_FREQUENCY =              1000; //1Khz
-constexpr double    MC_PERIOD = static_cast<double>(1000000/MC_FREQUENCY); // Durée en µs entre deux mesures
+constexpr double    MC_PERIOD = 1000000.0 / MC_FREQUENCY; // Durée en µs entre deux mesures
 
 constexpr uint16_t  TICKS_PER_TURN =            2400;   // Unité : ticks
 constexpr float     COD_WHEEL_DIAMETER =        65.948;  // Unité : mm
@@ -51,25 +53,17 @@ constexpr uint8_t   DISTANCE_COD_GAUCHE_CENTRE = 112; // Unité : mm
 constexpr uint8_t   DISTANCE_COD_DROITE_CENTRE = 111; // Unité : mm
 
 constexpr float     TICK_TO_MM = static_cast<float>(PI*COD_WHEEL_DIAMETER/TICKS_PER_TURN); // Unité : mm/ticks
-constexpr float     TICK_TO_RADIAN = static_cast<float>(TICK_TO_MM/DISTANCE_COD_GAUCHE_CENTRE); // Unité : rad/ticks
+constexpr float     TICK_TO_RADIAN = TICK_TO_MM / DISTANCE_COD_GAUCHE_CENTRE; // Unité : rad/ticks
 
 // Nombre de valeurs par moyenne
-constexpr uint8_t   AVERAGE_SPEED_SIZE =        25;
-constexpr uint8_t   AVERAGE_DERIVATIVE_SIZE =   100;
 constexpr uint8_t   MEDIAN_US_SIZE =            3;
 
-constexpr float     WHEEL_DISTANCE_TO_CENTER =  145.1;
-constexpr uint8_t   TOLERANCY =                 50;
+/**
+* Capteurs
+*/
 
 /**
-*CAPTEURS
-*/
-constexpr uint8_t   CUBE_AV_DETECTION_ADDR = 0x10;
-
-constexpr float     CUBE_AV_DETECTION_RANGE_MM = 100;
-constexpr float     CUBE_AR_DETECTION_RANGE_MM = 100;
-constexpr float     CUBE_AVAR_DETECTION_AMBIANT_LUX = 15;
-
-constexpr uint16_t BASIC_DETECTION_DISTANCE = 30;
-
+ * Steppers
+ */
+const unsigned int ELEVATOR_TEMPO = 800; //temporistaion entre les commandes du pas à pas
 #endif

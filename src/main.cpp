@@ -43,14 +43,16 @@ int main() {
 	/* Actuators */
 	// Par sécurité on met tout les actuators à LOW quand on les initialise
 	/* Pompe */
-	pinMode(PIN_PWM_POMPE,OUTPUT);
-	digitalWrite(PIN_PWM_POMPE,LOW);
+	pinMode(LEFT_PUMP_PIN,OUTPUT);
+	pinMode(RIGHT_PUMP_PIN,OUTPUT);
+	digitalWrite(LEFT_PUMP_PIN,LOW);
+	digitalWrite(RIGHT_PUMP_PIN,LOW);
 
 	/* Electrovanne */
-	pinMode(PIN_ELECTROVANNE_AV,OUTPUT);
-	digitalWrite(PIN_ELECTROVANNE_AV,LOW);
-	pinMode(PIN_ELECTROVANNE_AR,OUTPUT);
-	digitalWrite(PIN_ELECTROVANNE_AR,LOW);
+	pinMode(LEFT_VALVE_PIN,OUTPUT);
+	digitalWrite(LEFT_VALVE_PIN,LOW);
+	pinMode(RIGHT_VALVE_PIN,OUTPUT);
+	digitalWrite(RIGHT_VALVE_PIN,LOW);
 
 	Serial.println("Fin du setup");
 	OrderManager& orderMgr = OrderManager::Instance();
