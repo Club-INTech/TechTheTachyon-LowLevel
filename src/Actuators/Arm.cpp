@@ -30,3 +30,7 @@ void Arm::setPosition(float* positions) {
     syncWriteData->setData(2, &syncAngles[2*XL430::xl430GoalAngle.length]);
     syncWriteData->send();
 }
+
+XL430* Arm::getXLlist() {
+    return XLlist;
+}

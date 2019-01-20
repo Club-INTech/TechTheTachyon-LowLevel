@@ -64,6 +64,8 @@ static float positionDistributeur[3] = {295.77f, 216.30f, 195.18f};
 static float positionBalance[3]={182.6f,101.6f,181.7f};
 static float positionGoldonium[3]={213.4f,101.8f,151.4f};
 static float positionSol[3] = { /*Valeur de test:*/ 278.0f /*272.0f*/, 97.0f, 189.0f};
+static float coupleSolseuil[3] = {100,101,102};
+static float coupleDistributeurseuil[3] = {103,104,105};
 static float* stepsFromStorageToDistrib[] = {
         positionStockage, positionIntermediaire, positionPreDistributeur, positionDistributeur
 };

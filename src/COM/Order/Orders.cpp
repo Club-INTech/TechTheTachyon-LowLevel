@@ -728,9 +728,48 @@ void ORDER_lectureSICK::impl(Args args) {
 }
 
 void ORDER_torqueBras::impl(Args args) {
-
-}
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    float couple;
+    bool coupleOk;
+    if (args[1]=="sol") {
+        for (int i = 0; i < 3; i++) {
+            XL430 motor = arm->getXLlist()[i];
+            coupleOk = motor.getCurrentTorque(couple);
+            if (coupleOk) {
+                if(couple<coupleSolseuil[i]){
+                orderManager.highLevel.printfln(SENSOR_HEADER, "%f",couple);
+                }
+                else{
+                    orderManager.highLevel.printfln(DEBUG_HEADER,"palet non pris");
+                }
+            }
+            else {
+                orderManager.highLevel.printfln(DEBUG_HEADER, "%s","couple failed");
+            }
+        }
+    }
+    else{
+        for (int i = 0; i < 3; i++) {
+            XL430 motor = arm->getXLlist()[i];
+            if (motor.getCurrentTorque(couple)<coupleDistributeurseuil[i]) {
+                orderManager.highLevel.printfln(SENSOR_HEADER, "%f",couple);
+            } else {
+                orderManager.highLevel.printfln(DEBUG_HEADER, "%s","couple failed");
+            }
+        }
+    }
+    }
 
 void ORDER_torqueXL :: impl(Args args){
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
+    float couple;
+    if(motor->getCurrentTorque(couple)){
+        orderManager.highLevel.printfln(SENSOR_HEADER,"%f",couple);
+    }
+    else{
+        orderManager.highLevel.printfln(DEBUG_HEADER,"%s","couple failed");
 
+    }
 }
