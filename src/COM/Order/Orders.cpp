@@ -732,13 +732,13 @@ void ORDER_torqueBras::impl(Args args) {
     Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
     float couple;
     bool coupleOk;
-    if (args[1]=="sol") {
-        for (int i = 0; i < 3; i++) {
+    if (!strcmp(args[1], "sol")) {
+        for (int i = 0; i < 3; i++) { //TODO corriger les erreurs de la comparaison aux seuils
             XL430 motor = arm->getXLlist()[i];
             coupleOk = motor.getCurrentTorque(couple);
             if (coupleOk) {
                 for(int j = 0;j <4;j++) {
-                    if (couple < coupleSolseuil[i][j]) {
+                    if (couple > coupleSolseuil[i][j]) {
                         orderManager.highLevel.printfln(SENSOR_HEADER, "%f", couple);
                     } else {
                         orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
@@ -756,7 +756,7 @@ void ORDER_torqueBras::impl(Args args) {
             coupleOk = motor.getCurrentTorque(couple);
             if (coupleOk) {
                for(int j = 0;j <4;j++) {
-                   if (couple < coupleDistributeurseuil[i][j]) {
+                   if (couple > coupleDistributeurseuil[i][j]) {
                        orderManager.highLevel.printfln(SENSOR_HEADER, "%f", couple);
                    } else {
                        orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
