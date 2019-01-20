@@ -27,12 +27,12 @@
 // TechTheTachyon
 /* Ascenceurs */
 constexpr uint8_t STEP_PIN_RIGHT = 1; //vitesse
-constexpr uint8_t RST_PIN_RIGHT = RST; //reset
+constexpr uint8_t RST_PIN_RIGHT = 99; //reset
 constexpr uint8_t DIR_PIN_RIGHT = 4; //direction
 
 constexpr uint8_t STEP_PIN_LEFT = 8; //vitesse
 constexpr uint8_t DIR_PIN_LEFT = 3; //direction
-constexpr uint8_t RST_PIN_LEFT = RST; //reset
+constexpr uint8_t RST_PIN_LEFT = 99; //reset
 constexpr uint8_t RIGHT_VALVE_PIN = 5; // électrovanne droite
 
 constexpr uint8_t LEFT_VALVE_PIN = 0; /*FIXME*/ // électrovanne gauche
