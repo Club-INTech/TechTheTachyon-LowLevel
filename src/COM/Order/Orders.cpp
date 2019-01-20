@@ -737,11 +737,12 @@ void ORDER_torqueBras::impl(Args args) {
             XL430 motor = arm->getXLlist()[i];
             coupleOk = motor.getCurrentTorque(couple);
             if (coupleOk) {
-                if(couple<coupleSolseuil[i]){
-                orderManager.highLevel.printfln(SENSOR_HEADER, "%f",couple);
-                }
-                else{
-                    orderManager.highLevel.printfln(DEBUG_HEADER,"palet non pris");
+                for(int j = 0;j <4;j++) {
+                    if (couple < coupleSolseuil[i][j]) {
+                        orderManager.highLevel.printfln(SENSOR_HEADER, "%f", couple);
+                    } else {
+                        orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
+                    }
                 }
             }
             else {
@@ -754,12 +755,13 @@ void ORDER_torqueBras::impl(Args args) {
             XL430 motor = arm->getXLlist()[i];
             coupleOk = motor.getCurrentTorque(couple);
             if (coupleOk) {
-                if(couple<coupleDistributeurseuil[i]){
-                orderManager.highLevel.printfln(SENSOR_HEADER, "%f",couple);
-                }
-                else{
-                    orderManager.highLevel.printfln(DEBUG_HEADER,"palet non pris");
-                }
+               for(int j = 0;j <4;j++) {
+                   if (couple < coupleDistributeurseuil[i][j]) {
+                       orderManager.highLevel.printfln(SENSOR_HEADER, "%f", couple);
+                   } else {
+                       orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
+                   }
+               }
             }
             else {
                 orderManager.highLevel.printfln(DEBUG_HEADER, "%s","couple failed");
