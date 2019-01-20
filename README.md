@@ -96,9 +96,9 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |  valveoff |Désactive l'électrovanne                            |side(left/right)|
 |   gold    |Envoie le bras à la position "goldonium"            |      /         |
 |   bal     |Envoie le bras à la position "balance"              |side(left/right)|
-|   elec    |Démarre l'électron                                  | /              |
-
-
+|   elec    |Démarre l'électron                                  |      /         |
+| torqueBras|Donne le couple cumulé sur le bras                  |side(left/right)|
+|  torqueXL |Donne le couple d'un XL                             |id XL           |
 
 
 

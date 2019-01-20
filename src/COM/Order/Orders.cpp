@@ -726,3 +726,11 @@ void ORDER_lectureSICK::impl(Args args) {
             mgr.getDistanceSensor(4).readDistance(),
             mgr.getDistanceSensor(5).readDistance());
 }
+
+void ORDER_torqueBras::impl(Args args) {
+
+}
+
+void ORDER_torqueXL :: impl(Args args){
+
+}

@@ -33,7 +33,7 @@ int main() {
     pinMode(18, INPUT_PULLUP);
     pinMode(19, INPUT_PULLUP);
     pinMode(13, OUTPUT);
-    digitalWrite(13, HIGH);
+  //  digitalWrite(13, HIGH);
 
     Serial.begin(115200);
 

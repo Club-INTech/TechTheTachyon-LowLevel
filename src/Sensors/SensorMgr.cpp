@@ -11,7 +11,7 @@ void SensorMgr::init() {
 
 	Wire.begin();
 	pinMode(13, OUTPUT);
-	digitalWrite(13, HIGH);
+	//digitalWrite(13, HIGH);
 
 	/* CHANGEMENT PIN I2C */
 	CORE_PIN18_CONFIG = 0;  // turn off primary pins before enable alternates
