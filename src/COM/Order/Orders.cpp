@@ -752,13 +752,19 @@ void ORDER_torqueBras::impl(Args args) {
     else{
         for (int i = 0; i < 3; i++) {
             XL430 motor = arm->getXLlist()[i];
-            if (motor.getCurrentTorque(couple)<coupleDistributeurseuil[i]) {
+            coupleOk = motor.getCurrentTorque(couple);
+            if (coupleOk) {
+                if(couple<coupleDistributeurseuil[i]){
                 orderManager.highLevel.printfln(SENSOR_HEADER, "%f",couple);
-            } else {
+                }
+                else{
+                    orderManager.highLevel.printfln(DEBUG_HEADER,"palet non pris");
+                }
+            }
+            else {
                 orderManager.highLevel.printfln(DEBUG_HEADER, "%s","couple failed");
             }
         }
-    }
     }
 
 void ORDER_torqueXL :: impl(Args args){
