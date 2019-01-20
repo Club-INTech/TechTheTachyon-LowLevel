@@ -24,6 +24,7 @@ class MCS : public Singleton<MCS>
 
 private:
 
+    // TODO: HardwareEncoder
     Encoder* Encoder1 = nullptr;
     Encoder* Encoder2 = nullptr;
 

@@ -24,7 +24,7 @@ MOSI	11/11
 #include "Utils/pin_mapping_select.h"
 #include "AbstractComInterface.h"
 
-#define PORT 23500
+#define PORT 13500
 
 class EthernetInterface : public AbstractComInterface
 {

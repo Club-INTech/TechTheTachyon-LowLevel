@@ -40,4 +40,9 @@ constexpr uint8_t LEFT_VALVE_PIN = 0; /*FIXME*/ // électrovanne gauche
 // TODO: PWM ou pas ?
 constexpr uint8_t LEFT_PUMP_PIN = 0; // TODO
 constexpr uint8_t RIGHT_PUMP_PIN = 0; // TODO
+
+constexpr uint8_t LEFT_ENCODER_A = 28;
+constexpr uint8_t LEFT_ENCODER_B = 29;
+constexpr uint8_t RIGHT_ENCODER_A = 21;
+constexpr uint8_t RIGHT_ENCODER_B = 20;
 #endif //_PIN_MAPPING_TEST_CARD_h

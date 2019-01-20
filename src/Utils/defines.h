@@ -46,7 +46,7 @@ constexpr double    MC_PERIOD = 1000000.0 / MC_FREQUENCY; // Durée en µs entre
 constexpr uint16_t  STEPPER_FREQUENCY = 625/2; // 625/2 Hz
 constexpr double    STEPPER_PERIOD = 1000000.0 / STEPPER_FREQUENCY; // Durée en µs entre deux mesures
 
-constexpr uint16_t  TICKS_PER_TURN =            2400;   // Unité : ticks
+constexpr uint16_t  TICKS_PER_TURN =            1024;   // Unité : ticks
 constexpr float     COD_WHEEL_DIAMETER =        65.948;  // Unité : mm
 
 constexpr uint8_t   DISTANCE_COD_GAUCHE_CENTRE = 112; // Unité : mm

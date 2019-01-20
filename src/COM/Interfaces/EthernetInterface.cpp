@@ -12,7 +12,7 @@ EthernetInterface::EthernetInterface():server{ PORT }
 	resetCard();
 
 	while(Ethernet.localIP() != ip && (ETHERNET_RW & com_options)) {
-        digitalWrite(30,HIGH);
+  //      digitalWrite(30,HIGH);
 		pinMode(LED_BUILTIN,OUTPUT);
 		digitalWrite(LED_BUILTIN,!digitalRead(LED_BUILTIN)); //La led de la teensy clignote si il y a erreur
 		delay(200);
@@ -27,12 +27,12 @@ EthernetInterface::EthernetInterface():server{ PORT }
     Serial.print("Ethernet Ready\nLocal ip: ");
     Serial.println(Ethernet.localIP());
     server.begin();
+    Serial.printf("Port is %i\n", server.server_port[0]);
     delay(1000);
     client = server.available();
     if (client.connected()) {
         client.println("CONNECTED");
     }
-
 }
 
 void EthernetInterface::resetCard() {
@@ -50,9 +50,9 @@ void EthernetInterface::resetCard() {
 	digitalWrite(RST, HIGH);
 	delay(150);
 
-	Ethernet.begin(mac, ip, dns, gateway, subnet);
     Ethernet.init(PIN_SPI_SS); // TODO: avant begin dans la doc?
-    digitalWrite(30,LOW);
+    Ethernet.begin(mac, ip, dns, gateway, subnet);
+//    digitalWrite(30,LOW);
 }
 
 bool inline EthernetInterface::read_char(char & buffer)
@@ -65,7 +65,8 @@ inline bool EthernetInterface::read(char* order)
 {
 	EthernetClient newClient = server.available();
 	if (newClient.available()) {							//Si on est connectes et il ya des choses a lire
-		client=newClient;
+		Serial.println("un client!");
+	    client=newClient;
 		char readChar;
 		int i = 0;
 
