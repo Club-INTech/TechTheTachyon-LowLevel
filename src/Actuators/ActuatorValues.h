@@ -64,8 +64,10 @@ static float positionDistributeur[3] = {295.77f, 216.30f, 195.18f};
 static float positionBalance[3]={182.6f,101.6f,181.7f};
 static float positionGoldonium[3]={213.4f,101.8f,151.4f};
 static float positionSol[3] = { /*Valeur de test:*/ 278.0f /*272.0f*/, 97.0f, 189.0f};
-static float coupleSolseuil[3][4] = {{100,100,100,100},{101,101,101,101},{102,102,102,102}}; /** Ligne référence le XL et Colonne le type de Palet (vide,rouge,vert,bleu)*/
-static float coupleDistributeurseuil[3][4] = {{103,103,103,103},{104,104,104,104},{105,105,105,105}}; /**De même*/
+static float coupleSolseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
+/** Ligne référence le XL et Colonne le type de Palet du plus lourd au plus léger (bleu, vert, rouge, vide)*/
+static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
+/**De même*/
 static float* stepsFromStorageToDistrib[] = {
         positionStockage, positionIntermediaire, positionPreDistributeur, positionDistributeur
 };

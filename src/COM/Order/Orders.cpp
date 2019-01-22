@@ -730,44 +730,42 @@ void ORDER_lectureSICK::impl(Args args) {
 void ORDER_torqueBras::impl(Args args) {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    float couple;
-    bool coupleOk;
+    float couple[3] ={0,0,0};
     if (!strcmp(args[1], "sol")) {
-        for (int i = 0; i < 3; i++) { //TODO corriger les erreurs de la comparaison aux seuils
+        for (int i = 0; i < 3; i++) { // Pour chaque XL
             XL430 motor = arm->getXLlist()[i];
-            coupleOk = motor.getCurrentTorque(couple);
-            if (coupleOk) {
-                for(int j = 0;j <4;j++) {
-                    if (couple > coupleSolseuil[i][j]) {
-                        orderManager.highLevel.printfln(SENSOR_HEADER, "%f", couple);
+            if (motor.getCurrentTorque(couple[i])) { // renvoit true si la mesure a été effectuée
+                for (int j = 0; j < 4; j++) {
+                    if (couple[i] > coupleSolseuil[i][j]) { //test de chaque palet
+                        orderManager.highLevel.printfln(SENSOR_HEADER, "%f", couple[i]);
                     } else {
                         orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
                     }
                 }
-            }
-            else {
-                orderManager.highLevel.printfln(DEBUG_HEADER, "%s","couple failed");
+                else {
+                    orderManager.highLevel.printfln(DEBUG_HEADER, "%s", "couple failed");
+                }
             }
         }
     }
     else{
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++) { // Pour chaque XL
             XL430 motor = arm->getXLlist()[i];
-            coupleOk = motor.getCurrentTorque(couple);
-            if (coupleOk) {
-               for(int j = 0;j <4;j++) {
-                   if (couple > coupleDistributeurseuil[i][j]) {
-                       orderManager.highLevel.printfln(SENSOR_HEADER, "%f", couple);
-                   } else {
-                       orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
-                   }
-               }
-            }
-            else {
-                orderManager.highLevel.printfln(DEBUG_HEADER, "%s","couple failed");
+            if (motor.getCurrentTorque(couple[i])) { // renvoit true si la mesure a été effectuée
+                for (int j = 0; j < 4; j++) {
+                    if (couple[i] > coupleSolseuil[i][j]) { //test de chaque palet
+                        orderManager.highLevel.printfln(SENSOR_HEADER, "%f", couple[i]);
+                    } else {
+                        orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
+                    }
+                }
+                else {
+                    orderManager.highLevel.printfln(DEBUG_HEADER, "%s", "couple failed");
+                }
             }
         }
     }
+
 
 void ORDER_torqueXL :: impl(Args args){
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
