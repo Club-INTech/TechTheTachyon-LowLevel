@@ -727,10 +727,11 @@ void ORDER_lectureSICK::impl(Args args) {
             mgr.getDistanceSensor(5).readDistance());
 }
 
-void ORDER_torqueBras::impl(Args args) {
-    ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    float couple[3] ={0,0,0};
+void ORDER_torqueBras::impl(Args args)
+{
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    Arm *arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    float couple[3] = {0, 0, 0};
     if (!strcmp(args[1], "sol")) {
         for (int i = 0; i < 3; i++) { // Pour chaque XL
             XL430 motor = arm->getXLlist()[i];
@@ -742,13 +743,11 @@ void ORDER_torqueBras::impl(Args args) {
                         orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
                     }
                 }
-                else {
-                    orderManager.highLevel.printfln(DEBUG_HEADER, "%s", "couple failed");
-                }
+            } else {
+                orderManager.highLevel.printfln(DEBUG_HEADER, "%s", "couple failed");
             }
         }
-    }
-    else{
+    } else {
         for (int i = 0; i < 3; i++) { // Pour chaque XL
             XL430 motor = arm->getXLlist()[i];
             if (motor.getCurrentTorque(couple[i])) { // renvoit true si la mesure a été effectuée
@@ -759,13 +758,12 @@ void ORDER_torqueBras::impl(Args args) {
                         orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
                     }
                 }
-                else {
-                    orderManager.highLevel.printfln(DEBUG_HEADER, "%s", "couple failed");
-                }
+            } else {
+                orderManager.highLevel.printfln(DEBUG_HEADER, "%s", "couple failed");
             }
         }
     }
-
+}
 
 void ORDER_torqueXL :: impl(Args args){
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
