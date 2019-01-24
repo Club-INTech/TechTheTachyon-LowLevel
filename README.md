@@ -97,7 +97,7 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |   gold    |Envoie le bras à la position "goldonium"            |      /                    |
 |   bal     |Envoie le bras à la position "balance"              |side(left/right)           |
 |   elec    |Démarre l'électron                                  |      /                    |
-| torqueBras|Donne le couple cumulé sur le bras                  |side(left/right) / position|
+| torqueBras|Donne la couleur du palet pris (selon le couple)    |side(left/right) / position|
 |  torqueXL |Donne le couple d'un XL                             |id XL                      |
 
 
