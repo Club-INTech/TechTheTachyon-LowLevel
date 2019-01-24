@@ -13,10 +13,11 @@ enum COM_OPTIONS {
     BLUETOOTH_W = 0b10000,
     BLUETOOTH_R = 0b100000,
 
-    ETHERNET_RW          = ETHERNET_W|ETHERNET_R,
-    SERIAL_RW            = SERIAL_W|SERIAL_R,
-    BLUETOOTH_RW         = BLUETOOTH_W|BLUETOOTH_R,
-    ETHERNET_RW_SERIAL_W   = ETHERNET_RW|SERIAL_W
+    ETHERNET_RW            = ETHERNET_W|ETHERNET_R,
+    SERIAL_RW              = SERIAL_W|SERIAL_R,
+    BLUETOOTH_RW           = BLUETOOTH_W|BLUETOOTH_R,
+    ETHERNET_RW_SERIAL_W   = ETHERNET_RW|SERIAL_W,
+    ETHERNET_RW_SERIAL_RW  = ETHERNET_RW|SERIAL_RW
 
 };
 inline COM_OPTIONS operator|(COM_OPTIONS a, COM_OPTIONS b)
@@ -24,7 +25,7 @@ inline COM_OPTIONS operator|(COM_OPTIONS a, COM_OPTIONS b)
 
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
-constexpr COM_OPTIONS com_options = ETHERNET_RW;
+constexpr COM_OPTIONS com_options = ETHERNET_RW_SERIAL_RW;
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
