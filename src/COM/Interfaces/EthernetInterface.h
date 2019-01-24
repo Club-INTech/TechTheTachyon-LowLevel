@@ -36,9 +36,9 @@ private:
 	IPAddress gateway{ 192,168,0,2 };
 	IPAddress subnet{ 255,255,255,0 };
 
-	void resetCard();
-
 	bool read_char(char & buffer);
+
+	void setIP();
 
 	/* Attributs Ethernet */
 
@@ -47,7 +47,6 @@ private:
 
 public:
 	EthernetInterface();
-
 	bool read(char*);
 	bool read(int32_t&);
 	bool read(int16_t&);
@@ -55,8 +54,10 @@ public:
 	bool read(float&);
 
 
-	void printf(const char *);
 	void printfln(const char*);
+	void printf(const char *);
+
+	void resetCard();
 };
 
 #endif

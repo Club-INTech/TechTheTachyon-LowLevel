@@ -11,18 +11,7 @@ EthernetInterface::EthernetInterface():server{ PORT }
 {
 	resetCard();
 
-	while(Ethernet.localIP() != ip && (ETHERNET_RW & com_options)) {
-  //      digitalWrite(30,HIGH);
-		pinMode(LED_BUILTIN,OUTPUT);
-		digitalWrite(LED_BUILTIN,!digitalRead(LED_BUILTIN)); //La led de la teensy clignote si il y a erreur
-		delay(200);
-		Serial.print("ERR\tIP CONFIGURATON FAILED, expected was ");
-		ip.printTo(Serial);
-		Serial.print(" got ");
-		Ethernet.localIP().printTo(Serial);
-		Serial.println();
-		resetCard();
-	}
+	setIP();
 
     Serial.print("Ethernet Ready\nLocal ip: ");
     Serial.println(Ethernet.localIP());
@@ -37,42 +26,79 @@ EthernetInterface::EthernetInterface():server{ PORT }
 
 void EthernetInterface::resetCard() {
 
-	Serial.println("Resetting WIZ820io");
+    Serial.println("Resetting WIZ820io");
 
-	pinMode(PWD, OUTPUT);
-	digitalWrite(PWD, HIGH);
-	delay(10);
-	digitalWrite(PWD, LOW);
+    pinMode(PWD, OUTPUT);
+    digitalWrite(PWD, HIGH);
+    delay(10);
+    digitalWrite(PWD, LOW);
 
-	pinMode(RST, OUTPUT);
-	digitalWrite(RST, LOW);
-	delayMicroseconds(3);
-	digitalWrite(RST, HIGH);
-	delay(150);
+    pinMode(RST, OUTPUT);
+    digitalWrite(RST, LOW);
+    delayMicroseconds(3);
+    digitalWrite(RST, HIGH);
+    delay(150);
 
-    Ethernet.init(PIN_SPI_SS); // TODO: avant begin dans la doc?
+    Ethernet.init(PIN_SPI_SS);
     Ethernet.begin(mac, ip, dns, gateway, subnet);
-//    digitalWrite(30,LOW);
+    digitalWrite(30,LOW);
+}
+void EthernetInterface::setIP() {
+	while(Ethernet.localIP() != ip && (ETHERNET_RW & com_options)) {
+		digitalWrite(30,HIGH);
+        pinMode(LED_DEBUG_ETH,OUTPUT);
+        digitalWrite(LED_DEBUG_ETH,!digitalRead(LED_DEBUG_ETH)); // La LED de debug ETH clignote en cas d'erreur
+        delay(200);
+        Serial.print("ERR\tIP CONFIGURATON FAILED, expected was ");
+        ip.printTo(Serial);
+        Serial.print(" got ");
+        Ethernet.localIP().printTo(Serial);
+        Serial.println();
+        resetCard();
+    }
+	digitalWrite(LED_DEBUG_ETH,LOW);
 }
 
 bool inline EthernetInterface::read_char(char & buffer)
 {
-    buffer = (char)client.read();
-	return ((buffer != '\r' && buffer != '\n' ) && buffer != -1);
+    int readValue = client.read();
+    buffer = (char)readValue;
+    if(readValue == -1)                         // Si il y a une erreur de lecture
+    {
+        resetCard();
+        digitalWrite(LED_DEBUG_ETH,HIGH);
+        return(false);
+    }
+    else if(buffer == '\r' || buffer == '\n')   // On remplace les caractères de fin de ligne par des caractères nuls
+    {
+        buffer = '\0';
+        return(false);
+    }
+	return(true);
 }
 
 inline bool EthernetInterface::read(char* order)
 {
 	EthernetClient newClient = server.available();
-	if (newClient.available()) {							//Si on est connectes et il ya des choses a lire
-		Serial.println("un client!");
-	    client=newClient;
+
+	if(Ethernet.localIP() != ip)                // Si on détecte qu'on a plus la bonne IP
+    {
+	    setIP();                                // On essaye de la re-définir
+    }
+
+	int messageSize = newClient.available();
+	if (messageSize) {							// Si on est connectes et il ya des choses a lire
+
+		client=newClient;
 		char readChar;
 		int i = 0;
+        bool status = true;
 
-		while (read_char(readChar) && i < RX_BUFFER_SIZE) {	//Tant qu'on n'est pas a la fin d'un message(\r)
+
+		while (i < messageSize && status) {	    // Tant qu'on a pas vidé le buffer, atteint une fin de ligne ou une erreur de lecture
+			status = read_char(readChar);
 			order[i] = readChar;
-			i++;												//Au cas ou on ne recoit jamais de terminaison, on limite le nombre de chars
+			i++;
 		}
 		return (strcmp(order, ""));
 	}
@@ -123,7 +149,6 @@ bool EthernetInterface::read(float& value) {
 
 	return status;
 }
-
 
 void EthernetInterface::printf(const char *message) {
 	client.print(message);

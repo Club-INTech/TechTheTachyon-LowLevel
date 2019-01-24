@@ -259,6 +259,11 @@ void ORDER_rawposdata::impl(Args args)
     //Serial.println(rotaInt);
 }
 
+void ORDER_reseteth::impl(Args args)
+{
+    orderManager.highLevel.resetEth();
+}
+
 void ORDER_montlhery::impl(Args args)
 {
   /* FIXME  orderManager.motionControlSystem.enableTranslationControl(false);

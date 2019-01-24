@@ -7,6 +7,7 @@
 //Ne pas oublier: PIN13 (LED) utilisée par l'ethernet
 #define PWD 24//15
 #define RST 9//14
+constexpr uint8_t LED_DEBUG_ETH = 99;
 
 /* Moteurs */
 
