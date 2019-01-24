@@ -28,6 +28,7 @@ Header SENSOR_HEADER = {0x01,0x06};
 Header POSITION_HEADER = {0x07,0x05};
 
 Header SICK_HEADER = { 0x20, 0x25 };
+Header ATOM_COLOR_HEADER = { 0x20, 0x26 };
 
 
 // Séparateurs des mots d'ordres

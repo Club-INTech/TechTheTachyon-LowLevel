@@ -739,7 +739,7 @@ void ORDER_torqueBras::impl(Args args)
             if (motor.getCurrentTorque(couple[i])) { // renvoit true si la mesure a été effectuée
                 for (int j = 0; j < 4; j++) {
                     if (couple[i] > coupleSolseuil[i][j]) { //test de chaque palet
-                        orderManager.highLevel.printfln(SENSOR_HEADER, "%s", couleurspalets[i]);
+                        orderManager.highLevel.printfln(ATOM_COLOR_HEADER, "%s", couleurspalets[i]);
                         return;
                     }
                 }
@@ -754,7 +754,7 @@ void ORDER_torqueBras::impl(Args args)
             if (motor.getCurrentTorque(couple[i])) { // renvoit true si la mesure a été effectuée
                 for (int j = 0; j < 4; j++) {
                     if (couple[i] > coupleDistributeurseuil[i][j]) { //test de chaque palet
-                        orderManager.highLevel.printfln(SENSOR_HEADER, "%s", couleurspalets[i]);
+                        orderManager.highLevel.printfln(ATOM_COLOR_HEADER, "%s", couleurspalets[i]);
                         return;
                     }
                 }
