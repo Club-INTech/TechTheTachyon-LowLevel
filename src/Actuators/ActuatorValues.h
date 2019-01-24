@@ -68,6 +68,7 @@ static float coupleSolseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,12
 /** Ligne référence le XL et Colonne le type de Palet du plus lourd au plus léger (bleu, vert, rouge, vide)*/
 static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
 /**De même*/
+static char* couleurspalets[4]={"bleu","vert","rouge","vide"};
 static float* stepsFromStorageToDistrib[] = {
         positionStockage, positionIntermediaire, positionPreDistributeur, positionDistributeur
 };
