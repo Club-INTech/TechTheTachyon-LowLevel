@@ -780,7 +780,7 @@ void ORDER_torqueBras::impl(Args args)
             }
             else
             {
-                orderManager.highLevel.printfln(DEBUG_HEADER, "%s", "couple failed");
+                orderManager.highLevel.printfln(DEBUG_HEADER, "torque failed");
             }
         }
     }
