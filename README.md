@@ -107,6 +107,7 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 
 |   Ordres          |                       Actions                      |
 |:-----------------:|:--------------------------------------------------:|
+|   reseteth        |            Redémarre le module ethernet            |
 |   toggle          |         Change le mode de réglage d'asserv         |
 |   displayAsserv   |          Retourne les constantes d'asserv          |
 |   kpt             |              Set le kp de translation              |

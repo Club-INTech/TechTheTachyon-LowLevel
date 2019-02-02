@@ -65,6 +65,7 @@ ORDER(getpwm,0);
 ORDER(errors,0);
 ORDER(rawspeed,0);
 ORDER(rawposdata,0);
+ORDER(reseteth,0);
 
 /*			 ___________________________
 * 		   *|                           |*

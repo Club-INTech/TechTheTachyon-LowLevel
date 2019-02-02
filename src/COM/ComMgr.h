@@ -38,6 +38,8 @@ public:
 
     void startMatch();
 
+    void resetEth();
+
 private:
     AbstractComInterface*    ethernet = nullptr;
     AbstractComInterface*      serial = nullptr;

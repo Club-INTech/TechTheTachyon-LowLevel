@@ -51,10 +51,8 @@ void MCS::initStatus() {
 }
 
 void MCS::initEncoders() {
-    Serial.println("Coucou MCS");
-
-    this->Encoder1 = new Encoder(28, 29);//new Encoder(18, 19);
-    this->Encoder2 = new Encoder(21, 20);
+    this->Encoder1 = new Encoder(LEFT_ENCODER_A, LEFT_ENCODER_B);//new Encoder(18, 19);
+    this->Encoder2 = new Encoder(RIGHT_ENCODER_A, RIGHT_ENCODER_B);
 }
 
 void MCS::updatePosition(int32_t leftTicks, int32_t rightTicks) {

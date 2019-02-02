@@ -259,6 +259,11 @@ void ORDER_rawposdata::impl(Args args)
     //Serial.println(rotaInt);
 }
 
+void ORDER_reseteth::impl(Args args)
+{
+    orderManager.highLevel.resetEth();
+}
+
 void ORDER_montlhery::impl(Args args)
 {
   /* FIXME  orderManager.motionControlSystem.enableTranslationControl(false);
@@ -719,12 +724,13 @@ void ORDER_testSICK::impl(Args args) {
 void ORDER_lectureSICK::impl(Args args) {
     SensorMgr mgr = SensorMgr::Instance();
     orderManager.highLevel.printf(SICK_HEADER, "%d %d %d %d %d %d\n",
-            mgr.getDistanceSensor(0).readDistance(),
-            mgr.getDistanceSensor(1).readDistance(),
-            mgr.getDistanceSensor(2).readDistance(),
-            mgr.getDistanceSensor(3).readDistance(),
-            mgr.getDistanceSensor(4).readDistance(),
-            mgr.getDistanceSensor(5).readDistance());
+            // FIXME
+            300,//mgr.getDistanceSensor(0).readDistance(),
+        300,//mgr.getDistanceSensor(1).readDistance(),
+          300,//mgr.getDistanceSensor(2).readDistance(),
+          300,//  mgr.getDistanceSensor(3).readDistance(),
+          300,//mgr.getDistanceSensor(4).readDistance(),
+          300);//mgr.getDistanceSensor(5).readDistance());
 }
 
 void ORDER_torqueBras::impl(Args args)
@@ -743,7 +749,7 @@ void ORDER_torqueBras::impl(Args args)
                 {
                     if (couple[i] > coupleSolseuil[i][j])
                     { //test de chaque palet
-                        orderManager.highLevel.printfln(SENSOR_HEADER, "%s", couleurspalets[i]);
+                        orderManager.highLevel.printfln(ATOM_COLOR_HEADER, "%s", couleurspalets[i]);
                         break;
                     }
                 }
@@ -766,7 +772,7 @@ void ORDER_torqueBras::impl(Args args)
                 {
                     if (couple[i] > coupleDistributeurseuil[i][j])
                     { //test de chaque palet
-                        orderManager.highLevel.printfln(SENSOR_HEADER, "%s", couleurspalets[i]);
+                        orderManager.highLevel.printfln(ATOM_COLOR_HEADER, "%s", couleurspalets[i]);
                         break;
                     }
                 }
