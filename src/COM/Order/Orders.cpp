@@ -729,36 +729,51 @@ void ORDER_lectureSICK::impl(Args args) {
 
 void ORDER_torqueBras::impl(Args args)
 {
-    ActuatorsMgr &manager = ActuatorsMgr::Instance();
-    Arm *arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
     float couple[3] = {0, 0, 0};
-    if (!strcmp(args[1], "sol")) {
-        for (int i = 0; i < 3; i++) { // Pour chaque XL
+    if (!strcmp(args[1], "sol"))
+    {
+        for (int i = 0; i < 3; i++)
+        { // Pour chaque XL
             XL430 motor = arm->getXLlist()[i];
-            if (motor.getCurrentTorque(couple[i])) { // renvoit true si la mesure a été effectuée
-                for (int j = 0; j < 4; j++) {
-                    if (couple[i] > coupleSolseuil[i][j]) { //test de chaque palet
+            if (motor.getCurrentTorque(couple[i]))
+            { // renvoit true si la mesure a été effectuée
+                for (int j = 0; j < 4; j++)
+                {
+                    if (couple[i] > coupleSolseuil[i][j])
+                    { //test de chaque palet
                         orderManager.highLevel.printfln(SENSOR_HEADER, "%s", couleurspalets[i]);
-                        return;
+                        break;
                     }
                 }
                 orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
-            } else {
-                orderManager.highLevel.printfln(DEBUG_HEADER, "%s", "couple failed");
+            }
+            else
+            {
+                orderManager.highLevel.printfln(DEBUG_HEADER, "torque failed");
             }
         }
-    } else {
-        for (int i = 0; i < 3; i++) { // Pour chaque XL
+    }
+    else
+    {
+        for (int i = 0; i < 3; i++)
+        { // Pour chaque XL
             XL430 motor = arm->getXLlist()[i];
-            if (motor.getCurrentTorque(couple[i])) { // renvoit true si la mesure a été effectuée
-                for (int j = 0; j < 4; j++) {
-                    if (couple[i] > coupleDistributeurseuil[i][j]) { //test de chaque palet
+            if (motor.getCurrentTorque(couple[i]))
+            { // renvoit true si la mesure a été effectuée
+                for (int j = 0; j < 4; j++)
+                {
+                    if (couple[i] > coupleDistributeurseuil[i][j])
+                    { //test de chaque palet
                         orderManager.highLevel.printfln(SENSOR_HEADER, "%s", couleurspalets[i]);
-                        return;
+                        break;
                     }
                 }
                 orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
-            } else {
+            }
+            else
+            {
                 orderManager.highLevel.printfln(DEBUG_HEADER, "%s", "couple failed");
             }
         }
