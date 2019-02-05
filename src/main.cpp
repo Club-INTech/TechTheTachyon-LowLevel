@@ -18,12 +18,11 @@ void motionControlInterrupt() {
 	motionControlSystem.manageStop();
 }
 
-void setup()
-{}
+int main() {
 
-void loop() {
-	pinMode(13,OUTPUT);
-	digitalWrite(13, HIGH);
+    pinMode(13,OUTPUT);
+    digitalWrite(13,HIGH);
+
 	/*************************
 	 * Initialisation du LL, gère:
 	 * La série

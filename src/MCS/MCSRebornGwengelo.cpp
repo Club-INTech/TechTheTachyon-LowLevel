@@ -30,12 +30,15 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT) {
 
     leftMotor.init();
     rightMotor.init();
-
-    Encoder1.reset();
-    Encoder2.reset();
 }
 
 void MCS::initSettings() {
+    Encoder1.setup(ENCODERMODE::PULLUP);
+    Encoder2.setup(ENCODERMODE::PULLUP);
+    Encoder1.reset();
+    Encoder2.reset();
+    Encoder1.start();
+    Encoder2.start();
 
     /* mm/s/MCS_PERIOD */
     controlSettings.maxAcceleration = 30;
@@ -151,8 +154,8 @@ void MCS::control()
     if(!robotStatus.controlled)
         return;
 
-    leftTicks = Encoder1.count();
-    rightTicks = Encoder2.count();
+    leftTicks = 0;//Encoder1.count();
+    rightTicks = 0;//Encoder2.count();
 
     updatePositionOrientation();
 
