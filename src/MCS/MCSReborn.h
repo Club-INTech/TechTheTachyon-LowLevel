@@ -75,6 +75,7 @@ public:
     void toggleControl();
     void toggleTranslation();
     void toggleRotation();
+    void setForcedMovement(bool);
     void initSettings();
     void initStatus();
 

@@ -140,12 +140,12 @@ void ORDER_ctrv::impl(Args args)
 
 void ORDER_efm::impl(Args args)
 {
-    // FIXME  orderManager.motionControlSystem.enableForcedMovement(true);
+    orderManager.motionControlSystem.setForcedMovement(true);
 }
 
 void ORDER_dfm::impl(Args args)
 {
-    // FIXME  orderManager.motionControlSystem.enableForcedMovement(true);
+    orderManager.motionControlSystem.setForcedMovement(false);
 }
 
 void ORDER_ct0::impl(Args args)
@@ -267,7 +267,7 @@ void ORDER_montlhery::impl(Args args)
 {
     orderManager.motionControlSystem.toggleRotation();
     orderManager.motionControlSystem.toggleTranslation();
-//    orderManager.motionControlSystem.enableForcedMovement(true); Adapt when forced movement is brought back
+    orderManager.motionControlSystem.setForcedMovement(true);
 }
 
 void ORDER_av::impl(Args args)

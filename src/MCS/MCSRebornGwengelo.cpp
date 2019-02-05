@@ -133,8 +133,19 @@ void MCS::updateSpeed()
     robotStatus.speedLeftWheel = averageLeftSpeed.value();
     robotStatus.speedRightWheel = averageRightSpeed.value();
 
-    robotStatus.speedTranslation = MAX(-controlSettings.maxTranslationSpeed, MIN(controlSettings.maxTranslationSpeed, translationPID.getOutput()));
-    robotStatus.speedRotation = MAX(-controlSettings.maxRotationSpeed, MIN(controlSettings.maxRotationSpeed, rotationPID.getOutput())) * DISTANCE_COD_GAUCHE_CENTRE;
+    if(robotStatus.controlledTranslation)
+    {
+        robotStatus.speedTranslation = translationPID.getOutput();
+    }
+
+    if(robotStatus.controlledRotation)
+    {
+        robotStatus.speedRotation = rotationPID.getOutput();
+    }
+
+
+    robotStatus.speedTranslation = MAX(-controlSettings.maxTranslationSpeed, MIN(controlSettings.maxTranslationSpeed, robotStatus.speedTranslation));
+    robotStatus.speedRotation = MAX(-controlSettings.maxRotationSpeed, MIN(controlSettings.maxRotationSpeed, robotStatus.speedRotation)) * DISTANCE_COD_GAUCHE_CENTRE;
 
     leftSpeedPID.setGoal(robotStatus.speedTranslation-robotStatus.speedRotation);
     rightSpeedPID.setGoal(robotStatus.speedTranslation+robotStatus.speedRotation);
@@ -154,8 +165,8 @@ void MCS::control()
     if(!robotStatus.controlled)
         return;
 
-    leftTicks = 0;//Encoder1.count();
-    rightTicks = 0;//Encoder2.count();
+    leftTicks = Encoder1.count();
+    rightTicks = Encoder2.count();
 
     updatePositionOrientation();
 
@@ -178,6 +189,11 @@ void MCS::control()
 }
 
 void MCS::manageStop() {
+    if(robotStatus.forcedMovement)
+    {
+        return;
+    }
+
     if(translationPID.active) {
         if(ABS(translationPID.getError()) <= controlSettings.tolerancyTranslation) {
             translationPID.active = false;
@@ -271,31 +287,36 @@ void MCS::speedBasedMovement(MOVEMENT movement) {
         return;
     }
 
+    robotStatus.moving = true;
+
     switch(movement)
     {
         case MOVEMENT::FORWARD:
             leftSpeedPID.setGoal(controlSettings.maxTranslationSpeed);
             rightSpeedPID.setGoal(controlSettings.maxTranslationSpeed);
+            robotStatus.speedTranslation = controlSettings.maxTranslationSpeed;
             break;
         case MOVEMENT::BACKWARD:
             leftSpeedPID.setGoal(-controlSettings.maxTranslationSpeed);
             rightSpeedPID.setGoal(-controlSettings.maxTranslationSpeed);
+            robotStatus.speedTranslation = -controlSettings.maxTranslationSpeed;
             break;
         case MOVEMENT::TRIGO:
             leftSpeedPID.setGoal(-controlSettings.maxRotationSpeed);
             rightSpeedPID.setGoal(controlSettings.maxRotationSpeed);
+            robotStatus.speedRotation = controlSettings.maxRotationSpeed;
             break;
         case MOVEMENT::ANTITRIGO:
             leftSpeedPID.setGoal(controlSettings.maxRotationSpeed);
             rightSpeedPID.setGoal(-controlSettings.maxRotationSpeed);
+            robotStatus.speedRotation = -controlSettings.maxRotationSpeed;
             break;
         case MOVEMENT::NONE:
-            leftSpeedPID.setGoal(0);
-            rightSpeedPID.setGoal(0);
-            break;
         default:
             leftSpeedPID.setGoal(0);
             rightSpeedPID.setGoal(0);
+            robotStatus.speedRotation = 0;
+            robotStatus.speedTranslation = 0;
             robotStatus.movement = MOVEMENT::NONE;
             return;
     }
@@ -317,6 +338,10 @@ void MCS::toggleTranslation() {
 
 void MCS::toggleRotation() {
     robotStatus.controlledRotation = !robotStatus.controlledRotation;
+}
+
+void MCS::setForcedMovement(bool newState) {
+    robotStatus.forcedMovement = newState;
 }
 
 int16_t MCS::getX() {
