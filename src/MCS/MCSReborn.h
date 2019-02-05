@@ -14,6 +14,7 @@
 #include "SelfContainedPID.hpp"
 #include "PointToPointTrajectory.h"
 #include "HardwareEncoder.h"
+#include "../COM/InterruptStackPrint.h"
 
 // TODO : Tout docu
 
@@ -22,13 +23,6 @@ class MCS : public Singleton<MCS>
 
 private:
 
-<<<<<<< HEAD
-=======
-    // TODO: HardwareEncoder
-    Encoder* Encoder1 = nullptr;
-    Encoder* Encoder2 = nullptr;
-
->>>>>>> dev
     RobotStatus robotStatus;
     ControlSettings controlSettings;
 
@@ -40,7 +34,6 @@ private:
     SelfContainedPID<int32_t> translationPID;
     SelfContainedPID<float> rotationPID;
 
-    uint32_t lastPositionUpdateTime;
     int32_t currentDistance;
     float currentRotation;
     int16_t targetX;
@@ -57,8 +50,6 @@ private:
     Average<int32_t, 256> averageLeftSpeed;
     Average<int32_t, 256> averageRightSpeed;
 
-    float targetLeftSpeed;
-    float targetRightSpeed;
     bool sequentialMovement;
     PointToPointTrajectory trajectory;
 
@@ -69,8 +60,8 @@ public:
     void initEncoders();
 
     void manageStop();
-    void updatePositionOrientation(int32_t leftTicks, int32_t rightTicks);
-    void updateSpeed(int32_t leftTicks, int32_t rightTicks);
+    void updatePositionOrientation();
+    void updateSpeed();
     void control();
     void stop();
 

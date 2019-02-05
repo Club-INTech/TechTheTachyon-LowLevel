@@ -7,9 +7,9 @@
 
 #include "Interfaces/SerialInterface.h"
 #include "Interfaces/EthernetInterface.h"
-#include "Utils/Singleton.hpp"
-#include "Utils/define_com_options.h"
-#include "Utils/Median.h"
+#include "../Utils/Singleton.hpp"
+#include "../Utils/define_com_options.h"
+#include "../Utils/Median.h"
 #include <map>
 #include <array>
 
@@ -35,6 +35,7 @@ public:
 
     void printfln(Header header,const char*, ...) __attribute__((format(printf, 3, 4)));
     void printf(Header header,const char*,...) __attribute__((format(printf, 3, 4)));
+    void printOnSerial(const char*);
 
     void startMatch();
 

@@ -7,15 +7,14 @@
 
 #include "COM/Order/OrderManager.h"
 #include "Utils/Monitoring.h"
+#include "COM/InterruptStackPrint.h"
 #include <string>
 #include "Utils/pin_mapping.h"
 
 /* Interruptions d'asservissements */
 void motionControlInterrupt() {
 	static MCS &motionControlSystem = MCS::Instance();
-	//motionControlSystem.updateTicks();
 	motionControlSystem.control();
-	//motionControlSystem.updatePosition();
 	motionControlSystem.manageStop();
 }
 
@@ -29,9 +28,6 @@ int main() {
 	/* Série */
 	ActuatorsMgr::Instance().initPWMs();
     SensorMgr::Instance().init();
-    pinMode(18, INPUT_PULLUP);
-    pinMode(19, INPUT_PULLUP);
-  //  digitalWrite(13, HIGH);
 
     Serial.begin(115200);
 
@@ -81,6 +77,7 @@ int main() {
     static Metro USSend = Metro(80);
 
     while (true) {
+    	InterruptStackPrint::Instance().print();
 		orderMgr.communicate();
 		orderMgr.refreshUS();
 		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();

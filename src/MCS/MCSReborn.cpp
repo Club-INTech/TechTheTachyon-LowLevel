@@ -66,19 +66,7 @@ void MCS::initStatus() {
     robotStatus.controlledTranslation = true;
 }
 
-<<<<<<< HEAD
-void MCS::updatePositionOrientation(int32_t leftTicks, int32_t rightTicks) {
-=======
-void MCS::initEncoders() {
-    this->Encoder1 = new Encoder(LEFT_ENCODER_A, LEFT_ENCODER_B);//new Encoder(18, 19);
-    this->Encoder2 = new Encoder(RIGHT_ENCODER_A, RIGHT_ENCODER_B);
-}
-
-void MCS::updatePosition(int32_t leftTicks, int32_t rightTicks) {
->>>>>>> dev
-    // mise à jour de la position interne grâce aux infos des codeuses
-    this->leftTicks = leftTicks;
-    this->rightTicks = rightTicks;
+void MCS::updatePositionOrientation() {
 
     int32_t leftDistance = leftTicks * TICK_TO_MM;
     int32_t rightDistance = rightTicks * TICK_TO_MM;
@@ -132,7 +120,7 @@ void MCS::updatePosition(int32_t leftTicks, int32_t rightTicks) {
     }
 }
 
-void MCS::updateSpeed(int32_t leftTicks, int32_t rightTicks)
+void MCS::updateSpeed()
 {
     int32_t previousLeftSpeedGoal = leftSpeedPID.getCurrentGoal();
     int32_t previousRightSpeedGoal = rightSpeedPID.getCurrentGoal();
@@ -163,10 +151,10 @@ void MCS::control()
     if(!robotStatus.controlled)
         return;
 
-    int32_t leftTicks = Encoder1.count();
-    int32_t rightTicks = Encoder2.count();
+    leftTicks = Encoder1.count();
+    rightTicks = Encoder2.count();
 
-    updatePositionOrientation(leftTicks, rightTicks);
+    updatePositionOrientation();
 
     if(robotStatus.controlledTranslation) {
         translationPID.compute(currentDistance);
@@ -175,7 +163,7 @@ void MCS::control()
         rotationPID.compute(currentRotation);
     }
 
-    updateSpeed(leftTicks, rightTicks);
+    updateSpeed();
 
     int32_t leftPWM = leftSpeedPID.compute(robotStatus.speedLeftWheel);
     int32_t rightPWM = rightSpeedPID.compute(robotStatus.speedRightWheel);
@@ -190,13 +178,13 @@ void MCS::manageStop() {
     if(translationPID.active) {
         if(ABS(translationPID.getError()) <= controlSettings.tolerancyTranslation) {
             translationPID.active = false;
-            Serial.println("[DEBUG] On s'arrête la translation de la tolérance en translation!");
+            InterruptStackPrint::Instance().push("arret tolerance translation");
         }
     }
     if(rotationPID.active) {
         if(ABS(rotationPID.getError()) <= controlSettings.tolerancyAngle) {
             rotationPID.active = false;
-            Serial.println("[DEBUG] On arrête la rotation à cause de la tolérance en rotation!");
+            InterruptStackPrint::Instance().push("arret tolerance rotation");
         }
     }
 
@@ -224,7 +212,7 @@ void MCS::stop() {
     rotationPID.setGoal(currentRotation);
 
     if(robotStatus.movement != MOVEMENT::NONE) {
-        Serial.println("[DEBUG] On s'arrête!!");
+        InterruptStackPrint::Instance().push("[DEBUG] On s'arrête!!");
     }
     robotStatus.movement = MOVEMENT::NONE;
 }

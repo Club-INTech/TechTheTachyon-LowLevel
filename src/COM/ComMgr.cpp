@@ -75,6 +75,11 @@ void ComMgr::printf(Header header, const char *data, ...)
     va_end(args);
 }
 
+void ComMgr::printOnSerial(const char* str)
+{
+    Serial.print(str);
+}
+
 void ComMgr::startMatch()
 {
     sdlog.setStartingTime();
