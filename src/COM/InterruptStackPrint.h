@@ -13,11 +13,11 @@ class InterruptStackPrint : public Singleton<InterruptStackPrint>
 {
 private:
     static constexpr uint8_t MAX_STACK_SIZE = 100;
-    char* stack[MAX_STACK_SIZE];
+    const char* stack[MAX_STACK_SIZE];
     uint8_t current_size = 0;
 public:
 
-    void push(char* str)
+    void push(const char* str)
     {
         if( current_size == MAX_STACK_SIZE )
             return;
@@ -29,7 +29,7 @@ public:
     {
         for( uint8_t i=0 ; i < current_size ; i++)
         {
-            Serial.println(stack[current_size]);
+            Serial.println(stack[i]);
         }
         current_size=0;
     }
