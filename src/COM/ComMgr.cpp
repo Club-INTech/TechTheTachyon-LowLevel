@@ -86,4 +86,11 @@ ComMgr::~ComMgr()
     delete static_cast<SerialInterface*>(serial);
 }
 
+void ComMgr::resetEth() {
+    if( com_options & ETHERNET_RW )
+    {
+        ((EthernetInterface *)ethernet)->resetCard();
+    }
+}
+
 

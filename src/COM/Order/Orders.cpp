@@ -258,6 +258,11 @@ void ORDER_rawposdata::impl(Args args)
     //Serial.println(rotaInt);
 }
 
+void ORDER_reseteth::impl(Args args)
+{
+    orderManager.highLevel.resetEth();
+}
+
 void ORDER_montlhery::impl(Args args)
 {
   /* FIXME  orderManager.motionControlSystem.enableTranslationControl(false);
@@ -720,18 +725,77 @@ void ORDER_testSICK::impl(Args args) {
 void ORDER_lectureSICK::impl(Args args) {
     SensorMgr mgr = SensorMgr::Instance();
     orderManager.highLevel.printf(SICK_HEADER, "%d %d %d %d %d %d\n",
-            mgr.getDistanceSensor(0).readDistance(),
-            mgr.getDistanceSensor(1).readDistance(),
-            mgr.getDistanceSensor(2).readDistance(),
-            mgr.getDistanceSensor(3).readDistance(),
-            mgr.getDistanceSensor(4).readDistance(),
-            mgr.getDistanceSensor(5).readDistance());
+            // FIXME
+            300,//mgr.getDistanceSensor(0).readDistance(),
+        300,//mgr.getDistanceSensor(1).readDistance(),
+          300,//mgr.getDistanceSensor(2).readDistance(),
+          300,//  mgr.getDistanceSensor(3).readDistance(),
+          300,//mgr.getDistanceSensor(4).readDistance(),
+          300);//mgr.getDistanceSensor(5).readDistance());
 }
 
-void ORDER_torqueBras::impl(Args args) {
-
+void ORDER_torqueBras::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    float couple[3] = {0, 0, 0};
+    if (!strcmp(args[1], "sol"))
+    {
+        for (int i = 0; i < 3; i++)
+        { // Pour chaque XL
+            XL430 motor = arm->getXLlist()[i];
+            if (motor.getCurrentTorque(couple[i]))
+            { // renvoit true si la mesure a été effectuée
+                for (int j = 0; j < 4; j++)
+                {
+                    if (couple[i] > coupleSolseuil[i][j])
+                    { //test de chaque palet
+                        orderManager.highLevel.printfln(ATOM_COLOR_HEADER, "%s", couleurspalets[i]);
+                        break;
+                    }
+                }
+                orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
+            }
+            else
+            {
+                orderManager.highLevel.printfln(DEBUG_HEADER, "torque failed");
+            }
+        }
+    }
+    else
+    {
+        for (int i = 0; i < 3; i++)
+        { // Pour chaque XL
+            XL430 motor = arm->getXLlist()[i];
+            if (motor.getCurrentTorque(couple[i]))
+            { // renvoit true si la mesure a été effectuée
+                for (int j = 0; j < 4; j++)
+                {
+                    if (couple[i] > coupleDistributeurseuil[i][j])
+                    { //test de chaque palet
+                        orderManager.highLevel.printfln(ATOM_COLOR_HEADER, "%s", couleurspalets[i]);
+                        break;
+                    }
+                }
+                orderManager.highLevel.printfln(DEBUG_HEADER, "palet non pris");
+            }
+            else
+            {
+                orderManager.highLevel.printfln(DEBUG_HEADER, "torque failed");
+            }
+        }
+    }
 }
 
 void ORDER_torqueXL :: impl(Args args){
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
+    float couple;
+    if(motor->getCurrentTorque(couple)){
+        orderManager.highLevel.printfln(SENSOR_HEADER,"%f",couple);
+    }
+    else{
+        orderManager.highLevel.printfln(DEBUG_HEADER,"%s","couple failed");
 
+    }
 }

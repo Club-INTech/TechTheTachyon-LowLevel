@@ -22,6 +22,13 @@ class MCS : public Singleton<MCS>
 
 private:
 
+<<<<<<< HEAD
+=======
+    // TODO: HardwareEncoder
+    Encoder* Encoder1 = nullptr;
+    Encoder* Encoder2 = nullptr;
+
+>>>>>>> dev
     RobotStatus robotStatus;
     ControlSettings controlSettings;
 

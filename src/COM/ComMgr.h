@@ -22,12 +22,12 @@ public:
 
     template< typename T >
     bool read(T data){
-        static bool r1=true,r2=true;
+        static bool r1=false,r2=false;
         if( com_options & COM_OPTIONS::ETHERNET_R )
             r1 = ethernet->read(data);
-        if( com_options & COM_OPTIONS::SERIAL_R )
+        if( com_options & COM_OPTIONS::SERIAL_R && !r1 )
             r2 = serial->read(data);
-        return r1&&r2;
+        return r1||r2;
     }
 
     /* ENVOI */
@@ -37,6 +37,8 @@ public:
     void printf(Header header,const char*,...) __attribute__((format(printf, 3, 4)));
 
     void startMatch();
+
+    void resetEth();
 
 private:
     AbstractComInterface*    ethernet = nullptr;

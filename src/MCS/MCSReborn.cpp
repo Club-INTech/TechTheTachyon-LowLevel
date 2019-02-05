@@ -66,7 +66,16 @@ void MCS::initStatus() {
     robotStatus.controlledTranslation = true;
 }
 
+<<<<<<< HEAD
 void MCS::updatePositionOrientation(int32_t leftTicks, int32_t rightTicks) {
+=======
+void MCS::initEncoders() {
+    this->Encoder1 = new Encoder(LEFT_ENCODER_A, LEFT_ENCODER_B);//new Encoder(18, 19);
+    this->Encoder2 = new Encoder(RIGHT_ENCODER_A, RIGHT_ENCODER_B);
+}
+
+void MCS::updatePosition(int32_t leftTicks, int32_t rightTicks) {
+>>>>>>> dev
     // mise à jour de la position interne grâce aux infos des codeuses
     this->leftTicks = leftTicks;
     this->rightTicks = rightTicks;
