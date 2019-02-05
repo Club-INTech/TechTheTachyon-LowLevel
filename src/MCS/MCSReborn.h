@@ -70,6 +70,8 @@ public:
     void gotoPoint(int16_t,int16_t,bool);
     void followTrajectory(const double* xTable, const double* yTable, int count);
 
+    void speedBasedMovement(MOVEMENT);
+
     void toggleControl();
     void toggleTranslation();
     void toggleRotation();
@@ -81,6 +83,10 @@ public:
     float getAngle();
     int32_t getLeftTicks();
     int32_t getRightTicks();
+    float getLeftSpeed();
+    float getRightSpeed();
+
+    void getSpeedGoals(long&,long&);
 
     /**
      * Permet de définir une rotation à la fin d'un mouvement (au lieu de devoir attendre la fin du mouvement et de donner un ordre de rotation)

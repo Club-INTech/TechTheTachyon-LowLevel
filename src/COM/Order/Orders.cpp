@@ -235,13 +235,13 @@ void ORDER_rawspeed::impl(Args args)
 
 void ORDER_rawposdata::impl(Args args)
 {
-    //int32_t leftsetpoint, rightsetpoint;
-  /* FIXME  orderManager.motionControlSystem.getSpeedSetpoints(leftsetpoint, rightsetpoint);
+    int32_t leftsetpoint, rightsetpoint;
+    orderManager.motionControlSystem.getSpeedGoals(leftsetpoint, rightsetpoint);
     Serial.print(orderManager.motionControlSystem.getX());
     Serial.print(",");
     Serial.print(orderManager.motionControlSystem.getY());
     Serial.print(",");
-    Serial.print(orderManager.motionControlSystem.getAngleRadian());
+    Serial.print(orderManager.motionControlSystem.getAngle());
     Serial.print(",");
     Serial.print(orderManager.motionControlSystem.getLeftSpeed());
     Serial.print(",");
@@ -249,7 +249,7 @@ void ORDER_rawposdata::impl(Args args)
     Serial.print(",");
     Serial.print(orderManager.motionControlSystem.getRightSpeed());
     Serial.print(",");
-    Serial.println(rightsetpoint);*/
+    Serial.println(rightsetpoint);
     //int32_t right, left;
     //motionControlSystem.getPWMS(left,right);
     //Serial.println(right);
@@ -265,34 +265,34 @@ void ORDER_reseteth::impl(Args args)
 
 void ORDER_montlhery::impl(Args args)
 {
-  /* FIXME  orderManager.motionControlSystem.enableTranslationControl(false);
-    orderManager.motionControlSystem.enableRotationControl(false);
-    orderManager.motionControlSystem.enableForcedMovement(true);*/
+    orderManager.motionControlSystem.toggleRotation();
+    orderManager.motionControlSystem.toggleTranslation();
+//    orderManager.motionControlSystem.enableForcedMovement(true); Adapt when forced movement is brought back
 }
 
 void ORDER_av::impl(Args args)
 {
-    // FIXME orderManager.motionControlSystem.setRawPositiveTranslationSpeed();
+    orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::FORWARD);
 }
 
 void ORDER_rc::impl(Args args)
 {
-    // FIXME  orderManager.motionControlSystem.setRawNegativeTranslationSpeed();
+    orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::BACKWARD);
 }
 
 void ORDER_td::impl(Args args)
 {
-    // FIXME orderManager.motionControlSystem.setRawNegativeRotationSpeed();
+    orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::ANTITRIGO);
 }
 
 void ORDER_tg::impl(Args args)
 {
-    // FIXME orderManager.motionControlSystem.setRawPositiveRotationSpeed();
+    orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::TRIGO);
 }
 
 void ORDER_sstop::impl(Args args)
 {
-    // FIXME orderManager.motionControlSystem.setRawNullSpeed();
+    orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::NONE);
 }
 
 void ORDER_toggle::impl(Args args)

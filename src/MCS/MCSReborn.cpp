@@ -262,6 +262,43 @@ void MCS::followTrajectory(const double* xTable, const double* yTable, int count
     }
 }
 
+void MCS::speedBasedMovement(MOVEMENT movement) {
+    if(!robotStatus.controlled)
+    {
+        return;
+    }
+
+    switch(movement)
+    {
+        case MOVEMENT::FORWARD:
+            leftSpeedPID.setGoal(controlSettings.maxTranslationSpeed);
+            rightSpeedPID.setGoal(controlSettings.maxTranslationSpeed);
+            break;
+        case MOVEMENT::BACKWARD:
+            leftSpeedPID.setGoal(-controlSettings.maxTranslationSpeed);
+            rightSpeedPID.setGoal(-controlSettings.maxTranslationSpeed);
+            break;
+        case MOVEMENT::TRIGO:
+            leftSpeedPID.setGoal(-controlSettings.maxRotationSpeed);
+            rightSpeedPID.setGoal(controlSettings.maxRotationSpeed);
+            break;
+        case MOVEMENT::ANTITRIGO:
+            leftSpeedPID.setGoal(controlSettings.maxRotationSpeed);
+            rightSpeedPID.setGoal(-controlSettings.maxRotationSpeed);
+            break;
+        case MOVEMENT::NONE:
+            leftSpeedPID.setGoal(0);
+            rightSpeedPID.setGoal(0);
+            break;
+        default:
+            leftSpeedPID.setGoal(0);
+            rightSpeedPID.setGoal(0);
+            robotStatus.movement = MOVEMENT::NONE;
+            return;
+    }
+    robotStatus.movement = movement;
+}
+
 void MCS::disableP2P() {
     trajectory.clear();
     robotStatus.controlledP2P = false;
@@ -313,4 +350,17 @@ int32_t MCS::getLeftTicks() {
 
 int32_t MCS::getRightTicks() {
     return rightTicks;
+}
+
+float MCS::getLeftSpeed() {
+    return robotStatus.speedLeftWheel;
+}
+
+float MCS::getRightSpeed() {
+    return robotStatus.speedRightWheel;
+}
+
+void MCS::getSpeedGoals(long &leftGoal, long &rightGoal) {
+    leftGoal = leftSpeedPID.getCurrentGoal();
+    rightGoal = rightSpeedPID.getCurrentGoal();
 }
