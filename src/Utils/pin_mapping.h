@@ -7,11 +7,15 @@ constexpr uint8_t RST = 9;
 constexpr uint8_t LED_DEBUG_ETH = 99;
 
 /* Moteurs */
-constexpr uint8_t PIN_DIR_LEFT = 7;
-constexpr uint8_t PIN_PWM_LEFT = 8;
+constexpr uint8_t INA_LEFT = 12;
+constexpr uint8_t INB_LEFT = 24;
+constexpr uint8_t PIN_PWM_LEFT = 35;
 
-constexpr uint8_t PIN_DIR_RIGHT = 36;
-constexpr uint8_t PIN_PWM_RIGHT = 35;
+constexpr uint8_t INA_RIGHT = 6;
+constexpr uint8_t INB_RIGHT = 7;
+constexpr uint8_t PIN_PWM_RIGHT = 8;
+
+
 
 /* CAPTEURS */
 constexpr uint8_t PIN_JMPR = 99;
@@ -38,6 +42,8 @@ constexpr uint8_t LEFT_VALVE_PIN = 99;  // électrovanne gauche
 
 constexpr uint8_t LEFT_PUMP_PIN = 99;
 constexpr uint8_t RIGHT_PUMP_PIN = 99;
+
+
 
 
 #endif //_PIN_MAPPING_h

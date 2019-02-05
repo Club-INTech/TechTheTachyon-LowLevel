@@ -37,7 +37,8 @@ public:
 
 		T error = (*setPoint) - (*input);
 		derivative = error - pre_error;
-		integral += error;if( AWU_enabled && integral > integral_max_value )
+		integral += error;
+		if( AWU_enabled && integral > integral_max_value )
 			integral = integral_max_value;
 		pre_error = error;
 

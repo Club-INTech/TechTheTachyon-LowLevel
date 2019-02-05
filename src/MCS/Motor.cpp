@@ -1,22 +1,27 @@
 #include "Motor.h"
+#include "../Utils/pin_mapping.h"
 
 void Motor::setDirection(Direction directionToSet)
 {
 	direction = directionToSet;
 	if (side == Side::LEFT) {
 		if (direction == Direction::FORWARD) {
-			digitalWrite(pin_dir, LOW);
+			digitalWrite(pin_ina, HIGH);
+			digitalWrite(pin_inb, LOW);
 		}
 		if (direction == Direction::BACKWARD) {
-			digitalWrite(pin_dir, HIGH);
+			digitalWrite(pin_ina, LOW);
+			digitalWrite(pin_inb, HIGH);
 		}
 	}
 	else {
 		if (direction == Direction::FORWARD) {
-			digitalWrite(pin_dir, HIGH);
+			digitalWrite(pin_ina, HIGH);
+			digitalWrite(pin_inb, LOW);
 		}
 		if (direction == Direction::BACKWARD) {
-			digitalWrite(pin_dir, LOW);
+			digitalWrite(pin_ina, LOW);
+			digitalWrite(pin_inb, HIGH);
 		}
 	}
 }
@@ -31,15 +36,21 @@ void Motor::init()
 {
 	if (side == Side::LEFT) {
 		pin_pwm = PIN_PWM_LEFT;
-		pin_dir = PIN_DIR_LEFT;
+		pin_ina = INA_LEFT;
+		pin_inb = INB_LEFT;
+
 	}
 	else if (side == Side::RIGHT) {
 		pin_pwm = PIN_PWM_RIGHT;
-		pin_dir = PIN_DIR_RIGHT;
+		pin_ina = INA_RIGHT;
+		pin_inb = INB_RIGHT;
 	}
-	pinMode(pin_dir, OUTPUT);
+	pinMode(pin_ina, OUTPUT);
+	pinMode(pin_inb, OUTPUT);
 	pinMode(pin_pwm, OUTPUT);
 
+	digitalWrite(pin_ina, LOW);
+	digitalWrite(pin_inb, LOW);
 	//TODO: Initialiser les PWM
 	analogWriteResolution(8);
 	analogWriteFrequency(pin_pwm, 35156.25); //FIXME: A CHANGER APRES NOUVEAU PONT EN H

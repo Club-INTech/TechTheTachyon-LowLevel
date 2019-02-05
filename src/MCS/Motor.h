@@ -43,7 +43,8 @@ private:
 	Direction direction;
 	void setDirection(Direction);
 	uint8_t pin_pwm;
-	uint8_t pin_dir;
+	uint8_t pin_ina;
+	uint8_t pin_inb;
 public:
 	Motor(Side);
 	int16_t pwm;

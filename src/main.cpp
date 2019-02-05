@@ -19,6 +19,10 @@ void motionControlInterrupt() {
 }
 
 int main() {
+
+    pinMode(13,OUTPUT);
+    digitalWrite(13,HIGH);
+
 	/*************************
 	 * Initialisation du LL, gère:
 	 * La série
