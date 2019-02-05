@@ -203,21 +203,21 @@ void ORDER_pfdebug::impl(Args args)
 
 void ORDER_rawpwm::impl(Args args)
 {
-    uint8_t rawpwm = orderManager.parseInt(args[0]);
+    //uint8_t rawpwm = orderManager.parseInt(args[0]);
     // FIXME   orderManager.motionControlSystem.orderRawPwm(Side::LEFT, rawpwm);
     // FIXME  orderManager.motionControlSystem.orderRawPwm(Side::RIGHT, rawpwm);
 }
 
 void ORDER_getpwm::impl(Args args)
 {
-    int32_t left, right;
+    //int32_t left, right;
     // FIXME   orderManager.motionControlSystem.getPWMS(left, right);
     // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"PWMS: %ld - %ld", left, right);
 }
 
 void ORDER_errors::impl(Args args)
 {
-    float leftProp, leftDer, leftInt, rightProp, rightDer, rightInt;
+    //float leftProp, leftDer, leftInt, rightProp, rightDer, rightInt;
     // FIXME  orderManager.motionControlSystem.getSpeedErrors(leftProp, leftInt, leftDer, rightProp, rightInt, rightDer);
     // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"Prop: %f - %f", leftProp, rightProp);
     // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"Deriv: %f - %f", leftDer, rightDer);
@@ -226,9 +226,8 @@ void ORDER_errors::impl(Args args)
 
 void ORDER_rawspeed::impl(Args args)
 {
-    int32_t leftsetpoint, rightsetpoint;
-
-    //motionControlSystem.rawWheelSpeed(parseInt(orderData.at(1)), leftsetpoint, rightsetpoint);
+    // int32_t leftsetpoint, rightsetpoint;
+    // FIXME motionControlSystem.rawWheelSpeed(parseInt(orderData.at(1)), leftsetpoint, rightsetpoint);
     // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"Speed set");
     // FIXME orderManager.motionControlSystem.getSpeedSetpoints(leftsetpoint, rightsetpoint);
     // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"speed setpoints: %ld - %ld", leftsetpoint, rightsetpoint);
@@ -236,7 +235,7 @@ void ORDER_rawspeed::impl(Args args)
 
 void ORDER_rawposdata::impl(Args args)
 {
-    int32_t leftsetpoint, rightsetpoint;
+    //int32_t leftsetpoint, rightsetpoint;
   /* FIXME  orderManager.motionControlSystem.getSpeedSetpoints(leftsetpoint, rightsetpoint);
     Serial.print(orderManager.motionControlSystem.getX());
     Serial.print(",");
@@ -303,11 +302,13 @@ void ORDER_toggle::impl(Args args)
 
 void ORDER_displayAsserv::impl(Args args)
 {
+    /*
     float
             kp_t, ki_t, kd_t,      // Translation
             kp_r, ki_r, kd_r,      // Rotation
             kp_g, ki_g, kd_g,      // Vitesse gauche
             kp_d, ki_d, kd_d;      // Vitesse droite
+            */
  /* FIXME   orderManager.motionControlSystem.getTranslationTunings(kp_t, ki_t, kd_t);
     orderManager.motionControlSystem.getRotationTunings(kp_r, ki_r, kd_r);
     orderManager.motionControlSystem.getLeftSpeedTunings(kp_g, ki_g, kd_g);
@@ -552,7 +553,7 @@ void ORDER_unsuck::impl(Args args)
 
 void ORDER_up::impl(Args args)
 {
-    int nbPas = 700;
+    //int nbPas = 700;
     if (!strcmp(args[0], "right")) {
         /*digitalWrite(DIR_PIN_RIGHT, HIGH);
 
@@ -582,7 +583,7 @@ void ORDER_up::impl(Args args)
 
 void ORDER_down::impl(Args args)
 {
-    int nbPas = 700;
+    //int nbPas = 700;
     if (!strcmp(args[0], "right")) {
        /* digitalWrite(DIR_PIN_RIGHT, LOW);
 

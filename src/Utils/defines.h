@@ -41,8 +41,8 @@ constexpr uint8_t F_ENV_POS = 50;
 * Asservissement
 */
 
-constexpr uint16_t  MC_FREQUENCY =              1000; //1Khz
-constexpr double    MC_PERIOD = 1000000.0 / MC_FREQUENCY; // Durée en µs entre deux mesures
+constexpr uint16_t  MCS_FREQ = 1000; //1Khz
+constexpr double    MCS_PERIOD = 1000000.0 / MCS_FREQ; // Durée en µs entre deux mesures
 constexpr uint16_t  STEPPER_FREQUENCY = 625/2; // 625/2 Hz
 constexpr double    STEPPER_PERIOD = 1000000.0 / STEPPER_FREQUENCY; // Durée en µs entre deux mesures
 

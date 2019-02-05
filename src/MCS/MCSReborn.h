@@ -6,16 +6,14 @@
 #define LL_MCSREBORN_H
 
 #include "Utils/Singleton.hpp"
+#include "Utils/average.hpp"
 #include "ControlSettings.h"
 #include "RobotStatus.h"
 #include "Motor.h"
 #include "pid.hpp"
 #include "SelfContainedPID.hpp"
 #include "PointToPointTrajectory.h"
-
-#define ENCODER_OPTIMIZE_INTERRUPTS
-#include <Encoder.h>
-#include <Utils/average.hpp>
+#include "HardwareEncoder.h"
 
 // TODO : Tout docu
 
@@ -23,9 +21,6 @@ class MCS : public Singleton<MCS>
 {
 
 private:
-
-    Encoder* Encoder1 = nullptr;
-    Encoder* Encoder2 = nullptr;
 
     RobotStatus robotStatus;
     ControlSettings controlSettings;
@@ -43,6 +38,7 @@ private:
     float currentRotation;
     int16_t targetX;
     int16_t targetY;
+
     int32_t leftTicks;
     int32_t rightTicks;
     int32_t previousLeftTicks;
@@ -66,7 +62,8 @@ public:
     void initEncoders();
 
     void manageStop();
-    void updatePosition(int32_t leftTicks, int32_t rightTicks);
+    void updatePositionOrientation(int32_t leftTicks, int32_t rightTicks);
+    void updateSpeed(int32_t leftTicks, int32_t rightTicks);
     void control();
     void stop();
 

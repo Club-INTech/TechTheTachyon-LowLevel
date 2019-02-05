@@ -8,7 +8,7 @@
 #include "COM/Order/OrderManager.h"
 #include "Utils/Monitoring.h"
 #include <string>
-#include <Utils/pin_mapping_test_card.h>
+#include "Utils/pin_mapping.h"
 
 /* Interruptions d'asservissements */
 void motionControlInterrupt() {
@@ -29,7 +29,6 @@ int main() {
 	/* Série */
 	ActuatorsMgr::Instance().initPWMs();
     SensorMgr::Instance().init();
-    MCS::Instance().initEncoders();
     pinMode(18, INPUT_PULLUP);
     pinMode(19, INPUT_PULLUP);
   //  digitalWrite(13, HIGH);
@@ -56,13 +55,12 @@ int main() {
 
 	Serial.println("Fin du setup");
 	OrderManager& orderMgr = OrderManager::Instance();
-	//ORDER_PTPDEMO a = ORDER_PTPDEMO();
 	orderMgr.init();
 
     // MotionControlSystem interrupt on timer
 	IntervalTimer motionControlInterruptTimer;
 	motionControlInterruptTimer.priority(253);
-    motionControlInterruptTimer.begin(motionControlInterrupt, MC_PERIOD); // Setup de l'interruption d'asservissement
+    motionControlInterruptTimer.begin(motionControlInterrupt, MCS_PERIOD); // Setup de l'interruption d'asservissement
 
 
     // Timer pour steppers
