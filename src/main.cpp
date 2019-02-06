@@ -19,6 +19,18 @@ void motionControlInterrupt() {
 }
 
 int main() {
+	for (int i=0; i<6;i++){
+		pinMode(i,INPUT_PULLUP);
+	}
+	for (int i=9; i<12;i++){
+		pinMode(i,INPUT_PULLUP);
+	}
+	for (int i=13; i<24;i++){
+		pinMode(i,INPUT_PULLUP);
+	}
+	for (int i=25; i<35;i++){
+		pinMode(i,INPUT_PULLUP);
+	}
 	/*************************
 	 * Initialisation du LL, gère:
 	 * La série

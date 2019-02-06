@@ -4,6 +4,7 @@
 
 
 #include "Orders.h"
+#include "../../MCS/RobotStatus.h"
 
 void ORDER_ping::impl(Args args)
 {
