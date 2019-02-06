@@ -7,8 +7,8 @@ constexpr uint8_t RST = 9;
 constexpr uint8_t LED_DEBUG_ETH = 99;
 
 /* Moteurs */
-constexpr uint8_t INA_LEFT = 12;
-constexpr uint8_t INB_LEFT = 24;
+constexpr uint8_t INA_LEFT = 24;
+constexpr uint8_t INB_LEFT = 12;
 constexpr uint8_t PIN_PWM_LEFT = 35;
 
 constexpr uint8_t INA_RIGHT = 6;
