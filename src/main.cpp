@@ -76,6 +76,12 @@ int main() {
 
     static Metro USSend = Metro(80);
 
+    //Roues
+    OrderManager::Instance().execute("montlhery");
+    OrderManager::Instance().execute("av");
+    //delay(1000);
+    //OrderManager::Instance().execute("sstop");
+
     while (true) {
     	InterruptStackPrint::Instance().print();
 		orderMgr.communicate();
