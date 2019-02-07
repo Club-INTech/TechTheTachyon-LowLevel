@@ -7,9 +7,9 @@
 
 #include "COM/Order/OrderManager.h"
 #include "Utils/Monitoring.h"
-#include "COM/InterruptStackPrint.h"
 #include <string>
 #include "Utils/pin_mapping.h"
+//#include "MCS/HardwareEncoder_ISRDEF.h"
 
 /* Interruptions d'asservissements */
 void motionControlInterrupt() {
@@ -19,18 +19,6 @@ void motionControlInterrupt() {
 }
 
 int main() {
-	for (int i=0; i<6;i++){
-		pinMode(i,INPUT_PULLUP);
-	}
-	for (int i=9; i<12;i++){
-		pinMode(i,INPUT_PULLUP);
-	}
-	for (int i=13; i<24;i++){
-		pinMode(i,INPUT_PULLUP);
-	}
-	for (int i=25; i<35;i++){
-		pinMode(i,INPUT_PULLUP);
-	}
 	/*************************
 	 * Initialisation du LL, gère:
 	 * La série
@@ -88,18 +76,13 @@ int main() {
 
     static Metro USSend = Metro(80);
 
-    //Roues
-    OrderManager::Instance().execute("montlhery");
-    OrderManager::Instance().execute("av");
-    //delay(1000);
-    //OrderManager::Instance().execute("sstop");
-
     while (true) {
-    	InterruptStackPrint::Instance().print();
 		orderMgr.communicate();
 		orderMgr.refreshUS();
 		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 		USSend.check() ? orderMgr.sendUS() : void();
+		orderMgr.execute("rawposdata");
+		delay(100);
     }
 }
 

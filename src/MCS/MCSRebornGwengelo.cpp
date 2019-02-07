@@ -7,9 +7,9 @@
 #include "SelfContainedPID.hpp"
 #include "Utils/utils.h"
 #include "Utils/defines.h"
-#include "../Utils/defines.h"
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT) {
+
     initSettings();
     initStatus();
     robotStatus.controlled = true;
@@ -33,10 +33,8 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT) {
 }
 
 void MCS::initSettings() {
-    Encoder1.setup();
-    Encoder2.setup();
-    Encoder1.reset();
-    Encoder2.reset();
+    Encoder1.setup(ENCODERMODE::PULLUP);
+    Encoder2.setup(ENCODERMODE::PULLUP);
     Encoder1.start();
     Encoder2.start();
 
