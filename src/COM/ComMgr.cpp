@@ -11,6 +11,7 @@ ComMgr::ComMgr()
         ethernet = new EthernetInterface();
     }
     serial = new SerialInterface();
+    sdlog = new SDLog();
 }
 
 void ComMgr::sendPosition(const float * data)
@@ -44,7 +45,7 @@ void ComMgr::printfln(Header header,const char * data,...)
     if( memcmp(header,DEBUG_HEADER,HEADER_LENGTH) )
         printfln(DEBUG_HEADER,formatted);
 
-    sdlog.logWrite(formatted);
+    sdlog->logWrite(formatted);
 
     va_end(args);
 }
@@ -70,7 +71,7 @@ void ComMgr::printf(Header header, const char *data, ...)
     if( memcmp(header,DEBUG_HEADER,HEADER_LENGTH) )
         printfln(DEBUG_HEADER,formatted);
 
-    sdlog.logWrite(formatted);
+    sdlog->logWrite(formatted);
 
     va_end(args);
 }
@@ -82,7 +83,7 @@ void ComMgr::printOnSerial(const char* str)
 
 void ComMgr::startMatch()
 {
-    sdlog.setStartingTime();
+    sdlog->setStartingTime();
 }
 
 ComMgr::~ComMgr()

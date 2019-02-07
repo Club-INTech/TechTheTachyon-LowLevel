@@ -44,7 +44,7 @@ public:
 private:
     AbstractComInterface*    ethernet = nullptr;
     AbstractComInterface*      serial = nullptr;
-    SDLog sdlog;
+    SDLog* sdlog = nullptr;
 
 };
 
