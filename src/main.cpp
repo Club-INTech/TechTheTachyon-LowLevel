@@ -9,7 +9,7 @@
 #include "Utils/Monitoring.h"
 #include <string>
 #include "Utils/pin_mapping.h"
-//#include "MCS/HardwareEncoder_ISRDEF.h"
+#include "MCS/HardwareEncoder_ISRDEF.h"
 
 /* Interruptions d'asservissements */
 void motionControlInterrupt() {
