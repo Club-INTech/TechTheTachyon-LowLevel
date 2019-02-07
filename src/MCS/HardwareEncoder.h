@@ -179,7 +179,6 @@ public:
     void start()
     {
         reset();
-
         /* Enables over/under-flow interruptions for FTM */
         NVIC_ENABLE_IRQ(IRQ_FTM());
     }
