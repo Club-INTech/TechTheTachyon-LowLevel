@@ -7,8 +7,8 @@
 //  Author  : SOTON "Asphox" Dylan
 //  From    : Intech, robotic club of Telecom SudParis
 //  Email   : dylan.soton@telecom-sudparis.eu
-//  Date    : Nov 24 2018
-//  Version : 1.0
+//  Date    : Feb 7 2019
+//  Version : 1.5
 //  Licence : X11/MIT
 //==========================================================================
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of this software
@@ -35,14 +35,31 @@ enum class ENCODERMODE
     NONE =          0,
     FILTER_OFF =    0b1,
     PULLUP =        0b10,
-    PULLDOWN =      0b100
+    PULLDOWN =      0b100,
+    INVERSED =      0b1000
 };
 
+static ENCODERMODE operator|(const ENCODERMODE& e1 , const ENCODERMODE& e2)
+{
+    return (ENCODERMODE)((int)e1|(int)e2);
+}
 
 template< uint8_t N >
-class HardwareEncoder
+class HardwareEncoder;
+
+class AbsHardwareEncoder
 {
-protected:
+public:
+    virtual void ftm_isr() = 0;
+};
+
+static AbsHardwareEncoder* __PTR__encoder1 = nullptr;
+static AbsHardwareEncoder* __PTR__encoder2 = nullptr;
+
+template< uint8_t N >
+class HardwareEncoder : public AbsHardwareEncoder
+{
+private:
     constexpr volatile uint32_t& SC()     { return (N<2) ? FTM1_SC : FTM2_SC; }
     constexpr volatile uint32_t& CNT()    { return (N<2) ? FTM1_CNT : FTM2_CNT; }
     constexpr volatile uint32_t& MOD()    { return (N<2) ? FTM1_MOD : FTM2_MOD; }
@@ -59,8 +76,9 @@ protected:
     constexpr volatile uint32_t& PORT_B()  { return (N<2) ? PORTA_PCR13 : PORTB_PCR19; }
     constexpr volatile uint32_t  IRQ_FTM(){ return (N<2) ? IRQ_FTM1 : IRQ_FTM2; }
 
-    volatile int32_t  cnt_H = 0;
     volatile uint32_t blackHole;
+    volatile int32_t cnt_H;
+    bool             m_inverseRotation = false;
 
     inline void DISABLE_PROTECTION() { FORCE_READ(FMS()); MODE() |= FTM_MODE_WPDIS; }
     inline void ENABLE_PROTECTION() { FMS() |= FTM_FMS_WPEN; }
@@ -71,12 +89,22 @@ public:
     HardwareEncoder()
     {
         static_assert( N == 1 || N == 2 , "");
+        if(N == 1)
+        {
+            __PTR__encoder1 = this;
+        }
+        else
+        {
+            __PTR__encoder2 = this;
+        }
     }
 
     void setup(ENCODERMODE option = ENCODERMODE::NONE)
     {
         PORT_A() = 0;
         PORT_B() = 0;
+
+        m_inverseRotation = (int)option & (int)ENCODERMODE::INVERSED;
 
         /* configure pins to enable pullup mode */
         if( (int)option & (int)ENCODERMODE::PULLUP )
@@ -136,6 +164,7 @@ public:
         COMBINE() = 0;
 
         C0SC() = 0x10;
+        C1SC() = 0;
         /* Sets value for software  "over/under-flow interrupt" check*/
         C0V() = 0x0000;
 
@@ -150,7 +179,6 @@ public:
     void start()
     {
         reset();
-
         /* Enables over/under-flow interruptions for FTM */
         NVIC_ENABLE_IRQ(IRQ_FTM());
     }
@@ -165,19 +193,19 @@ public:
         ENABLE_PROTECTION();
     }
 
-    void ofi()
+    void ftm_isr()
     {
         /* If hardware over/under-flow is detected */
         if( SC() == (FTM_SC_TOIE|FTM_SC_TOF) )
         {
             /* Force reads SC to enable modification*/
             FORCE_READ(SC());
-
             /* Checks if it was an overflow or underflow, then increment or decrement the high register */
             if( QDCTRL() & FTM_QDCTRL_TOFDIR )
                 cnt_H++;
             else
                 cnt_H--;
+
         }
         /* If software over/under-flow is detected (to prevent ghost ticks) */
         else
@@ -193,8 +221,12 @@ public:
         FORCE_READ(C0SC());
         C0SC() = 0x50;
 
-        /* Clears over/under-flow flag */
-        SC() = FTM_SC_TOIE;
+        /* wait for clear on over/under-flow flag */
+        while( SC() != FTM_SC_TOIE )
+        {
+            FORCE_READ(SC());
+            SC() = FTM_SC_TOIE;
+        }
     }
 
     void reset()
@@ -235,22 +267,23 @@ public:
         ENABLE_PROTECTION();
     }
 
-    inline int32_t count ()
+    int32_t count ()
     {
-        return cnt_H*0x10000+CNT();
+        noInterrupts();
+        int32_t cnt_L = CNT();
+        interrupts();
+        if(m_inverseRotation)
+            return -(cnt_H<<16)-cnt_L;
+        else
+            return (cnt_H<<16)+cnt_L;
     }
 };
 
-/* Encoder1 "arduino" pins : A:3	B:4 */
+/* Encoder1 teensy35 pins : A:3	B:4 */
 static HardwareEncoder<1> Encoder1;
 
-/* Encoder2 "arduino" pins : A:32   B:25 */
+/* Encoder2 teensy32 pins : A:25   B:32 */
+/* Encoder2 teensy35 pins : A:29   B:30 */
 static HardwareEncoder<2> Encoder2;
-
-/* Wrapper for over/under-flow interrupt on register CNT for FTM1 */
-extern void ftm1_isr();
-
-/* Wrapper for over/under-flow interrupt on register CNT for FTM2*/
-extern void ftm2_isr();
 
 #endif //HARDWAREENCODER_H

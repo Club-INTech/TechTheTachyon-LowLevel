@@ -7,9 +7,9 @@
 #include "SelfContainedPID.hpp"
 #include "Utils/utils.h"
 #include "Utils/defines.h"
-#include "../Utils/defines.h"
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT) {
+
     initSettings();
     initStatus();
     robotStatus.controlled = true;
@@ -18,9 +18,9 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT) {
     robotStatus.controlledP2P = false;
     robotStatus.movement = MOVEMENT::NONE;
 
-    leftSpeedPID.setTunings(0.15, 0, 0);
+    leftSpeedPID.setTunings(0.06, 0, 0);
     leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(0.1, 0, 0);
+    rightSpeedPID.setTunings(0.065, 0, 0);
     rightSpeedPID.enableAWU(false);
 
     translationPID.setTunings(0,0,0,0);
@@ -33,16 +33,14 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT) {
 }
 
 void MCS::initSettings() {
-    Encoder1.setup();
-    Encoder2.setup();
-    Encoder1.reset();
-    Encoder2.reset();
+    Encoder1.setup(ENCODERMODE::PULLUP);
+    Encoder2.setup(ENCODERMODE::PULLUP);
     Encoder1.start();
     Encoder2.start();
 
     /* mm/s/MCS_PERIOD */
-    controlSettings.maxAcceleration = 9;
-    controlSettings.maxDeceleration = 9;
+    controlSettings.maxAcceleration = 1;
+    controlSettings.maxDeceleration = 1;
 
     /* rad/s */
     controlSettings.maxRotationSpeed = 2*PI;
@@ -184,8 +182,12 @@ void MCS::control()
     leftMotor.run(leftPWM);
     rightMotor.run(rightPWM);
 
+    //leftMotor.run(10);
+    //rightMotor.run(10);
+
     previousLeftTicks = leftTicks;
     previousRightTicks = rightTicks;
+
 }
 
 void MCS::manageStop() {
