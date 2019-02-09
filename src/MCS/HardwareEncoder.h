@@ -89,6 +89,7 @@ public:
     HardwareEncoder()
     {
         static_assert( N == 1 || N == 2 , "");
+
         if(N == 1)
         {
             __PTR__encoder1 = this;
@@ -159,6 +160,8 @@ public:
 
         /* Resets CNT to CNTIN value */
         CNT() = 0;
+
+        cnt_H = 0;
 
         /* Resets all configurations for linked channels to be sure */
         COMBINE() = 0;
@@ -231,6 +234,7 @@ public:
 
     void reset()
     {
+        NVIC_DISABLE_IRQ(IRQ_FTM());
         /* Disables write protection on registers*/
         DISABLE_PROTECTION();
 
@@ -254,11 +258,11 @@ public:
         C0V() = 0xFFFF;
 
         /* Resets count register */
-        CNT() =0;
+        CNT() = 0;
         cnt_H = 0;
 
         /* Enables quadrature mode */
-        QDCTRL() = FTM_QDCTRL_PHAFLTREN|FTM_QDCTRL_PHBFLTREN|FTM_QDCTRL_QUADEN;;
+        QDCTRL() = FTM_QDCTRL_PHAFLTREN|FTM_QDCTRL_PHBFLTREN|FTM_QDCTRL_QUADEN;
 
         /* Activates channel interrupts */
         C0SC() = 0x50;
@@ -270,12 +274,9 @@ public:
     int32_t count ()
     {
         noInterrupts();
-        int32_t cnt_L = CNT();
+        int32_t value = cnt_H*0x10000+CNT();
         interrupts();
-        if(m_inverseRotation)
-            return -(cnt_H<<16)-cnt_L;
-        else
-            return (cnt_H<<16)+cnt_L;
+        return value;
     }
 };
 

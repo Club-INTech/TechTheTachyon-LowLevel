@@ -76,13 +76,20 @@ int main() {
 
     static Metro USSend = Metro(80);
 
+    orderMgr.execute("montlhery");
+    orderMgr.execute("sstop");
+
+
+	pinMode(13,OUTPUT);
     while (true) {
+    	digitalWrite(13,LOW);
+    	delay(100);
+    	digitalWrite(13,HIGH);
+    	delay(100);
 		orderMgr.communicate();
 		orderMgr.refreshUS();
 		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 		USSend.check() ? orderMgr.sendUS() : void();
-		orderMgr.execute("rawposdata");
-		delay(100);
     }
 }
 

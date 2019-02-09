@@ -8,7 +8,10 @@
 #include "Utils/utils.h"
 #include "Utils/defines.h"
 
-MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT) {
+MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
+
+    encoderRight = new Encoder(3,4);
+    encoderLeft = new Encoder(29,30);
 
     initSettings();
     initStatus();
@@ -33,10 +36,6 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT) {
 }
 
 void MCS::initSettings() {
-    Encoder1.setup(ENCODERMODE::PULLUP);
-    Encoder2.setup(ENCODERMODE::PULLUP);
-    Encoder1.start();
-    Encoder2.start();
 
     /* mm/s/MCS_PERIOD */
     controlSettings.maxAcceleration = 1;
@@ -163,8 +162,8 @@ void MCS::control()
     if(!robotStatus.controlled)
         return;
 
-    leftTicks = Encoder1.count();
-    rightTicks = Encoder2.count();
+    leftTicks = encoderLeft->read();
+    rightTicks = encoderRight->read();
 
     updatePositionOrientation();
 
@@ -182,8 +181,8 @@ void MCS::control()
     leftMotor.run(leftPWM);
     rightMotor.run(rightPWM);
 
-    //leftMotor.run(10);
-    //rightMotor.run(10);
+    //leftMotor.run(0);
+    //rightMotor.run(0);
 
     previousLeftTicks = leftTicks;
     previousRightTicks = rightTicks;

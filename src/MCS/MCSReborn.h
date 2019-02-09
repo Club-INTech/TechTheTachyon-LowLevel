@@ -13,7 +13,10 @@
 #include "pid.hpp"
 #include "SelfContainedPID.hpp"
 #include "PointToPointTrajectory.h"
-#include "HardwareEncoder.h"
+//#include "HardwareEncoder.h"
+
+#define ENCODER_OPTIMIZE_INTERRUPTS
+#include "Encoder.h"
 #include "../COM/InterruptStackPrint.h"
 
 // TODO : Tout docu
@@ -22,6 +25,9 @@ class MCS : public Singleton<MCS>
 {
 
 private:
+
+    Encoder* encoderRight = nullptr;
+    Encoder* encoderLeft = nullptr;
 
     RobotStatus robotStatus;
     ControlSettings controlSettings;

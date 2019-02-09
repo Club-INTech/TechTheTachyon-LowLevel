@@ -25,7 +25,7 @@
 
 struct direction_def {
 	enum type {
-		BACKWARD, FORWARD
+		BACKWARD, FORWARD, NONE
 	};
 };
 struct side_def {
