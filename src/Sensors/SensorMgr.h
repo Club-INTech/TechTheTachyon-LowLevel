@@ -28,7 +28,6 @@ private:
 	ComMgr& highLevel;
 
 	SICKDT35_B15851 distanceSensors[NBR_OF_DISTANCE_SENSOR];
-	std::array<Median<uint16_t ,MEDIAN_US_SIZE>,NBR_OF_US_SENSOR> distances;
 	MOVEMENT measure_direction;
 
 	bool jumperPlugged;

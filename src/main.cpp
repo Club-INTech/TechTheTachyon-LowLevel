@@ -65,7 +65,7 @@ int main() {
     stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
 
 
-    delay(1500);//Laisse le temps aux capteurs de clignotter leur ID
+    delay(5000);//Laisse le temps aux capteurs de clignotter leur ID
 
 	/**
 	 * Boucle principale, y est géré:
@@ -83,14 +83,15 @@ int main() {
 	pinMode(13,OUTPUT);
     while (true) {
     	digitalWrite(13,LOW);
-    	delay(50);
+    	delay(30);
     	digitalWrite(13,HIGH);
-    	delay(50);
+    	delay(30);
 		orderMgr.communicate();
 		orderMgr.refreshUS();
 		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 		USSend.check() ? orderMgr.sendUS() : void();
 		orderMgr.execute("rawposdata");
+
     }
 }
 
