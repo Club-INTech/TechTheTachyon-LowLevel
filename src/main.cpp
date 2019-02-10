@@ -79,6 +79,8 @@ int main() {
     orderMgr.execute("montlhery");
     orderMgr.execute("av");
 
+    int i = 0;
+
 
 	pinMode(13,OUTPUT);
     while (true) {
@@ -91,6 +93,9 @@ int main() {
 		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 		USSend.check() ? orderMgr.sendUS() : void();
 		orderMgr.execute("rawposdata");
+
+		if( i == 60 ) Serial.println("DATAEND");
+		i++;
 
     }
 }

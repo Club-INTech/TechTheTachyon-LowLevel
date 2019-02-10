@@ -75,15 +75,15 @@ void OrderManager::communicate() {
      if (n_param >= 0) {
          strcpy(str_order, orderData.at(0));
 
-         Serial.println(orderToExecute);
+         //Serial.println(orderToExecute);
 
          auto it = orders.find(str_order);
          if(it != orders.end())
              it->second->exec(orderData);
          else
          {
-             highLevel.printfln(STD_HEADER,"ordre inconnu");
-             highLevel.printfln(DEBUG_HEADER,"T'es un déchêt");
+             //highLevel.printfln(STD_HEADER,"ordre inconnu");
+             //highLevel.printfln(DEBUG_HEADER,"T'es un déchêt");
          }
      }
      checkHooks();

@@ -26,6 +26,7 @@ ligne = fileStream.readline()
 positions = []
 positionsY = []
 vitessesY = []
+abscisses = []
 
 angles = []
 vitesseAngulaire = []

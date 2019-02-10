@@ -21,11 +21,9 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.controlledP2P = false;
     robotStatus.movement = MOVEMENT::NONE;
 
-    //leftSpeedPID.setTunings(1.198, 0, 0);
-    leftSpeedPID.setTunings(1.5641, 0, 10);
+    leftSpeedPID.setTunings(0.4, 0.0002, 10);
     leftSpeedPID.enableAWU(false);
-    //rightSpeedPID.setTunings(1.1, 0, 0);
-    rightSpeedPID.setTunings(1.385, 0, 10);
+    rightSpeedPID.setTunings(1.3, 0.00015, 30);
     rightSpeedPID.enableAWU(false);
 
     translationPID.setTunings(0,0,0,0);
@@ -40,8 +38,8 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 void MCS::initSettings() {
 
     /* mm/s/MCS_PERIOD */
-    controlSettings.maxAcceleration = 1;
-    controlSettings.maxDeceleration = 1;
+    controlSettings.maxAcceleration = 0;
+    controlSettings.maxDeceleration = 0;
 
     /* rad/s */
     controlSettings.maxRotationSpeed = 2*PI;
@@ -150,14 +148,14 @@ void MCS::updateSpeed()
     rightSpeedPID.setGoal(robotStatus.speedTranslation+robotStatus.speedRotation);
 
     if( leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal > controlSettings.maxAcceleration )
-        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration );
+        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxAcceleration );
     if( previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration )
-        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxDeceleration );
+        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxDeceleration );
 
     if( rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal > controlSettings.maxAcceleration )
-        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxAcceleration );
+        rightSpeedPID.setGoal( previousRightSpeedGoal - controlSettings.maxAcceleration );
     if( previousRightSpeedGoal - rightSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration )
-        rightSpeedPID.setGoal( previousRightSpeedGoal - controlSettings.maxDeceleration );
+        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxDeceleration );
 }
 void MCS::control()
 {
