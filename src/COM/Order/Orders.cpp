@@ -245,9 +245,11 @@ void ORDER_rawposdata::impl(Args args)
     float leftSpeed = orderManager.motionControlSystem.getLeftSpeed();
     float rightSpeed = orderManager.motionControlSystem.getRightSpeed();
 
+    /*
     orderManager.highLevel.printfln(DEBUG_HEADER,"%d,%d,%f,%f,%d,%f,%d",
                                     xPos,yPos,angle,leftSpeed, leftSpeedGoal,rightSpeed,rightSpeedGoal);
-
+    */
+    Serial.printf("%d,%d,%f,%f,%d,%f,%d\n", xPos,yPos,angle,leftSpeed, leftSpeedGoal,rightSpeed,rightSpeedGoal);
     //int32_t right, left;
     //motionControlSystem.getPWMS(left,right);
     //Serial.println(right);
