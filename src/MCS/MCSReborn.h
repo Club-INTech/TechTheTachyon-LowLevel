@@ -49,6 +49,8 @@ private:
     int32_t rightTicks;
     int32_t previousLeftTicks;
     int32_t previousRightTicks;
+    int32_t previousLeftSpeedGoal;
+    int32_t previousRightSpeedGoal;
     int16_t targetDistance;
     float targetAngle;
     float angleOffset;
@@ -78,9 +80,9 @@ public:
 
     void speedBasedMovement(MOVEMENT);
 
-    void toggleControl();
-    void toggleTranslation();
-    void toggleRotation();
+    void setControl(bool);
+    void controlledTranslation(bool);
+    void controlledRotation(bool);
     void setForcedMovement(bool);
     void initSettings();
     void initStatus();

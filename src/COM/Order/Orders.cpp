@@ -265,8 +265,8 @@ void ORDER_reseteth::impl(Args args)
 
 void ORDER_montlhery::impl(Args args)
 {
-    orderManager.motionControlSystem.toggleRotation();
-    orderManager.motionControlSystem.toggleTranslation();
+    orderManager.motionControlSystem.controlledRotation(false);
+    orderManager.motionControlSystem.controlledTranslation(false);
     orderManager.motionControlSystem.setForcedMovement(true);
 }
 

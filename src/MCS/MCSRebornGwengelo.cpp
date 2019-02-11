@@ -36,10 +36,13 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 }
 
 void MCS::initSettings() {
+    robotStatus.controlledP2P = false;
+    robotStatus.movement = MOVEMENT::NONE;
+
 
     /* mm/s/MCS_PERIOD */
-    controlSettings.maxAcceleration = 0;
-    controlSettings.maxDeceleration = 0;
+    controlSettings.maxAcceleration = 2;
+    controlSettings.maxDeceleration = 2;
 
     /* rad/s */
     controlSettings.maxRotationSpeed = 2*PI;
@@ -64,6 +67,10 @@ void MCS::initStatus() {
     robotStatus.controlled = true;
     robotStatus.controlledRotation = true;
     robotStatus.controlledTranslation = true;
+    previousLeftSpeedGoal = 0;
+    previousRightSpeedGoal = 0;
+    previousLeftTicks = 0;
+    previousRightTicks = 0;
 }
 
 void MCS::updatePositionOrientation() {
@@ -122,8 +129,6 @@ void MCS::updatePositionOrientation() {
 
 void MCS::updateSpeed()
 {
-    int32_t previousLeftSpeedGoal = leftSpeedPID.getCurrentGoal();
-    int32_t previousRightSpeedGoal = rightSpeedPID.getCurrentGoal();
 
     averageLeftSpeed.add((leftTicks - previousLeftTicks) * TICK_TO_MM * MCS_FREQ);
     averageRightSpeed.add((rightTicks - previousRightTicks) * TICK_TO_MM  * MCS_FREQ);
@@ -147,15 +152,22 @@ void MCS::updateSpeed()
     leftSpeedPID.setGoal(robotStatus.speedTranslation-robotStatus.speedRotation);
     rightSpeedPID.setGoal(robotStatus.speedTranslation+robotStatus.speedRotation);
 
-    if( leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal > controlSettings.maxAcceleration )
-        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxAcceleration );
-    if( previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration )
-        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxDeceleration );
+    if( leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal > controlSettings.maxAcceleration ) {
+        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration );
+    }
+    if( previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration ) {
+        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxDeceleration );
+    }
 
-    if( rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal > controlSettings.maxAcceleration )
-        rightSpeedPID.setGoal( previousRightSpeedGoal - controlSettings.maxAcceleration );
-    if( previousRightSpeedGoal - rightSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration )
-        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxDeceleration );
+    if( rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal > controlSettings.maxAcceleration ) {
+        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxAcceleration );
+    }
+    if( previousRightSpeedGoal - rightSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration ) {
+        rightSpeedPID.setGoal( previousRightSpeedGoal - controlSettings.maxDeceleration );
+    }
+
+    previousLeftSpeedGoal = leftSpeedPID.getCurrentGoal();
+    previousRightSpeedGoal = rightSpeedPID.getCurrentGoal();
 }
 void MCS::control()
 {
@@ -329,16 +341,16 @@ void MCS::disableP2P() {
     robotStatus.controlledP2P = false;
 }
 
-void MCS::toggleControl() {
-    robotStatus.controlled = !robotStatus.controlled;
+void MCS::setControl(bool b) {
+    robotStatus.controlled = b;
 }
 
-void MCS::toggleTranslation() {
-    robotStatus.controlledTranslation = !robotStatus.controlledTranslation;
+void MCS::controlledTranslation(bool b) {
+    robotStatus.controlledTranslation = b;
 }
 
-void MCS::toggleRotation() {
-    robotStatus.controlledRotation = !robotStatus.controlledRotation;
+void MCS::controlledRotation(bool b) {
+    robotStatus.controlledRotation = b;
 }
 
 void MCS::setForcedMovement(bool newState) {
