@@ -21,9 +21,9 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.controlledP2P = false;
     robotStatus.movement = MOVEMENT::NONE;
 
-    leftSpeedPID.setTunings(1.1, 0.00025, 0);
+    leftSpeedPID.setTunings(1.1, 0.00026, 0);
     leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(1.05, 0.0002, 0);
+    rightSpeedPID.setTunings(1.03, 0.00022, 0);
     rightSpeedPID.enableAWU(false);
 
     translationPID.setTunings(0,0,0,0);
@@ -49,7 +49,7 @@ void MCS::initSettings() {
 
     /* mm/s */
     controlSettings.maxTranslationSpeed = 1000;
-    controlSettings.tolerancySpeed = 24;
+    controlSettings.tolerancySpeed = 100;
 
     /* rad */
     controlSettings.tolerancyAngle = 0.0044;

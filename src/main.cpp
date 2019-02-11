@@ -95,9 +95,13 @@ int main() {
 		if( i == 5 )     orderMgr.execute("av");
 		if( i == 100 )
         {
-		    Serial.println("DATAEND");
 		    orderMgr.execute("sstop");
+		    Serial.println("DATAEND");
         }
+        /*if( i == 150 )
+        {
+            Serial.println("DATAEND");
+        }*/
 		i++;
 
     }
