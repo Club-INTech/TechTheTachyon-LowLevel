@@ -26,7 +26,7 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 
 |        Ordres         |                           Actions                         |
 |:---------------------:|:---------------------------------------------------------:|                  
-|          ?            |                         Ping le LL                        |
+|         ping          |                         Ping le LL                        |
 |          j            |           Active l'attente de l'activation du jumper      |
 |         sus           |        Switch les US ou choisit leur état (on/off)        |
 |          f            |                     Check le mouvement                    |
@@ -49,13 +49,11 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |        cr1            |                 Active l'asserv en rotation               |
 |        cv0            |                Désactive l'asserv en vitesse              |
 |        cv1            |                 Active l'asserv en vitesse                |
-|       seti2c          |                    Set les capteurs I2C                   |
 |        cod            |                Retourne les ticks de codeuse              |
 |      pfdebug          |                Info de debug sur la position              |
 |      rawpwm           |            Demande un PWM brut aux deux moteurs           |
 |      getpwn           |              Retourne le PWM des deux moteurs             |
 |      errors           |             Retourne les erreurs d'incertitude            |
-|     rawdistance       |             Retourne la distance brute en ticks           |
 |      rawspeed         |                   Vitesse brute des roues                 |
 |     rawposdata        |             Pos x,y,α; vL,vR, targetvL,targetvR           |
 |     montlhery         |                    Mode de présentation                   |
@@ -67,8 +65,6 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |         nh            |     Créé un nouveau hook (id,x,y,r,α,tolerance,action)    |
 |         eh            |                       Active le hook                      |
 |         dh            |                     Désactive le hook                     |
-|    emergencyStop      |  Arrète brutalement le robot et ***DESACTIVE*** l'asserv  |
-|  resumeEmergencyStop  |          Redemarre l'asserv après un emergencyStop        |
 
 ### Ordres pour les capteurs
 |   Ordres  |                       Actions                                          			| Arguments      				|

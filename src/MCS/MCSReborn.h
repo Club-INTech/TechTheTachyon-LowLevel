@@ -84,6 +84,9 @@ public:
     void controlledTranslation(bool);
     void controlledRotation(bool);
     void setForcedMovement(bool);
+    void setTranslationSpeed(float);
+    void setRotationSpeed(float);
+
     void initSettings();
     void initStatus();
 

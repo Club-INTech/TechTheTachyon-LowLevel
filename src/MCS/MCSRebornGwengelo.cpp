@@ -357,6 +357,14 @@ void MCS::setForcedMovement(bool newState) {
     robotStatus.forcedMovement = newState;
 }
 
+void MCS::setTranslationSpeed(float speed) {
+    robotStatus.speedTranslation = speed;
+}
+
+void MCS::setRotationSpeed(float speed) {
+    robotStatus.speedRotation = speed;
+}
+
 int16_t MCS::getX() {
     return robotStatus.x;
 }

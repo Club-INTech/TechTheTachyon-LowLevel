@@ -18,8 +18,6 @@ ORDER(t,1);
 ORDER(goto,2);
 ORDER(followTrajectory,1);
 ORDER(stop,0);
-ORDER(emergencyStop,0);
-ORDER(resumeEmergencyStop,0);
 
 /*			 __________________
 * 		   *|                  |*

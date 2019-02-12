@@ -91,16 +91,6 @@ void ORDER_stop::impl(Args args)
     orderManager.highLevel.printfln(DEBUG_HEADER,"A priori, je m'arrête");
 }
 
-void ORDER_emergencyStop::impl(Args args)
-{
-
-}
-
-void ORDER_resumeEmergencyStop::impl(Args args)
-{
-
-}
-
 void ORDER_cx::impl(Args args)
 {
     orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
@@ -125,18 +115,18 @@ void ORDER_cxyo::impl(Args args)
 
 void ORDER_ctv::impl(Args args)
 {
-    // FIXME orderManager.motionControlSystem.setTranslationSpeed(orderManager.parseFloat(args[0]));
+    orderManager.motionControlSystem.setTranslationSpeed(orderManager.parseFloat(args[0]));
 }
 
 void ORDER_crv::impl(Args args)
 {
-    // FIXME orderManager.motionControlSystem.setRotationSpeed(orderManager.parseFloat(args[0]));
+    orderManager.motionControlSystem.setRotationSpeed(orderManager.parseFloat(args[0]));
 }
 
 void ORDER_ctrv::impl(Args args)
 {
-    // FIXME orderManager.motionControlSystem.setTranslationSpeed(orderManager.parseFloat(args[0]));
-    // FIXME orderManager.motionControlSystem.setRotationSpeed(orderManager.parseFloat(args[1]));
+    orderManager.motionControlSystem.setTranslationSpeed(orderManager.parseFloat(args[0]));
+    orderManager.motionControlSystem.setRotationSpeed(orderManager.parseFloat(args[1]));
 }
 
 void ORDER_efm::impl(Args args)
@@ -151,38 +141,38 @@ void ORDER_dfm::impl(Args args)
 
 void ORDER_ct0::impl(Args args)
 {
-    // FIXME  orderManager.motionControlSystem.enableTranslationControl(false);
-    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"non asservi en translation");
+    orderManager.motionControlSystem.controlledTranslation(false);
+    orderManager.highLevel.printfln(DEBUG_HEADER,"Non asservi en translation");
 }
 
 void ORDER_ct1::impl(Args args)
 {
-    // FIXME  orderManager.motionControlSystem.enableTranslationControl(true);
-    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en translation");
+    orderManager.motionControlSystem.controlledTranslation(true);
+    orderManager.highLevel.printfln(DEBUG_HEADER,"Asservi en translation");
 }
 
 void ORDER_cr0::impl(Args args)
 {
-// FIXME    orderManager.motionControlSystem.enableRotationControl(false);
-    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"non asservi en rotation");
+    orderManager.motionControlSystem.controlledRotation(false);
+    orderManager.highLevel.printfln(DEBUG_HEADER,"Non asservi en rotation");
 }
 
 void ORDER_cr1::impl(Args args)
 {
-    // FIXME  orderManager.motionControlSystem.enableRotationControl(true);
-    // FIXME  orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en rotation");
+    orderManager.motionControlSystem.controlledRotation(true);
+    orderManager.highLevel.printfln(DEBUG_HEADER,"Asservi en rotation");
 }
 
 void ORDER_cv0::impl(Args args)
 {
-    // FIXME orderManager.motionControlSystem.enableSpeedControl(false);
-    // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"non asservi en vitesse");
+    orderManager.motionControlSystem.setControl(false);
+    orderManager.highLevel.printfln(DEBUG_HEADER,"Non asservi en vitesse");
 }
 
 void ORDER_cv1::impl(Args args)
 {
-    // FIXME orderManager.motionControlSystem.enableSpeedControl(true);
-    // FIXME orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en vitesse");
+    orderManager.motionControlSystem.setControl(true);
+    orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en vitesse");
 }
 
 void ORDER_cod::impl(Args args)
