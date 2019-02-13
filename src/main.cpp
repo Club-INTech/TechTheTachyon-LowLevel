@@ -76,7 +76,7 @@ int main() {
 
     static Metro USSend = Metro(80);
 
-    orderMgr.execute("montlhery");
+    //orderMgr.execute("montlhery");
 
     int i = 0;
 
@@ -92,7 +92,9 @@ int main() {
 		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 		USSend.check() ? orderMgr.sendUS() : void();
 		orderMgr.execute("rawposdata");
-		if( i == 5 )     orderMgr.execute("av");
+		if( i == 5 ) {
+			orderMgr.execute("d 1000");
+		}
 		if( i == 100 )
         {
 		    orderMgr.execute("sstop");

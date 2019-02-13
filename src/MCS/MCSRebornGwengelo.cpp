@@ -22,15 +22,17 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.movement = MOVEMENT::NONE;
 
     //leftSpeedPID.setTunings(1.4, 0.005, 1970);
-    leftSpeedPID.setTunings(1.4, 0.000005, 5, 1);
+    //leftSpeedPID.setTunings(1.4, 0.000005, 5, 0.00000001);
+    leftSpeedPID.setTunings(1.317, 0, 5, 0.00000001);
     leftSpeedPID.enableAWU(true);
     //rightSpeedPID.setTunings(1.4, 0.005, 2000);
-    rightSpeedPID.setTunings(1.3, 0, 30, 1);
+    //rightSpeedPID.setTunings(1.3, 0, 30, 0.00000001);
+    rightSpeedPID.setTunings(1.3, 0, 30, 0.00000001);
     rightSpeedPID.enableAWU(true);
 
-    translationPID.setTunings(0,0,0,0);
+    translationPID.setTunings(7.9,0,0,0);
     translationPID.enableAWU(false);
-    rotationPID.setTunings(0,0,0,0);
+    rotationPID.setTunings(14,0,0,0);
     rotationPID.enableAWU(false);
 
     leftMotor.init();
