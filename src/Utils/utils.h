@@ -17,6 +17,12 @@ namespace std {
 	void __throw_out_of_range_fmt(char const*e, ...);
 }
 */
+
+
+template <typename T> int sign(T val) {
+    return (T(0) < val) - (val < T(0));
+}
+
 extern "C" {
 #endif
 
