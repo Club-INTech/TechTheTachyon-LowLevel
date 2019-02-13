@@ -21,10 +21,12 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.controlledP2P = false;
     robotStatus.movement = MOVEMENT::NONE;
 
-    leftSpeedPID.setTunings(1.1, 0.00026, 0);
-    leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(1.03, 0.00022, 0);
-    rightSpeedPID.enableAWU(false);
+    //leftSpeedPID.setTunings(1.4, 0.005, 1970);
+    leftSpeedPID.setTunings(1.4, 0.000005, 5, 1);
+    leftSpeedPID.enableAWU(true);
+    //rightSpeedPID.setTunings(1.4, 0.005, 2000);
+    rightSpeedPID.setTunings(1.3, 0, 30, 1);
+    rightSpeedPID.enableAWU(true);
 
     translationPID.setTunings(0,0,0,0);
     translationPID.enableAWU(false);

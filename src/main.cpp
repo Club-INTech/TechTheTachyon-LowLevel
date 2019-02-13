@@ -96,12 +96,11 @@ int main() {
 		if( i == 100 )
         {
 		    orderMgr.execute("sstop");
-		    Serial.println("DATAEND");
         }
-        /*if( i == 150 )
+        if( i == 150 )
         {
             Serial.println("DATAEND");
-        }*/
+        }
 		i++;
 
     }
