@@ -52,7 +52,7 @@ public:
 		(*output) = result;
 	}
 
-	void setTunings(float kp, float ki, float kd, T integral_max_value = 0) {
+	void setTunings(float kp, float ki, float kd, float integral_max_value = 0) {
 		if (kp < 0 || ki < 0 || kd < 0)
 			return;
 
@@ -149,7 +149,7 @@ private:
 	T derivative;
 	T integral;
 
-	T integral_max_value = 0;
+	float integral_max_value = 0;
 	bool AWU_enabled = false;
 };
 
