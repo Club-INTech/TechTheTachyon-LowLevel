@@ -30,9 +30,9 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     rightSpeedPID.setTunings(1.3, 0, 30, 0.00000001);
     rightSpeedPID.enableAWU(true);
 
-    translationPID.setTunings(7.9,0,0,0);
+    translationPID.setTunings(6.955,0,0,0);
     translationPID.enableAWU(false);
-    rotationPID.setTunings(14,0,0,0);
+    rotationPID.setTunings(0,0,0,0);
     rotationPID.enableAWU(false);
 
     leftMotor.init();
@@ -88,12 +88,12 @@ void MCS::updatePositionOrientation() {
     // somme des résultantes
     int32_t distance = (leftDistance+rightDistance)/2;
 
-    robotStatus.x += distance*cos;
-    robotStatus.y += distance*sin;
+    robotStatus.x = distance*cos;
+    robotStatus.y = distance*sin;
 
     currentDistance = distance;
     currentRotation = ((rightTicks - currentDistance/TICK_TO_MM) - (leftTicks - currentDistance/TICK_TO_MM)) / 2 * TICK_TO_RADIAN;
-    robotStatus.orientation += currentRotation;
+    robotStatus.orientation = currentRotation;
 
     if(robotStatus.controlledP2P) { // si point-à-point
         int16_t dx = robotStatus.x - targetX;
@@ -225,7 +225,11 @@ void MCS::manageStop() {
     }
 
     if(!translationPID.active && !rotationPID.active) {
-        stop();
+        leftMotor.brake();
+        rightMotor.brake();
+        if(ABS(robotStatus.speedLeftWheel) <= controlSettings.tolerancySpeed && ABS(robotStatus.speedRightWheel) <= controlSettings.tolerancySpeed){
+            stop();
+        }
     }
 }
 

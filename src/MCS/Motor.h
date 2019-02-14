@@ -25,7 +25,7 @@
 
 struct direction_def {
 	enum type {
-		BACKWARD, FORWARD, NONE
+		BACKWARD, FORWARD, NONE, BRAKE
 	};
 };
 struct side_def {
@@ -57,6 +57,7 @@ public:
 	 * C'est juste mettre le PWM à 0 mais c'est plus propre niveau code :)
 	 */
 	void stop();
+	void brake();
 };
 
 #endif //COMPLETE_LOW_LEVEL_MOTOR_H

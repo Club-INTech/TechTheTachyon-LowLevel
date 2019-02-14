@@ -18,6 +18,11 @@ void Motor::setDirection(Direction directionToSet)
 			digitalWrite(pin_ina, LOW);
 			digitalWrite(pin_inb, LOW);
 		}
+		if( direction == Direction::BRAKE)
+		{
+			digitalWrite(pin_ina, HIGH);
+			digitalWrite(pin_inb, HIGH);
+		}
 	}
 	else {
 		if (direction == Direction::FORWARD) {
@@ -32,6 +37,11 @@ void Motor::setDirection(Direction directionToSet)
 		{
 			digitalWrite(pin_ina, LOW);
 			digitalWrite(pin_inb, LOW);
+		}
+		if( direction == Direction::BRAKE)
+		{
+			digitalWrite(pin_ina, HIGH);
+			digitalWrite(pin_inb, HIGH);
 		}
 	}
 }
@@ -85,4 +95,8 @@ void Motor::run(int16_t newpwm)
 
 void Motor::stop() {
 	run(0);
+}
+
+void Motor::brake(){
+	setDirection(Direction::BRAKE);
 }

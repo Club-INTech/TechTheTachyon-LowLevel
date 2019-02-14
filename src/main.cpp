@@ -97,9 +97,9 @@ int main() {
 		}
 		if( i == 100 )
         {
-		    orderMgr.execute("sstop");
+//		    orderMgr.execute("sstop");
         }
-        if( i == 150 )
+        if( i == 200 )
         {
             Serial.println("DATAEND");
         }
