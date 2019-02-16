@@ -32,7 +32,8 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
     translationPID.setTunings(6.955,0,0,0);
     translationPID.enableAWU(false);
-    rotationPID.setTunings(0,0,0,0);
+    rotationPID.setTunings(7,0.000092,0,0);
+//    rotationPID.setTunings(10,0,0,0);
     rotationPID.enableAWU(false);
 
     leftMotor.init();
@@ -63,10 +64,14 @@ void MCS::initSettings() {
 
     /* ms */
     controlSettings.stopDelay = 25;
+
+    /* mm/s */
+    controlSettings.tolerancyDerivative = 0;
 }
 
 void MCS::initStatus() {
     robotStatus.movement = MOVEMENT::NONE;
+    robotStatus.moving = false;
     robotStatus.controlledP2P = false;
     robotStatus.controlled = true;
     robotStatus.controlledRotation = true;
@@ -212,19 +217,20 @@ void MCS::manageStop() {
     }
 
     if(translationPID.active) {
-        if(ABS(translationPID.getError()) <= controlSettings.tolerancyTranslation) {
+        if((ABS(translationPID.getError()) <= controlSettings.tolerancyTranslation) && (ABS(translationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative)){
             translationPID.active = false;
             InterruptStackPrint::Instance().push("arret tolerance translation");
         }
     }
     if(rotationPID.active) {
-        if(ABS(rotationPID.getError()) <= controlSettings.tolerancyAngle) {
+        if((ABS(rotationPID.getError()) <= controlSettings.tolerancyAngle) && (ABS(rotationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative)){
             rotationPID.active = false;
             InterruptStackPrint::Instance().push("arret tolerance rotation");
         }
     }
 
-    if(!translationPID.active && !rotationPID.active) {
+    if((!translationPID.active && !rotationPID.active)) { // || (leftSpeedPID.getCurrentGoal()==0 && rightSpeedPID.getCurrentGoal()==0 && robotStatus.moving)) {
+        //Serial.println("Coucou c'est moi");
         leftMotor.brake();
         rightMotor.brake();
         if(ABS(robotStatus.speedLeftWheel) <= controlSettings.tolerancySpeed && ABS(robotStatus.speedRightWheel) <= controlSettings.tolerancySpeed){
@@ -255,6 +261,7 @@ void MCS::stop() {
         InterruptStackPrint::Instance().push("[DEBUG] On s'arrête!!");
     }
     robotStatus.movement = MOVEMENT::NONE;
+    robotStatus.moving = false;
 }
 
 void MCS::translate(int16_t amount) {
@@ -271,6 +278,7 @@ void MCS::translate(int16_t amount) {
     }
     robotStatus.movement = amount > 0 ? MOVEMENT::FORWARD : MOVEMENT::BACKWARD;
     translationPID.setGoal(amount + translationPID.getCurrentGoal());
+    robotStatus.moving = true;
 }
 
 void MCS::rotate(float angle) {
@@ -285,6 +293,7 @@ void MCS::rotate(float angle) {
     }
     robotStatus.movement = angle > 0.0 ? MOVEMENT::TRIGO : MOVEMENT::ANTITRIGO;
     rotationPID.setGoal(angle + rotationPID.getCurrentGoal());
+    robotStatus.moving = true;
 }
 
 void MCS::gotoPoint(int16_t x, int16_t y, bool sequential) {
@@ -292,6 +301,7 @@ void MCS::gotoPoint(int16_t x, int16_t y, bool sequential) {
     targetY = y;
     robotStatus.controlledP2P = true;
     sequentialMovement = sequential;
+    robotStatus.moving = true;
 }
 
 void MCS::followTrajectory(const double* xTable, const double* yTable, int count) {

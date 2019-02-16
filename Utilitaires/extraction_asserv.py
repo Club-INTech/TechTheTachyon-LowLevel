@@ -8,7 +8,7 @@ from PIL import *
 from math import pi
 
 Tmesures = 0.01 #en secondes   
-consigneAngle = 1.0
+consigneAngle = 1.57
 consignePos = 1000.0
 
 file = sys.argv[1]
@@ -49,7 +49,7 @@ while(ligne!="DATAEND" and ligne):
     ligne = ligne.split(",")
     if(len(ligne)==7):    
         positions.append((float(ligne[0])**2+float(ligne[1])**2)**0.5)
-        angles.append(float(ligne[2])/pi)
+        angles.append(float(ligne[2]))
         for i in [0,1]:
             speeds[i].append(float(ligne[3+2*i]))
             speedSetpoints[i].append(float(ligne[4+2*i]))
