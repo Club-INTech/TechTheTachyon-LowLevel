@@ -35,9 +35,9 @@ private:
     Motor leftMotor;
     Motor rightMotor;
 
-    SelfContainedPID<int32_t> leftSpeedPID;
-    SelfContainedPID<int32_t> rightSpeedPID;
-    SelfContainedPID<int32_t> translationPID;
+    SelfContainedPID<float> leftSpeedPID;
+    SelfContainedPID<float> rightSpeedPID;
+    SelfContainedPID<float> translationPID;
     SelfContainedPID<float> rotationPID;
 
     int32_t currentDistance;
@@ -49,14 +49,14 @@ private:
     int32_t rightTicks;
     int32_t previousLeftTicks;
     int32_t previousRightTicks;
-    int32_t previousLeftSpeedGoal;
-    int32_t previousRightSpeedGoal;
+    float previousLeftSpeedGoal;
+    float previousRightSpeedGoal;
     int16_t targetDistance;
     float targetAngle;
     float angleOffset;
 
-    Average<int32_t, 256> averageLeftSpeed;
-    Average<int32_t, 256> averageRightSpeed;
+    Average<int32_t, 100> averageLeftSpeed;
+    Average<int32_t, 100> averageRightSpeed;
 
     bool sequentialMovement;
     PointToPointTrajectory trajectory;

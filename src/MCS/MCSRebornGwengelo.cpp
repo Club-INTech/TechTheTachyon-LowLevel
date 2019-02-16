@@ -21,19 +21,17 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.controlledP2P = false;
     robotStatus.movement = MOVEMENT::NONE;
 
-    //leftSpeedPID.setTunings(1.4, 0.005, 1970);
-    //leftSpeedPID.setTunings(1.4, 0.000005, 5, 0.00000001);
+
     leftSpeedPID.setTunings(1.317, 0, 5, 0.00000001);
-    leftSpeedPID.enableAWU(true);
+    //leftSpeedPID.enableAWU(true);
     //rightSpeedPID.setTunings(1.4, 0.005, 2000);
-    //rightSpeedPID.setTunings(1.3, 0, 30, 0.00000001);
     rightSpeedPID.setTunings(1.3, 0, 30, 0.00000001);
-    rightSpeedPID.enableAWU(true);
+    //rightSpeedPID.setTunings(1.3, 0, 30, 0.00000001);
+    //rightSpeedPID.enableAWU(true);
 
     translationPID.setTunings(6.955,0,0,0);
     translationPID.enableAWU(false);
     rotationPID.setTunings(7,0.000092,0,0);
-//    rotationPID.setTunings(10,0,0,0);
     rotationPID.enableAWU(false);
 
     leftMotor.init();
@@ -61,6 +59,8 @@ void MCS::initSettings() {
 
     /* mm */
     controlSettings.tolerancyTranslation = 10;
+
+    controlSettings.tolerancyDerivative = 100;
 
     /* ms */
     controlSettings.stopDelay = 25;
@@ -211,10 +211,6 @@ void MCS::control()
 }
 
 void MCS::manageStop() {
-    if(robotStatus.forcedMovement)
-    {
-        return;
-    }
 
     if(translationPID.active) {
         if((ABS(translationPID.getError()) <= controlSettings.tolerancyTranslation) && (ABS(translationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative)){
@@ -229,12 +225,15 @@ void MCS::manageStop() {
         }
     }
 
-    if((!translationPID.active && !rotationPID.active)) { // || (leftSpeedPID.getCurrentGoal()==0 && rightSpeedPID.getCurrentGoal()==0 && robotStatus.moving)) {
-        //Serial.println("Coucou c'est moi");
-        leftMotor.brake();
-        rightMotor.brake();
-        if(ABS(robotStatus.speedLeftWheel) <= controlSettings.tolerancySpeed && ABS(robotStatus.speedRightWheel) <= controlSettings.tolerancySpeed){
-            stop();
+
+    if(!translationPID.active && !rotationPID.active ) {
+        if( !robotStatus.forcedMovement )
+        {
+            leftMotor.brake();
+            rightMotor.brake();
+            if(ABS(robotStatus.speedLeftWheel) <= controlSettings.tolerancySpeed && ABS(robotStatus.speedRightWheel) <= controlSettings.tolerancySpeed){
+                stop();
+            }
         }
     }
 }
@@ -285,9 +284,7 @@ void MCS::rotate(float angle) {
     if(!robotStatus.controlledRotation)
         return;
     targetAngle = angle;
-    Serial.printf("[DEBUG] Rotation vers l'angle %f radians\n", angle);
     if( ! rotationPID.active) {
-        Serial.printf("[DEBUG] Reset de rotationPID\n");
         rotationPID.fullReset();
         rotationPID.active = true;
     }
