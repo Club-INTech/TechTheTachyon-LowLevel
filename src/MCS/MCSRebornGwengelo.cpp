@@ -22,16 +22,18 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.movement = MOVEMENT::NONE;
 
 
-    leftSpeedPID.setTunings(1.317, 0, 5, 0.00000001);
-    //leftSpeedPID.enableAWU(true);
-    //rightSpeedPID.setTunings(1.4, 0.005, 2000);
-    rightSpeedPID.setTunings(1.3, 0, 30, 0.00000001);
-    //rightSpeedPID.setTunings(1.3, 0, 30, 0.00000001);
-    //rightSpeedPID.enableAWU(true);
+    //leftSpeedPID.setTunings(1.33, 0.01, 55, 10000);
+    leftSpeedPID.setTunings(1.3,0,15,0);
+    leftSpeedPID.enableAWU(false);
+    //rightSpeedPID.setTunings(1.3, 0.0097, 50, 10000);
+    rightSpeedPID.setTunings(1.3,0,15,0);
+    rightSpeedPID.enableAWU(false);
 
-    translationPID.setTunings(6.955,0,0,0);
+    translationPID.setTunings(4.5677,0,0,0);
     translationPID.enableAWU(false);
-    rotationPID.setTunings(7,0.000092,0,0);
+//    rotationPID.setTunings(7.145,0,10,0);
+    rotationPID.setTunings(6,0,0,0);
+    //rotationPID.setTunings(8,0.001,40,10000);
     rotationPID.enableAWU(false);
 
     leftMotor.init();
@@ -55,7 +57,7 @@ void MCS::initSettings() {
     controlSettings.tolerancySpeed = 100;
 
     /* rad */
-    controlSettings.tolerancyAngle = 0.0044;
+    controlSettings.tolerancyAngle = 0.005;
 
     /* mm */
     controlSettings.tolerancyTranslation = 10;
@@ -218,12 +220,12 @@ void MCS::manageStop() {
             InterruptStackPrint::Instance().push("arret tolerance translation");
         }
     }
-    if(rotationPID.active) {
-        if((ABS(rotationPID.getError()) <= controlSettings.tolerancyAngle) && (ABS(rotationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative)){
-            rotationPID.active = false;
-            InterruptStackPrint::Instance().push("arret tolerance rotation");
-        }
-    }
+//    if(rotationPID.active) {
+//        if((ABS(rotationPID.getError()) <= controlSettings.tolerancyAngle && (ABS(rotationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative ))){
+//            rotationPID.active = false;
+//            InterruptStackPrint::Instance().push("arret tolerance rotation");
+//        }
+//    }
 
 
     if(!translationPID.active && !rotationPID.active ) {
@@ -267,11 +269,9 @@ void MCS::translate(int16_t amount) {
     if(!robotStatus.controlledTranslation)
         return;
     targetDistance = amount;
-    Serial.printf("[DEBUG] Début d'une translation de %i mm\n", amount);
     if(amount == 0)
         return;
     if( ! translationPID.active) {
-        Serial.printf("[DEBUG] Reset de translationPID\n");
         translationPID.fullReset();
         translationPID.active = true;
     }
