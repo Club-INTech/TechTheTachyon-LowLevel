@@ -7,6 +7,7 @@
 #include "SelfContainedPID.hpp"
 #include "Utils/utils.h"
 #include "Utils/defines.h"
+#include "../Utils/utils.h"
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
@@ -23,16 +24,16 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
 
     //leftSpeedPID.setTunings(1.33, 0.01, 55, 10000);
-    leftSpeedPID.setTunings(1.3,0,15,0);
-    leftSpeedPID.enableAWU(false);
+    leftSpeedPID.setTunings(1.9,0.08,60,500);
+    leftSpeedPID.enableAWU(true);
     //rightSpeedPID.setTunings(1.3, 0.0097, 50, 10000);
-    rightSpeedPID.setTunings(1.3,0,15,0);
-    rightSpeedPID.enableAWU(false);
+    rightSpeedPID.setTunings(2.1,0.08,50,500);
+    rightSpeedPID.enableAWU(true);
 
-    translationPID.setTunings(4.5677,0,0,0);
-    translationPID.enableAWU(false);
+    translationPID.setTunings(7.7,0,0,10000);
+    translationPID.enableAWU(true);
 //    rotationPID.setTunings(7.145,0,10,0);
-    rotationPID.setTunings(6,0,0,0);
+    rotationPID.setTunings(0,0,0,0);
     //rotationPID.setTunings(8,0.001,40,10000);
     rotationPID.enableAWU(false);
 
@@ -47,7 +48,7 @@ void MCS::initSettings() {
 
     /* mm/s/MCS_PERIOD */
     controlSettings.maxAcceleration = 2;
-    controlSettings.maxDeceleration = 2;
+    controlSettings.maxDeceleration = 5;
 
     /* rad/s */
     controlSettings.maxRotationSpeed = 2*PI;
@@ -163,18 +164,18 @@ void MCS::updateSpeed()
     leftSpeedPID.setGoal(robotStatus.speedTranslation-robotStatus.speedRotation);
     rightSpeedPID.setGoal(robotStatus.speedTranslation+robotStatus.speedRotation);
 
-    if( leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal > controlSettings.maxAcceleration ) {
-        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration );
+    if( sign(leftSpeedPID.getCurrentGoal())*(leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal) > controlSettings.maxAcceleration ) {
+        leftSpeedPID.setGoal( previousLeftSpeedGoal + sign(leftSpeedPID.getCurrentGoal())*controlSettings.maxAcceleration );
     }
-    if( previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration ) {
-        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxDeceleration );
+    if( sign(leftSpeedPID.getCurrentGoal())*(previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration ) {
+        leftSpeedPID.setGoal( previousLeftSpeedGoal - sign(leftSpeedPID.getCurrentGoal())*controlSettings.maxDeceleration );
     }
 
-    if( rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal > controlSettings.maxAcceleration ) {
-        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxAcceleration );
+    if( sign(rightSpeedPID.getCurrentGoal())*(rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal) > controlSettings.maxAcceleration ) {
+        rightSpeedPID.setGoal( previousRightSpeedGoal + sign(rightSpeedPID.getCurrentGoal())*controlSettings.maxAcceleration );
     }
-    if( previousRightSpeedGoal - rightSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration ) {
-        rightSpeedPID.setGoal( previousRightSpeedGoal - controlSettings.maxDeceleration );
+    if( sign(rightSpeedPID.getCurrentGoal())*(previousRightSpeedGoal - rightSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration ) {
+        rightSpeedPID.setGoal( previousRightSpeedGoal - sign(rightSpeedPID.getCurrentGoal())*controlSettings.maxDeceleration );
     }
 
     previousLeftSpeedGoal = leftSpeedPID.getCurrentGoal();

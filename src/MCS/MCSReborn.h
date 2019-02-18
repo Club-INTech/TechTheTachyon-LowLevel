@@ -55,8 +55,8 @@ private:
     float targetAngle;
     float angleOffset;
 
-    Average<int32_t, 50> averageLeftSpeed;
-    Average<int32_t, 50> averageRightSpeed;
+    Average<int32_t, 80> averageLeftSpeed;
+    Average<int32_t, 80> averageRightSpeed;
 
     bool sequentialMovement;
     PointToPointTrajectory trajectory;
