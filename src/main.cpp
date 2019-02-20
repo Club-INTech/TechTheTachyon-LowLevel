@@ -76,7 +76,7 @@ int main() {
 
     static Metro USSend = Metro(80);
 
-    orderMgr.execute("montlhery");
+//    orderMgr.execute("montlhery");
 
     int i = 0;
 
@@ -93,16 +93,27 @@ int main() {
 		USSend.check() ? orderMgr.sendUS() : void();
 		orderMgr.execute("rawposdata");
 		if( i == 5 ) {
-		orderMgr.execute("av");
-//		orderMgr.execute("d 1000");
+//		orderMgr.execute("av");
+		orderMgr.execute("d 1000");
+//        orderMgr.execute("td");
 		}
-		if( i == 100 )
+		if( i == 150 )
         {
-		orderMgr.execute("sstop");
-//	    orderMgr.execute("t 1.57");
+//		orderMgr.execute("sstop");
+	    orderMgr.execute("t 3.14");
 //		orderMgr.execute("d -1000");
         }
-        if( i == 200 ) {
+        if( i == 250 )
+        {
+            orderMgr.execute("d 1000");
+//        orderMgr.execute("rc");
+        }
+        if( i == 350 ) {
+//            orderMgr.execute("sstop");
+            orderMgr.execute("t -3.14");
+
+        }
+        if(i==420){
             Serial.println("DATAEND");
         }
 		i++;

@@ -23,18 +23,20 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.movement = MOVEMENT::NONE;
 
 
-    //leftSpeedPID.setTunings(1.33, 0.01, 55, 10000);
-    leftSpeedPID.setTunings(1.9,0.08,60,500);
-    leftSpeedPID.enableAWU(true);
-    //rightSpeedPID.setTunings(1.3, 0.0097, 50, 10000);
-    rightSpeedPID.setTunings(2.1,0.08,50,500);
-    rightSpeedPID.enableAWU(true);
+//    leftSpeedPID.setTunings(1.33, 0.01, 65, 10000);
+    leftSpeedPID.setTunings(1.65, 0.005, 40, 0);
+//    leftSpeedPID.setTunings(1.9,0.08,60,500);
+    leftSpeedPID.enableAWU(false);
+    rightSpeedPID.setTunings(1.35, 0.005, 40, 0);
+//    rightSpeedPID.setTunings(1.3, 0.0097, 60, 10000);
+//    rightSpeedPID.setTunings(2.1,0.08,50,500);
+    rightSpeedPID.enableAWU(false);
 
-    translationPID.setTunings(7.7,0,0,10000);
-    translationPID.enableAWU(true);
+    translationPID.setTunings(4.35,0,0,0);
+    translationPID.enableAWU(false);
 //    rotationPID.setTunings(7.145,0,10,0);
-    rotationPID.setTunings(0,0,0,0);
-    //rotationPID.setTunings(8,0.001,40,10000);
+    rotationPID.setTunings(7,0,0,0);
+//    rotationPID.setTunings(6.55,0.005,50,10000);
     rotationPID.enableAWU(false);
 
     leftMotor.init();
@@ -48,7 +50,7 @@ void MCS::initSettings() {
 
     /* mm/s/MCS_PERIOD */
     controlSettings.maxAcceleration = 2;
-    controlSettings.maxDeceleration = 5;
+    controlSettings.maxDeceleration = 2;
 
     /* rad/s */
     controlSettings.maxRotationSpeed = 2*PI;
@@ -61,7 +63,7 @@ void MCS::initSettings() {
     controlSettings.tolerancyAngle = 0.005;
 
     /* mm */
-    controlSettings.tolerancyTranslation = 10;
+    controlSettings.tolerancyTranslation = 1;
 
     controlSettings.tolerancyDerivative = 100;
 
@@ -164,18 +166,18 @@ void MCS::updateSpeed()
     leftSpeedPID.setGoal(robotStatus.speedTranslation-robotStatus.speedRotation);
     rightSpeedPID.setGoal(robotStatus.speedTranslation+robotStatus.speedRotation);
 
-    if( sign(leftSpeedPID.getCurrentGoal())*(leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal) > controlSettings.maxAcceleration ) {
-        leftSpeedPID.setGoal( previousLeftSpeedGoal + sign(leftSpeedPID.getCurrentGoal())*controlSettings.maxAcceleration );
+    if( leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal > controlSettings.maxAcceleration ) {
+        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration );
     }
-    if( sign(leftSpeedPID.getCurrentGoal())*(previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration ) {
-        leftSpeedPID.setGoal( previousLeftSpeedGoal - sign(leftSpeedPID.getCurrentGoal())*controlSettings.maxDeceleration );
+    if( previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration ) {
+        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxDeceleration );
     }
 
-    if( sign(rightSpeedPID.getCurrentGoal())*(rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal) > controlSettings.maxAcceleration ) {
-        rightSpeedPID.setGoal( previousRightSpeedGoal + sign(rightSpeedPID.getCurrentGoal())*controlSettings.maxAcceleration );
+    if( rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal > controlSettings.maxAcceleration ) {
+        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxAcceleration );
     }
-    if( sign(rightSpeedPID.getCurrentGoal())*(previousRightSpeedGoal - rightSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration ) {
-        rightSpeedPID.setGoal( previousRightSpeedGoal - sign(rightSpeedPID.getCurrentGoal())*controlSettings.maxDeceleration );
+    if( previousRightSpeedGoal - rightSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration ) {
+        rightSpeedPID.setGoal( previousRightSpeedGoal - controlSettings.maxDeceleration );
     }
 
     previousLeftSpeedGoal = leftSpeedPID.getCurrentGoal();
@@ -221,12 +223,12 @@ void MCS::manageStop() {
             InterruptStackPrint::Instance().push("arret tolerance translation");
         }
     }
-//    if(rotationPID.active) {
-//        if((ABS(rotationPID.getError()) <= controlSettings.tolerancyAngle && (ABS(rotationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative ))){
-//            rotationPID.active = false;
-//            InterruptStackPrint::Instance().push("arret tolerance rotation");
-//        }
-//    }
+    if(rotationPID.active) {
+        if((ABS(rotationPID.getError()) <= controlSettings.tolerancyAngle && (ABS(rotationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative ))){
+            rotationPID.active = false;
+            InterruptStackPrint::Instance().push("arret tolerance rotation");
+        }
+    }
 
 
     if(!translationPID.active && !rotationPID.active ) {
