@@ -66,6 +66,7 @@ void ORDER_goto::impl(Args args)
 //                if(-1500 <= targetX && targetX <= 1500 && 0 <= targetY && targetY <= 2000)
 //                {
        orderManager.motionControlSystem.gotoPoint(targetX,targetY, isSequential);
+    orderManager.highLevel.printfln(DEBUG_HEADER, "goto %f %f %b", targetX, targetY, isSequential);
 //                }
 //                else
 //      {
@@ -111,6 +112,7 @@ void ORDER_cxyo::impl(Args args)
     orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
     orderManager.motionControlSystem.setY(orderManager.parseFloat(args[1]));
     orderManager.motionControlSystem.setAngle(orderManager.parseFloat(args[2]));
+    orderManager.highLevel.printfln(DEBUG_HEADER, "X,Y,O set");
 }
 
 void ORDER_ctv::impl(Args args)
@@ -715,13 +717,12 @@ void ORDER_testSICK::impl(Args args) {
 void ORDER_lectureSICK::impl(Args args) {
     SensorMgr mgr = SensorMgr::Instance();
     orderManager.highLevel.printf(SICK_HEADER, "%d %d %d %d %d %d\n",
-            // FIXME
-            300,//mgr.getDistanceSensor(0).readDistance(),
-        300,//mgr.getDistanceSensor(1).readDistance(),
-          300,//mgr.getDistanceSensor(2).readDistance(),
-          300,//  mgr.getDistanceSensor(3).readDistance(),
-          300,//mgr.getDistanceSensor(4).readDistance(),
-          300);//mgr.getDistanceSensor(5).readDistance());
+            mgr.getDistanceSensor(0).readDistance(),
+            mgr.getDistanceSensor(1).readDistance(),
+            mgr.getDistanceSensor(2).readDistance(),
+            mgr.getDistanceSensor(3).readDistance(),
+            mgr.getDistanceSensor(4).readDistance(),
+            mgr.getDistanceSensor(5).readDistance());
 }
 
 void ORDER_torqueBras::impl(Args args)

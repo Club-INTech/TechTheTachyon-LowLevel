@@ -82,7 +82,7 @@ bool SerialInterface::read(float& value) {
 
 uint8_t inline SerialInterface::available()
 {
-	return Serial.available();
+	return Serial ? Serial.available() : 0;
 }
 
 void SerialInterface::printfln(const char* message) {

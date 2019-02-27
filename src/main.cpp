@@ -25,15 +25,20 @@ int main() {
 	 * Les actionneurs
 	 * L'asservissement
 	 *************************/
-	/* Série */
+
+    char* t = new char[100];
+    ComMgr::Instance().read(t);
+
+    /* Série */
 	ActuatorsMgr::Instance().initPWMs();
     SensorMgr::Instance().init();
 
-    Serial.begin(115200);
 
     Serial.flush();
 	Serial.println("Série OK");
+    ComMgr::Instance().read(t);
 	delay(250);
+    ComMgr::Instance().read(t);
 
 	/* Actuators */
 	// Par sécurité on met tout les actuators à LOW quand on les initialise
@@ -53,6 +58,8 @@ int main() {
 	OrderManager& orderMgr = OrderManager::Instance();
 	orderMgr.init();
 
+	ComMgr::Instance().read(t);
+
     // MotionControlSystem interrupt on timer
 	IntervalTimer motionControlInterruptTimer;
 	motionControlInterruptTimer.priority(253);
@@ -65,8 +72,9 @@ int main() {
     stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
 
 
-    delay(5000);//Laisse le temps aux capteurs de clignotter leur ID
+    //delay(5000);//Laisse le temps aux capteurs de clignotter leur ID
 
+    Serial.println("Ready!");
 	/**
 	 * Boucle principale, y est géré:
 	 * La communication HL
@@ -81,42 +89,11 @@ int main() {
     int i = 0;
 
 
-	pinMode(13,OUTPUT);
     while (true) {
-    	digitalWrite(13,LOW);
-    	delay(10);
-    	digitalWrite(13,HIGH);
-    	delay(10);
 		orderMgr.communicate();
 		orderMgr.refreshUS();
 		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 		USSend.check() ? orderMgr.sendUS() : void();
-		orderMgr.execute("rawposdata");
-		if( i == 5 ) {
-//		orderMgr.execute("av");
-		orderMgr.execute("d 1000");
-//        orderMgr.execute("td");
-		}
-		if( i == 150 )
-        {
-//		orderMgr.execute("sstop");
-	    orderMgr.execute("t 3.14");
-//		orderMgr.execute("d -1000");
-        }
-        if( i == 250 )
-        {
-            orderMgr.execute("d 1000");
-//        orderMgr.execute("rc");
-        }
-        if( i == 350 ) {
-//            orderMgr.execute("sstop");
-            orderMgr.execute("t -3.14");
-
-        }
-        if(i==420){
-            Serial.println("DATAEND");
-        }
-		i++;
 
     }
 }

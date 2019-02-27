@@ -2,17 +2,17 @@
 #define _PIN_MAPPING_h
 
 /* Ethernet */
-constexpr uint8_t PWD = 24;
-constexpr uint8_t RST = 9;
-constexpr uint8_t LED_DEBUG_ETH = 99;
+constexpr uint8_t CS = 9;
+constexpr uint8_t RST = 29;
+constexpr uint8_t LED_DEBUG_ETH = 2;
 
 /* Moteurs */
-constexpr uint8_t INA_LEFT = 24;
-constexpr uint8_t INB_LEFT = 12;
+constexpr uint8_t INA_LEFT = 3;
+constexpr uint8_t INB_LEFT = 4;
 constexpr uint8_t PIN_PWM_LEFT = 35;
 
-constexpr uint8_t INA_RIGHT = 6;
-constexpr uint8_t INB_RIGHT = 7;
+constexpr uint8_t INA_RIGHT = 25;
+constexpr uint8_t INB_RIGHT = 32;
 constexpr uint8_t PIN_PWM_RIGHT = 8;
 
 
