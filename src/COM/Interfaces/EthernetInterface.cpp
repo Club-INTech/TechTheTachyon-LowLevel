@@ -16,23 +16,6 @@ EthernetInterface::EthernetInterface():server{ PORT }
     Serial.print("Ethernet Ready\nLocal ip: ");
     Serial.println(Ethernet.localIP());
     server.begin();
-    Serial.printf("Port is %i\n", server.server_port[0]);
-    delay(1000);
-    delay(1000);
-    char* t = new char[100];
-    read(t);
-    delay(1000);
-    read(t);
-    Serial.print("IP is: ");
-    Serial.println(Ethernet.localIP());
-
-    //resetCard();
-    setIP();
-
-    delay(8000);
-    Serial.print("IP 2 is: ");
-    Serial.println(Ethernet.localIP());
-
     client = server.available();
     if (client.connected()) {
         client.println("CONNECTED");

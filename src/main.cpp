@@ -26,9 +26,6 @@ int main() {
 	 * L'asservissement
 	 *************************/
 
-    char* t = new char[100];
-    ComMgr::Instance().read(t);
-
     /* Série */
 	ActuatorsMgr::Instance().initPWMs();
     SensorMgr::Instance().init();
@@ -36,9 +33,7 @@ int main() {
 
     Serial.flush();
 	Serial.println("Série OK");
-    ComMgr::Instance().read(t);
 	delay(250);
-    ComMgr::Instance().read(t);
 
 	/* Actuators */
 	// Par sécurité on met tout les actuators à LOW quand on les initialise
@@ -72,7 +67,7 @@ int main() {
     stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
 
 
-    //delay(5000);//Laisse le temps aux capteurs de clignotter leur ID
+    delay(5000);//Laisse le temps aux capteurs de clignotter leur ID
 
     Serial.println("Ready!");
 	/**
