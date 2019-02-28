@@ -53,8 +53,6 @@ int main() {
 	OrderManager& orderMgr = OrderManager::Instance();
 	orderMgr.init();
 
-	ComMgr::Instance().read(t);
-
     // MotionControlSystem interrupt on timer
 	IntervalTimer motionControlInterruptTimer;
 	motionControlInterruptTimer.priority(253);
