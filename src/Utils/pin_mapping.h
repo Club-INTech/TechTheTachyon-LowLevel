@@ -20,12 +20,14 @@ constexpr uint8_t PIN_PWM_RIGHT = 8;
 /* CAPTEURS */
 constexpr uint8_t PIN_JMPR = 99;
 constexpr uint8_t PIN_CONT1 = 99;
-constexpr uint8_t PIN_SICK_1 = 15;
-constexpr uint8_t PIN_SICK_2 = 16;
-constexpr uint8_t PIN_SICK_3 = 17;
-constexpr uint8_t PIN_SICK_4 = 18;
-constexpr uint8_t PIN_SICK_5 = 19;
-constexpr uint8_t PIN_SICK_6 = 20;
+constexpr uint8_t SICK_PINS[NBR_OF_DISTANCE_SENSOR] = {
+        A22, // 1er
+        A22, // 2e
+        A22, // 3e
+        A22, // 4e
+        A22, // 5e
+        A22, // 6e
+};
 
 // TechTheTachyon
 /* Ascenceurs */

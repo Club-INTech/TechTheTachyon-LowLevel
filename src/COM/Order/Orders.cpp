@@ -716,7 +716,7 @@ void ORDER_testSICK::impl(Args args) {
 
 void ORDER_lectureSICK::impl(Args args) {
     SensorMgr mgr = SensorMgr::Instance();
-    orderManager.highLevel.printf(SICK_HEADER, "%d %d %d %d %d %d\n",
+    orderManager.highLevel.printfln(SICK_HEADER, "%d %d %d %d %d %d",
             mgr.getDistanceSensor(0).readDistance(),
             mgr.getDistanceSensor(1).readDistance(),
             mgr.getDistanceSensor(2).readDistance(),

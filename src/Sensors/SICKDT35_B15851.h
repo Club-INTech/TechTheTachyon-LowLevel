@@ -33,7 +33,7 @@ public:
     void setRange(uint16_t min, uint16_t max);
 
 private:
-    uint8_t pin;
+    uint8_t pin = 255;
     uint16_t rangeMin;
     uint16_t rangeMax;
 };
