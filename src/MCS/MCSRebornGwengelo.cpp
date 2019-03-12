@@ -23,22 +23,18 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.movement = MOVEMENT::NONE;
 
 
-//    leftSpeedPID.setTunings(1.33, 0.01, 65, 10000);
     leftSpeedPID.setTunings(1.65, 0.005, 40, 0);
-//    leftSpeedPID.setTunings(1.9,0.08,60,500);
     leftSpeedPID.enableAWU(false);
     rightSpeedPID.setTunings(1.35, 0.005, 40, 0);
-//    rightSpeedPID.setTunings(1.3, 0.0097, 60, 10000);
-//    rightSpeedPID.setTunings(2.1,0.08,50,500);
     rightSpeedPID.enableAWU(false);
 
-    translationPID.setTunings(4.35,0,0,0);
+    translationPID.setTunings(4.35,0.0001,0,0);
     translationPID.enableAWU(false);
-//    rotationPID.setTunings(7.145,0,10,0);
-    rotationPID.setTunings(7,0,0,0);
-//    rotationPID.setTunings(6.55,0.005,50,10000);
-    rotationPID.enableAWU(false);
-
+//    rotationPID180.setTunings(6.5,0.0001,0,0);
+    rotationPID.setTunings(8.75,0.0001,0,0);
+//    rotationPID90.setTunings(10.3,0.0001,12,0);
+//    rotationPID180.enableAWU(false);
+//    rotationPID90.enableAWU(false);
     leftMotor.init();
     rightMotor.init();
 }
@@ -221,12 +217,14 @@ void MCS::manageStop() {
         if((ABS(translationPID.getError()) <= controlSettings.tolerancyTranslation) && (ABS(translationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative)){
             translationPID.active = false;
             InterruptStackPrint::Instance().push("arret tolerance translation");
+            Serial.println("Tolérance translation");
         }
     }
     if(rotationPID.active) {
         if((ABS(rotationPID.getError()) <= controlSettings.tolerancyAngle && (ABS(rotationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative ))){
             rotationPID.active = false;
             InterruptStackPrint::Instance().push("arret tolerance rotation");
+            Serial.println("Tolérance rotation");
         }
     }
 
@@ -284,9 +282,17 @@ void MCS::translate(int16_t amount) {
 }
 
 void MCS::rotate(float angle) {
-    if(!robotStatus.controlledRotation)
+    rotationPID.active = false;
+    if(!robotStatus.controlledRotation){
         return;
+    }
     targetAngle = angle;
+    /*if((45<targetAngle and targetAngle<135) or (-45>targetAngle and targetAngle>-135)){
+        rotationPID.setTunings(10.3,0.0001,12,0);
+    }
+    else{
+        rotationPID.setTunings(6.5,0.0001,0,0);
+    }*/
     if( ! rotationPID.active) {
         rotationPID.fullReset();
         rotationPID.active = true;

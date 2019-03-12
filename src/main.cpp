@@ -92,7 +92,13 @@ int main() {
 		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 		USSend.check() ? orderMgr.sendUS() : void();
 		orderMgr.execute("rawposdata");
-		if( i == 5 ) {
+		if(i==5){
+			orderMgr.execute("t 1.57");
+		}
+		if(i==100){
+			orderMgr.execute("t -1.57");
+		}
+/*		if( i == 5 ) {
 //		orderMgr.execute("av");
 		orderMgr.execute("d 1000");
 //        orderMgr.execute("td");
@@ -105,17 +111,23 @@ int main() {
         }
         if( i == 250 )
         {
-            orderMgr.execute("d 1000");
+        orderMgr.execute("d 1000");
 //        orderMgr.execute("rc");
         }
         if( i == 350 ) {
 //            orderMgr.execute("sstop");
-            orderMgr.execute("t -3.14");
+            orderMgr.execute("t -1.57");
 
         }
-        if(i==420){
-            Serial.println("DATAEND");
+        if(i==450){
+        	orderMgr.execute("t -1.57");
         }
+        if(i ==570){
+           Serial.println("DATAEND");
+        }*/
+		if(i==200){
+			Serial.println("DATAEND");
+		}
 		i++;
 
     }
