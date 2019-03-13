@@ -25,11 +25,11 @@ int main() {
 	 * Les actionneurs
 	 * L'asservissement
 	 *************************/
-	/* Série */
+
+    /* Série */
 	ActuatorsMgr::Instance().initPWMs();
     SensorMgr::Instance().init();
 
-    Serial.begin(115200);
 
     Serial.flush();
 	Serial.println("Série OK");
@@ -67,6 +67,7 @@ int main() {
 
     delay(5000);//Laisse le temps aux capteurs de clignotter leur ID
 
+    Serial.println("Ready!");
 	/**
 	 * Boucle principale, y est géré:
 	 * La communication HL

@@ -1,5 +1,5 @@
 //
-// Created by jglrxavpok on 20/12/18.
+// Created by jglrxavpok aka Coin-Coin Ier <3 (27/02) on 20/12/18.
 //
 
 #include "MCSReborn.h"
@@ -8,11 +8,12 @@
 #include "Utils/utils.h"
 #include "Utils/defines.h"
 #include "../Utils/utils.h"
+#include "../Utils/pin_mapping.h"
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
-    encoderRight = new Encoder(3,4);
-    encoderLeft = new Encoder(29,30);
+    encoderRight = new Encoder(INA_RIGHT,INB_RIGHT);
+    encoderLeft = new Encoder(INA_LEFT,INB_LEFT);
 
     initSettings();
     initStatus();
@@ -389,6 +390,14 @@ void MCS::setRotationSpeed(float speed) {
     robotStatus.speedRotation = speed;
 }
 
+void MCS::setMaxTranslationSpeed(float speed) {
+    controlSettings.maxTranslationSpeed = speed;
+}
+
+void MCS::setMaxRotationSpeed(float speed) {
+    controlSettings.maxRotationSpeed = speed;
+}
+
 int16_t MCS::getX() {
     return robotStatus.x;
 }
@@ -436,12 +445,4 @@ float MCS::getRightSpeed() {
 void MCS::getSpeedGoals(long &leftGoal, long &rightGoal) {
     leftGoal = leftSpeedPID.getCurrentGoal();
     rightGoal = rightSpeedPID.getCurrentGoal();
-}
-
-void MCS::setMaxTranslationSpeed(float speed) {
-    controlSettings.maxTranslationSpeed = speed;
-}
-
-void MCS::setMaxRotationSpeed(float speed) {
-    controlSettings.maxRotationSpeed = speed;
 }

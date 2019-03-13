@@ -16,6 +16,9 @@ void SensorMgr::init() {
 	CORE_PIN16_CONFIG = PORT_PCR_MUX(2)|PORT_PCR_ODE|PORT_PCR_SRE|PORT_PCR_DSE;
 	CORE_PIN17_CONFIG = PORT_PCR_MUX(2)|PORT_PCR_ODE|PORT_PCR_SRE|PORT_PCR_DSE;
 
+	for(int i = 0;i<NBR_OF_DISTANCE_SENSOR;i++)
+    	distanceSensors[i] = SICKDT35_B15851(SICK_PINS[i]);
+
 	jumperPlugged = isJumperEngaged();
 	basicBlocked = false;
 }

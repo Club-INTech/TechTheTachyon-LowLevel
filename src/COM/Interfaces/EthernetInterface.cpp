@@ -16,8 +16,6 @@ EthernetInterface::EthernetInterface():server{ PORT }
     Serial.print("Ethernet Ready\nLocal ip: ");
     Serial.println(Ethernet.localIP());
     server.begin();
-    Serial.printf("Port is %i\n", server.server_port[0]);
-    delay(1000);
     client = server.available();
     if (client.connected()) {
         client.println("CONNECTED");
@@ -26,26 +24,30 @@ EthernetInterface::EthernetInterface():server{ PORT }
 
 void EthernetInterface::resetCard() {
 
-    Serial.println("Resetting WIZ820io");
+    Serial.println("Resetting WIZ850io");
 
-    pinMode(PWD, OUTPUT);
-    digitalWrite(PWD, HIGH);
-    delay(10);
-    digitalWrite(PWD, LOW);
-
+    /**
+     * Depuis https://cdn.sos.sk/productdata/43/24/8adad58a/wiz850io.pdf (datasheet)
+     * This pin is to initialize WIZ850io.
+     * Hold  at  least  500us  after  asserted  to  LOW
+     * and keep HIGH until next Reset needed.User need
+     * to wait for 50ms after this pin is changed to HIGH
+     * to communicate with WIZ850io.
+     */
     pinMode(RST, OUTPUT);
     digitalWrite(RST, LOW);
-    delayMicroseconds(3);
+    delayMicroseconds(500);
     digitalWrite(RST, HIGH);
-    delay(150);
+    delay(50);
 
-    Ethernet.init(PIN_SPI_SS);
+    Ethernet.init(CS);
     Ethernet.begin(mac, ip, dns, gateway, subnet);
-    digitalWrite(30,LOW);
+    Ethernet.setLocalIP(ip);
+    //digitalWrite(30,LOW);
 }
 void EthernetInterface::setIP() {
 	while(Ethernet.localIP() != ip && (ETHERNET_RW & com_options)) {
-		digitalWrite(30,HIGH);
+	//	digitalWrite(30,HIGH);
         pinMode(LED_DEBUG_ETH,OUTPUT);
         digitalWrite(LED_DEBUG_ETH,!digitalRead(LED_DEBUG_ETH)); // La LED de debug ETH clignote en cas d'erreur
         delay(200);
@@ -79,32 +81,36 @@ bool inline EthernetInterface::read_char(char & buffer)
 
 inline bool EthernetInterface::read(char* order)
 {
-	EthernetClient newClient = server.available();
+    EthernetClient newClient = server.available();
 
 	if(Ethernet.localIP() != ip)                // Si on détecte qu'on a plus la bonne IP
     {
 	    setIP();                                // On essaye de la re-définir
     }
 
-	int messageSize = newClient.available();
-	if (messageSize) {							// Si on est connectes et il ya des choses a lire
+	if(newClient && newClient.available()) {
+        int messageSize = newClient.available();
+        if (messageSize) {                            // Si on est connectes et il ya des choses a lire
 
-		client=newClient;
-		char readChar;
-		int i = 0;
-        bool status = true;
+            client = newClient;
+            char readChar;
+            int i = 0;
+            bool status = true;
 
 
-		while (i < messageSize && status) {	    // Tant qu'on a pas vidé le buffer, atteint une fin de ligne ou une erreur de lecture
-			status = read_char(readChar);
-			order[i] = readChar;
-			i++;
-		}
-		return (strcmp(order, ""));
-	}
-	else {
-		return false;
-	}
+            while (i < messageSize &&
+                   status) {        // Tant qu'on a pas vidé le buffer, atteint une fin de ligne ou une erreur de lecture
+                status = read_char(readChar);
+                order[i] = readChar;
+                i++;
+            }
+            return (strcmp(order, ""));
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
 }
 
 bool EthernetInterface::read(int32_t & value)
