@@ -23,11 +23,11 @@ constexpr uint8_t PIN_PWM_RIGHT = 8;
 constexpr uint8_t PIN_JMPR = 10;
 constexpr uint8_t SICK_PINS[NBR_OF_DISTANCE_SENSOR] = {
         A22, // 1er
-        A22, // 2e
-        A22, // 3e
-        A22, // 4e
-        A22, // 5e
-        A22, // 6e
+        A21, // 2e
+        A20, // 3e
+        A19, // 4e
+        A18, // 5e
+        A17, // 6e
 };
 
 // TechTheTachyon
