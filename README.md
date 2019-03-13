@@ -62,6 +62,8 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |         td            |                       Tourne à droite                     |
 |         tg            |                       Tourne à gauche                     |
 |       sstop           |                            Arrêt                          |
+|       maxtr           |                Vitesse maximale de translation            |
+|       maxro           |                  Vitesse maximale de rotation             |
 |         nh            |     Créé un nouveau hook (id,x,y,r,α,tolerance,action)    |
 |         eh            |                       Active le hook                      |
 |         dh            |                     Désactive le hook                     |

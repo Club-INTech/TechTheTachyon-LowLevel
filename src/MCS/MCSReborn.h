@@ -86,6 +86,8 @@ public:
     void setForcedMovement(bool);
     void setTranslationSpeed(float);
     void setRotationSpeed(float);
+    void setMaxTranslationSpeed(float);
+    void setMaxRotationSpeed(float);
 
     void initSettings();
     void initStatus();

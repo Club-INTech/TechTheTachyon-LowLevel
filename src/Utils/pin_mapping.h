@@ -1,6 +1,8 @@
 #ifndef _PIN_MAPPING_h
 #define _PIN_MAPPING_h
 
+#include "defines.h"
+
 /* Ethernet */
 constexpr uint8_t CS = 9;
 constexpr uint8_t RST = 29;

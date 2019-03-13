@@ -384,6 +384,14 @@ void MCS::setRotationSpeed(float speed) {
     robotStatus.speedRotation = speed;
 }
 
+void MCS::setMaxTranslationSpeed(float speed) {
+    controlSettings.maxTranslationSpeed = speed;
+}
+
+void MCS::setMaxRotationSpeed(float speed) {
+    controlSettings.maxRotationSpeed = speed;
+}
+
 int16_t MCS::getX() {
     return robotStatus.x;
 }

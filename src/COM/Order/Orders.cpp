@@ -262,6 +262,14 @@ void ORDER_montlhery::impl(Args args)
     orderManager.motionControlSystem.setForcedMovement(true);
 }
 
+void ORDER_maxtr::impl(Args args) {
+    orderManager.motionControlSystem.setMaxTranslationSpeed(orderManager.parseFloat(args[0]));
+}
+
+void ORDER_maxro::impl(Args args) {
+    orderManager.motionControlSystem.setMaxRotationSpeed(orderManager.parseFloat(args[0]));
+}
+
 void ORDER_av::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::FORWARD);
