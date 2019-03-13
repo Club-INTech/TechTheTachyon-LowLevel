@@ -39,7 +39,6 @@ public:
 
 	bool isJumperEngaged();
 	bool isReadyToGo();
-	bool isCont1Engaged();
 
 	/**
 	 * Récupère le capteur à l'indice donné

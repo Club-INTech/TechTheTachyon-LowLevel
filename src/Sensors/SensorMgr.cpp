@@ -49,11 +49,6 @@ bool SensorMgr::isReadyToGo()
 	return(false);								// Sinon on ne part pas de toutes façons
 }
 
-bool SensorMgr::isCont1Engaged()
-{
-	return digitalRead(PIN_CONT1);
-}
-
 SICKDT35_B15851& SensorMgr::getDistanceSensor(size_t index) {
 	return distanceSensors[index];
 }

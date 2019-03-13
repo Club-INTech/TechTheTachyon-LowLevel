@@ -20,8 +20,7 @@ constexpr uint8_t PIN_PWM_RIGHT = 8;
 
 
 /* CAPTEURS */
-constexpr uint8_t PIN_JMPR = 99;
-constexpr uint8_t PIN_CONT1 = 99;
+constexpr uint8_t PIN_JMPR = 10;
 constexpr uint8_t SICK_PINS[NBR_OF_DISTANCE_SENSOR] = {
         A22, // 1er
         A22, // 2e
@@ -33,19 +32,19 @@ constexpr uint8_t SICK_PINS[NBR_OF_DISTANCE_SENSOR] = {
 
 // TechTheTachyon
 /* Ascenceurs */
-constexpr uint8_t STEP_PIN_RIGHT = 99; //vitesse
-constexpr uint8_t RST_PIN_RIGHT = 99; //reset
-constexpr uint8_t DIR_PIN_RIGHT = 99; //direction
+constexpr uint8_t STEP_PIN_RIGHT = 17; //vitesse
+constexpr uint8_t DIR_PIN_RIGHT = 20; //direction
+constexpr uint8_t RST_PIN_RIGHT = 21; //reset
 
-constexpr uint8_t STEP_PIN_LEFT = 99; //vitesse
-constexpr uint8_t DIR_PIN_LEFT = 99; //direction
-constexpr uint8_t RST_PIN_LEFT = 99; //reset
+constexpr uint8_t STEP_PIN_LEFT = 22; //vitesse
+constexpr uint8_t DIR_PIN_LEFT = 23; //direction
+constexpr uint8_t RST_PIN_LEFT = 21; //reset
 
-constexpr uint8_t RIGHT_VALVE_PIN = 99; // électrovanne droite
-constexpr uint8_t LEFT_VALVE_PIN = 99;  // électrovanne gauche
+constexpr uint8_t RIGHT_VALVE_PIN = 24; // électrovanne droite
+constexpr uint8_t LEFT_VALVE_PIN = 26;  // électrovanne gauche
 
-constexpr uint8_t LEFT_PUMP_PIN = 99;
-constexpr uint8_t RIGHT_PUMP_PIN = 99;
+constexpr uint8_t LEFT_PUMP_PIN = 6;
+constexpr uint8_t RIGHT_PUMP_PIN = 7;
 
 
 
