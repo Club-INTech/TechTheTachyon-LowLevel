@@ -82,7 +82,7 @@ void OrderManager::communicate() {
              it->second->exec(orderData);
          else
          {
-             //highLevel.printfln(STD_HEADER,"ordre inconnu");
+             highLevel.printfln(STD_HEADER,"wat. '%s'", orderToExecute);
              //highLevel.printfln(DEBUG_HEADER,"T'es un déchêt");
          }
      }

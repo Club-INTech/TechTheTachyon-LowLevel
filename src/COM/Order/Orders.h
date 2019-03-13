@@ -79,6 +79,8 @@ ORDER(rc,0);
 ORDER(td,0);
 ORDER(tg,0);
 ORDER(sstop,0);
+ORDER(maxtr,1);
+ORDER(maxro,1);
 
 /*			 _________________________________
 * 		   *|                                 |*

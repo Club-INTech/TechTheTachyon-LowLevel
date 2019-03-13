@@ -437,3 +437,11 @@ void MCS::getSpeedGoals(long &leftGoal, long &rightGoal) {
     leftGoal = leftSpeedPID.getCurrentGoal();
     rightGoal = rightSpeedPID.getCurrentGoal();
 }
+
+void MCS::setMaxTranslationSpeed(float speed) {
+    controlSettings.maxTranslationSpeed = speed;
+}
+
+void MCS::setMaxRotationSpeed(float speed) {
+    controlSettings.maxRotationSpeed = speed;
+}

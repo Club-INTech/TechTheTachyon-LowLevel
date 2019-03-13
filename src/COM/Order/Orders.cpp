@@ -258,31 +258,45 @@ void ORDER_montlhery::impl(Args args)
     orderManager.motionControlSystem.controlledRotation(false);
     orderManager.motionControlSystem.controlledTranslation(false);
     orderManager.motionControlSystem.setForcedMovement(true);
+    orderManager.highLevel.printfln(DEBUG_HEADER, "montlhery received");
 }
 
 void ORDER_av::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::FORWARD);
+    orderManager.highLevel.printfln(DEBUG_HEADER, "av received");
 }
 
 void ORDER_rc::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::BACKWARD);
+    orderManager.highLevel.printfln(DEBUG_HEADER, "rc received");
 }
 
 void ORDER_td::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::ANTITRIGO);
+    orderManager.highLevel.printfln(DEBUG_HEADER, "td received");
 }
 
 void ORDER_tg::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::TRIGO);
+    orderManager.highLevel.printfln(DEBUG_HEADER, "tg received");
 }
 
 void ORDER_sstop::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::NONE);
+    orderManager.highLevel.printfln(DEBUG_HEADER, "sstop received");
+}
+
+void ORDER_maxtr::impl(Args args) {
+    orderManager.motionControlSystem.setMaxTranslationSpeed(orderManager.parseFloat(args[0]));
+}
+
+void ORDER_maxro::impl(Args args) {
+    orderManager.motionControlSystem.setMaxRotationSpeed(orderManager.parseFloat(args[0]));
 }
 
 void ORDER_toggle::impl(Args args)
