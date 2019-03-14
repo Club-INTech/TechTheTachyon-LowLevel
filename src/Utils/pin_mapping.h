@@ -9,15 +9,19 @@ constexpr uint8_t RST = 29;
 constexpr uint8_t LED_DEBUG_ETH = 2;
 
 /* Moteurs */
-constexpr uint8_t INA_LEFT = 3;
-constexpr uint8_t INB_LEFT = 4;
-constexpr uint8_t PIN_PWM_LEFT = 35;
+constexpr uint8_t INA_LEFT = 28;
+constexpr uint8_t INB_LEFT = 27;
+constexpr uint8_t PIN_PWM_LEFT = 8;
 
-constexpr uint8_t INA_RIGHT = 25;
-constexpr uint8_t INB_RIGHT = 32;
-constexpr uint8_t PIN_PWM_RIGHT = 8;
+constexpr uint8_t INA_RIGHT = 2;
+constexpr uint8_t INB_RIGHT = 16;
+constexpr uint8_t PIN_PWM_RIGHT = 5;
 
-
+/* Roues codeuses */
+constexpr uint8_t CODER_LEFT_A = 3;
+constexpr uint8_t CODER_LEFT_B = 4;
+constexpr uint8_t CODER_RIGHT_A = 25;
+constexpr uint8_t CODER_RIGHT_B = 32;
 
 /* CAPTEURS */
 constexpr uint8_t PIN_JMPR = 10;

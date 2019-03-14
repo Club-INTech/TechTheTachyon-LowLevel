@@ -52,10 +52,11 @@ int main() {
 	Serial.println("Fin du setup");
 	OrderManager& orderMgr = OrderManager::Instance();
 	orderMgr.init();
+    Serial.println("Order manager ok");
 
     // MotionControlSystem interrupt on timer
-	IntervalTimer motionControlInterruptTimer;
-	motionControlInterruptTimer.priority(253);
+    IntervalTimer motionControlInterruptTimer;
+    motionControlInterruptTimer.priority(253);
     motionControlInterruptTimer.begin(motionControlInterrupt, MCS_PERIOD); // Setup de l'interruption d'asservissement
 
 
@@ -65,6 +66,7 @@ int main() {
     stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
 
 
+    Serial.println("Starting 5s wait");
     delay(5000);//Laisse le temps aux capteurs de clignotter leur ID
 
     Serial.println("Ready!");
@@ -75,10 +77,21 @@ int main() {
 	 * Les capteurs
 	 */
 
+	orderMgr.execute("d 500");
+	delay(3000);
+	orderMgr.execute("t 3.14");
+	delay(3000);
+    orderMgr.execute("d 500");
+    delay(3000);
+    orderMgr.execute("t -3.14");
+
+
+
     while (true) {
 		orderMgr.communicate();
 		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
+
     }
 }
 

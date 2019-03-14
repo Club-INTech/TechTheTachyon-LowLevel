@@ -12,8 +12,8 @@
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
-    encoderRight = new Encoder(INA_RIGHT,INB_RIGHT);
-    encoderLeft = new Encoder(INA_LEFT,INB_LEFT);
+    encoderLeft = new Encoder(CODER_LEFT_A,CODER_LEFT_B);
+    encoderRight = new Encoder(CODER_RIGHT_A,CODER_RIGHT_B);
 
     initSettings();
     initStatus();
