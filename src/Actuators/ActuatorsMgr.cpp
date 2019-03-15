@@ -22,16 +22,14 @@ void ActuatorsMgr::initTorques() {
 }
 
 void ActuatorsMgr::initPWMs() {
-    pinMode(STEP_PIN_LEFT, OUTPUT);
+    /*pinMode(STEP_PIN_LEFT, OUTPUT);
     pinMode(STEP_PIN_RIGHT, OUTPUT);
     pinMode(DIR_PIN_LEFT, OUTPUT);
-    pinMode(DIR_PIN_RIGHT, OUTPUT);
-    analogWriteFrequency(STEP_PIN_LEFT, STEPPER_FREQUENCY);
-    analogWriteFrequency(STEP_PIN_RIGHT, STEPPER_FREQUENCY);
+    pinMode(DIR_PIN_RIGHT, OUTPUT);*/
 }
 
 void ActuatorsMgr::handleInterrupt() {
-    if(leftStepCount > 0) {
+   /* if(leftStepCount > 0) {
         leftStepCount--;
     } else {
         leftStepCount = 0;
@@ -43,11 +41,11 @@ void ActuatorsMgr::handleInterrupt() {
     } else {
         rightStepCount = 0;
         analogWrite(STEP_PIN_RIGHT, 0);
-    }
+    }*/
 }
 
 void ActuatorsMgr::moveLeftStepper(int32_t count) {
-    this->leftDirection = count > 0 ? UP : DOWN;
+    /*this->leftDirection = count > 0 ? UP : DOWN;
     noInterrupts();
     if(count > 0) {
         digitalWrite(DIR_PIN_LEFT, HIGH);
@@ -56,11 +54,13 @@ void ActuatorsMgr::moveLeftStepper(int32_t count) {
     }
     leftStepCount = ABS(count)*STEP_COUNT;
     analogWrite(STEP_PIN_LEFT, 128);
-    interrupts();
+    interrupts();*/
+    leftStepper.setTargetRel(count*STEP_COUNT);
+    stepControl.moveAsync(leftStepper);
 }
 
 void ActuatorsMgr::moveRightStepper(int32_t count) {
-    this->rightDirection = count > 0 ? UP : DOWN;
+/*    this->rightDirection = count > 0 ? UP : DOWN;
     noInterrupts();
     if(count > 0) {
         digitalWrite(DIR_PIN_RIGHT, HIGH);
@@ -69,6 +69,8 @@ void ActuatorsMgr::moveRightStepper(int32_t count) {
     }
     rightStepCount = ABS(count)*STEP_COUNT;
     analogWrite(STEP_PIN_RIGHT, 128);
-    interrupts();
+    interrupts();*/
+    rightStepper.setTargetRel(count*STEP_COUNT);
+    stepControl.moveAsync(leftStepper);
 }
 
