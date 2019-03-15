@@ -633,6 +633,7 @@ void ORDER_grnd::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionSolIntermediaire);
     arm->setPosition(positionSol);
 }
 

@@ -68,6 +68,7 @@ int main() {
 
     Serial.println("Starting 5s wait");
     delay(5000);//Laisse le temps aux capteurs de clignotter leur ID
+    ActuatorsMgr::Instance().initTorques();
 
     Serial.println("Ready!");
 	/**

@@ -4,8 +4,21 @@
 
 #include "Arm.h"
 
-Arm::Arm(DynamixelManager& manager, XL430 &base, XL430 &elbow, XL430 &wrist): manager(manager), base(base), elbow(elbow), wrist(wrist) {
+Arm::Arm(DynamixelManager& manager, XL430 &base, XL430 &elbow, XL430 &wrist): manager(manager), base(base), elbow(elbow), wrist(wrist) {}
 
+void Arm::initTorque() {
+    Serial.print("Toggling torque... ");
+    syncToggleTorqueWriteData->setMotorID(0, base.getId());
+    syncToggleTorqueWriteData->setMotorID(1, elbow.getId());
+    syncToggleTorqueWriteData->setMotorID(2, wrist.getId());
+
+    char toggleData[] = {1};
+    syncToggleTorqueWriteData->setData(0, toggleData);
+    syncToggleTorqueWriteData->setData(1, toggleData);
+    syncToggleTorqueWriteData->setData(2, toggleData);
+
+    syncToggleTorqueWriteData->send();
+    Serial.println("Done!");
 }
 
 void Arm::prepareAngleData(unsigned int motorIndex, float angle) {
@@ -19,20 +32,6 @@ void Arm::prepareAngleData(unsigned int motorIndex, float angle) {
 }
 
 void Arm::setPosition(float* positions) {
-    Serial.println("Setting torque...");
-    syncToggleCoupleWriteData->setMotorID(0, base.getId());
-    syncToggleCoupleWriteData->setMotorID(1, elbow.getId());
-    syncToggleCoupleWriteData->setMotorID(2, wrist.getId());
-
-    char toggleData[] = {1};
-    syncToggleCoupleWriteData->setData(0, toggleData);
-    syncToggleCoupleWriteData->setData(1, toggleData);
-    syncToggleCoupleWriteData->setData(2, toggleData);
-
-    syncToggleCoupleWriteData->send();
-
-
-    Serial.println("Setting torque... Finished!");
     syncAngleWriteData->setMotorID(0, base.getId());
     syncAngleWriteData->setMotorID(1, elbow.getId());
     syncAngleWriteData->setMotorID(2, wrist.getId());

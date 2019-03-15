@@ -16,6 +16,11 @@ void stepperInterrupt() {
     ActuatorsMgr::Instance().handleInterrupt();
 }
 
+void ActuatorsMgr::initTorques() {
+    ActuatorsMgr::Instance().leftArm->initTorque();
+    ActuatorsMgr::Instance().rightArm->initTorque();
+}
+
 void ActuatorsMgr::initPWMs() {
     pinMode(STEP_PIN_LEFT, OUTPUT);
     pinMode(STEP_PIN_RIGHT, OUTPUT);
