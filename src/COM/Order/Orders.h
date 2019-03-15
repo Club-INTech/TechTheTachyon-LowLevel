@@ -141,6 +141,7 @@ ORDER(gold,0);
 ORDER(bal,1);
 ORDER(torqueBras,1)
 ORDER(torqueXL,1)
+ORDER(brasToutDroit,1)
 
 /* Ascenseurs */
 ORDER(up,1);

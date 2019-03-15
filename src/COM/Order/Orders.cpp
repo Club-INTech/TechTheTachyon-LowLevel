@@ -665,6 +665,12 @@ void ORDER_gold::impl(Args args)
     arm->setPosition(positionGoldonium);
 }
 
+void ORDER_brasToutDroit::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionDroit);
+}
 
 void ORDER_XLm::impl(Args args)
 {

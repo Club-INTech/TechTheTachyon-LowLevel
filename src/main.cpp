@@ -77,14 +77,6 @@ int main() {
 	 * Les capteurs
 	 */
 
-	orderMgr.execute("d 500");
-	delay(3000);
-	orderMgr.execute("t 3.14");
-	delay(3000);
-    orderMgr.execute("d 500");
-    delay(3000);
-    orderMgr.execute("t -3.14");
-
 
     while (true) {
         orderMgr.communicate();

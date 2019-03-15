@@ -82,16 +82,17 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |:---------:|:--------------------------------------------------:|:--------------------------|
 |    XLm    |Envoie le XL-430 à un α en °                        |id XL / α                  |
 |    XLs    |Modifie la vitesse d'un XL-430                      |id XL / speed              |
-|    dist   |Envoie le bras à la position "distributeur"         |side(left/right)           |
-|   grnd    |Envoie le bras à la position "sol"                  |side(left/right)           |
-|   stock   |Envoie le bras à la position "ascenceur"            |side(left/right)           |
-|    acc    |Envoie le bras à la position "accélérateur"         |side(left/right)           |
-|     up    |Monte l'ascenceur de la hauteur d'un palet          |side(left/right)           |
-|    down   |Descend l'ascenseur de la hauteur d'un palet        |side(left/right)           |
-|    suck   |Active la pompe                                     |side(left/right)           |
-|  unsuck   |Désactive la pompe                                  |side(left/right)           |
-|  valveon  |Active l'électrovanne                               |side(left/right)           |
-|  valveoff |Désactive l'électrovanne                            |side(left/right)           |
+|	brasToutDroit	|Envoie le bras à la position "tout droit"           |side(left/right)           |
+|    dist   		|Envoie le bras à la position "distributeur"         |side(left/right)           |
+|   grnd    		|Envoie le bras à la position "sol"                  |side(left/right)           |
+|   stock   		|Envoie le bras à la position "ascenceur"            |side(left/right)           |
+|    acc    		|Envoie le bras à la position "accélérateur"         |side(left/right)           |
+|     up    		|Monte l'ascenceur de la hauteur d'un palet          |side(left/right)           |
+|    down   		|Descend l'ascenseur de la hauteur d'un palet        |side(left/right)           |
+|    suck   		|Active la pompe                                     |side(left/right)           |
+|  unsuck   		|Désactive la pompe                                  |side(left/right)           |
+|  valveon  		|Active l'électrovanne                               |side(left/right)           |
+|  valveoff 		|Désactive l'électrovanne                            |side(left/right)           |
 |   gold    |Envoie le bras à la position "goldonium"            |      /                    |
 |   bal     |Envoie le bras à la position "balance"              |side(left/right)           |
 |   elec    |Démarre l'électron                                  |      /                    |

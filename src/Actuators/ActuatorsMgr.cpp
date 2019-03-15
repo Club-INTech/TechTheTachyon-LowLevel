@@ -48,7 +48,6 @@ void ActuatorsMgr::moveLeftStepper(int32_t count) {
         digitalWrite(DIR_PIN_LEFT, HIGH);
     } else {
         digitalWrite(DIR_PIN_LEFT, LOW);
-        Serial.println("d!!!zd");
     }
     leftStepCount = ABS(count)*STEP_COUNT;
     analogWrite(STEP_PIN_LEFT, 128);
