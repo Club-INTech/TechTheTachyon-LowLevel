@@ -7,6 +7,9 @@
 
 #include "Utils/Singleton.hpp"
 #include "Utils/average.hpp"
+#include "Utils/defines.h"
+#include "Utils/pin_mapping.h"
+#include "Utils/utils.h"
 #include "ControlSettings.h"
 #include "RobotStatus.h"
 #include "Motor.h"

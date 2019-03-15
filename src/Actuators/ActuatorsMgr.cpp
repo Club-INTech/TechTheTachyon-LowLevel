@@ -3,10 +3,6 @@
 // 
 
 #include "ActuatorsMgr.h"
-#include "DynamixelManager.h"
-#include <Utils/pin_mapping.h>
-#include <Utils/utils.h>
-#include <Utils/defines.h>
 
 ActuatorsMgr::ActuatorsMgr() : dynamixelManager(new DynamixelManager(&XLSerial, &DebugSerial))
 {

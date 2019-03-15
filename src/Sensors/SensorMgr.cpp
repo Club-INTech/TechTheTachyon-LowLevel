@@ -10,15 +10,6 @@ void SensorMgr::init() {
 
 	Wire.begin();
 
-	/* CHANGEMENT PIN I2C */
-	CORE_PIN18_CONFIG = 0;  // turn off primary pins before enable alternates
-	CORE_PIN19_CONFIG = 0;
-	CORE_PIN16_CONFIG = PORT_PCR_MUX(2)|PORT_PCR_ODE|PORT_PCR_SRE|PORT_PCR_DSE;
-	CORE_PIN17_CONFIG = PORT_PCR_MUX(2)|PORT_PCR_ODE|PORT_PCR_SRE|PORT_PCR_DSE;
-
-	for(int i = 0;i<NBR_OF_DISTANCE_SENSOR;i++)
-    	distanceSensors[i] = SICKDT35_B15851(SICK_PINS[i]);
-
 	jumperPlugged = isJumperEngaged();
 	basicBlocked = false;
 }

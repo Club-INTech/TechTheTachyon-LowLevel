@@ -86,12 +86,10 @@ int main() {
     orderMgr.execute("t -3.14");
 
 
-
     while (true) {
-		orderMgr.communicate();
-		orderMgr.refreshUS();
+        orderMgr.communicate();
+//		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-
     }
 }
 

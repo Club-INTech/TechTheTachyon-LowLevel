@@ -6,12 +6,12 @@ void Motor::setDirection(Direction directionToSet)
 	direction = directionToSet;
 	if (side == Side::LEFT) {
 		if (direction == Direction::FORWARD) {
-			digitalWrite(pin_inb, LOW);
-			digitalWrite(pin_ina, HIGH);
-		}
-		if (direction == Direction::BACKWARD) {
 			digitalWrite(pin_ina, LOW);
 			digitalWrite(pin_inb, HIGH);
+		}
+		if (direction == Direction::BACKWARD) {
+			digitalWrite(pin_ina, HIGH);
+			digitalWrite(pin_inb, LOW);
 		}
 		if( direction == Direction::NONE)
 		{
@@ -26,12 +26,12 @@ void Motor::setDirection(Direction directionToSet)
 	}
 	else {
 		if (direction == Direction::FORWARD) {
-			digitalWrite(pin_inb, LOW);
-			digitalWrite(pin_ina, HIGH);
-		}
-		if (direction == Direction::BACKWARD) {
 			digitalWrite(pin_ina, LOW);
 			digitalWrite(pin_inb, HIGH);
+		}
+		if (direction == Direction::BACKWARD) {
+			digitalWrite(pin_ina, HIGH);
+			digitalWrite(pin_inb, LOW);
 		}
 		if( direction == Direction::NONE)
 		{

@@ -12,6 +12,9 @@
 
 #include "Utils/pin_mapping.h"
 #include "Utils/Singleton.hpp"
+#include "Utils/utils.h"
+#include "Utils/defines.h"
+
 #include "ActuatorValues.h"
 #include "Arm.h"
 #include <vector>

@@ -3,17 +3,12 @@
 //
 
 #include "MCSReborn.h"
-#include "Motor.h"
-#include "SelfContainedPID.hpp"
-#include "Utils/utils.h"
-#include "Utils/defines.h"
-#include "../Utils/utils.h"
-#include "../Utils/pin_mapping.h"
+
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
-    encoderLeft = new Encoder(CODER_LEFT_A,CODER_LEFT_B);
-    encoderRight = new Encoder(CODER_RIGHT_A,CODER_RIGHT_B);
+    encoderLeft = new Encoder(ENCODER_LEFT_B,ENCODER_LEFT_A);
+    encoderRight = new Encoder(ENCODER_RIGHT_B,ENCODER_RIGHT_A);
 
     initSettings();
     initStatus();
