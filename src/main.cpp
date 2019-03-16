@@ -27,7 +27,7 @@ int main() {
 	 *************************/
 
     /* Série */
-//	ActuatorsMgr::Instance().initPWMs();
+	ActuatorsMgr::Instance().initPWMs();
     SensorMgr::Instance().init();
 
 
@@ -86,7 +86,7 @@ int main() {
         //orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-		orderMgr.execute("rawposdata");
+		/*orderMgr.execute("rawposdata");
 
 		delay(60);
 
@@ -111,7 +111,7 @@ int main() {
     	if (i==620){
 			Serial.println("DATAEND");
     	}
-		i++;
+		i++;*/
     }
 }
 
