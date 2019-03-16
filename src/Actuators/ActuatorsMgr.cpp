@@ -26,6 +26,10 @@ void ActuatorsMgr::initPWMs() {
     pinMode(STEP_PIN_RIGHT, OUTPUT);
     pinMode(DIR_PIN_LEFT, OUTPUT);
     pinMode(DIR_PIN_RIGHT, OUTPUT);*/
+    pinMode(RST_PIN_LEFT, OUTPUT);
+    pinMode(RST_PIN_RIGHT, OUTPUT);
+    digitalWrite(RST_PIN_LEFT, HIGH);
+    digitalWrite(RST_PIN_RIGHT, HIGH);
 }
 
 void ActuatorsMgr::handleInterrupt() {
@@ -55,7 +59,8 @@ void ActuatorsMgr::moveLeftStepper(int32_t count) {
     leftStepCount = ABS(count)*STEP_COUNT;
     analogWrite(STEP_PIN_LEFT, 128);
     interrupts();*/
-    leftStepper.setTargetRel(count*STEP_COUNT);
+    leftStepCount += count*STEP_COUNT;
+    leftStepper.setTargetAbs(leftStepCount);
     stepControl.moveAsync(leftStepper);
 }
 
@@ -70,7 +75,8 @@ void ActuatorsMgr::moveRightStepper(int32_t count) {
     rightStepCount = ABS(count)*STEP_COUNT;
     analogWrite(STEP_PIN_RIGHT, 128);
     interrupts();*/
-    rightStepper.setTargetRel(count*STEP_COUNT);
-    stepControl.moveAsync(leftStepper);
+    rightStepCount += count*STEP_COUNT;
+    rightStepper.setTargetAbs(rightStepCount);
+    stepControl.moveAsync(rightStepper);
 }
 
