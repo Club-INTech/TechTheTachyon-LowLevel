@@ -41,13 +41,13 @@ class Motor {
 private:
 	Side side;
 	Direction direction;
-	void setDirection(Direction);
 	uint8_t pin_pwm;
 	uint8_t pin_ina;
 	uint8_t pin_inb;
 public:
 	Motor(Side);
 	int16_t pwm;
+	void setDirection(Direction);
 	void init();
 	void run(int16_t);
 
