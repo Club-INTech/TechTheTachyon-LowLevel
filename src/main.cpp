@@ -83,6 +83,7 @@ int main() {
 
     while (true) {
         orderMgr.communicate();
+        //orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 		orderMgr.execute("rawposdata");
@@ -142,7 +143,7 @@ int main() {
 
 /*
  *   Dead Pingu in the Main !
- *      	      . --- .
+ *      	  . --- .
 		    /        \
 		   |  X  _  X |
 		   |  ./   \. |

@@ -1,3 +1,6 @@
 [submodule "Dynamixel-Com"]
 	path = Dynamixel-Com
 	url = https://github.com/Club-INTech/Dynamixel-Com
+[submodule "TeensyStep"]
+	path = TeensyStep
+	url = https://github.com/luni64/TeensyStep

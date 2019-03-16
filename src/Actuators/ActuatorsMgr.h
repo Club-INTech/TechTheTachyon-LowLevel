@@ -18,6 +18,8 @@
 #include "ActuatorValues.h"
 #include "Arm.h"
 #include <vector>
+#include <StepControl.h>
+#include "Stepper.h"
 
 static HardwareSerial& XLSerial = Serial1;
 
@@ -28,10 +30,11 @@ enum StepperDirection {
 class ActuatorsMgr : public Singleton<ActuatorsMgr>
 {
 private:
-	StepperDirection leftDirection;
-	StepperDirection rightDirection;
-	volatile uint32_t leftStepCount;
-	volatile uint32_t rightStepCount;
+	volatile int leftStepCount;
+	volatile int rightStepCount;
+    Stepper leftStepper = Stepper(STEP_PIN_LEFT, DIR_PIN_LEFT);
+    Stepper rightStepper = Stepper(STEP_PIN_RIGHT, DIR_PIN_RIGHT);
+    StepControl<> stepControl = StepControl<>();
 
 public:
     //Gestion des XL430
