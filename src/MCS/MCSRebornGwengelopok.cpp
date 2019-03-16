@@ -216,7 +216,7 @@ void MCS::control()
 
 void MCS::manageStop() {
 
-    /*if(translationPID.active) {
+    if(translationPID.active) {
         if((ABS(translationPID.getError()) <= controlSettings.tolerancyTranslation) && (ABS(translationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative)){
             translationPID.active = false;
             InterruptStackPrint::Instance().push("arret tolerance translation");
@@ -241,12 +241,12 @@ void MCS::manageStop() {
                 stop();
             }
         }
-    }*/
-    if(translationPID.getDerivativeError()==0 && ABS(translationPID.getCurrentOutput()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && rotationPID.getDerivativeError()==0 && ABS(rotationPID.getCurrentOutput()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
+    }
+    /*if(translationPID.getDerivativeError()==0 && ABS(translationPID.getCurrentOutput()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && rotationPID.getDerivativeError()==0 && ABS(rotationPID.getCurrentOutput()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
         leftMotor.setDirection(Direction::NONE);
         rightMotor.setDirection(Direction::NONE);
         digitalWrite(LED1,HIGH);
-    }
+    }*/
 }
 
 void MCS::stop() {

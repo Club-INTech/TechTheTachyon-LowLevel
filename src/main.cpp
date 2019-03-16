@@ -97,18 +97,18 @@ int main() {
     		orderMgr.execute("t 3.14");
     	}
     	if (i==200){
-    		orderMgr.execute("t 0.50");
-    	}
-    	if (i==300){
     		orderMgr.execute("d 500");
     	}
-    	if (i==400){
+    	if (i==300){
 			orderMgr.execute("t -3.14");
 		}
-		if (i==600){
+		if (i==400){
 			orderMgr.execute("d 500");
 		}
-    	if (i==720){
+		if (i==500){
+			orderMgr.execute("d -500");
+		}
+    	if (i==620){
 			Serial.println("DATAEND");
     	}
 		i++;
