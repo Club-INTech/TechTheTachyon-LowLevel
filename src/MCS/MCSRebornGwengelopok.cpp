@@ -3,6 +3,7 @@
 //
 
 #include "MCSReborn.h"
+#include "../../../.platformio/packages/framework-arduinoteensy/libraries/Tlc5940/tlc_animations.h"
 
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
@@ -242,7 +243,9 @@ void MCS::manageStop() {
         }
     }*/
     if(translationPID.getDerivativeError()==0 && ABS(translationPID.getCurrentOutput()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && rotationPID.getDerivativeError()==0 && ABS(rotationPID.getCurrentOutput()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
-        
+        leftMotor.setDirection(Direction::NONE);
+        rightMotor.setDirection(Direction::NONE);
+        digitalWrite(LED1,HIGH);
     }
 }
 
@@ -292,7 +295,10 @@ void MCS::rotate(float angle) {
         return;
     }
     targetAngle = angle;
-    /*if((45<targetAngle and targetAngle<135) or (-45>targetAngle and targetAngle>-135)){
+
+    float differenceAngle = rotationPID.getCurrentState()-targetAngle;
+
+    /*if((45<ABS(differenceAngle) and ABS(differenceAngle)<135)){
         rotationPID.setTunings(10.3,0.0001,12,0);
     }
     else{

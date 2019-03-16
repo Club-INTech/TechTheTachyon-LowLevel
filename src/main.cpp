@@ -9,7 +9,7 @@
 #include "Utils/Monitoring.h"
 #include <string>
 #include "Utils/pin_mapping.h"
-#include "MCS/HardwareEncoder_ISRDEF.h"
+//#include "MCS/HardwareEncoder_ISRDEF.h"
 
 /* Interruptions d'asservissements */
 void motionControlInterrupt() {
@@ -90,24 +90,24 @@ int main() {
 		delay(60);
 
     	if (i==5){
-			orderMgr.execute("t 0.50");
+			orderMgr.execute("d 500");
     	}
     	if (i==100){
-    		orderMgr.execute("t -0.50");
+    		orderMgr.execute("t 3.14");
     	}
     	if (i==200){
     		orderMgr.execute("t 0.50");
     	}
     	if (i==300){
-    		orderMgr.execute("t -0.50");
+    		orderMgr.execute("d 500");
     	}
     	if (i==400){
-			orderMgr.execute("t 0.50");
-    	}
-		if (i==500){
-			orderMgr.execute("t -0.50");
+			orderMgr.execute("t -3.14");
 		}
-    	if (i==620){
+		if (i==600){
+			orderMgr.execute("d 500");
+		}
+    	if (i==720){
 			Serial.println("DATAEND");
     	}
 		i++;
