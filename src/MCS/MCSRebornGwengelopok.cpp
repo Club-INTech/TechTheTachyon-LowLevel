@@ -19,15 +19,21 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.movement = MOVEMENT::NONE;
 
 
-    leftSpeedPID.setTunings(1.65, 0.005, 40, 0);
+    /*leftSpeedPID.setTunings(1.65, 0.005, 40, 0);
     leftSpeedPID.enableAWU(false);
     rightSpeedPID.setTunings(1.35, 0.005, 40, 0);
+    rightSpeedPID.enableAWU(false);*/
+
+    leftSpeedPID.setTunings(1.65, 0.005, 50, 0);
+    leftSpeedPID.enableAWU(false);
+    rightSpeedPID.setTunings(1.35, 0.005, 50, 0);
     rightSpeedPID.enableAWU(false);
 
-    translationPID.setTunings(4.35,0.0001,0,0);
+    translationPID.setTunings(4.35,0.000001,0,0);
     translationPID.enableAWU(false);
 //    rotationPID180.setTunings(6.5,0.0001,0,0);
-    rotationPID.setTunings(8.75,0.0001,0,0);
+//    rotationPID.setTunings(8.75,0.000001,0,0);
+    rotationPID.setTunings(18,0.000001,0,0);
 //    rotationPID90.setTunings(10.3,0.0001,12,0);
 //    rotationPID180.enableAWU(false);
 //    rotationPID90.enableAWU(false);
@@ -45,7 +51,7 @@ void MCS::initSettings() {
     controlSettings.maxDeceleration = 2;
 
     /* rad/s */
-    controlSettings.maxRotationSpeed = 2*PI;
+    controlSettings.maxRotationSpeed = PI;
 
     /* mm/s */
     controlSettings.maxTranslationSpeed = 1000;
@@ -209,7 +215,7 @@ void MCS::control()
 
 void MCS::manageStop() {
 
-    if(translationPID.active) {
+    /*if(translationPID.active) {
         if((ABS(translationPID.getError()) <= controlSettings.tolerancyTranslation) && (ABS(translationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative)){
             translationPID.active = false;
             InterruptStackPrint::Instance().push("arret tolerance translation");
@@ -234,6 +240,9 @@ void MCS::manageStop() {
                 stop();
             }
         }
+    }*/
+    if(translationPID.getDerivativeError()==0 && ABS(translationPID.getCurrentOutput()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && rotationPID.getDerivativeError()==0 && ABS(rotationPID.getCurrentOutput()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
+        
     }
 }
 
