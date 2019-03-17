@@ -3,7 +3,7 @@
 //
 
 #include "MCSReborn.h"
-#include "../../../.platformio/packages/framework-arduinoteensy/libraries/Tlc5940/tlc_animations.h"
+#include "../Utils/pin_mapping.h"
 
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
@@ -71,6 +71,9 @@ void MCS::initSettings() {
 
     /* mm/s */
     controlSettings.tolerancyDerivative = 0;
+
+    /* patate */
+    controlSettings.tolerancyDifferenceSpeed =100;
 }
 
 void MCS::initStatus() {
@@ -122,7 +125,10 @@ void MCS::updatePositionOrientation() {
         if(!sequentialMovement || (sequentialMovement && ABS(robotStatus.orientation - angleToGoal) <= controlSettings.tolerancyAngle)) { // on est à peu près en face de la cible
             translate(norm);
         }
-        rotate(angleToGoal);
+        if(!(ABS(robotStatus.orientation - angleToGoal) <= controlSettings.tolerancyAngle)){
+            rotate(angleToGoal);
+        }
+
 
         if(ABS(norm) <= controlSettings.tolerancyTranslation) { // le robot est arrivé à destination
             if(trajectory) { // si on suit une trajectoire et qu'il y a encore un point à atteindre
@@ -133,7 +139,7 @@ void MCS::updatePositionOrientation() {
                 robotStatus.controlledP2P = false;
                 trajectory.clear();
 
-                rotate(robotStatus.orientation + angleOffset);
+          //      rotate(robotStatus.orientation + angleOffset);
                 angleOffset = 0.0f; // reset de l'offset pour pas décaler le reste des mouvements
             }
         }
@@ -215,8 +221,8 @@ void MCS::control()
 }
 
 void MCS::manageStop() {
-
-    if(translationPID.active) {
+    static int timeCounter =0;
+    /*if(translationPID.active) {
         if((ABS(translationPID.getError()) <= controlSettings.tolerancyTranslation) && (ABS(translationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative)){
             translationPID.active = false;
             InterruptStackPrint::Instance().push("arret tolerance translation");
@@ -241,6 +247,36 @@ void MCS::manageStop() {
                 stop();
             }
         }
+    }*/
+
+    if(robotStatus.moving && translationPID.getDerivativeError()==0 && ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && rotationPID.getDerivativeError()==0 && ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
+        leftMotor.setDirection(Direction::NONE);
+        rightMotor.setDirection(Direction::NONE);
+        stop();
+        digitalWrite(LED1,HIGH);
+    }
+  //  digitalWrite(LED2,(ABS(leftSpeedPID.getCurrentState())<=0.25*controlSettings.tolerancySpeed));
+   // digitalWrite(LED1,(ABS(rightSpeedPID.getCurrentState())<=0.25*controlSettings.tolerancySpeed));
+    if((ABS(leftSpeedPID.getCurrentState())<=0.25*ABS(leftSpeedPID.getCurrentGoal())) && ABS((rightSpeedPID.getCurrentState())<=0.25*ABS(rightSpeedPID.getCurrentGoal())) && robotStatus.moving){          //si robot a les deux roues bloquées
+        if (timeCounter==50){
+            leftMotor.setDirection(Direction::NONE);
+            rightMotor.setDirection(Direction::NONE);
+            stop();
+            timeCounter=0;
+            robotStatus.stuck=true;
+            digitalWrite(LED4,HIGH);
+        }
+        timeCounter++;
+    }
+
+    digitalWrite(LED3,robotStatus.moving);
+    if(ABS(ABS(leftSpeedPID.getCurrentState())-ABS(rightSpeedPID.getCurrentState()))>controlSettings.tolerancyDifferenceSpeed && robotStatus.moving){          //si le robot a une seule roue bloquée
+        leftMotor.setDirection(Direction::NONE);
+        rightMotor.setDirection(Direction::NONE);
+        stop();
+        robotStatus.stuck=true;
+        digitalWrite(LED2,HIGH);
+
     }
     /*if(translationPID.getDerivativeError()==0 && ABS(translationPID.getCurrentOutput()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && rotationPID.getDerivativeError()==0 && ABS(rotationPID.getCurrentOutput()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
         leftMotor.setDirection(Direction::NONE);

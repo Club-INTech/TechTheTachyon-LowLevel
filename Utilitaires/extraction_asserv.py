@@ -8,7 +8,8 @@ from PIL import *
 from math import pi
 
 Tmesures = 0.01 #en secondes   
-consigneAngle = 3.14
+
+consigneAngle = 1.57
 consignePos = 500
 
 file = sys.argv[1]

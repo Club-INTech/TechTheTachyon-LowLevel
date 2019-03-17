@@ -19,6 +19,12 @@ void motionControlInterrupt() {
 }
 
 int main() {
+	pinMode(LED1,OUTPUT);
+	pinMode(LED2,OUTPUT);
+	pinMode(LED3,OUTPUT);
+	pinMode(LED4,OUTPUT);
+
+
 	/*************************
 	 * Initialisation du LL, gère:
 	 * La série
@@ -91,9 +97,14 @@ int main() {
 		delay(60);
 
     	if (i==5){
+
 			orderMgr.execute("d 500");
     	}
     	if (i==100){
+			orderMgr.execute("goto 1000 0");
+			//orderMgr.execute("d 1000");
+    	}
+    	/*if (i==100){
     		orderMgr.execute("t 3.14");
     	}
     	if (i==200){
@@ -109,6 +120,15 @@ int main() {
 			orderMgr.execute("d -500");
 		}
     	if (i==620){
+    		orderMgr.execute("t -3.14");
+    	}
+    	if (i==400){
+			orderMgr.execute("d 500");
+    	}
+		if (i==500){
+			orderMgr.execute("d -500");
+		}*/
+    	if (i==220){
 			Serial.println("DATAEND");
     	}
 		i++;
