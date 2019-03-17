@@ -52,7 +52,11 @@ constexpr uint8_t LEFT_VALVE_PIN = 24;  // électrovanne gauche
 constexpr uint8_t LEFT_PUMP_PIN = 7;
 constexpr uint8_t RIGHT_PUMP_PIN = 6;
 
-
+/* LEDs debug */
+constexpr uint8_t LED1 = 35;
+constexpr uint8_t LED2 = 14;
+constexpr uint8_t LED3 = 15;
+constexpr uint8_t LED4 = 31;
 
 
 #endif //_PIN_MAPPING_h
