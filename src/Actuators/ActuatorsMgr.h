@@ -30,11 +30,13 @@ enum StepperDirection {
 class ActuatorsMgr : public Singleton<ActuatorsMgr>
 {
 private:
+    StepperDirection leftDirection;
+    StepperDirection rightDirection;
 	volatile int leftStepCount;
 	volatile int rightStepCount;
-    Stepper leftStepper = Stepper(STEP_PIN_LEFT, DIR_PIN_LEFT);
+   /* Stepper leftStepper = Stepper(STEP_PIN_LEFT, DIR_PIN_LEFT);
     Stepper rightStepper = Stepper(STEP_PIN_RIGHT, DIR_PIN_RIGHT);
-    StepControl<> stepControl = StepControl<>();
+    StepControl<> stepControl = StepControl<>();*/
 
 public:
     //Gestion des XL430
