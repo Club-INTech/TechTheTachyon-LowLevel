@@ -7,8 +7,9 @@
 
 #include "COM/Order/OrderManager.h"
 #include "Utils/Monitoring.h"
-#include <string>
 #include "Utils/pin_mapping.h"
+#include "COM/InterruptStackPrint.h"
+
 //#include "MCS/HardwareEncoder_ISRDEF.h"
 
 /* Interruptions d'asservissements */
@@ -60,6 +61,9 @@ int main() {
 	orderMgr.init();
     Serial.println("Order manager ok");
 
+    /* InterruotStackPrint */
+    InterruptStackPrint& interruptStackPrint = InterruptStackPrint::Instance();
+
     // MotionControlSystem interrupt on timer
     IntervalTimer motionControlInterruptTimer;
     motionControlInterruptTimer.priority(253);
@@ -88,6 +92,7 @@ int main() {
 	int i=0;
 
     while (true) {
+        interruptStackPrint.print();
         orderMgr.communicate();
         //orderMgr.execute("cod");
 //		orderMgr.refreshUS();
