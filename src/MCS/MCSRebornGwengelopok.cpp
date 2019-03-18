@@ -176,9 +176,6 @@ void MCS::control()
     digitalWrite(LED4,rotationPID.getDerivativeError()==0);
     digitalWrite(LED3,robotStatus.Lbooly);
     float target = sqrtf((targetX-robotStatus.x)*(targetX-robotStatus.x)+(targetY-robotStatus.y)*(targetY-robotStatus.y));
-    Serial.println("robotstatus.speedrotation = " + (String)rotationPID.getDerivativeError() );
-    Serial.println("target"+(String)target);
-    Serial.println(rotationPID.getError());
     if(robotStatus.controlledP2P && rotationPID.getDerivativeError()==0 && ABS(rotationPID.getError())<=controlSettings.tolerancyAngle){
         target = sqrtf((targetX-robotStatus.x)*(targetX-robotStatus.x)+(targetY-robotStatus.y)*(targetY-robotStatus.y));
         //digitalWrite(LED2,HIGH);
