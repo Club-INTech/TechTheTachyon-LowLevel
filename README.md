@@ -82,6 +82,7 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |:---------:|:--------------------------------------------------:|:--------------------------|
 |    XLm    |Envoie le XL-430 à un α en °                        |id XL / α                  |
 |    XLs    |Modifie la vitesse d'un XL-430                      |id XL / speed              |
+|    posBras|Récupère les angles (en °) d'un bras                		 |side(left/right)			 |
 |	brasToutDroit	|Envoie le bras à la position "tout droit"           |side(left/right)           |
 |    dist   		|Envoie le bras à la position "distributeur"         |side(left/right)           |
 |   grnd    		|Envoie le bras à la position "sol"                  |side(left/right)           |

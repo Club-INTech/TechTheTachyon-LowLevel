@@ -8,16 +8,18 @@ Arm::Arm(DynamixelManager& manager, XL430 &base, XL430 &elbow, XL430 &wrist): ma
 
 void Arm::initTorque() {
     Serial.print("Toggling torque... ");
-    syncToggleTorqueWriteData->setMotorID(0, base.getId());
-    syncToggleTorqueWriteData->setMotorID(1, elbow.getId());
-    syncToggleTorqueWriteData->setMotorID(2, wrist.getId());
+    setTorque(true);
+    Serial.println("Done!");
 
-    char toggleData[] = {1};
-    syncToggleTorqueWriteData->setData(0, toggleData);
-    syncToggleTorqueWriteData->setData(1, toggleData);
-    syncToggleTorqueWriteData->setData(2, toggleData);
-
-    syncToggleTorqueWriteData->send();
+    Serial.print("Setting velocity limit... ");
+    uint32_t velocityLimit = 50;
+    syncVelocityLimit->setMotorID(0, base.getId());
+    syncVelocityLimit->setMotorID(1, elbow.getId());
+    syncVelocityLimit->setMotorID(2, wrist.getId());
+    syncVelocityLimit->setData(0, (char*)&velocityLimit);
+    syncVelocityLimit->setData(1, (char*)&velocityLimit);
+    syncVelocityLimit->setData(2, (char*)&velocityLimit);
+    syncVelocityLimit->send();
     Serial.println("Done!");
 }
 
@@ -46,4 +48,25 @@ void Arm::setPosition(float* positions) {
 
 XL430* Arm::getXLlist() {
     return XLlist;
+}
+
+void Arm::fetchAngles(float *angles) {
+//    setTorque(false);
+    base.getCurrentAngle(angles[0]);
+    elbow.getCurrentAngle(angles[1]);
+    wrist.getCurrentAngle(angles[2]);
+    //setTorque(true);
+}
+
+void Arm::setTorque(bool enabled) {
+    syncToggleTorqueWriteData->setMotorID(0, base.getId());
+    syncToggleTorqueWriteData->setMotorID(1, elbow.getId());
+    syncToggleTorqueWriteData->setMotorID(2, wrist.getId());
+
+    char toggleData[] = {enabled};
+    syncToggleTorqueWriteData->setData(0, toggleData);
+    syncToggleTorqueWriteData->setData(1, toggleData);
+    syncToggleTorqueWriteData->setData(2, toggleData);
+
+    syncToggleTorqueWriteData->send();
 }
