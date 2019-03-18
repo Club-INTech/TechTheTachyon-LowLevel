@@ -6,8 +6,9 @@
 #define TECHTHETACHYON_LOWLEVEL_INTERRUPTSTACKPRINT_H
 
 #include <cstdint>
-#include "../Utils/Singleton.hpp"
 #include <Arduino.h>
+#include "../Utils/Singleton.hpp"
+#include "ComMgr.h"
 
 class InterruptStackPrint : public Singleton<InterruptStackPrint>
 {

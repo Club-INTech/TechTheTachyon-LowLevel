@@ -66,7 +66,7 @@ void ORDER_goto::impl(Args args)
 //                if(-1500 <= targetX && targetX <= 1500 && 0 <= targetY && targetY <= 2000)
 //                {
        orderManager.motionControlSystem.gotoPoint2(targetX,targetY);
-    orderManager.highLevel.printfln(DEBUG_HEADER, "goto %f %f %b", targetX, targetY, isSequential);
+        orderManager.highLevel.printfln(DEBUG_HEADER, "goto %f %f %i", targetX, targetY, isSequential);
 //                }
 //                else
 //      {
