@@ -16,7 +16,7 @@ void InterruptStackPrint::print()
 {
         for( uint8_t i=0 ; i < current_size ; i++)
         {
-            ComMgr::Instance().printf(DEBUG_HEADER,stack[i].c_str());
+            ComMgr::Instance().printfln(DEBUG_HEADER,stack[i].c_str());
         }
         current_size=0;
 }
