@@ -18,8 +18,6 @@
 #include "ActuatorValues.h"
 #include "Arm.h"
 #include <vector>
-#include <StepControl.h>
-#include "Stepper.h"
 
 static HardwareSerial& XLSerial = Serial1;
 
