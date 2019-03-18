@@ -626,6 +626,8 @@ void ORDER_dist::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionPrePreDistributeur);
+    arm->setPosition(positionPreDistributeur);
     arm->setPosition(positionDistributeur);
 }
 
@@ -685,6 +687,14 @@ void ORDER_XLs::impl(Args args)
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
     motor->setGoalVelocity(orderManager.parseFloat(args[1]));
+}
+
+void ORDER_posBras::impl(Args args) {
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    float angles[3];
+    arm->fetchAngles(angles);
+    orderManager.highLevel.printfln(DEBUG_HEADER, "Angles are %f ; %f ; %f", angles[0], angles[1], angles[2]);
 }
 
 void ORDER_valveon::impl(Args args)

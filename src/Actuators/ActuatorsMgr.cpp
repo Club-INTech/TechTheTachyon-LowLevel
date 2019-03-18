@@ -63,10 +63,12 @@ void ActuatorsMgr::handleInterrupt() {
 void ActuatorsMgr::moveLeftStepper(int32_t count) {
     this->leftDirection = count > 0 ? UP : DOWN;
     noInterrupts();
+
+    // inversé par rapport à droite
     if(count > 0) {
-        digitalWrite(DIR_PIN_LEFT, LOW);
-    } else {
         digitalWrite(DIR_PIN_LEFT, HIGH);
+    } else {
+        digitalWrite(DIR_PIN_LEFT, LOW);
     }
     leftStepCount = ABS(count)*STEP_COUNT;
    // analogWrite(STEP_PIN_LEFT, 128);

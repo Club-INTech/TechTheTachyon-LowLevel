@@ -3,7 +3,6 @@
 //
 
 #include "MCSReborn.h"
-#include "../../../.platformio/packages/framework-arduinoteensy/libraries/Tlc5940/tlc_animations.h"
 
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
@@ -101,7 +100,7 @@ void MCS::updatePositionOrientation() {
     robotStatus.y = distance*sin;
 
     currentDistance = distance;
-    currentRotation = ((rightTicks - currentDistance/TICK_TO_MM) - (leftTicks - currentDistance/TICK_TO_MM)) / 2 * TICK_TO_RADIAN;
+    currentRotation = ((rightTicks - distance/TICK_TO_MM) - (leftTicks - distance/TICK_TO_MM)) / 2 * TICK_TO_RADIAN;
     robotStatus.orientation = currentRotation;
 
     if(robotStatus.controlledP2P) { // si point-à-point
