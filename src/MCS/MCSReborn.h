@@ -16,6 +16,7 @@
 #include "pid.hpp"
 #include "SelfContainedPID.hpp"
 #include "PointToPointTrajectory.h"
+#include <cmath>
 //#include "HardwareEncoder.h"
 
 #define ENCODER_OPTIMIZE_INTERRUPTS
@@ -81,6 +82,7 @@ public:
     void translate(int16_t);
     void rotate(float);
     void gotoPoint(int16_t,int16_t,bool);
+    void gotoPoint2(int16_t,int16_t);
     void followTrajectory(const double* xTable, const double* yTable, int count);
 
     void speedBasedMovement(MOVEMENT);

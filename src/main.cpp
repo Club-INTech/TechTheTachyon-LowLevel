@@ -73,7 +73,7 @@ int main() {
 
 
     Serial.println("Starting 5s wait");
-    delay(5000);//Laisse le temps aux capteurs de clignotter leur ID
+    delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
     ActuatorsMgr::Instance().initTorques();
 
     Serial.println("Ready!");
@@ -92,18 +92,33 @@ int main() {
         //orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-		/*orderMgr.execute("rawposdata");
+		orderMgr.execute("rawposdata");
 
-		delay(60);
+		delay(10);
+        orderMgr.execute("rawposdata");
+
+        delay(10);
+        orderMgr.execute("rawposdata");
+
+        delay(10);
+        orderMgr.execute("rawposdata");
+
+        delay(10);
+        orderMgr.execute("rawposdata");
+
+        delay(10);
+        orderMgr.execute("rawposdata");
+
+        delay(10);
 
     	if (i==5){
 
-			orderMgr.execute("d 500");
+			orderMgr.execute("d 250");
     	}
-    	if (i==100){
-			orderMgr.execute("goto 1000 0");
+    	/*if (i==200){
+			orderMgr.execute("goto 0 0");
 			//orderMgr.execute("d 1000");
-    	}
+    	}*/
     	/*if (i==100){
     		orderMgr.execute("t 3.14");
     	}
@@ -128,10 +143,10 @@ int main() {
 		if (i==500){
 			orderMgr.execute("d -500");
 		}*/
-    	if (i==220){
-			Serial.println("DATAEND");
+    	if (i==420){
+//			Serial.println("DATAEND");
     	}
-		i++;*/
+		i++;
     }
 }
 
