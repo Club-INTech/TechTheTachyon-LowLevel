@@ -33,7 +33,7 @@ void Arm::prepareAngleData(unsigned int motorIndex, float angle) {
     }
 }
 
-void Arm::setPosition(float* positions) {
+void Arm::setPosition(const float* positions) {
     syncAngleWriteData->setMotorID(0, base.getId());
     syncAngleWriteData->setMotorID(1, elbow.getId());
     syncAngleWriteData->setMotorID(2, wrist.getId());

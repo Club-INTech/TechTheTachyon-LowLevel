@@ -5,6 +5,7 @@
 
 #include "Orders.h"
 #include "../../MCS/RobotStatus.h"
+#include "../../Actuators/ActuatorValues.h"
 
 void ORDER_ping::impl(Args args)
 {
@@ -763,16 +764,17 @@ void ORDER_torqueBras::impl(Args args)
     float couple[3] = {0, 0, 0};
     if (!strcmp(args[1], "sol"))
     {
-        for (int i = 0; i < 3; i++)
+        for ( int i = 0 ; i < 3 ; i++ )
         { // Pour chaque XL
             XL430 motor = arm->getXLlist()[i];
             if (motor.getCurrentTorque(couple[i]))
             { // renvoit true si la mesure a été effectuée
-                for (int j = 0; j < 4; j++)
+                // Pour chaque couleur
+                for (int color = 0 ; color <= (int)PaletColor::NONE ; color++ )
                 {
-                    if (couple[i] > coupleSolseuil[i][j])
+                    if (couple[i] > coupleSolseuil[i][color])
                     { //test de chaque palet
-                        orderManager.highLevel.printfln(ATOM_COLOR_HEADER, "%s", couleurspalets[i]);
+                        orderManager.highLevel.printfln(ATOM_COLOR_HEADER, "%s", PaletColorToString((PaletColor)color).c_str());
                         break;
                     }
                 }
@@ -791,11 +793,11 @@ void ORDER_torqueBras::impl(Args args)
             XL430 motor = arm->getXLlist()[i];
             if (motor.getCurrentTorque(couple[i]))
             { // renvoit true si la mesure a été effectuée
-                for (int j = 0; j < 4; j++)
+                for (int color = 0 ; color <= (int)PaletColor::NONE ; color++ )
                 {
-                    if (couple[i] > coupleDistributeurseuil[i][j])
+                    if (couple[i] > coupleDistributeurseuil[i][color])
                     { //test de chaque palet
-                        orderManager.highLevel.printfln(ATOM_COLOR_HEADER, "%s", couleurspalets[i]);
+                        orderManager.highLevel.printfln(ATOM_COLOR_HEADER, "%s",  PaletColorToString((PaletColor)color).c_str());
                         break;
                     }
                 }

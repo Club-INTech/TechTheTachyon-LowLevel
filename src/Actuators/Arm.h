@@ -25,7 +25,7 @@ private:
 public:
     Arm(DynamixelManager& manager, XL430& base, XL430& elbow, XL430& wrist);
     void initTorque();
-    void setPosition(float* position);
+    void setPosition(const float* position);
     XL430* getXLlist();
 
     void fetchAngles(float angles[3]);

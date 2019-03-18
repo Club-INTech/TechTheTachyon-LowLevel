@@ -55,26 +55,47 @@ constexpr int backDoorClosed = 245;
 static HardwareSerial& DebugSerial = Serial2;
 
 // Définition des différentes positions
-static float positionDroit[3] = {180.0f,180.0f,180.0f};
-static float positionAccelerateur[3] = {186.0f, 55.0f, 141.0f};
-static float positionStockage[3] = {174.50f, 255.64f, 80.87f};
-static float positionIntermediaire[3] = {195.18f, 249.83f-10, 82.19f+10};
-static float positionPrePreDistributeur[3] = {329.41f, 270.77f, 90.57f};
-static float positionPreDistributeur[3] = {306.855988f, 253.880005f, 220.352005f};
-static float positionDistributeur[3] = {295.77f, 216.30f, 195.18f};
-static float positionBalance[3]={182.6f,101.6f,181.7f};
-static float positionGoldonium[3]={213.4f,101.8f,151.4f};
-static float positionSolIntermediaire[3] = { /*Valeur de test:*/ 278.0f-5 /*272.0f*/, 97.0f+5, 189.0f};
-static float positionSol[3] = { /*Valeur de test:*/ 278.0f+5 /*272.0f*/, 97.0f+5, 189.0f-3};
-static float coupleSolseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
+const static float positionDroit[3] = {180.0f,180.0f,180.0f};
+const static float positionAccelerateur[3] = {186.0f, 55.0f, 141.0f};
+const static float positionStockage[3] = {174.50f, 255.64f, 80.87f};
+const static float positionIntermediaire[3] = {195.18f, 249.83f-10, 82.19f+10};
+const static float positionPrePreDistributeur[3] = {329.41f, 270.77f, 90.57f};
+const static float positionPreDistributeur[3] = {306.855988f, 253.880005f, 220.352005f};
+const static float positionDistributeur[3] = {295.77f, 216.30f, 195.18f};
+const static float positionBalance[3]={182.6f,101.6f,181.7f};
+const static float positionGoldonium[3]={213.4f,101.8f,151.4f};
+const static float positionSolIntermediaire[3] = { /*Valeur de test:*/ 278.0f-5 /*272.0f*/, 97.0f+5, 189.0f};
+const static float positionSol[3] = { /*Valeur de test:*/ 278.0f+5 /*272.0f*/, 97.0f+5, 189.0f-3};
+const static float coupleSolseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
 /** Ligne référence le XL et Colonne le type de Palet du plus lourd au plus léger (bleu, vert, rouge, vide)*/
-static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
-/**De même*/
-static char* couleurspalets[4]={"bleu","vert","rouge","vide"};      //TODO remplacer par un enum class parcque les char* bon ...
-static float* stepsFromStorageToDistrib[] = {
+const static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
+
+/** Couleurs des plalets */
+enum class PaletColor
+{
+    BLUE,
+    GREEN,
+    RED,
+    GOLD,
+    NONE
+};
+
+static String PaletColorToString( const PaletColor color )
+{
+    switch(color)
+    {
+        case PaletColor::BLUE  : return "bleu";
+        case PaletColor::GREEN : return "vert";
+        case PaletColor::RED   : return "rouge";
+        case PaletColor::GOLD  : return "goldenium";
+        default                : return "inconnu";
+    }
+}
+
+const static float* stepsFromStorageToDistrib[] = {
         positionStockage, positionIntermediaire, positionPreDistributeur, positionDistributeur
 };
-static float* stepsFromDistribToStorage[] = {
+const static float* stepsFromDistribToStorage[] = {
         positionDistributeur, positionPreDistributeur, positionIntermediaire, positionStockage
 };
 
