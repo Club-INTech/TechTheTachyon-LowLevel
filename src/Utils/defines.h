@@ -28,6 +28,7 @@ Header STD_HEADER = {0x40,0x40};
 Header DEBUG_HEADER = {0x02,0x20};
 Header SENSOR_HEADER = {0x01,0x06};
 Header POSITION_HEADER = {0x07,0x05};
+Header EVENT_HEADER = {0x40,0x42};
 
 Header SICK_HEADER = { 0x40,0x41 };
 Header ATOM_COLOR_HEADER = { 0x20, 0x26 };

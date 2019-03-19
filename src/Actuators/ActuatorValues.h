@@ -65,7 +65,7 @@ const static float positionDistributeur[3] = {295.77f, 216.30f, 195.18f};
 const static float positionBalance[3]={182.6f,101.6f,181.7f};
 const static float positionGoldonium[3]={213.4f,101.8f,151.4f};
 const static float positionSolIntermediaire[3] = { /*Valeur de test:*/ 278.0f-5 /*272.0f*/, 97.0f+5, 189.0f};
-const static float positionSol[3] = { /*Valeur de test:*/ 278.0f+5 /*272.0f*/, 97.0f+5, 189.0f-3};
+const static float positionSol[3] = { /*Valeur de test:*/ 278.0f+10 /*272.0f*/, 97.0f+5-3, 180.0f};
 const static float coupleSolseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
 /** Ligne référence le XL et Colonne le type de Palet du plus lourd au plus léger (bleu, vert, rouge, vide)*/
 const static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};

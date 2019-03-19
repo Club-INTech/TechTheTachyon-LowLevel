@@ -88,6 +88,7 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |   grnd    		|Envoie le bras à la position "sol"                  |side(left/right)           |
 |   stock   		|Envoie le bras à la position "ascenceur"            |side(left/right)           |
 |    acc    		|Envoie le bras à la position "accélérateur"         |side(left/right)           |
+|    posinter 		|Envoie le bras à la position "intermediaire"        |side(left/right)           |
 |     up    		|Monte l'ascenceur de la hauteur d'un palet          |side(left/right)           |
 |    down   		|Descend l'ascenseur de la hauteur d'un palet        |side(left/right)           |
 |    suck   		|Active la pompe                                     |side(left/right)           |

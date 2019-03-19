@@ -11,16 +11,22 @@
 #include "../Utils/Singleton.hpp"
 #include "ComMgr.h"
 
+struct DataToPrint {
+    char header[HEADER_LENGTH];
+    const String* str;
+};
+
 class InterruptStackPrint : public Singleton<InterruptStackPrint>
 {
 private:
-    String stack[INTERRUPT_PRINT_STACK_MAX_SIZE];
+    DataToPrint stack[INTERRUPT_PRINT_STACK_MAX_SIZE];
     uint8_t current_size = 0;
 public:
 
     InterruptStackPrint() = default;
-    
+
     void push(const String& str);
+    void push(Header header, const String& str);
 
     void print();
 

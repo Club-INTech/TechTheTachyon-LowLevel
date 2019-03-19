@@ -48,8 +48,8 @@ void MCS::initSettings() {
 
 
     /* mm/s/MCS_PERIOD */
-    controlSettings.maxAcceleration = 2;
-    controlSettings.maxDeceleration = 2;
+    controlSettings.maxAcceleration = 1;//2;
+    controlSettings.maxDeceleration = 1;//2;
 
     /* rad/s */
     controlSettings.maxRotationSpeed = 0.5*PI;
@@ -74,7 +74,7 @@ void MCS::initSettings() {
     controlSettings.tolerancyDerivative = 0;
 
     /* patate */
-    controlSettings.tolerancyDifferenceSpeed =500;
+    controlSettings.tolerancyDifferenceSpeed = 500*2;
 }
 
 void MCS::initStatus() {
@@ -172,9 +172,9 @@ void MCS::control()
 
     previousLeftTicks = leftTicks;
     previousRightTicks = rightTicks;
-    digitalWrite(LED1,robotStatus.controlledP2P);
+    /*digitalWrite(LED1,robotStatus.controlledP2P);
     digitalWrite(LED4,rotationPID.getDerivativeError()==0);
-    digitalWrite(LED3,robotStatus.Lbooly);
+    digitalWrite(LED3,robotStatus.Lbooly);*/
     float target = sqrtf((targetX-robotStatus.x)*(targetX-robotStatus.x)+(targetY-robotStatus.y)*(targetY-robotStatus.y));
     if(robotStatus.controlledP2P && rotationPID.getDerivativeError()==0 && ABS(rotationPID.getError())<=controlSettings.tolerancyAngle){
         target = sqrtf((targetX-robotStatus.x)*(targetX-robotStatus.x)+(targetY-robotStatus.y)*(targetY-robotStatus.y));
@@ -273,6 +273,7 @@ void MCS::stop() {
 
     if(robotStatus.movement != MOVEMENT::NONE) {
         InterruptStackPrint::Instance().push("[DEBUG] On s'arrête!!");
+        ComMgr::Instance().printfln(EVENT_HEADER, "stoppedMoving");
     }
     robotStatus.movement = MOVEMENT::NONE;
     robotStatus.moving = false;
