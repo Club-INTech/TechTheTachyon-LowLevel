@@ -112,46 +112,40 @@ int main() {
         orderMgr.execute("rawposdata");
 
         delay(10);
-        orderMgr.execute("rawposdata");*/
+        orderMgr.execute("rawposdata");
 
-       // delay(10);
+        delay(10);
 
-    	if (i==5){
-
-			//orderMgr.execute("d 250");
-    	}
-    	/*if (i==200){
-			orderMgr.execute("goto 0 0");
-			//orderMgr.execute("d 1000");
-    	}*/
-    	/*if (i==100){
-    		orderMgr.execute("t 3.14");
-    	}
-    	if (i==200){
-    		orderMgr.execute("d 500");
-    	}
-    	if (i==300){
-			orderMgr.execute("t -3.14");
+		if (i==0){
+			orderMgr.execute("goto 1000 0");
 		}
-		if (i==400){
-			orderMgr.execute("d 500");
-		}
-		if (i==500){
-			orderMgr.execute("d -500");
-		}
-    	if (i==620){
-    		orderMgr.execute("t -3.14");
+		int multiplier = 2;
+		if (i==100*multiplier){
+            orderMgr.execute("goto 0 0");
+        }
+        if (i==200*multiplier){
+            orderMgr.execute("goto 1000 0");
+        }
+        if (i==300*multiplier){
+            orderMgr.execute("goto 0 0");
+        }
+        /*if (i==400*multiplier){
+            orderMgr.execute("goto 200 0");
+        }
+        if (i==500*multiplier){
+            orderMgr.execute("goto 0 0");
+        }*/
+        /*if (i==600*multiplier){
+            orderMgr.execute("d 200");
+        }
+        if (i==700*multiplier){
+            orderMgr.execute("t 0");
+        }*/
+    	//if (i==1500){
+    	/*if (i==600*multiplier){
+			Serial.println("DATAEND");
     	}
-    	if (i==400){
-			orderMgr.execute("d 500");
-    	}
-		if (i==500){
-			orderMgr.execute("d -500");
-		}*/
-    	//if (i==420){
-//			Serial.println("DATAEND");
-    	//}
-		//i++;
+		i++;*/
     }
 }
 

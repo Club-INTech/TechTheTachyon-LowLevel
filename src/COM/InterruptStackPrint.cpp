@@ -13,9 +13,9 @@ void InterruptStackPrint::push(const Header header, const String& str)
 {
     if( current_size == INTERRUPT_PRINT_STACK_MAX_SIZE )
         return;
-    stack[current_size].header[0] = header[0];
-    stack[current_size].header[1] = header[1];
-    stack[current_size].str = &str;
+    headerStack[current_size][0] = header[0];
+    headerStack[current_size][1] = header[1];
+    stack[current_size] = str;
     current_size++;
 }
 
@@ -23,7 +23,7 @@ void InterruptStackPrint::print()
 {
         for( uint8_t i=0 ; i < current_size ; i++)
         {
-            ComMgr::Instance().printfln(stack[i].header, "%s", stack[i].str->c_str());
+            ComMgr::Instance().printfln(headerStack[i], "%s", stack[i].c_str());
         }
         current_size=0;
 }

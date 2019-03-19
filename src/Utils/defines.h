@@ -11,6 +11,7 @@
 */
 
 
+constexpr uint32_t MIN_TIME_BETWEEN_GOTO_TR_ROT = 500; // en ticks d'asserv'
 // Nombre d'octets acceptables depuis le HL
 constexpr uint8_t RX_BUFFER_SIZE = 64; // Taille max des messages
 constexpr uint8_t RX_WORD_COUNT = 10; // Nombre de mots max par ordre
@@ -51,11 +52,11 @@ constexpr uint16_t  STEPPER_FREQUENCY = 625; // 625/2 Hz
 constexpr double    STEPPER_PERIOD = 1000000.0 / STEPPER_FREQUENCY; // Durée en µs entre deux mesures
 
 constexpr uint16_t  TICKS_PER_TURN =            4096;   // Unité : ticks
-constexpr float     COD_WHEEL_DIAMETER =        63.57;  // Unité : mm
+constexpr float     COD_WHEEL_DIAMETER =        64.32;  // Unité : mm 63.57
 
 //distance roue codeuse pneu = 14.36mm
 
-constexpr uint8_t   DISTANCE_COD_GAUCHE_CENTRE = 115; // Unité : mm
+constexpr uint8_t   DISTANCE_COD_GAUCHE_CENTRE = 117; // Unité : mm 115
 constexpr uint8_t   DISTANCE_COD_DROITE_CENTRE = 115; // Unité : mm
 
 constexpr float     TICK_TO_MM = static_cast<float>(PI*COD_WHEEL_DIAMETER/TICKS_PER_TURN); // Unité : mm/ticks

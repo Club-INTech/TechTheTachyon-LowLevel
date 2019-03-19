@@ -47,7 +47,6 @@ private:
     SelfContainedPID<float> rotationPID;
 
     int32_t currentDistance;
-    float currentRotation;
     int16_t targetX;
     int16_t targetY;
 
@@ -63,10 +62,14 @@ private:
 
     Average<int32_t, 100> averageLeftSpeed;
     Average<int32_t, 100> averageRightSpeed;
-    Average<float, 100> averageRotationDerivativeError;
+    Average<float, 25> averageRotationDerivativeError;
+    Average<float, 25> averageTranslationDerivativeError;
 
     bool sequentialMovement;
     PointToPointTrajectory trajectory;
+
+    // Timer entre translation et rotation pour les goto
+    uint32_t gotoTimer;
 
 
 public:
