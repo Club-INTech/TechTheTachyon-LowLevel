@@ -177,7 +177,8 @@ void MCS::control()
     /*digitalWrite(LED1,robotStatus.controlledP2P);
     digitalWrite(LED4,rotationPID.getDerivativeError()==0);
     digitalWrite(LED3,robotStatus.Lbooly);*/
-    if(robotStatus.controlledP2P && rotationPID.getDerivativeError()==0 && ABS(rotationPID.getError())<=controlSettings.tolerancyAngle){
+    averageRotationDerivativeError.add(rotationPID.getDerivativeError());
+    if(robotStatus.controlledP2P && ABS(averageRotationDerivativeError.value()) <= controlSettings.tolerancyDerivative && ABS(rotationPID.getError())<=controlSettings.tolerancyAngle){
         float dx = (targetX-robotStatus.x);
         float dy = (targetY-robotStatus.y);
         float target = sqrtf(dx*dx+dy*dy);

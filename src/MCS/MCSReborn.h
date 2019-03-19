@@ -63,6 +63,7 @@ private:
 
     Average<int32_t, 100> averageLeftSpeed;
     Average<int32_t, 100> averageRightSpeed;
+    Average<float, 100> averageRotationDerivativeError;
 
     bool sequentialMovement;
     PointToPointTrajectory trajectory;
