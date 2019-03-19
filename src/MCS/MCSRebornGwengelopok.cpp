@@ -95,20 +95,22 @@ void MCS::updatePositionOrientation() {
     int32_t leftDistance = leftTicks * TICK_TO_MM;
     int32_t rightDistance = rightTicks * TICK_TO_MM;
 
+    currentRotation = (rightTicks - leftTicks) / 2 * TICK_TO_RADIAN;
+    robotStatus.orientation = currentRotation;
+
     float cos = cosf(getAngle());
     float sin = sinf(getAngle());
 
     // somme des résultantes
     int32_t distance = (leftDistance+rightDistance)/2;
 
-    robotStatus.x = distance*cos;
-    robotStatus.y = distance*sin;
+    float distanceTravelled = ((rightTicks-previousRightTicks) + (leftTicks-previousLeftTicks))*TICK_TO_MM/2.0f;
+    robotStatus.x += distanceTravelled * cos;
+    robotStatus.y += distanceTravelled * sin;
 
     currentDistance = distance;
-    currentRotation = ((rightTicks - distance/TICK_TO_MM) - (leftTicks - distance/TICK_TO_MM)) / 2 * TICK_TO_RADIAN;
-    robotStatus.orientation = currentRotation;
 
-
+ //   Serial.printf("%f \n", currentRotation);
 }
 
 void MCS::updateSpeed()
@@ -175,11 +177,14 @@ void MCS::control()
     /*digitalWrite(LED1,robotStatus.controlledP2P);
     digitalWrite(LED4,rotationPID.getDerivativeError()==0);
     digitalWrite(LED3,robotStatus.Lbooly);*/
-    float target = sqrtf((targetX-robotStatus.x)*(targetX-robotStatus.x)+(targetY-robotStatus.y)*(targetY-robotStatus.y));
     if(robotStatus.controlledP2P && rotationPID.getDerivativeError()==0 && ABS(rotationPID.getError())<=controlSettings.tolerancyAngle){
-        target = sqrtf((targetX-robotStatus.x)*(targetX-robotStatus.x)+(targetY-robotStatus.y)*(targetY-robotStatus.y));
+        float dx = (targetX-robotStatus.x);
+        float dy = (targetY-robotStatus.y);
+        float target = sqrtf(dx*dx+dy*dy);
         //digitalWrite(LED2,HIGH);
         translate(target);
+
+     // FIXME   Serial.printf("Target is %f current angle is %f (dx=%f dy=%f) (x=%f y=%f)\n", target, getAngle(), dx, dy, robotStatus.x, robotStatus.y);
         robotStatus.controlledP2P = false;
     }
 
@@ -336,14 +341,20 @@ void MCS::rotate(float angle) {
 }*/
 
 void MCS::gotoPoint2(int16_t x, int16_t y) {
+    noInterrupts();
     targetX = x;
     targetY = y;
 //    digitalWrite(LED2,LOW);
+    float dx = x-robotStatus.x;
+    float dy = y-robotStatus.y;
+    ComMgr::Instance().printfln(DEBUG_HEADER, "goto %i %i (diff is %f %f) x= %f; y= %f", x, y, dx, dy, robotStatus.x, robotStatus.y);
     float rotation = atan2f(y-robotStatus.y, x-robotStatus.x);
+    ComMgr::Instance().printfln(DEBUG_HEADER, "Required rotation: %f", rotation);
 
     rotate(rotation);
     robotStatus.controlledP2P = true;
     robotStatus.moving = true;
+    interrupts();
 }
 
 void MCS::followTrajectory(const double* xTable, const double* yTable, int count) {
@@ -434,11 +445,11 @@ void MCS::setMaxRotationSpeed(float speed) {
 }
 
 int16_t MCS::getX() {
-    return robotStatus.x;
+    return (int16_t) robotStatus.x;
 }
 
 int16_t MCS::getY() {
-    return robotStatus.y;
+    return (int16_t) robotStatus.y;
 }
 
 float MCS::getAngle() {
@@ -455,6 +466,7 @@ void MCS::setY(int16_t y) {
 
 void MCS::setAngle(float angle) {
     robotStatus.orientation = angle;
+    currentRotation = 0;
 }
 
 void MCS::setAngleOffset(float offset) {

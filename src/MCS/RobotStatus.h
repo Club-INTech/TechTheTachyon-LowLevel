@@ -20,8 +20,8 @@ struct RobotStatus
     bool moving;
     bool stuck;
 
-    int16_t x;
-    int16_t y;
+    float x;
+    float y;
     float orientation;
 
     MOVEMENT movement;
