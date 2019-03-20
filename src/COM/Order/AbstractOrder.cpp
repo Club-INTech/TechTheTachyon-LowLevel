@@ -4,10 +4,13 @@
 
 #include "COM/Order/AbstractOrder.h"
 #include "OrderManager.h"
+#include "AbstractOrder.h"
 
-AbstractOrder::AbstractOrder(uint8_t nbr_args)
+
+AbstractOrder::AbstractOrder(uint8_t nbr_args, bool isActuatorOrder)
                 :nbr_args(nbr_args)
                 ,orderManager(OrderManager::Instance())
+                ,isActuatorOrder(isActuatorOrder)
 {}
 
 bool AbstractOrder::exec(Args args)
@@ -15,6 +18,10 @@ bool AbstractOrder::exec(Args args)
     if(args.nbrParams() >= nbr_args)
     {
         impl(args);
+        if(isActuatorOrder)
+        {
+            orderManager.highLevel.printfln(EVENT_HEADER, "actuatorFinished %li", nextActuatorOrderIndex());
+        }
         return true;
     }
     else
@@ -30,3 +37,8 @@ bool AbstractOrder::exec(Args args)
         return false;
     }
 }
+
+uint32_t AbstractOrder::nextActuatorOrderIndex() {
+    return actuatorOrderIndex++;
+}
+

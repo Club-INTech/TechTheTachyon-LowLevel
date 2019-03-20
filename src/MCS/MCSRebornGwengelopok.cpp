@@ -188,7 +188,7 @@ void MCS::control()
         //digitalWrite(LED2,HIGH);
         translate(target);
 
-        Serial.printf("Target is %f current angle is %f (dx=%f dy=%f) (x=%f y=%f)\n", target, getAngle(), dx, dy, robotStatus.x, robotStatus.y);
+       // Serial.printf("Target is %f current angle is %f (dx=%f dy=%f) (x=%f y=%f)\n", target, getAngle(), dx, dy, robotStatus.x, robotStatus.y);
         robotStatus.controlledP2P = false;
     }
 

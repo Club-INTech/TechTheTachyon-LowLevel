@@ -78,8 +78,10 @@ void OrderManager::communicate() {
          //Serial.println(orderToExecute);
 
          auto it = orders.find(str_order);
-         if(it != orders.end())
+         if(it != orders.end()) {
+             highLevel.printfln(DEBUG_HEADER, "Received order str: '%s'", str_order);
              it->second->exec(orderData);
+         }
          else
          {
              highLevel.printfln(STD_HEADER,"wat. '%s'", orderToExecute);
