@@ -131,30 +131,30 @@ ORDER(ptpdemoseq,0);
 
 
 /* Bras */
-ACTUATOR_ORDER(XLm,2);
-ACTUATOR_ORDER(XLs,2);
-ACTUATOR_ORDER(dist,1);
-ACTUATOR_ORDER(grnd,1);
-ACTUATOR_ORDER(stock,1);
-ACTUATOR_ORDER(acc,1);
-ACTUATOR_ORDER(gold,0);
-ACTUATOR_ORDER(bal,1);
-ACTUATOR_ORDER(posinter,1)
-ACTUATOR_ORDER(torqueBras,1)
-ACTUATOR_ORDER(torqueXL,1)
-ACTUATOR_ORDER(brasToutDroit,1)
-ACTUATOR_ORDER(posBras,1)
+ORDER(XLm,2);
+ORDER(XLs,2);
+ORDER(dist,1);
+ORDER(grnd,1);
+ORDER(stock,1);
+ORDER(acc,1);
+ORDER(gold,0);
+ORDER(bal,1);
+ORDER(posinter,1)
+ORDER(torqueBras,1)
+ORDER(torqueXL,1)
+ORDER(brasToutDroit,1)
+ORDER(posBras,1)
 
 /* Ascenseurs */
 // ce ne sont pas des ACTUATOR_ORDER parce que ces ordres sont exécutés en "parallèle"
-ACTUATOR_ORDER(up,1);
-ACTUATOR_ORDER(down,1);
+ORDER(up,1);
+ORDER(down,1);
 
 /*Pompes et électrovannes*/
-ACTUATOR_ORDER(suck,1);
-ACTUATOR_ORDER(unsuck,1);
-ACTUATOR_ORDER(valveon,1);
-ACTUATOR_ORDER(valveoff,1);
+ORDER(suck,1);
+ORDER(unsuck,1);
+ORDER(valveon,1);
+ORDER(valveoff,1);
 
 /*Electron*/
 ORDER(elec,0);

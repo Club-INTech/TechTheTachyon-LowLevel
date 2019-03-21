@@ -7,10 +7,9 @@
 #include "AbstractOrder.h"
 
 
-AbstractOrder::AbstractOrder(uint8_t nbr_args, bool isActuatorOrder)
+AbstractOrder::AbstractOrder(uint8_t nbr_args)
                 :nbr_args(nbr_args)
                 ,orderManager(OrderManager::Instance())
-                ,isActuatorOrder(isActuatorOrder)
 {}
 
 bool AbstractOrder::exec(Args args)
@@ -18,10 +17,6 @@ bool AbstractOrder::exec(Args args)
     if(args.nbrParams() >= nbr_args)
     {
         impl(args);
-        if(isActuatorOrder)
-        {
-            orderManager.highLevel.printfln(EVENT_HEADER, "actuatorFinished %li", nextActuatorOrderIndex());
-        }
         return true;
     }
     else
