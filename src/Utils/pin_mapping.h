@@ -5,7 +5,7 @@
 
 /* Ethernet */
 constexpr uint8_t CS = 9;
-constexpr uint8_t RST = 29;
+constexpr uint8_t RST = 99;//29;
 
 /* Moteurs */
 constexpr uint8_t INA_LEFT = 24; //2
@@ -37,26 +37,26 @@ constexpr uint8_t SICK_PINS[NBR_OF_DISTANCE_SENSOR] = {
 /* Ascenceurs */
 
 // ! Inversées par rapport au pin mapping !
-constexpr uint8_t STEP_PIN_RIGHT = 22; //vitesse
-constexpr uint8_t DIR_PIN_RIGHT = 23; //direction
-constexpr uint8_t RST_PIN_RIGHT = 21; //reset
+constexpr uint8_t STEP_PIN_RIGHT =99 ;//22; //vitesse
+constexpr uint8_t DIR_PIN_RIGHT = 99;//23; //direction
+constexpr uint8_t RST_PIN_RIGHT = 99;//21; //reset
 
-constexpr uint8_t STEP_PIN_LEFT = 17; //vitesse
-constexpr uint8_t DIR_PIN_LEFT = 20; //direction
-constexpr uint8_t RST_PIN_LEFT = 21; //reset
+constexpr uint8_t STEP_PIN_LEFT = 99;//17; //vitesse
+constexpr uint8_t DIR_PIN_LEFT = 99;//20; //direction
+constexpr uint8_t RST_PIN_LEFT = 99;//21; //reset
 
 // ! Inversées par rapport au pin mapping !
 
-constexpr uint8_t RIGHT_VALVE_PIN = 26; // électrovanne droite
-constexpr uint8_t LEFT_VALVE_PIN = 24;  // électrovanne gauche
+constexpr uint8_t RIGHT_VALVE_PIN = 99;//26; // électrovanne droite
+constexpr uint8_t LEFT_VALVE_PIN = 99;//24;  // électrovanne gauche
 
-constexpr uint8_t LEFT_PUMP_PIN = 7;
-constexpr uint8_t RIGHT_PUMP_PIN = 6;
+constexpr uint8_t LEFT_PUMP_PIN = 99;//7;
+constexpr uint8_t RIGHT_PUMP_PIN = 99;//6;
 
 /* LEDs debug */
-constexpr uint8_t LED1 = 35;
-constexpr uint8_t LED2 = 14;
-constexpr uint8_t LED3 = 15;
-constexpr uint8_t LED4 = 31;
+constexpr uint8_t LED1 = 99;//35;
+constexpr uint8_t LED2 = 99;//14;
+constexpr uint8_t LED3 = 99;//15;
+constexpr uint8_t LED4 = 99;//31;
 
 #endif //_PIN_MAPPING_h

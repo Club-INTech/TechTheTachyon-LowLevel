@@ -83,19 +83,19 @@ int main() {
 
     while (true) {
         orderMgr.communicate();
-        //orderMgr.execute("cod");
+       // orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-		/*orderMgr.execute("rawposdata");
+		orderMgr.execute("rawposdata");
 
 		delay(60);
 
     	if (i==5){
-			orderMgr.execute("d 500");
+			orderMgr.execute("montlhery");
     	}
     	if (i==100){
-    		orderMgr.execute("t 3.14");
-    	}
+    		orderMgr.execute("av");
+    	}/*
     	if (i==200){
     		orderMgr.execute("d 500");
     	}
@@ -107,11 +107,11 @@ int main() {
 		}
 		if (i==500){
 			orderMgr.execute("d -500");
-		}
+		}*/
     	if (i==620){
 			Serial.println("DATAEND");
     	}
-		i++;*/
+		i++;
     }
 }
 
