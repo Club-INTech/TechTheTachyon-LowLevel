@@ -45,11 +45,11 @@ void ComMgr::printfln(Header header,const char * data,...)
         ethernet->printfln(formatted);
     if( com_options & COM_OPTIONS::SERIAL_W )
         serial->printfln(formatted);
-    else {
+//    else {
         // le HL reçoit 2x les infos en mode série
         if( memcmp(header,DEBUG_HEADER,HEADER_LENGTH) )
             printfln(DEBUG_HEADER,formatted);
-    }
+  //  }
 
 
 

@@ -67,13 +67,13 @@ void OrderManager::communicate() {
  {
      char str_order[RX_BUFFER_SIZE];
      char orderBuffer[RX_BUFFER_SIZE];
-     /*bool requiresConfirmation = orderToExecute[0] == '!';
+     bool requiresConfirmation = orderToExecute[0] == '!';
      if(requiresConfirmation) {
          highLevel.printfln(DEBUG_HEADER, "Confirmation requested for %s", orderToExecute);
          strcpy(orderBuffer, &orderToExecute[1]);
-     } else {*/
+     } else {
          strcpy(orderBuffer, orderToExecute);
-//     }
+     }
 
      int8_t n_param = split(orderBuffer, orderData,
                             SEPARATOR);        //Sépare l'ordre en plusieurs mots, n_param=nombre de paramètres
@@ -85,13 +85,12 @@ void OrderManager::communicate() {
 
          auto it = orders.find(str_order);
          if(it != orders.end()) {
-//             highLevel.printfln(DEBUG_HEADER, "Received order str: '%s'", orderBuffer);
+             highLevel.printfln(DEBUG_HEADER, "Received order str: '%s'", orderBuffer);
              it->second->exec(orderData);
-  /*           if(requiresConfirmation)
-             {
+             if(requiresConfirmation){
                  highLevel.printfln(DEBUG_HEADER, "Sending confirmation for '%s'", orderBuffer);
                  highLevel.printfln(EVENT_HEADER, "confirmOrder %s", orderBuffer);
-             }*/
+             }
          }
          else
          {
