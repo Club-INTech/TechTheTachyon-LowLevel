@@ -103,6 +103,11 @@ public:
     void initSettings();
     void initStatus();
 
+    /**
+     * Méthode appelée par un InterruptTimer afin d'envoyer au HL la position du robot
+     */
+    void sendPositionUpdate();
+
     int16_t getX();
     int16_t getY();
     float getAngle();

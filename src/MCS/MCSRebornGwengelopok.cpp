@@ -420,6 +420,17 @@ void MCS::speedBasedMovement(MOVEMENT movement) {
     robotStatus.movement = movement;
 }
 
+void MCS::sendPositionUpdate() {
+    String tmp="";
+    tmp.append(robotStatus.x);
+    tmp.append(" ");
+    tmp.append(robotStatus.y);
+    tmp.append(" ");
+    tmp.append(robotStatus.orientation);
+    tmp.append(" ");
+    InterruptStackPrint::Instance().push(POSITION_HEADER, tmp);
+}
+
 void MCS::disableP2P() {
     trajectory.clear();
     robotStatus.controlledP2P = false;
