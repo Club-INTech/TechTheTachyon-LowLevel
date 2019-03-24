@@ -70,5 +70,5 @@ constexpr float     TICK_TO_RADIAN = TICK_TO_MM / DISTANCE_COD_GAUCHE_CENTRE; //
  * Steppers
  */
 const unsigned int ELEVATOR_TEMPO = 800; //temporistaion entre les commandes du pas à pas
-const unsigned int STEP_COUNT = 700; //nombre de pas par palet
+const unsigned int STEP_COUNT = 1400; //nombre de pas par palet
 #endif
