@@ -88,7 +88,7 @@ int main() {
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 		orderMgr.execute("rawposdata");
 
-		delay(60);
+		delay(10);
 
     	if (i==5){
 			orderMgr.execute("montlhery");

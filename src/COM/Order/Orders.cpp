@@ -673,6 +673,13 @@ void ORDER_brasToutDroit::impl(Args args)
     arm->setPosition(positionDroit);
 }
 
+void ORDER_brasRecule::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionRecule);
+}
+
 void ORDER_XLm::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
