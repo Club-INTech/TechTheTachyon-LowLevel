@@ -652,6 +652,8 @@ void ORDER_acc::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionAccBIS);
+    arm->setPosition(positionAccTER);
     arm->setPosition(positionAccelerateur);
 }
 
