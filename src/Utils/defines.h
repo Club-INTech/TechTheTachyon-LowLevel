@@ -28,7 +28,7 @@ using Header = const char[HEADER_LENGTH];
 Header STD_HEADER = {0x40,0x40};
 Header DEBUG_HEADER = {0x40,0x43};
 Header SENSOR_HEADER = {0x01,0x06};
-Header POSITION_HEADER = {0x07,0x05};
+Header POSITION_HEADER = {'@', 'P'};
 Header EVENT_HEADER = {0x40,0x42};
 
 Header SICK_HEADER = { 0x40,0x41 };
@@ -50,6 +50,8 @@ constexpr uint16_t  MCS_FREQ = 1000; //1Khz
 constexpr double    MCS_PERIOD = 1000000.0 / MCS_FREQ; // Durée en µs entre deux mesures
 constexpr uint16_t  STEPPER_FREQUENCY = 625; // 625/2 Hz
 constexpr double    STEPPER_PERIOD = 1000000.0 / STEPPER_FREQUENCY; // Durée en µs entre deux mesures
+constexpr uint16_t  POSITION_UPDATE_FREQUENCY = 20; // 20 Hz
+constexpr double    POSITION_UPDATE_PERIOD = 1000000.0 / POSITION_UPDATE_FREQUENCY; // Durée en µs entre deux mesures
 
 constexpr uint16_t  TICKS_PER_TURN =            4096;   // Unité : ticks
 constexpr float     COD_WHEEL_DIAMETER =        64.32;  // Unité : mm 63.57
@@ -70,5 +72,5 @@ constexpr float     TICK_TO_RADIAN = TICK_TO_MM / DISTANCE_COD_GAUCHE_CENTRE; //
  * Steppers
  */
 const unsigned int ELEVATOR_TEMPO = 800; //temporistaion entre les commandes du pas à pas
-const unsigned int STEP_COUNT = 700; //nombre de pas par palet
+const unsigned int STEP_COUNT = 1400; //nombre de pas par palet
 #endif
