@@ -139,11 +139,12 @@ ORDER(stock,1);
 ORDER(acc,1);
 ORDER(gold,0);
 ORDER(bal,1);
-ORDER(posinter,1)
-ORDER(torqueBras,1)
-ORDER(torqueXL,1)
-ORDER(brasToutDroit,1)
-ORDER(posBras,1)
+ORDER(posinter,1);
+ORDER(torqueBras,1);
+ORDER(torqueXL,1);
+ORDER(brasToutDroit,1);
+ORDER(brasRecule,1);
+ORDER(posBras,1);
 
 /* Ascenseurs */
 // ce ne sont pas des ACTUATOR_ORDER parce que ces ordres sont exécutés en "parallèle"

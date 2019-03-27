@@ -56,6 +56,7 @@ static HardwareSerial& DebugSerial = Serial2;
 
 // Définition des différentes positions
 const static float positionDroit[3] = {180.0f,180.0f,180.0f};
+const static float positionRecule[3] = {,,};
 const static float positionAccelerateur[3] = {186.0f, 55.0f, 141.0f};
 const static float positionStockage[3] = {174.50f, 255.64f, 80.87f};
 const static float positionIntermediaire[3] = {195.18f, 249.83f-10, 82.19f+10};
