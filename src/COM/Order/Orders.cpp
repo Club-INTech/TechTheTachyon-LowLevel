@@ -9,7 +9,7 @@
 
 void ORDER_ping::impl(Args args)
 {
-    orderManager.highLevel.printfln(STD_HEADER,"0");
+    orderManager.highLevel.printfln(EVENT_HEADER,"pong");
 }
 
 void ORDER_j::impl(Args args)
