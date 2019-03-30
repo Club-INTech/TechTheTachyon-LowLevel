@@ -655,6 +655,7 @@ void ORDER_acc::impl(Args args)
     arm->setPosition(positionAccBIS);
     arm->setPosition(positionAccTER);
     arm->setPosition(positionAccelerateur);
+    arm->setPosition(positionAccPoussePalet);
 }
 
 void ORDER_bal::impl(Args args)

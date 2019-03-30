@@ -57,10 +57,11 @@ static HardwareSerial& DebugSerial = Serial2;
 // Définition des différentes positions
 const static float positionDroit[3] = {180.0f,180.0f,180.0f};
 const static float positionRecule[3] = {302.0f,280.0f,247.0f};
+const static float positionAccPoussePalet[3] = {286.0f, 247.0f, 219.0f};
 const static float positionAccelerateur[3] = {292.0f, 272.0f, 244.0f};
 const static float positionAccBIS[3] = {193.0f, 235.0f, 90.0f};
 const static float positionAccTER[3] = {287.0f, 290.0f, 185.0f};
-const static float positionStockage[3] = {174.50f, 255.64f, 80.87f};
+const static float positionStockage[3] = {170.0f, 237.5f, 80.5f};
 const static float positionIntermediaire[3] = {195.18f, 249.83f-10, 82.19f+10};
 const static float positionPrePreDistributeur[3] = {329.41f, 270.77f, 90.57f};
 const static float positionPreDistributeur[3] = {306.855988f, 253.880005f, 220.352005f};
