@@ -83,7 +83,7 @@ int main() {
 	// Timer pour la mise à jour de la position
 	IntervalTimer posTimer; // TODO: Passer sur un Metro?
 	posTimer.priority(253);
-	posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
+//	FIXME posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
 
 	Serial.println("Starting 5s wait");
     delay(2000);//Laisse le temps aux capteurs de clignotter leur ID

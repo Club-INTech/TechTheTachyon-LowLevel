@@ -777,7 +777,9 @@ void ORDER_torqueBras::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    float couple[3] = {0, 0, 0};
+    // TODO
+    
+    /*int couple[3] = {0, 0, 0};
     if (!strcmp(args[1], "sol"))
     {
         for ( int i = 0 ; i < 3 ; i++ )
@@ -785,8 +787,9 @@ void ORDER_torqueBras::impl(Args args)
             XL430 motor = arm->getXLlist()[i];
             if (motor.getCurrentTorque(couple[i]))
             { // renvoit true si la mesure a été effectuée
-                // Pour chaque couleur
-                for (int color = 0 ; color <= (int)PaletColor::NONE ; color++ )
+
+                // Pour chaque couleur de la plus lourde à la plus légère
+                for (int color = (int)PaletColor::GOLD; color < (int)PaletColor::NONE ; color++ )
                 {
                     if (couple[i] > coupleSolseuil[i][color])
                     { //test de chaque palet
@@ -809,7 +812,9 @@ void ORDER_torqueBras::impl(Args args)
             XL430 motor = arm->getXLlist()[i];
             if (motor.getCurrentTorque(couple[i]))
             { // renvoit true si la mesure a été effectuée
-                for (int color = 0 ; color <= (int)PaletColor::NONE ; color++ )
+
+                // Pour chaque couleur de la plus lourde à la plus légère
+                for (int color = (int)PaletColor::GOLD; color < (int)PaletColor::NONE ; color++ )
                 {
                     if (couple[i] > coupleDistributeurseuil[i][color])
                     { //test de chaque palet
@@ -824,18 +829,17 @@ void ORDER_torqueBras::impl(Args args)
                 orderManager.highLevel.printfln(DEBUG_HEADER, "torque failed");
             }
         }
-    }
+    }*/
 }
 
 void ORDER_torqueXL :: impl(Args args){
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
-    float couple;
-    if(motor->getCurrentTorque(couple)){
-        orderManager.highLevel.printfln(SENSOR_HEADER,"%f",couple);
+    int couple;
+    if(motor->getCurrentTorque(couple)) {
+        orderManager.highLevel.printfln(SENSOR_HEADER,"%i",couple);
     }
     else{
         orderManager.highLevel.printfln(DEBUG_HEADER,"%s","couple failed");
-
     }
 }
