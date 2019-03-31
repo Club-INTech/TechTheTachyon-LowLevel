@@ -10,6 +10,10 @@ void SensorMgr::init() {
 
 	Wire.begin();
 
+	for(int i = 0 ; i < NBR_OF_DISTANCE_SENSOR; i++) {
+		distanceSensors[i] = SICKDT35_B15851(SICK_PINS[i], 50, 1074);
+	}
+
 	jumperPlugged = isJumperEngaged();
 	basicBlocked = false;
 }

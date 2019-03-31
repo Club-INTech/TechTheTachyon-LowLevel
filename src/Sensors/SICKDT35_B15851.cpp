@@ -15,7 +15,7 @@ uint16_t SICKDT35_B15851::readDistance() {
     double tension = alpha * 3.3;
     tension -= 0.6; // le courant est entre 4 mA et 20 mA et la résistance est de 162 Ohm donc une tension minimale de 0.6V
     double t = tension/(3.3-0.6);
-    Serial.printf("[DEBUG] >> %f (%i - %i)\n", t, rangeMin, rangeMax);
+//    Serial.printf("[DEBUG] >> %f (%i - %i)\n", t, rangeMin, rangeMax);
     return (uint16_t ) (t*rangeMax + (1.0-t) * rangeMin);
 }
 
