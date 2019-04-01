@@ -7,6 +7,17 @@
 Arm::Arm(DynamixelManager& manager, XL430 &base, XL430 &elbow, XL430 &wrist): manager(manager), base(base), elbow(elbow), wrist(wrist) {}
 
 void Arm::initTorque() {
+/* A utiliser que quand un imbécile comme Xavier (moi) a tenté de changer le baudrate
+    uint8_t baudrateSelector = 1;
+    SyncWrite* baud = new SyncWrite(manager, 3, 8, 1);
+    baud->setMotorID(0, base.getId());
+    baud->setMotorID(1, elbow.getId());
+    baud->setMotorID(2, wrist.getId());
+    baud->setData(0, (char*)&baudrateSelector);
+    baud->setData(1, (char*)&baudrateSelector);
+    baud->setData(2, (char*)&baudrateSelector);
+    baud->send();*/
+
     Serial.print("Toggling torque... ");
     setTorque(true);
     Serial.println("Done!");
@@ -44,6 +55,7 @@ void Arm::setPosition(const float* positions) {
     syncAngleWriteData->setData(1, &syncAngles[1*XL430::xl430GoalAngle.length]);
     syncAngleWriteData->setData(2, &syncAngles[2*XL430::xl430GoalAngle.length]);
     syncAngleWriteData->send();
+    delay(750);
 }
 
 XL430* Arm::getXLlist() {

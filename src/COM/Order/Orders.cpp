@@ -655,6 +655,12 @@ void ORDER_acc::impl(Args args)
     arm->setPosition(positionAccBIS);
     arm->setPosition(positionAccTER);
     arm->setPosition(positionAccelerateur);
+}
+
+void ORDER_pushPalet::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
     arm->setPosition(positionAccPoussePalet);
 }
 
@@ -777,7 +783,7 @@ void ORDER_torqueBras::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    float couple[3] = {0, 0, 0};
+ /*   float couple[3] = {0, 0, 0};
     if (!strcmp(args[1], "sol"))
     {
         for ( int i = 0 ; i < 3 ; i++ )
@@ -824,18 +830,18 @@ void ORDER_torqueBras::impl(Args args)
                 orderManager.highLevel.printfln(DEBUG_HEADER, "torque failed");
             }
         }
-    }
+    }*/
 }
 
 void ORDER_torqueXL :: impl(Args args){
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
-    float couple;
+/*    float couple;
     if(motor->getCurrentTorque(couple)){
         orderManager.highLevel.printfln(SENSOR_HEADER,"%f",couple);
     }
     else{
         orderManager.highLevel.printfln(DEBUG_HEADER,"%s","couple failed");
 
-    }
+    }*/
 }
