@@ -8,6 +8,7 @@
 
 #include <XL430.h>
 #include <SyncWrite.h>
+#include <SyncRead.h>
 
 class Arm {
 private:
@@ -20,6 +21,8 @@ private:
     SyncWrite* syncVelocityLimit = new SyncWrite(manager, 3, (uint16_t ) (XL430::xl430VelocityLimit.address[0] | (XL430::xl430VelocityLimit.address[1] << 8)), XL430::xl430VelocityLimit.length);
     SyncWrite* syncAngleWriteData = new SyncWrite(manager, 3, (uint16_t ) (XL430::xl430GoalAngle.address[0] | (XL430::xl430GoalAngle.address[1] << 8)), XL430::xl430GoalAngle.length);
     SyncWrite* syncToggleTorqueWriteData = new SyncWrite(manager, 3, (uint16_t ) (XL430::xl430TorqueEnable.address[0] | (XL430::xl430TorqueEnable.address[1] << 8)), XL430::xl430TorqueEnable.length);
+    SyncRead* syncMovingRead = new SyncRead(manager, 3, (uint16_t ) (XL430::xl430Moving.address[0] | (XL430::xl430Moving.address[1] << 8)), XL430::xl430Moving.length);
+    SyncWrite* syncReturnDelay = new SyncWrite(manager, 3, (uint16_t ) (XL430::xl430ReturnDelay.address[0] | (XL430::xl430ReturnDelay.address[1] << 8)), XL430::xl430ReturnDelay.length);
     void prepareAngleData(unsigned int motorIndex, float angle);
 
 public:
@@ -31,6 +34,11 @@ public:
     void fetchAngles(float angles[3]);
 
     void setTorque(bool enabled);
+
+    /**
+     * Attends que le bras ait fini de bouger
+     */
+    void waitForStop();
 };
 
 

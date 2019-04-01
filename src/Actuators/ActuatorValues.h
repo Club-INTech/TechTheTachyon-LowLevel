@@ -63,9 +63,11 @@ const static float positionAccBIS[3] = {193.0f, 235.0f, 90.0f};
 const static float positionAccTER[3] = {287.0f, 290.0f, 185.0f};
 const static float positionStockage[3] = {170.0f, 237.5f, 80.5f};
 const static float positionIntermediaire[3] = {195.18f, 249.83f-10, 82.19f+10};
-const static float positionPrePreDistributeur[3] = {329.41f, 270.77f, 90.57f};
-const static float positionPreDistributeur[3] = {306.855988f, 253.880005f, 220.352005f};
-const static float positionDistributeur[3] = {295.77f, 216.30f, 195.18f};
+
+const static float positionPrePreDistributeur[3] = {254.50f, 230.21f, 122.23f};
+const static float positionPreDistributeur[3] = {246.46f, 73.74f, 99.97f};
+const static float positionDistributeur[3] = {256.52f, 126.19f, 145.02f};
+
 const static float positionBalance[3]={182.6f,101.6f,181.7f};
 const static float positionGoldonium[3]={213.4f,101.8f,151.4f};
 const static float positionSolIntermediaire[3] = { /*Valeur de test:*/ 278.0f-5 /*272.0f*/, 97.0f+5, 189.0f};

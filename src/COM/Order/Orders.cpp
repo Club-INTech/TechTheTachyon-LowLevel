@@ -623,6 +623,15 @@ void ORDER_down::impl(Args args)
     }
 }
 
+void ORDER_dist2stock::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setPosition(positionPrePreDistributeur);
+    arm->setPosition(positionIntermediaire);
+    arm->setPosition(positionStockage);
+}
+
 void ORDER_dist::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
@@ -771,6 +780,18 @@ void ORDER_lectureSICK::impl(Args args) {
             mgr.getDistanceSensor(3).readDistance(),
             mgr.getDistanceSensor(4).readDistance(),
             mgr.getDistanceSensor(5).readDistance());
+}
+
+void ORDER_disableTorque::impl(Args args) {
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    Arm *arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setTorque(false);
+}
+
+void ORDER_enableTorque::impl(Args args) {
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    Arm *arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    arm->setTorque(true);
 }
 
 void ORDER_torqueBras::impl(Args args)

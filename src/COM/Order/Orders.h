@@ -65,6 +65,9 @@ ORDER(rawspeed,0);
 ORDER(rawposdata,0);
 ORDER(reseteth,0);
 
+ORDER(disableTorque, 1);
+ORDER(enableTorque, 1);
+
 /*			 ___________________________
 * 		   *|                           |*
 *		   *|         MONTLHERY         |*
@@ -134,6 +137,7 @@ ORDER(ptpdemoseq,0);
 ORDER(XLm,2);
 ORDER(XLs,2);
 ORDER(dist,1);
+ORDER(dist2stock,1);
 ORDER(grnd,1);
 ORDER(stock,1);
 ORDER(acc,1);
