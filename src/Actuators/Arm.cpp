@@ -20,6 +20,16 @@ void Arm::initTorque() {
     syncReturnDelay->setData(2, (char*)&returnDelay);
     syncReturnDelay->send();
     Serial.println("Done!");
+/* A utiliser que quand un imbécile comme Xavier (moi) a tenté de changer le baudrate
+    uint8_t baudrateSelector = 1;
+    SyncWrite* baud = new SyncWrite(manager, 3, 8, 1);
+    baud->setMotorID(0, base.getId());
+    baud->setMotorID(1, elbow.getId());
+    baud->setMotorID(2, wrist.getId());
+    baud->setData(0, (char*)&baudrateSelector);
+    baud->setData(1, (char*)&baudrateSelector);
+    baud->setData(2, (char*)&baudrateSelector);
+    baud->send();*/
 
     Serial.print("Toggling torque... ");
     setTorque(true);
