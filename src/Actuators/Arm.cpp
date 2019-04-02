@@ -9,7 +9,7 @@
 Arm::Arm(DynamixelManager& manager, XL430 &base, XL430 &elbow, XL430 &wrist): manager(manager), base(base), elbow(elbow), wrist(wrist) {}
 
 void Arm::initTorque() {
-    uint8_t returnDelay = 0; // 115200
+    uint8_t returnDelay = 250;
 
     Serial.print("Setting XL return delay to no delay... ");
     syncReturnDelay->setMotorID(0, base.getId());
@@ -38,6 +38,14 @@ void Arm::initTorque() {
     syncMovingRead->setMotorID(0, base.getId());
     syncMovingRead->setMotorID(1, elbow.getId());
     syncMovingRead->setMotorID(2, wrist.getId());
+
+    syncMovingStatus->setMotorID(0, base.getId());
+    syncMovingStatus->setMotorID(1, elbow.getId());
+    syncMovingStatus->setMotorID(2, wrist.getId());
+
+    syncHardwareError->setMotorID(0, base.getId());
+    syncHardwareError->setMotorID(1, elbow.getId());
+    syncHardwareError->setMotorID(2, wrist.getId());
 
     Serial.print("Setting velocity limit... ");
     uint32_t velocityLimit = 100;
@@ -82,22 +90,25 @@ void Arm::waitForStop() {
     bool baseMoving;
 
     bool movingStates[] = {true, true, true};
+    char movingStatuses[] = {0,0,0};
+    char hardwareErrors[] = {0,0,0};
     do {
         syncMovingRead->read((char*)movingStates);
-        baseMoving = (movingStates[0] & 0x1) != 0;
-        elbowMoving = (movingStates[1] & 0x1) != 0;
-        wristMoving = (movingStates[2] & 0x1) != 0;
-        SerialUSB.println(baseMoving, BIN);
-        SerialUSB.println(elbowMoving, BIN);
-        SerialUSB.println(wristMoving, BIN);
-        SerialUSB.printf("Current movement status = {%i %i %i}\n", movingStates[0], movingStates[1], movingStates[2]); // TODO
+//        syncMovingStatus->read((char*)movingStatuses);
+    //    syncHardwareError->read((char*)hardwareErrors);
+        baseMoving = (movingStatuses[0] & 0x1) == 0;
+        elbowMoving = (movingStatuses[1] & 0x1) == 0;
+        wristMoving = (movingStatuses[2] & 0x1) == 0;
+        SerialUSB.printf("Current movement status = {%i %i %i}\n", movingStatuses[0], movingStatuses[1], movingStatuses[2]); // TODO
+        SerialUSB.printf("Currently moving = {%i %i %i}\n", movingStates[0], movingStates[1], movingStates[2]); // TODO
+        SerialUSB.printf("Errors = {%i %i %i}\n", hardwareErrors[0], hardwareErrors[1], hardwareErrors[2]); // TODO
         SerialUSB.printf("Moving = {%i %i %i}\n", baseMoving, elbowMoving, wristMoving); // TODO
-  /*     TODO: avec moving status if(movingStates[0] & 0x08 || movingStates[1] & 0x08 || movingStates[2] & 0x08) { // 'following error' -> le XL a échoué à arriver à la position demandée
+        if(movingStates[0] & 0x08 || movingStates[1] & 0x08 || movingStates[2] & 0x08) { // 'following error' -> le XL a échoué à arriver à la position demandée
             SerialUSB.println("Echec du suivi de position");
             syncAngleWriteData->send();
             waitForStop();
             break;
-        }*/
+        }
     } while (wristMoving || elbowMoving || baseMoving);
 }
 

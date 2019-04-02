@@ -85,7 +85,7 @@ int main() {
 	posTimer.priority(253);
 //	FIXME posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
 
-	Serial.println("Starting 5s wait");
+	Serial.println("Starting 2s wait");
     delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
     ActuatorsMgr::Instance().initTorques();
 
