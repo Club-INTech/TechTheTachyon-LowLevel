@@ -85,6 +85,8 @@ void Arm::setPosition(const float* positions) {
 }
 
 void Arm::waitForStop() {
+    delay(750);
+    /* FIXME
     bool wristMoving;
     bool elbowMoving;
     bool baseMoving;
@@ -109,7 +111,7 @@ void Arm::waitForStop() {
             waitForStop();
             break;
         }
-    } while (wristMoving || elbowMoving || baseMoving);
+    } while (wristMoving || elbowMoving || baseMoving);*/
 }
 
 XL430* Arm::getXLlist() {
