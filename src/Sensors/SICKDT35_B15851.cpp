@@ -12,9 +12,15 @@ SICKDT35_B15851::SICKDT35_B15851(uint8_t pin, uint16_t rangeMin, uint16_t rangeM
 uint16_t SICKDT35_B15851::readDistance() {
     uint16_t valueRead = (uint16_t) analogRead(pin);
     double alpha = valueRead/1024.0;
+
+    // le courant est entre 4 mA et 20 mA donc une tension minimale de 0.6V
+    const double minCurrent = 0.004;
+    const double maxCurrent = 0.020;
+    const double minVoltage = (minCurrent * resistorValue);
+    const double maxVoltage = (maxCurrent * resistorValue);
     double tension = alpha * 3.3;
-    tension -= 0.6; // le courant est entre 4 mA et 20 mA et la résistance est de 162 Ohm donc une tension minimale de 0.6V
-    double t = tension/(3.3-0.6);
+    tension -= minVoltage;
+    double t = tension/(maxVoltage-minVoltage);
 //    Serial.printf("[DEBUG] >> %f (%i - %i)\n", t, rangeMin, rangeMax);
     return (uint16_t ) (t*rangeMax + (1.0-t) * rangeMin);
 }
@@ -24,3 +30,6 @@ void SICKDT35_B15851::setRange(uint16_t min, uint16_t max) {
     rangeMax = max;
 }
 
+void SICKDT35_B15851::setResistorValue(double value) {
+    resistorValue = value;
+}

@@ -25,6 +25,7 @@ public:
      * @return
      */
     uint16_t readDistance();
+
     /**
      * Configure l'intervalle de détection du capteur
      * @param min
@@ -32,8 +33,15 @@ public:
      */
     void setRange(uint16_t min, uint16_t max);
 
+    /**
+     * Réglage de la valeur de résistance utilisée pour lire l'information du SICK
+     * @param la valeur de la résistance, en Ohm
+     */
+     void setResistorValue(double value);
+
 private:
     uint8_t pin = 255;
+    double resistorValue = 162.0;
     uint16_t rangeMin;
     uint16_t rangeMax;
 };

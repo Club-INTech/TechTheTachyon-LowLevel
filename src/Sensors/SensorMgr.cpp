@@ -11,8 +11,17 @@ void SensorMgr::init() {
 	Wire.begin();
 
 	for(int i = 0 ; i < NBR_OF_DISTANCE_SENSOR; i++) {
+		// TODO: tester chacun des SICK
 		distanceSensors[i] = SICKDT35_B15851(SICK_PINS[i], 50, 1074);
 	}
+
+	// TODO: changer les valeurs pour chaque SICK (chaque résistance a une précision de ~1%)
+	distanceSensors[0].setResistorValue(165);
+	distanceSensors[1].setResistorValue(165);
+	distanceSensors[2].setResistorValue(165);
+	distanceSensors[3].setResistorValue(165);
+	distanceSensors[4].setResistorValue(165);
+	distanceSensors[5].setResistorValue(165);
 
 	jumperPlugged = isJumperEngaged();
 	basicBlocked = false;
