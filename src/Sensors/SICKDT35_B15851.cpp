@@ -11,7 +11,7 @@ SICKDT35_B15851::SICKDT35_B15851(uint8_t pin, uint16_t rangeMin, uint16_t rangeM
 
 uint16_t SICKDT35_B15851::readDistance() {
     uint16_t valueRead = (uint16_t) analogRead(pin);
-    double alpha = valueRead/1024.0;
+    double alpha = ((double)valueRead)/(1<<ANALOG_RESOLUTION);
 
     // le courant est entre 4 mA et 20 mA donc une tension minimale de 0.6V
     const double minCurrent = 0.004;

@@ -6,6 +6,7 @@
 #define TECHTHETACHYON_LOWLEVEL_SICKDT35_B15851_H
 
 #include <stdint.h>
+#include "Utils/defines.h"
 
 class SICKDT35_B15851 {
 
