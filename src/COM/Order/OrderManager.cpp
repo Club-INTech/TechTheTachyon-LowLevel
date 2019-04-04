@@ -18,8 +18,9 @@ OrderManager::OrderManager():
 
 
 void OrderManager::communicate() {
-
     if (highLevel.read(readMessage)) {
+        // TODO: debug only
+        highLevel.printfln(DEBUG_HEADER, "Received '''%s'''\n", readMessage);
         execute(readMessage);
     }
 
@@ -95,7 +96,7 @@ void OrderManager::communicate() {
          else
          {
              highLevel.printfln(STD_HEADER,"wat. '%s'", orderToExecute);
-             //highLevel.printfln(DEBUG_HEADER,"T'es un déchêt");
+             highLevel.printfln(DEBUG_HEADER,"T'es un déchêt");
          }
      }
      checkHooks();
