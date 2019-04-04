@@ -153,9 +153,15 @@ bool EthernetInterface::read(float& value) {
 }
 
 void EthernetInterface::printf(const char *message) {
-	client.print(message);
+    if(client.connected())
+    {
+        client.print(message);
+    }
 }
 
 void EthernetInterface::printfln(const char* message) {
-	client.println(message);
+	if(client.connected())
+    {
+	    client.println(message);
+    }
 }
