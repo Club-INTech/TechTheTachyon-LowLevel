@@ -43,12 +43,18 @@ void ComMgr::printfln(Header header,const char * data,...)
 
     if( com_options & COM_OPTIONS::ETHERNET_W )
         ethernet->printfln(formatted);
-    if( com_options & COM_OPTIONS::SERIAL_W )
-        serial->printfln(formatted);
+    if( com_options & COM_OPTIONS::SERIAL_W ) {
+        if(header != POSITION_HEADER) { // pas besoin de spammer la série avec les positions
+            serial->printfln(formatted);
+        }
+    }
 //    else {
         // le HL reçoit 2x les infos en mode série
-        if( memcmp(header,DEBUG_HEADER,HEADER_LENGTH) )
-            printfln(DEBUG_HEADER,formatted);
+        if( memcmp(header,DEBUG_HEADER,HEADER_LENGTH) ) {
+            if(header != POSITION_HEADER) { // pas besoin de spammer la série avec les positions
+                printfln(DEBUG_HEADER,formatted);
+            }
+        }
   //  }
 
 
