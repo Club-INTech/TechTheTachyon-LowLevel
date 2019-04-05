@@ -3,8 +3,12 @@
 Pour pouvoir utiliser le projet:
 - Installer Platformio ([Guide d'installation](https://club-intech.minet.net/images/9/97/Guide_PIO.pdf))
 - Clonez ce dépot
-- **Initialisez le sous-module DynamixelCom avec la commande** `git submodule update --init Dynamixel-Com`
-- Ouvrez un terminal dans le dossier du dépot, et effectuez la commande \
+- Deux solutions : 
+ - Solution 1 :
+  - **Initialisez le sous-module DynamixelCom avec la commande** `git submodule update --init Dynamixel-Com`
+  - Ouvrez un terminal dans le dossier du dépot, et effectuez la commande \
+ - Solution 2 :
+  - ```./setup.sh```
 ```pio init --ide IDE --board teensy35```\
 avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio Code
 - Ouvrez le dossier du dépot avec CLion ou VSCode.
