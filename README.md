@@ -3,7 +3,7 @@
 Pour pouvoir utiliser le projet:
 - Installer Platformio ([Guide d'installation](https://club-intech.minet.net/images/9/97/Guide_PIO.pdf))
 - Clonez ce dépot
-- **Initialisez le sous-module DynamixelCom avec la commande** `git submodule update --init Dynamixe-lCom`
+- **Initialisez le sous-module DynamixelCom avec la commande** `git submodule update --init Dynamixel-Com`
 - Ouvrez un terminal dans le dossier du dépot, et effectuez la commande \
 ```pio init --ide IDE --board teensy35```\
 avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio Code
@@ -12,10 +12,10 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 
 ## TODO
 
-- [ ] Compléter le nouveau MCS
-- [ ] Asservissement
-- [ ] Vérifier l'état de la communication LL/HL
-- [ ] Implémenter les nouveaux ordres
+- [x] Compléter le nouveau MCS
+- [x] Asservissement
+- [x] Vérifier l'état de la communication LL/HL
+- [x] Implémenter les nouveaux ordres
 - [ ] Ordre propre pour la récupération de données d'asservissement + scripts en conséquence
 - [ ] Mise en place de cas d'erreur explicites et plus nombreux pour le HL
 - [ ] Gagner la Coupe
