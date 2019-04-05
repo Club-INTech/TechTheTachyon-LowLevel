@@ -77,7 +77,7 @@ if [ -z "$(which platformio)" ]; then
 	fi
 fi
 
-if [ -z "$(which platformio)" ]; then
+if [ "$(which platformio)" ]; then
 	pio init --ide clion --board teensy35
 	echo "Platformio initialisé."
 else
