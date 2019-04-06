@@ -42,11 +42,13 @@ private:
 
 	/* Attributs Ethernet */
 
-	EthernetServer server;
+	//EthernetServer server;
 	EthernetClient client;
 
 public:
 	EthernetInterface();
+	bool connect(IPAddress,int);
+	bool connected();
 	bool read(char*);
 	bool read(int32_t&);
 	bool read(int16_t&);

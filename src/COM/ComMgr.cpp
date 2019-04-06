@@ -18,6 +18,11 @@ ComMgr::ComMgr()
     sdlog = new SDLog();
 }
 
+bool ComMgr::connectedEth()
+{
+    return static_cast<EthernetInterface*>(ethernet)->connected();
+}
+
 void ComMgr::sendPosition(const float * data)
 {
     String tmp="";

@@ -85,7 +85,7 @@ int main() {
 	posTimer.priority(253);
 	posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
 
-	Serial.println("Starting 2s wait");
+	Serial.println("Starting...");
     delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
     ActuatorsMgr::Instance().initTorques();
 
@@ -101,6 +101,7 @@ int main() {
 	int i=0;
 
     while (true) {
+
         interruptStackPrint.print();
         orderMgr.communicate();
         //orderMgr.execute("cod");
