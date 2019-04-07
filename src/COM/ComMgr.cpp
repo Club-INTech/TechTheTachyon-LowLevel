@@ -18,7 +18,7 @@ ComMgr::ComMgr()
     sdlog = new SDLog();
 }
 
-bool ComMgr::connectedEth()
+bool ComMgr::connectedEthernet()
 {
     return static_cast<EthernetInterface*>(ethernet)->connected();
 }

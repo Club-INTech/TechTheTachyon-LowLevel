@@ -71,7 +71,6 @@ void ActuatorsMgr::handleInterrupt() {
 
 void ActuatorsMgr::moveLeftStepper(int32_t count) {
     this->leftDirection = count > 0 ? UP : DOWN;
-    noInterrupts();
 
     // inversé par rapport à droite
     if(count > 0) {
@@ -81,7 +80,6 @@ void ActuatorsMgr::moveLeftStepper(int32_t count) {
     }
     leftStepCount = ABS(count)*STEP_COUNT;
    // analogWrite(STEP_PIN_LEFT, 128);
-    interrupts();
 /*    leftStepCount += count*STEP_COUNT;
     leftStepper.setTargetAbs(leftStepCount);
     stepControl.moveAsync(leftStepper);*/
@@ -89,7 +87,6 @@ void ActuatorsMgr::moveLeftStepper(int32_t count) {
 
 void ActuatorsMgr::moveRightStepper(int32_t count) {
     this->rightDirection = count > 0 ? UP : DOWN;
-    noInterrupts();
     if(count > 0) {
         digitalWrite(DIR_PIN_RIGHT, HIGH);
     } else {
@@ -97,7 +94,6 @@ void ActuatorsMgr::moveRightStepper(int32_t count) {
     }
     rightStepCount = ABS(count)*STEP_COUNT;
  //   analogWrite(STEP_PIN_RIGHT, 128);
-    interrupts();
 /*    rightStepCount += count*STEP_COUNT;
     rightStepper.setTargetAbs(rightStepCount);
     stepControl.moveAsync(rightStepper);*/

@@ -354,7 +354,6 @@ void MCS::rotate(float angle) {
 }*/
 
 void MCS::gotoPoint2(int16_t x, int16_t y) {
-    noInterrupts();
     targetX = x;
     targetY = y;
 //    digitalWrite(LED2,LOW);
@@ -367,7 +366,6 @@ void MCS::gotoPoint2(int16_t x, int16_t y) {
     rotate(rotation);
     robotStatus.controlledP2P = true;
     robotStatus.moving = true;
-    interrupts();
 }
 
 void MCS::followTrajectory(const double* xTable, const double* yTable, int count) {

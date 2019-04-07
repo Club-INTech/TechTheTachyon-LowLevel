@@ -41,7 +41,7 @@ public:
 
     void resetEth();
 
-    bool connectedEth();
+    bool connectedEthernet();
 
 private:
     AbstractComInterface*    ethernet = nullptr;

@@ -21,9 +21,23 @@ void InterruptStackPrint::push(const Header header, const String& str)
 
 void InterruptStackPrint::print()
 {
-        for( uint8_t i=0 ; i < current_size ; i++)
+    if( com_options & ETHERNET_RW )
+    {
+        if( ComMgr::Instance().connectedEthernet() )
         {
-            ComMgr::Instance().printfln(headerStack[i], "%s", stack[i].c_str());
+            for( uint8_t i=0 ; i < current_size ; i++)
+            {
+                ComMgr::Instance().printfln(headerStack[i], "%s", stack[i].c_str());
+            }
+            current_size=0;
         }
-        current_size=0;
+    }
+    else
+    {
+            for( uint8_t i=0 ; i < current_size ; i++)
+            {
+                ComMgr::Instance().printfln(headerStack[i], "%s", stack[i].c_str());
+            }
+            current_size=0;
+    }
 }
