@@ -9,7 +9,7 @@ SICKDT35_B15851::SICKDT35_B15851(uint8_t pin, uint16_t rangeMin, uint16_t rangeM
     pinMode(pin, INPUT);
 }
 
-uint16_t SICKDT35_B15851::readDistance() {
+uint16_t SICKDT35_B15851::readRawDistance() {
     uint16_t valueRead = (uint16_t) analogRead(pin);
     double alpha = ((double)valueRead)/(1<<ANALOG_RESOLUTION);
 
@@ -23,6 +23,15 @@ uint16_t SICKDT35_B15851::readDistance() {
     double t = tension/(maxVoltage-minVoltage);
 //    Serial.printf("[DEBUG] >> %f (%i - %i)\n", t, rangeMin, rangeMax);
     return (uint16_t ) (t*rangeMax + (1.0-t) * rangeMin);
+}
+
+uint16_t SICKDT35_B15851::readDistance() {
+    double sum = 0.0;
+    for(int i = 0; i < NBR_SICK_MEASUREMENTS; i++) {
+        sum += readRawDistance();
+        delayMicroseconds(100);
+    }
+    return static_cast<uint16_t>(sum / NBR_SICK_MEASUREMENTS);
 }
 
 void SICKDT35_B15851::setRange(uint16_t min, uint16_t max) {

@@ -6,6 +6,7 @@
 #define TECHTHETACHYON_LOWLEVEL_SICKDT35_B15851_H
 
 #include <stdint.h>
+#include <Utils/average.hpp>
 #include "Utils/defines.h"
 
 class SICKDT35_B15851 {
@@ -22,10 +23,16 @@ public:
     explicit SICKDT35_B15851(uint8_t pin, uint16_t rangeMin = 60, uint16_t rangeMax = 300);
 
     /**
-     * Lis la distance avec le capteur (prend en compte le range configuré)
+     * Lis la distance avec le capteur (prend en compte le range configuré) en faisant une moyenne sur NBR_SICK_MEASUREMENTS
      * @return
      */
     uint16_t readDistance();
+
+    /**
+     * Lis la distance avec le capteur (prend en compte le range configuré)
+     * @return
+     */
+    uint16_t readRawDistance();
 
     /**
      * Configure l'intervalle de détection du capteur
