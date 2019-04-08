@@ -26,6 +26,10 @@ private:
     SyncRead* syncMovingStatus = new SyncRead(manager, 3, (uint16_t ) (XL430::xl430MovingStatus.address[0] | (XL430::xl430MovingStatus.address[1] << 8)), XL430::xl430MovingStatus.length);
     SyncRead* syncHardwareError = new SyncRead(manager, 3, (uint16_t ) (XL430::xl430HardwareError.address[0] | (XL430::xl430HardwareError.address[1] << 8)), XL430::xl430HardwareError.length);
     void prepareAngleData(unsigned int motorIndex, float angle);
+    bool askSpeed(XL430& xl);
+    bool askMoving(XL430& xl);
+    bool askThreshold(XL430& xl);
+    bool ask(const DynamixelAccessData& data, XL430& xl, int& value);
 
 public:
     Arm(DynamixelManager& manager, XL430& base, XL430& elbow, XL430& wrist);
