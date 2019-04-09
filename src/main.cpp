@@ -85,12 +85,12 @@ int main() {
        // orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-		orderMgr.execute("rawposdata");
+		//orderMgr.execute("rawposdata");
 
 		delay(10);
 
     	if (i==5){
-    		orderMgr.execute("av");
+    	//	orderMgr.execute("av");
     	}/*
     	if (i==200){
     		orderMgr.execute("d 500");
@@ -107,7 +107,7 @@ int main() {
     	if (i==220){
 			Serial.println("DATAEND");
     	}
-		i++;
+//		i++;
     }
 }
 
