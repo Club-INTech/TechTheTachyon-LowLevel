@@ -68,8 +68,10 @@ constexpr float     TICK_TO_MM = static_cast<float>(PI*COD_WHEEL_DIAMETER/TICKS_
 constexpr float     TICK_TO_RADIAN = TICK_TO_MM / DISTANCE_COD_GAUCHE_CENTRE; // Unité : rad/ticks
 
 /**
-* Capteurs
+*  Différents seuils des XL
 */
+constexpr uint32_t VELOCITY_THRESHOLD = 10; // en unités de Dynamixel (1 -> ~0.2 rpm)
+constexpr float POSITION_THRESHOLD = 2.5f; // en degrés
 
 /**
  * Steppers

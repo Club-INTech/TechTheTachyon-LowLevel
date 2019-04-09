@@ -71,11 +71,14 @@ void Arm::initTorque() {
     askThreshold(base);
     askThreshold(elbow);
     askThreshold(wrist);
+    askOffset(base);
+    askOffset(elbow);
+    askOffset(wrist);
 }
 
 void Arm::prepareAngleData(unsigned int motorIndex, float angle) {
-    uint32_t targetAngleValue = (uint32_t)(angle/0.088);
-    char* parameter = &syncAngles[motorIndex*4];
+    uint32_t targetAngleValue = (uint32_t)(angle/base.getAngleFromValue());
+    char* parameter = &syncAngles[motorIndex * XL430::xl430GoalAngle.length];
 
     for(int i = 0;i<XL430::xl430GoalAngle.length;i++) {
         parameter[i] = targetAngleValue & 0xFF;
@@ -93,16 +96,33 @@ void Arm::setPosition(const float* positions) {
     syncAngleWriteData->setData(0, &syncAngles[0*XL430::xl430GoalAngle.length]);
     syncAngleWriteData->setData(1, &syncAngles[1*XL430::xl430GoalAngle.length]);
     syncAngleWriteData->setData(2, &syncAngles[2*XL430::xl430GoalAngle.length]);
+
+    float sent[3];
+    for(int i = 0;i<3;i++) {
+        float v = 0.0f;
+        char* param = &syncAngles[i*XL430::xl430GoalAngle.length];
+        for(int j = 0; j<XL430::xl430GoalAngle.length; j++)
+        {
+            v += (int)(param[j] << 8*j);
+        }
+        sent[i] = v*base.getAngleFromValue();
+    }
+
+    Serial.printf("Sending syncAngles: %f/%f/%f\n",
+            sent[0],
+            sent[1],
+            sent[2]);
     syncAngleWriteData->send();
-    waitForStop();
+    waitForStop(positions);
 }
 
-void Arm::waitForStop() {
+void Arm::waitForStop(const float* positions) {
     //delay(750);
     bool wristMoving;
     bool elbowMoving;
     bool baseMoving;
 
+    // 255,255,253,0,2,8,0,85,0,253,7,0,0,91,150,
     bool movingStates[] = {true, true, true};
     char movingStatuses[] = {0,0,0};
     char hardwareErrors[] = {0,0,0};
@@ -110,9 +130,12 @@ void Arm::waitForStop() {
         askThreshold(base);
         askThreshold(elbow);
         askThreshold(wrist);
-        baseMoving = askSpeed(base);
-        elbowMoving = askSpeed(elbow);
-        wristMoving = askSpeed(wrist);
+/*        askPosition(base);
+        askPosition(elbow);
+        askPosition(wrist);*/
+        baseMoving = !askSpeed(base);
+        elbowMoving = !askSpeed(elbow);
+        wristMoving = !askSpeed(wrist);
         /*baseMoving = askMoving(base);
         elbowMoving = askMoving(elbow);
         wristMoving = askMoving(wrist);*/
@@ -134,17 +157,40 @@ void Arm::waitForStop() {
             break;
         }*/
     } while (wristMoving || elbowMoving || baseMoving);
+    if( ! (askPosition(base, positions[0]) && askPosition(elbow, positions[1]) && askPosition(wrist, positions[2]))) { // si les positions n'ont pas été atteintes
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Position non atteinte sur le bras (%i-%i-%i), nouvelle tentative", base.getId(), elbow.getId(), wrist.getId());
+        delay(10);
+        setPosition(positions); // on renvoie l'ordre de position!
+    }
+}
+
+bool Arm::askPosition(XL430 &xl, const float askedPosition) {
+    float value = 0.0f;
+    bool valid = xl.getCurrentAngle(value);
+    float value2 = 0.0f;
+    bool valid2 = ask(XL430::xl430GoalAngle, xl, value2);
+    value2 *= xl.getAngleFromValue();
+    if(valid && valid2) {
+        Serial.printf("Current position for XL n°%i is %f\n", xl.getId(), value);
+        if(ABS(value-askedPosition) >= POSITION_THRESHOLD) {
+            Serial.printf("Threshold fail on XL %i (goal: %f; expected: %f; reached: %f; diff: %f)\n", xl.getId(), value2, askedPosition, value, ABS(value-askedPosition));
+            return false;
+        }
+    } else {
+        Serial.printf("Invalid packet received when asking position");
+    }
+    return valid;
 }
 
 bool Arm::askSpeed(XL430 &xl) {
-    int value;
+    int value = 0;
     bool valid = ask(XL430::xl430CurrentVelocity, xl, value);
     if(valid) {
-        Serial.printf("Current velocity for XL n°%i is %i\n", xl.getId(), value & ((1 << XL430::xl430CurrentVelocity.length)-1));
+        Serial.printf("Current velocity for XL n°%i is %i\n", xl.getId(), value);
     } else {
         Serial.printf("Invalid packet received when asking threshold");
     }
-    return valid && value < 10;
+    return valid && value < VELOCITY_THRESHOLD;
 }
 
 bool Arm::askThreshold(XL430 &xl) {
@@ -158,15 +204,22 @@ bool Arm::askThreshold(XL430 &xl) {
     return valid;
 }
 
-bool Arm::askMoving(XL430 &xl) {
-    int value;
-    bool valid = ask(XL430::xl430MovingStatus, xl, value);
+bool Arm::askOffset(XL430 &xl) {
+    int value = 0;
+    bool valid = ask(XL430::xl430MovingOffset, xl, value);
     if(valid) {
-        Serial.printf("MovingStatus for XL n°%i is %i\n", xl.getId(), value & ((1 << XL430::xl430MovingStatus.length)-1));
+        Serial.printf("MovingOffset for XL n°%i is %i\n", xl.getId(), value);
     } else {
         Serial.printf("Invalid packet received when asking MovingStatus");
     }
     return valid && (value & 0x1) != 0;
+}
+
+bool Arm::ask(const DynamixelAccessData& data, XL430& xl, float& value) {
+    Serial.println("Asking for movement...");
+    DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
+    const char* answer = manager.sendPacket(requestPacket);
+    return xl.decapsulatePacket(answer, value);
 }
 
 bool Arm::ask(const DynamixelAccessData& data, XL430& xl, int& value) {
