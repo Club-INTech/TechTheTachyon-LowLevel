@@ -3,7 +3,6 @@
 //
 
 #include "MCSReborn.h"
-#include "../../../.platformio/packages/framework-arduinoteensy/libraries/Tlc5940/tlc_animations.h"
 
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
