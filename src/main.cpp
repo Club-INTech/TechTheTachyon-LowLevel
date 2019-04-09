@@ -71,13 +71,14 @@ int main() {
     ActuatorsMgr::Instance().initTorques();
 
     Serial.println("Ready!");
+    delay(60);
 	/**
 	 * Boucle principale, y est géré:
 	 * La communication HL
 	 * L'execution des ordres de ce dernier
 	 * Les capteurs
 	 */
-
+    orderMgr.execute("montlhery");
 
 	int i=0;
 
@@ -91,9 +92,6 @@ int main() {
 		delay(10);
 
     	if (i==5){
-			orderMgr.execute("montlhery");
-    	}
-    	if (i==100){
     		orderMgr.execute("av");
     	}/*
     	if (i==200){
@@ -108,7 +106,7 @@ int main() {
 		if (i==500){
 			orderMgr.execute("d -500");
 		}*/
-    	if (i==620){
+    	if (i==220){
 			Serial.println("DATAEND");
     	}
 		i++;

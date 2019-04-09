@@ -8,8 +8,8 @@
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
-    encoderLeft = new Encoder(ENCODER_LEFT_B,ENCODER_LEFT_A);
-    encoderRight = new Encoder(ENCODER_RIGHT_B,ENCODER_RIGHT_A);
+    encoderLeft = new Encoder(ENCODER_LEFT_A,ENCODER_LEFT_B);
+    encoderRight = new Encoder(ENCODER_RIGHT_A,ENCODER_RIGHT_B);
 
     initSettings();
     initStatus();
@@ -48,14 +48,14 @@ void MCS::initSettings() {
 
 
     /* mm/s/MCS_PERIOD */
-    controlSettings.maxAcceleration = 2;
-    controlSettings.maxDeceleration = 2;
+    controlSettings.maxAcceleration = 0.5;
+    controlSettings.maxDeceleration = 0.5;
 
     /* rad/s */
     controlSettings.maxRotationSpeed = PI;
 
     /* mm/s */
-    controlSettings.maxTranslationSpeed = 1000;
+    controlSettings.maxTranslationSpeed = 500;
     controlSettings.tolerancySpeed = 100;
 
     /* rad */
@@ -142,11 +142,11 @@ void MCS::updatePositionOrientation() {
 
 void MCS::updateSpeed()
 {
-
     averageLeftSpeed.add((leftTicks - previousLeftTicks) * TICK_TO_MM * MCS_FREQ);
     averageRightSpeed.add((rightTicks - previousRightTicks) * TICK_TO_MM  * MCS_FREQ);
     robotStatus.speedLeftWheel = averageLeftSpeed.value();
     robotStatus.speedRightWheel = averageRightSpeed.value();
+
 
     if(robotStatus.controlledTranslation)
     {
@@ -189,6 +189,7 @@ void MCS::control()
 
     leftTicks = encoderLeft->read();
     rightTicks = encoderRight->read();
+
 
     updatePositionOrientation();
 

@@ -12,8 +12,8 @@ constexpr uint8_t INA_LEFT = 24; //2
 constexpr uint8_t INB_LEFT = 12; //16
 constexpr uint8_t PIN_PWM_LEFT = 35; //5
 
-constexpr uint8_t INA_RIGHT = 6; //28
-constexpr uint8_t INB_RIGHT = 7; //27
+constexpr uint8_t INA_RIGHT = 7; //28
+constexpr uint8_t INB_RIGHT = 6; //27
 constexpr uint8_t PIN_PWM_RIGHT = 8; //8
 
 /* Roues codeuses */
