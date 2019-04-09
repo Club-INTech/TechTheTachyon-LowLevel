@@ -11,7 +11,7 @@
 
 #include "Utils/Median.h"
 #include "Utils/Singleton.hpp"
-#include "Utils/pin_mapping_select.h"
+#include "Utils/pin_mapping.h"
 #include "MCS/MCSReborn.h"
 #include "COM/ComMgr.h"
 #include "AbstractSensorUS.h"
@@ -28,7 +28,6 @@ private:
 	ComMgr& highLevel;
 
 	SICKDT35_B15851 distanceSensors[NBR_OF_DISTANCE_SENSOR];
-	std::array<Median<uint16_t ,MEDIAN_US_SIZE>,NBR_OF_US_SENSOR> distances;
 	MOVEMENT measure_direction;
 
 	bool jumperPlugged;
@@ -40,7 +39,6 @@ public:
 
 	bool isJumperEngaged();
 	bool isReadyToGo();
-	bool isCont1Engaged();
 
 	/**
 	 * Récupère le capteur à l'indice donné

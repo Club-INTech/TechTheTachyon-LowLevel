@@ -6,11 +6,21 @@
 
 ComMgr::ComMgr()
 {
+    if(com_options & SERIAL_W) {
+        while(!Serial);
+        Serial.begin(115200);
+    }
     if( com_options & ETHERNET_RW )
     {
         ethernet = new EthernetInterface();
     }
     serial = new SerialInterface();
+    sdlog = new SDLog();
+}
+
+bool ComMgr::connectedEthernet()
+{
+    return static_cast<EthernetInterface*>(ethernet)->connected();
 }
 
 void ComMgr::sendPosition(const float * data)
@@ -28,23 +38,33 @@ void ComMgr::printfln(Header header,const char * data,...)
     va_list args;
     va_start(args,data);
 
-    char tmp[HEADER_LENGTH + 64];
+    char tmp[HEADER_LENGTH + MAX_MESSAGE_LENGTH];
     memcpy(tmp,header,HEADER_LENGTH);
     tmp[HEADER_LENGTH] = '\0';
 
     strcat(tmp+HEADER_LENGTH, data);
-    char formatted[HEADER_LENGTH + 64];
-    vsnprintf(formatted, HEADER_LENGTH+64, tmp, args);
+    char formatted[HEADER_LENGTH + MAX_MESSAGE_LENGTH];
+    vsnprintf(formatted, HEADER_LENGTH+MAX_MESSAGE_LENGTH, tmp, args);
 
     if( com_options & COM_OPTIONS::ETHERNET_W )
         ethernet->printfln(formatted);
-    if( com_options & COM_OPTIONS::SERIAL_W )
-        serial->printfln(formatted);
+    if( com_options & COM_OPTIONS::SERIAL_W ) {
+        if(header != POSITION_HEADER) { // pas besoin de spammer la série avec les positions
+            serial->printfln(formatted);
+        }
+    }
+//    else {
+        // le HL reçoit 2x les infos en mode série
+        if( memcmp(header,DEBUG_HEADER,HEADER_LENGTH) ) {
+            if(header != POSITION_HEADER) { // pas besoin de spammer la série avec les positions
+                printfln(DEBUG_HEADER,formatted);
+            }
+        }
+  //  }
 
-    if( memcmp(header,DEBUG_HEADER,HEADER_LENGTH) )
-        printfln(DEBUG_HEADER,formatted);
 
-    sdlog.logWrite(formatted);
+
+    sdlog->logWrite(formatted);
 
     va_end(args);
 }
@@ -70,14 +90,19 @@ void ComMgr::printf(Header header, const char *data, ...)
     if( memcmp(header,DEBUG_HEADER,HEADER_LENGTH) )
         printfln(DEBUG_HEADER,formatted);
 
-    sdlog.logWrite(formatted);
+    sdlog->logWrite(formatted);
 
     va_end(args);
 }
 
+void ComMgr::printOnSerial(const char* str)
+{
+    Serial.print(str);
+}
+
 void ComMgr::startMatch()
 {
-    sdlog.setStartingTime();
+    sdlog->setStartingTime();
 }
 
 ComMgr::~ComMgr()

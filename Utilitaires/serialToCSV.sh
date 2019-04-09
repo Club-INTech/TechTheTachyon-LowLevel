@@ -1,7 +1,7 @@
 #! /bin/bash
 
 pythonGraph () {
-	echo "DATAEND" >> "serialOutput/$3"
+	#echo "DATAEND" >> "serialOutput/$3"
 	python3 extraction_asserv.py "$2" "$1"
 	exit
 }

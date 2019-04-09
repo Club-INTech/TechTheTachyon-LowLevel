@@ -38,20 +38,12 @@ public:
 		T error = (*setPoint) - (*input);
 		derivative = error - pre_error;
 		integral += error;
+		if( AWU_enabled && fabs(integral) > integral_max_value )
+			integral = sign(integral)*integral_max_value;
 		pre_error = error;
 
 		T result = (T)(
 				kp * error + ki * integral + kd * derivative);
-
-		//Saturation
-/*
-		if (result > outMax) {
-			result = outMax;
-		} else if (result < outMin) {
-			result = outMin;
-		}*/
-
-
 
 		//Seuillage de la commande
 		if (ABS(result) < epsilon)
@@ -60,10 +52,11 @@ public:
 		(*output) = result;
 	}
 
-	void setTunings(float kp, float ki, float kd) {
+	void setTunings(float kp, float ki, float kd, float integral_max_value = 0) {
 		if (kp < 0 || ki < 0 || kd < 0)
 			return;
 
+		this->integral_max_value = integral_max_value;
 		this->kp = kp;
 		this->ki = ki;
 		this->kd = kd;
@@ -109,6 +102,9 @@ public:
 	float getKd() const {
 		return kd;
 	}
+	T getAWU() const {
+		return integral_max_value;
+	}
 
 	T getError() const {
 		return pre_error;
@@ -120,6 +116,10 @@ public:
 
 	T getIntegralErrol() const {
 		return integral;
+	}
+
+	void enableAWU(bool b) {
+		AWU_enabled = b;
 	}
 
 	int getInput(){
@@ -148,6 +148,9 @@ private:
 	T pre_error;
 	T derivative;
 	T integral;
+
+	float integral_max_value = 0;
+	bool AWU_enabled = false;
 };
 
 #endif

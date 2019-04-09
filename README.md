@@ -3,8 +3,12 @@
 Pour pouvoir utiliser le projet:
 - Installer Platformio ([Guide d'installation](https://club-intech.minet.net/images/9/97/Guide_PIO.pdf))
 - Clonez ce dépot
-- **Initialisez le sous-module DynamixelCom avec la commande** `git submodule update --init DynamixelCom` 
-- Ouvrez un terminal dans le dossier du dépot, et effectuez la commande \
+- Deux solutions : 
+ - Solution 1 :
+  - **Initialisez le sous-module DynamixelCom avec la commande** `git submodule update --init Dynamixel-Com`
+  - Ouvrez un terminal dans le dossier du dépot, et effectuez la commande \
+ - Solution 2 :
+  - ```./setup.sh```
 ```pio init --ide IDE --board teensy35```\
 avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio Code
 - Ouvrez le dossier du dépot avec CLion ou VSCode.
@@ -12,10 +16,10 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 
 ## TODO
 
-- [ ] Compléter le nouveau MCS
-- [ ] Asservissement
-- [ ] Vérifier l'état de la communication LL/HL
-- [ ] Implémenter les nouveaux ordres
+- [x] Compléter le nouveau MCS
+- [x] Asservissement
+- [x] Vérifier l'état de la communication LL/HL
+- [x] Implémenter les nouveaux ordres
 - [ ] Ordre propre pour la récupération de données d'asservissement + scripts en conséquence
 - [ ] Mise en place de cas d'erreur explicites et plus nombreux pour le HL
 - [ ] Gagner la Coupe
@@ -26,7 +30,7 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 
 |        Ordres         |                           Actions                         |
 |:---------------------:|:---------------------------------------------------------:|                  
-|          ?            |                         Ping le LL                        |
+|         ping          |                         Ping le LL                        |
 |          j            |           Active l'attente de l'activation du jumper      |
 |         sus           |        Switch les US ou choisit leur état (on/off)        |
 |          f            |                     Check le mouvement                    |
@@ -49,13 +53,11 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |        cr1            |                 Active l'asserv en rotation               |
 |        cv0            |                Désactive l'asserv en vitesse              |
 |        cv1            |                 Active l'asserv en vitesse                |
-|       seti2c          |                    Set les capteurs I2C                   |
 |        cod            |                Retourne les ticks de codeuse              |
 |      pfdebug          |                Info de debug sur la position              |
 |      rawpwm           |            Demande un PWM brut aux deux moteurs           |
 |      getpwn           |              Retourne le PWM des deux moteurs             |
 |      errors           |             Retourne les erreurs d'incertitude            |
-|     rawdistance       |             Retourne la distance brute en ticks           |
 |      rawspeed         |                   Vitesse brute des roues                 |
 |     rawposdata        |             Pos x,y,α; vL,vR, targetvL,targetvR           |
 |     montlhery         |                    Mode de présentation                   |
@@ -64,11 +66,11 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |         td            |                       Tourne à droite                     |
 |         tg            |                       Tourne à gauche                     |
 |       sstop           |                            Arrêt                          |
+|       maxtr           |                Vitesse maximale de translation            |
+|       maxro           |                  Vitesse maximale de rotation             |
 |         nh            |     Créé un nouveau hook (id,x,y,r,α,tolerance,action)    |
 |         eh            |                       Active le hook                      |
 |         dh            |                     Désactive le hook                     |
-|    emergencyStop      |  Arrète brutalement le robot et ***DESACTIVE*** l'asserv  |
-|  resumeEmergencyStop  |          Redemarre l'asserv après un emergencyStop        |
 
 ### Ordres pour les capteurs
 |   Ordres  |                       Actions                                          			| Arguments      				|
@@ -84,16 +86,19 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |:---------:|:--------------------------------------------------:|:--------------------------|
 |    XLm    |Envoie le XL-430 à un α en °                        |id XL / α                  |
 |    XLs    |Modifie la vitesse d'un XL-430                      |id XL / speed              |
-|    dist   |Envoie le bras à la position "distributeur"         |side(left/right)           |
-|   grnd    |Envoie le bras à la position "sol"                  |side(left/right)           |
-|   stock   |Envoie le bras à la position "ascenceur"            |side(left/right)           |
-|    acc    |Envoie le bras à la position "accélérateur"         |side(left/right)           |
-|     up    |Monte l'ascenceur de la hauteur d'un palet          |side(left/right)           |
-|    down   |Descend l'ascenseur de la hauteur d'un palet        |side(left/right)           |
-|    suck   |Active la pompe                                     |side(left/right)           |
-|  unsuck   |Désactive la pompe                                  |side(left/right)           |
-|  valveon  |Active l'électrovanne                               |side(left/right)           |
-|  valveoff |Désactive l'électrovanne                            |side(left/right)           |
+|    posBras|Récupère les angles (en °) d'un bras                		 |side(left/right)			 |
+|	brasToutDroit	|Envoie le bras à la position "tout droit"           |side(left/right)           |
+|    dist   		|Envoie le bras à la position "distributeur"         |side(left/right)           |
+|   grnd    		|Envoie le bras à la position "sol"                  |side(left/right)           |
+|   stock   		|Envoie le bras à la position "ascenceur"            |side(left/right)           |
+|    acc    		|Envoie le bras à la position "accélérateur"         |side(left/right)           |
+|    posinter 		|Envoie le bras à la position "intermediaire"        |side(left/right)           |
+|     up    		|Monte l'ascenceur de la hauteur d'un palet          |side(left/right)           |
+|    down   		|Descend l'ascenseur de la hauteur d'un palet        |side(left/right)           |
+|    suck   		|Active la pompe                                     |side(left/right)           |
+|  unsuck   		|Désactive la pompe                                  |side(left/right)           |
+|  valveon  		|Active l'électrovanne                               |side(left/right)           |
+|  valveoff 		|Désactive l'électrovanne                            |side(left/right)           |
 |   gold    |Envoie le bras à la position "goldonium"            |      /                    |
 |   bal     |Envoie le bras à la position "balance"              |side(left/right)           |
 |   elec    |Démarre l'électron                                  |      /                    |

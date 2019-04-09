@@ -1,45 +1,62 @@
 #ifndef _PIN_MAPPING_h
 #define _PIN_MAPPING_h
 
-//TODO:pin mapping
+#include "defines.h"
 
 /* Ethernet */
-//Ne pas oublier: PIN13 (LED) utilisée par l'ethernet
-#define PWD 24
-#define RST 9
+constexpr uint8_t CS = 9;
+constexpr uint8_t RST = 29;
 
 /* Moteurs */
-	//Gauche
-#define PIN_DIR_LEFT 5
-#define PIN_PWM_LEFT 6
-	//Droite
-#define PIN_DIR_RIGHT 7
-#define PIN_PWM_RIGHT 8
+constexpr uint8_t INA_LEFT = 2;
+constexpr uint8_t INB_LEFT = 16;
+constexpr uint8_t PIN_PWM_LEFT = 5;
 
-/* Electrovannes */
-#define PIN_ELECTROVANNE_AV 2
-#define PIN_ELECTROVANNE_AR 4
+constexpr uint8_t INA_RIGHT = 28;
+constexpr uint8_t INB_RIGHT = 27;
+constexpr uint8_t PIN_PWM_RIGHT = 8;
 
-/* Pompes à vide */
-#define PUMP_PIN_RIGHT 1
-#define PUMP_PIN_LEFT 2
-
-
+/* Roues codeuses */
+constexpr uint8_t ENCODER_LEFT_A = 4;
+constexpr uint8_t ENCODER_LEFT_B = 3;
+constexpr uint8_t ENCODER_RIGHT_A = 25;
+constexpr uint8_t ENCODER_RIGHT_B = 32;
 
 /* CAPTEURS */
-
-    // CONT
-#define PIN_JMPR 0
-#define PIN_CONT1 0
+constexpr uint8_t PIN_JMPR = 10;
+constexpr uint8_t SICK_PINS[NBR_OF_DISTANCE_SENSOR] = {
+        A22, // 1er
+        A21, // 2e
+        A20, // 3e
+        A19, // 4e
+        A18, // 5e
+        A17, // 6e
+};
 
 // TechTheTachyon
 /* Ascenceurs */
-constexpr uint8_t STEP_PIN_RIGHT = 1; //vitesse
-constexpr uint8_t RST_PIN_RIGHT = 14; //reset
-constexpr uint8_t DIR_PIN_RIGHT = 4; //direction
 
-constexpr uint8_t STEP_PIN_LEFT = 8; //vitesse
-constexpr uint8_t RST_PIN_LEFT = 14; //reset
-constexpr uint8_t DIR_PIN_LEFT = 3; //direction
+// ! Inversées par rapport au pin mapping !
+constexpr uint8_t STEP_PIN_RIGHT = 22; //vitesse
+constexpr uint8_t DIR_PIN_RIGHT = 23; //direction
+constexpr uint8_t RST_PIN_RIGHT = 21; //reset
+
+constexpr uint8_t STEP_PIN_LEFT = 17; //vitesse
+constexpr uint8_t DIR_PIN_LEFT = 20; //direction
+constexpr uint8_t RST_PIN_LEFT = 21; //reset
+
+// ! Inversées par rapport au pin mapping !
+
+constexpr uint8_t RIGHT_VALVE_PIN = 26; // électrovanne droite
+constexpr uint8_t LEFT_VALVE_PIN = 24;  // électrovanne gauche
+
+constexpr uint8_t LEFT_PUMP_PIN = 7;
+constexpr uint8_t RIGHT_PUMP_PIN = 6;
+
+/* LEDs debug */
+constexpr uint8_t LED1 = 35;
+constexpr uint8_t LED2 = 14;
+constexpr uint8_t LED3 = 15;
+constexpr uint8_t LED4 = 31;
 
 #endif //_PIN_MAPPING_h

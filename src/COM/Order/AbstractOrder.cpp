@@ -4,6 +4,8 @@
 
 #include "COM/Order/AbstractOrder.h"
 #include "OrderManager.h"
+#include "AbstractOrder.h"
+
 
 AbstractOrder::AbstractOrder(uint8_t nbr_args)
                 :nbr_args(nbr_args)
@@ -30,3 +32,8 @@ bool AbstractOrder::exec(Args args)
         return false;
     }
 }
+
+uint32_t AbstractOrder::nextActuatorOrderIndex() {
+    return actuatorOrderIndex++;
+}
+

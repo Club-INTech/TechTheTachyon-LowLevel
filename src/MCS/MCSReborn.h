@@ -6,16 +6,22 @@
 #define LL_MCSREBORN_H
 
 #include "Utils/Singleton.hpp"
+#include "Utils/average.hpp"
+#include "Utils/defines.h"
+#include "Utils/pin_mapping.h"
+#include "Utils/utils.h"
 #include "ControlSettings.h"
 #include "RobotStatus.h"
 #include "Motor.h"
 #include "pid.hpp"
 #include "SelfContainedPID.hpp"
 #include "PointToPointTrajectory.h"
+#include <cmath>
+//#include "HardwareEncoder.h"
 
 #define ENCODER_OPTIMIZE_INTERRUPTS
-#include <Encoder.h>
-#include <Utils/average.hpp>
+#include "Encoder.h"
+#include "../COM/InterruptStackPrint.h"
 
 // TODO : Tout docu
 
@@ -24,9 +30,8 @@ class MCS : public Singleton<MCS>
 
 private:
 
-    // TODO: HardwareEncoder
-    Encoder* Encoder1 = nullptr;
-    Encoder* Encoder2 = nullptr;
+    Encoder* encoderRight = nullptr;
+    Encoder* encoderLeft = nullptr;
 
     RobotStatus robotStatus;
     ControlSettings controlSettings;
@@ -34,31 +39,37 @@ private:
     Motor leftMotor;
     Motor rightMotor;
 
-    SelfContainedPID<int32_t> leftSpeedPID;
-    SelfContainedPID<int32_t> rightSpeedPID;
-    SelfContainedPID<int32_t> translationPID;
+    SelfContainedPID<float> leftSpeedPID;
+    SelfContainedPID<float> rightSpeedPID;
+    SelfContainedPID<float> translationPID;
+//    SelfContainedPID<float> rotationPID180;
+//    SelfContainedPID<float> rotationPID90;
     SelfContainedPID<float> rotationPID;
 
-    uint32_t lastPositionUpdateTime;
     int32_t currentDistance;
-    float currentRotation;
     int16_t targetX;
     int16_t targetY;
+
     int32_t leftTicks;
     int32_t rightTicks;
     int32_t previousLeftTicks;
     int32_t previousRightTicks;
+    float previousLeftSpeedGoal;
+    float previousRightSpeedGoal;
     int16_t targetDistance;
     float targetAngle;
     float angleOffset;
 
-    Average<int32_t, 256> averageLeftSpeed;
-    Average<int32_t, 256> averageRightSpeed;
+    Average<int32_t, 100> averageLeftSpeed;
+    Average<int32_t, 100> averageRightSpeed;
+    Average<float, 25> averageRotationDerivativeError;
+    Average<float, 25> averageTranslationDerivativeError;
 
-    float targetLeftSpeed;
-    float targetRightSpeed;
     bool sequentialMovement;
     PointToPointTrajectory trajectory;
+
+    // Timer entre translation et rotation pour les goto
+    uint32_t gotoTimer;
 
 
 public:
@@ -67,26 +78,45 @@ public:
     void initEncoders();
 
     void manageStop();
-    void updatePosition(int32_t leftTicks, int32_t rightTicks);
+    void updatePositionOrientation();
+    void updateSpeed();
     void control();
     void stop();
 
     void translate(int16_t);
     void rotate(float);
     void gotoPoint(int16_t,int16_t,bool);
+    void gotoPoint2(int16_t,int16_t);
     void followTrajectory(const double* xTable, const double* yTable, int count);
 
-    void toggleControl();
-    void toggleTranslation();
-    void toggleRotation();
+    void speedBasedMovement(MOVEMENT);
+
+    void setControl(bool);
+    void controlledTranslation(bool);
+    void controlledRotation(bool);
+    void setForcedMovement(bool);
+    void setTranslationSpeed(float);
+    void setRotationSpeed(float);
+    void setMaxTranslationSpeed(float);
+    void setMaxRotationSpeed(float);
+
     void initSettings();
     void initStatus();
+
+    /**
+     * Méthode appelée par un InterruptTimer afin d'envoyer au HL la position du robot
+     */
+    void sendPositionUpdate();
 
     int16_t getX();
     int16_t getY();
     float getAngle();
     int32_t getLeftTicks();
     int32_t getRightTicks();
+    float getLeftSpeed();
+    float getRightSpeed();
+
+    void getSpeedGoals(long&,long&);
 
     /**
      * Permet de définir une rotation à la fin d'un mouvement (au lieu de devoir attendre la fin du mouvement et de donner un ordre de rotation)

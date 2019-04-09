@@ -5,28 +5,23 @@
 #ifndef LL_ROBOTSTATUS_H
 #define LL_ROBOTSTATUS_H
 
-#include "HardwareEncoder.h"
+#include <cstdint>
 
 enum class MOVEMENT { FORWARD, BACKWARD, TRIGO, ANTITRIGO, CURVE, NONE };
 
-class RobotStatus
+struct RobotStatus
 {
-
-private:
-    HardwareEncoder<1>& leftEncoder = Encoder1;
-    HardwareEncoder<2>& rightEncoder = Encoder2;
-
-public:
     bool controlled;
     bool controlledTranslation;
     bool controlledRotation;
     bool controlledP2P;
+    bool Lbooly;
     bool forcedMovement;
     bool moving;
     bool stuck;
 
-    int16_t x;
-    int16_t y;
+    float x;
+    float y;
     float orientation;
 
     MOVEMENT movement;

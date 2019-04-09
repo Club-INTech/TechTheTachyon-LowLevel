@@ -7,34 +7,41 @@
 
 #include "COM/Order/OrderManager.h"
 #include "Utils/Monitoring.h"
-#include <string>
-#include <Utils/pin_mapping_test_card.h>
+#include "Utils/pin_mapping.h"
+#include "COM/InterruptStackPrint.h"
+
+//#include "MCS/HardwareEncoder_ISRDEF.h"
 
 /* Interruptions d'asservissements */
 void motionControlInterrupt() {
 	static MCS &motionControlSystem = MCS::Instance();
-	//motionControlSystem.updateTicks();
 	motionControlSystem.control();
-	//motionControlSystem.updatePosition();
 	motionControlSystem.manageStop();
 }
 
+void positionInterrupt() {
+	static MCS &motionControlSystem = MCS::Instance();
+	motionControlSystem.sendPositionUpdate();
+}
+
 int main() {
+	pinMode(LED1,OUTPUT);
+	pinMode(LED2,OUTPUT);
+	pinMode(LED3,OUTPUT);
+	pinMode(LED4,OUTPUT);
+
+
 	/*************************
 	 * Initialisation du LL, gère:
 	 * La série
 	 * Les actionneurs
 	 * L'asservissement
 	 *************************/
-	/* Série */
+
+    /* Série */
 	ActuatorsMgr::Instance().initPWMs();
     SensorMgr::Instance().init();
-    MCS::Instance().initEncoders();
-    pinMode(18, INPUT_PULLUP);
-    pinMode(19, INPUT_PULLUP);
-  //  digitalWrite(13, HIGH);
 
-    Serial.begin(115200);
 
     Serial.flush();
 	Serial.println("Série OK");
@@ -56,13 +63,16 @@ int main() {
 
 	Serial.println("Fin du setup");
 	OrderManager& orderMgr = OrderManager::Instance();
-	//ORDER_PTPDEMO a = ORDER_PTPDEMO();
 	orderMgr.init();
+    Serial.println("Order manager ok");
+
+    /* InterruotStackPrint */
+    InterruptStackPrint& interruptStackPrint = InterruptStackPrint::Instance();
 
     // MotionControlSystem interrupt on timer
-	IntervalTimer motionControlInterruptTimer;
-	motionControlInterruptTimer.priority(253);
-    motionControlInterruptTimer.begin(motionControlInterrupt, MC_PERIOD); // Setup de l'interruption d'asservissement
+    IntervalTimer motionControlInterruptTimer;
+    motionControlInterruptTimer.priority(253);
+    motionControlInterruptTimer.begin(motionControlInterrupt, MCS_PERIOD); // Setup de l'interruption d'asservissement
 
 
     // Timer pour steppers
@@ -70,9 +80,16 @@ int main() {
     stepperTimer.priority(253);
     stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
 
+	// Timer pour la mise à jour de la position
+	IntervalTimer posTimer; // TODO: Passer sur un Metro?
+	posTimer.priority(253);
+// FIXME 	posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
 
-    delay(1500);//Laisse le temps aux capteurs de clignotter leur ID
+	Serial.println("Starting...");
+    delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
+    ActuatorsMgr::Instance().initTorques();
 
+    Serial.println("Ready!");
 	/**
 	 * Boucle principale, y est géré:
 	 * La communication HL
@@ -80,13 +97,65 @@ int main() {
 	 * Les capteurs
 	 */
 
-    static Metro USSend = Metro(80);
+
+	int i=0;
 
     while (true) {
-		orderMgr.communicate();
-		orderMgr.refreshUS();
-		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-		USSend.check() ? orderMgr.sendUS() : void();
+
+        interruptStackPrint.print();
+        orderMgr.communicate();
+        //orderMgr.execute("cod");
+//		orderMgr.refreshUS();
+//		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
+		/*orderMgr.execute("rawposdata");
+
+		delay(10);
+        orderMgr.execute("rawposdata");
+
+        delay(10);
+        orderMgr.execute("rawposdata");
+
+        delay(10);
+        orderMgr.execute("rawposdata");
+
+        delay(10);
+        orderMgr.execute("rawposdata");
+
+        delay(10);
+        orderMgr.execute("rawposdata");
+
+        delay(10);
+
+		if (i==0){
+			orderMgr.execute("goto 1000 0");
+		}
+		int multiplier = 2;
+		if (i==100*multiplier){
+            orderMgr.execute("goto 0 0");
+        }
+        if (i==200*multiplier){
+            orderMgr.execute("goto 1000 0");
+        }
+        if (i==300*multiplier){
+            orderMgr.execute("goto 0 0");
+        }
+        /*if (i==400*multiplier){
+            orderMgr.execute("goto 200 0");
+        }
+        if (i==500*multiplier){
+            orderMgr.execute("goto 0 0");
+        }*/
+        /*if (i==600*multiplier){
+            orderMgr.execute("d 200");
+        }
+        if (i==700*multiplier){
+            orderMgr.execute("t 0");
+        }*/
+    	//if (i==1500){
+    	/*if (i==600*multiplier){
+			Serial.println("DATAEND");
+    	}
+		i++;*/
     }
 }
 
@@ -118,7 +187,7 @@ int main() {
 
 /*
  *   Dead Pingu in the Main !
- *      	      . --- .
+ *      	  . --- .
 		    /        \
 		   |  X  _  X |
 		   |  ./   \. |

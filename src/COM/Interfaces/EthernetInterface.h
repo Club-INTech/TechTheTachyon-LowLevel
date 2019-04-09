@@ -21,7 +21,7 @@ MOSI	11/11
 #include <SPI.h>
 #include <Ethernet.h>
 #include "MCS/MCSReborn.h"
-#include "Utils/pin_mapping_select.h"
+#include "Utils/pin_mapping.h"
 #include "AbstractComInterface.h"
 
 #define PORT 13500
@@ -42,11 +42,13 @@ private:
 
 	/* Attributs Ethernet */
 
-	EthernetServer server;
+	//EthernetServer server;
 	EthernetClient client;
 
 public:
 	EthernetInterface();
+	bool connect(IPAddress,int);
+	bool connected();
 	bool read(char*);
 	bool read(int32_t&);
 	bool read(int16_t&);

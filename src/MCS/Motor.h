@@ -19,13 +19,13 @@
 
 #include "Utils/safe_enum.hpp"
 #include <stdint.h>
-#include "Utils/pin_mapping_select.h"
+#include "Utils/pin_mapping.h"
 #include "Utils/utils.h"
 #include <Arduino.h>
 
 struct direction_def {
 	enum type {
-		BACKWARD, FORWARD
+		BACKWARD, FORWARD, NONE, BRAKE
 	};
 };
 struct side_def {
@@ -41,12 +41,13 @@ class Motor {
 private:
 	Side side;
 	Direction direction;
-	void setDirection(Direction);
 	uint8_t pin_pwm;
-	uint8_t pin_dir;
+	uint8_t pin_ina;
+	uint8_t pin_inb;
 public:
 	Motor(Side);
 	int16_t pwm;
+	void setDirection(Direction);
 	void init();
 	void run(int16_t);
 
@@ -56,6 +57,7 @@ public:
 	 * C'est juste mettre le PWM à 0 mais c'est plus propre niveau code :)
 	 */
 	void stop();
+	void brake();
 };
 
 #endif //COMPLETE_LOW_LEVEL_MOTOR_H

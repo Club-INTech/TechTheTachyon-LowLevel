@@ -18,8 +18,6 @@ ORDER(t,1);
 ORDER(goto,2);
 ORDER(followTrajectory,1);
 ORDER(stop,0);
-ORDER(emergencyStop,0);
-ORDER(resumeEmergencyStop,0);
 
 /*			 __________________
 * 		   *|                  |*
@@ -67,6 +65,9 @@ ORDER(rawspeed,0);
 ORDER(rawposdata,0);
 ORDER(reseteth,0);
 
+ORDER(disableTorque, 1);
+ORDER(enableTorque, 1);
+
 /*			 ___________________________
 * 		   *|                           |*
 *		   *|         MONTLHERY         |*
@@ -81,6 +82,8 @@ ORDER(rc,0);
 ORDER(td,0);
 ORDER(tg,0);
 ORDER(sstop,0);
+ORDER(maxtr,1);
+ORDER(maxro,1);
 
 /*			 _________________________________
 * 		   *|                                 |*
@@ -134,15 +137,22 @@ ORDER(ptpdemoseq,0);
 ORDER(XLm,2);
 ORDER(XLs,2);
 ORDER(dist,1);
+ORDER(dist2stock,1);
 ORDER(grnd,1);
 ORDER(stock,1);
 ORDER(acc,1);
 ORDER(gold,0);
 ORDER(bal,1);
-ORDER(torqueBras,1)
-ORDER(torqueXL,1)
+ORDER(pushPalet,1);
+ORDER(posinter,1);
+ORDER(torqueBras,1);
+ORDER(torqueXL,1);
+ORDER(brasToutDroit,1);
+ORDER(brasRecule,1);
+ORDER(posBras,1);
 
 /* Ascenseurs */
+// ce ne sont pas des ACTUATOR_ORDER parce que ces ordres sont exécutés en "parallèle"
 ORDER(up,1);
 ORDER(down,1);
 

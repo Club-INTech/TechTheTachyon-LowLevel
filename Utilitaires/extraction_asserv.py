@@ -8,8 +8,9 @@ from PIL import *
 from math import pi
 
 Tmesures = 0.01 #en secondes   
-consigneAngle = 1.0
-consignePos = 2000.0
+
+consigneAngle = 1.57
+consignePos = 250
 
 file = sys.argv[1]
 
@@ -26,6 +27,7 @@ ligne = fileStream.readline()
 positions = []
 positionsY = []
 vitessesY = []
+abscisses = []
 
 angles = []
 vitesseAngulaire = []
@@ -45,37 +47,41 @@ angleOver = False
 speedOver = [False,False]
 
 while(ligne!="DATAEND" and ligne):
+    ligneEntiere = ligne
     ligne = ligne.split(",")
-    if(len(ligne)==7):    
-        positions.append((float(ligne[0])**2+float(ligne[1])**2)**0.5)
-        angles.append(float(ligne[2])/pi)
-        for i in [0,1]:
-            speeds[i].append(float(ligne[3+2*i]))
-            speedSetpoints[i].append(float(ligne[4+2*i]))
-    
-        if(positions[-1] > consignePos and (mode == "" or mode == "pos") and not posOver):
-            print("DEPASSEMENT POS ", i*Tmesures)
-            posOver = True
-        elif(positions[-1] < consignePos and (mode == "" or mode == "pos") and posOver):
-            posOver = False
-        if(angles[-1] > consigneAngle and (mode == "" or mode == "angle") and not angleOver):
-            print("DEPASSEMENT ANGLE ",i*Tmesures)
-            angleOver = True
-        elif(angles[-1] < consigneAngle and (mode == "" or mode == "angle") and angleOver):
-            angleOver = False
-            
-        for i in [0,1]:
-            if(speeds[i][-1] > speedSetpoints[i][-1] and (mode == "" or mode == "speed") and not speedOver[i]):
-                if(i==0):
-                    print("DEPASSEMENT GAUCHE")
-                else:
-                    print("DEPASSEMENT DROIT")
-                speedOver[i] = True
-            elif(speeds[i][-1] < speedSetpoints[i][-1] and (mode == "" or mode == "speed") and speedOver[i]):
-                speedOver[i] = False
+    if(len(ligne)==7):
+        try:
+            positions.append((float(ligne[0])**2+float(ligne[1])**2)**0.5)
+            angles.append(float(ligne[2]))
+            for i in [0,1]:
+                speeds[i].append(float(ligne[3+2*i]))
+                speedSetpoints[i].append(float(ligne[4+2*i]))
 
-    
-        abscisses = [i*Tmesures for i in range(len(positions))]
+            if(positions[-1] > consignePos and (mode == "" or mode == "pos") and not posOver):
+                print("DEPASSEMENT POS ", i*Tmesures)
+                posOver = True
+            elif(positions[-1] < consignePos and (mode == "" or mode == "pos") and posOver):
+                posOver = False
+            if(angles[-1] > consigneAngle and (mode == "" or mode == "angle") and not angleOver):
+                print("DEPASSEMENT ANGLE ",i*Tmesures)
+                angleOver = True
+            elif(angles[-1] < consigneAngle and (mode == "" or mode == "angle") and angleOver):
+                angleOver = False
+
+            for i in [0,1]:
+                if(speeds[i][-1] > speedSetpoints[i][-1] and (mode == "" or mode == "speed") and not speedOver[i]):
+                    if(i==0):
+                        print("DEPASSEMENT GAUCHE")
+                    else:
+                        print("DEPASSEMENT DROIT")
+                    speedOver[i] = True
+                elif(speeds[i][-1] < speedSetpoints[i][-1] and (mode == "" or mode == "speed") and speedOver[i]):
+                    speedOver[i] = False
+
+
+            abscisses = [i*Tmesures for i in range(len(positions))]
+        except:
+            print("Erreur de parsing pour "+ligneEntiere)
         i+=1
     
     ligne = fileStream.readline()

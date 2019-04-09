@@ -10,23 +10,32 @@
 struct ControlSettings {
 
 public:
+    /* mm/s/MC_FREQ */
     float maxAcceleration;
-    float minAcceleration;
+    float maxDeceleration;
 
-    float maxSpeed;
+    /* mm/s */
     float maxTranslationSpeed;
+    uint8_t tolerancySpeed;
+
+    /*rad/s*/
     float maxRotationSpeed;
 
+    /* ms */
     uint8_t stopDelay;
 
+    /* mm */
     uint8_t tolerancyTranslation;
-    uint8_t tolerancyRotation;
-    uint8_t tolerancySpeed;
+    float tolerancyRadius;
+
+    /* rad */
+    float tolerancyAngle;
+
+    /* patate */
+    float tolerancyDifferenceSpeed;
+
     uint8_t tolerancyDiferential;
     uint8_t tolerancyDerivative;
-
-    uint8_t tolerancyRadius;
-    float tolerancyAngle;
 };
 
 #endif //LL_CONTROLSETTINGS_H
