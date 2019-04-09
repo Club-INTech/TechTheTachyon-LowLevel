@@ -38,13 +38,13 @@ void ComMgr::printfln(Header header,const char * data,...)
     va_list args;
     va_start(args,data);
 
-    char tmp[HEADER_LENGTH + 64];
+    char tmp[HEADER_LENGTH + MAX_MESSAGE_LENGTH];
     memcpy(tmp,header,HEADER_LENGTH);
     tmp[HEADER_LENGTH] = '\0';
 
     strcat(tmp+HEADER_LENGTH, data);
-    char formatted[HEADER_LENGTH + 64];
-    vsnprintf(formatted, HEADER_LENGTH+64, tmp, args);
+    char formatted[HEADER_LENGTH + MAX_MESSAGE_LENGTH];
+    vsnprintf(formatted, HEADER_LENGTH+MAX_MESSAGE_LENGTH, tmp, args);
 
     if( com_options & COM_OPTIONS::ETHERNET_W )
         ethernet->printfln(formatted);

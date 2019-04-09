@@ -6,34 +6,9 @@
 #include <COM/ComMgr.h>
 #include "Arm.h"
 
-Arm::Arm(DynamixelManager& manager, XL430 &base, XL430 &elbow, XL430 &wrist): manager(manager), base(base), elbow(elbow), wrist(wrist) {}
+Arm::Arm(const char* sideName, DynamixelManager& manager, XL430 &base, XL430 &elbow, XL430 &wrist): sideName(sideName), manager(manager), base(base), elbow(elbow), wrist(wrist) {}
 
 void Arm::initTorque() {
-    Serial.print("Unlocking EEPROM by disabling torque...");
-    setTorque(false);
-    Serial.println("Done!");
-
-    char returnDelay[] = {(char)0xFA};
-    Serial.print("Setting XL return delay to no delay... ");
-    syncReturnDelay->setMotorID(0, base.getId());
-    syncReturnDelay->setMotorID(1, elbow.getId());
-    syncReturnDelay->setMotorID(2, wrist.getId());
-    syncReturnDelay->setData(0, returnDelay);
-    syncReturnDelay->setData(1, returnDelay);
-    syncReturnDelay->setData(2, returnDelay);
-    syncReturnDelay->send();
-    Serial.println("Done!");
-/* A utiliser que quand un imbécile comme Xavier (moi) a tenté de changer le baudrate
-    uint8_t baudrateSelector = 1;
-    SyncWrite* baud = new SyncWrite(manager, 3, 8, 1);
-    baud->setMotorID(0, base.getId());
-    baud->setMotorID(1, elbow.getId());
-    baud->setMotorID(2, wrist.getId());
-    baud->setData(0, (char*)&baudrateSelector);
-    baud->setData(1, (char*)&baudrateSelector);
-    baud->setData(2, (char*)&baudrateSelector);
-    baud->send();*/
-
     syncMovingRead->setMotorID(0, base.getId());
     syncMovingRead->setMotorID(1, elbow.getId());
     syncMovingRead->setMotorID(2, wrist.getId());
@@ -46,27 +21,58 @@ void Arm::initTorque() {
     syncHardwareError->setMotorID(1, elbow.getId());
     syncHardwareError->setMotorID(2, wrist.getId());
 
-    Serial.print("Setting velocity limit... ");
-    char velocityLimit[] = {100, 0, 0, 0};
+    syncAngleWriteData->setMotorID(0, base.getId());
+    syncAngleWriteData->setMotorID(1, elbow.getId());
+    syncAngleWriteData->setMotorID(2, wrist.getId());
+
     syncVelocityLimit->setMotorID(0, base.getId());
     syncVelocityLimit->setMotorID(1, elbow.getId());
     syncVelocityLimit->setMotorID(2, wrist.getId());
+
+    syncReturnDelay->setMotorID(0, base.getId());
+    syncReturnDelay->setMotorID(1, elbow.getId());
+    syncReturnDelay->setMotorID(2, wrist.getId());
+
+    ComMgr::Instance().printf(DEBUG_HEADER, "Unlocking EEPROM by disabling torque...");
+    setTorque(false);
+    ComMgr::Instance().printfln(DEBUG_HEADER, "Done!");
+
+    char returnDelay[] = {(char)0xFA};
+    ComMgr::Instance().printf(DEBUG_HEADER, "Setting XL return delay to no delay... ");
+    syncReturnDelay->setData(0, returnDelay);
+    syncReturnDelay->setData(1, returnDelay);
+    syncReturnDelay->setData(2, returnDelay);
+    syncReturnDelay->send();
+    ComMgr::Instance().printfln(DEBUG_HEADER, "Done!");
+/* A utiliser que quand un imbécile comme Xavier (moi) a tenté de changer le baudrate
+    uint8_t baudrateSelector = 1;
+    SyncWrite* baud = new SyncWrite(manager, 3, 8, 1);
+    baud->setMotorID(0, base.getId());
+    baud->setMotorID(1, elbow.getId());
+    baud->setMotorID(2, wrist.getId());
+    baud->setData(0, (char*)&baudrateSelector);
+    baud->setData(1, (char*)&baudrateSelector);
+    baud->setData(2, (char*)&baudrateSelector);
+    baud->send();*/
+
+    ComMgr::Instance().printf(DEBUG_HEADER, "Setting velocity limit... ");
+    char velocityLimit[] = {100, 0, 0, 0};
     syncVelocityLimit->setData(0, velocityLimit);
     syncVelocityLimit->setData(1, velocityLimit);
     syncVelocityLimit->setData(2, velocityLimit);
     syncVelocityLimit->send();
 
-    Serial.print("Configuring moving threshold... ");
+    ComMgr::Instance().printf(DEBUG_HEADER, "Configuring moving threshold... ");
     char threshold[] = {10, 0, 0, 0};
-    Serial.printf("id:%i => %i\n", base.getId(), base.decapsulatePacket(manager.sendPacket(base.makeWritePacket(XL430::xl430MovingThreshold, threshold))));
-    Serial.printf("id:%i => %i\n", elbow.getId(), elbow.decapsulatePacket(manager.sendPacket(elbow.makeWritePacket(XL430::xl430MovingThreshold, threshold))));
-    Serial.printf("id:%i => %i\n", wrist.getId(), wrist.decapsulatePacket(manager.sendPacket(wrist.makeWritePacket(XL430::xl430MovingThreshold, threshold))));
+    ComMgr::Instance().printfln(DEBUG_HEADER, "id:%i => %i", base.getId(), base.decapsulatePacket(manager.sendPacket(base.makeWritePacket(XL430::xl430MovingThreshold, threshold))));
+    ComMgr::Instance().printfln(DEBUG_HEADER, "id:%i => %i", elbow.getId(), elbow.decapsulatePacket(manager.sendPacket(elbow.makeWritePacket(XL430::xl430MovingThreshold, threshold))));
+    ComMgr::Instance().printfln(DEBUG_HEADER, "id:%i => %i", wrist.getId(), wrist.decapsulatePacket(manager.sendPacket(wrist.makeWritePacket(XL430::xl430MovingThreshold, threshold))));
 
-    Serial.println("Done!");
+    ComMgr::Instance().printfln(DEBUG_HEADER, "Done!");
 
-    Serial.print("Toggling torque (and locking EEPROM)... ");
+    ComMgr::Instance().printf(DEBUG_HEADER, "Toggling torque (and locking EEPROM)... ");
     setTorque(true);
-    Serial.println("Done!");
+    ComMgr::Instance().printfln(DEBUG_HEADER, "Done!");
 
     askThreshold(base);
     askThreshold(elbow);
@@ -87,9 +93,24 @@ void Arm::prepareAngleData(unsigned int motorIndex, float angle) {
 }
 
 void Arm::setPosition(const float* positions) {
-    syncAngleWriteData->setMotorID(0, base.getId());
-    syncAngleWriteData->setMotorID(1, elbow.getId());
-    syncAngleWriteData->setMotorID(2, wrist.getId());
+    // récupère la position courante au cas où le mouvement échoue. Dans ce cas, les XL vont retourner à cette position courante et réessayer le mouvement
+    float basePos = 0.0f;
+    float elbowPos = 0.0f;
+    float wristPos = 0.0f;
+    // lecture des positions, avec réessai si échec de la comm
+    while(!base.getCurrentAngle(basePos)) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Echec de la lecture de la position actuelle du XL n°%i, réessai", base.getId());
+        delay(1);
+    }
+    while(!elbow.getCurrentAngle(elbowPos)) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Echec de la lecture de la position actuelle du XL n°%i, réessai", elbow.getId());
+        delay(1);
+    }
+    while(!wrist.getCurrentAngle(wristPos)) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Echec de la lecture de la position actuelle du XL n°%i, réessai", wrist.getId());
+        delay(1);
+    }
+    float actualPositions[] = {basePos, elbowPos, wristPos};
     prepareAngleData(0, positions[0]);
     prepareAngleData(1, positions[1]);
     prepareAngleData(2, positions[2]);
@@ -108,59 +129,44 @@ void Arm::setPosition(const float* positions) {
         sent[i] = v*base.getAngleFromValue();
     }
 
-    Serial.printf("Sending syncAngles: %f/%f/%f\n",
-            sent[0],
-            sent[1],
-            sent[2]);
+    ComMgr::Instance().printfln(DEBUG_HEADER, "Sending syncAngles: %f/%f/%f\n",
+                                sent[0],
+                                sent[1],
+                                sent[2]);
+
     syncAngleWriteData->send();
-    waitForStop(positions);
+    waitForStop(positions, actualPositions);
 }
 
-void Arm::waitForStop(const float* positions) {
-    //delay(750);
+void Arm::waitForStop(const float* positions, const float* previousPositions) {
     bool wristMoving;
     bool elbowMoving;
     bool baseMoving;
 
-    // 255,255,253,0,2,8,0,85,0,253,7,0,0,91,150,
-    bool movingStates[] = {true, true, true};
-    char movingStatuses[] = {0,0,0};
-    char hardwareErrors[] = {0,0,0};
     do {
         askThreshold(base);
         askThreshold(elbow);
         askThreshold(wrist);
-/*        askPosition(base);
-        askPosition(elbow);
-        askPosition(wrist);*/
         baseMoving = !askSpeed(base);
         elbowMoving = !askSpeed(elbow);
         wristMoving = !askSpeed(wrist);
-        /*baseMoving = askMoving(base);
-        elbowMoving = askMoving(elbow);
-        wristMoving = askMoving(wrist);*/
-        SerialUSB.printf("Moving = {%i %i %i}\n", baseMoving, elbowMoving, wristMoving); // TODO
-        /*syncMovingRead->read((char*)movingStates);
-        syncMovingStatus->read((char*)movingStatuses);
-        syncHardwareError->read((char*)hardwareErrors);
-        baseMoving = (movingStatuses[0] & 0x2) == 0;
-        elbowMoving = (movingStatuses[1] & 0x2) == 0;
-        wristMoving = (movingStatuses[2] & 0x2) == 0;
-        SerialUSB.printf("Current movement status = {%i %i %i}\n", movingStatuses[0], movingStatuses[1], movingStatuses[2]); // TODO
-        SerialUSB.printf("Currently moving = {%i %i %i}\n", movingStates[0], movingStates[1], movingStates[2]); // TODO
-        SerialUSB.printf("Errors = {%i %i %i}\n", hardwareErrors[0], hardwareErrors[1], hardwareErrors[2]); // TODO
-
-        if(movingStates[0] & 0x08 || movingStates[1] & 0x08 || movingStates[2] & 0x08) { // 'following error' -> le XL a échoué à arriver à la position demandée
-            SerialUSB.println("Echec du suivi de position");
-            syncAngleWriteData->send();
-            waitForStop();
-            break;
-        }*/
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Arm Moving = {%i %i %i}", baseMoving, elbowMoving, wristMoving); // TODO
     } while (wristMoving || elbowMoving || baseMoving);
     if( ! (askPosition(base, positions[0]) && askPosition(elbow, positions[1]) && askPosition(wrist, positions[2]))) { // si les positions n'ont pas été atteintes
-        ComMgr::Instance().printfln(DEBUG_HEADER, "Position non atteinte sur le bras (%i-%i-%i), nouvelle tentative", base.getId(), elbow.getId(), wrist.getId());
-        delay(10);
-        setPosition(positions); // on renvoie l'ordre de position!
+        if(retryMovementAttempts >= MAX_RETRY_ATTEMPTS) {
+            ComMgr::Instance().printfln(DEBUG_HEADER, "Position non atteinte sur le bras (%i-%i-%i) après %i tentatives, abandon", base.getId(), elbow.getId(), wrist.getId(), retryMovementAttempts);
+            ComMgr::Instance().printfln(EVENT_HEADER, "armPositionFail %s", sideName);
+        } else {
+            ComMgr::Instance().printfln(DEBUG_HEADER, "Position non atteinte sur le bras (%i-%i-%i), nouvelle tentative (n°%i)", base.getId(), elbow.getId(), wrist.getId(), retryMovementAttempts);
+            retryMovementAttempts++;
+            delay(10);
+            setPosition(previousPositions); // on renvoie l'ordre de position!
+
+            delay(10);
+            setPosition(positions); // on renvoie l'ordre de position!
+        }
+    } else {
+        retryMovementAttempts = 0;
     }
 }
 
@@ -171,13 +177,15 @@ bool Arm::askPosition(XL430 &xl, const float askedPosition) {
     bool valid2 = ask(XL430::xl430GoalAngle, xl, value2);
     value2 *= xl.getAngleFromValue();
     if(valid && valid2) {
-        Serial.printf("Current position for XL n°%i is %f\n", xl.getId(), value);
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Current position for XL n°%i is %f\n", xl.getId(), value);
         if(ABS(value-askedPosition) >= POSITION_THRESHOLD) {
-            Serial.printf("Threshold fail on XL %i (goal: %f; expected: %f; reached: %f; diff: %f)\n", xl.getId(), value2, askedPosition, value, ABS(value-askedPosition));
+            ComMgr::Instance().printfln(DEBUG_HEADER, "Threshold fail on XL %i (goal: %f; expected: %f; reached: %f; diff: %f)", xl.getId(), value2, askedPosition, value, ABS(value-askedPosition));
             return false;
+        } else {
+            ComMgr::Instance().printfln(DEBUG_HEADER, "Threshold success on XL %i (goal: %f; expected: %f; reached: %f; diff: %f)", xl.getId(), value2, askedPosition, value, ABS(value-askedPosition));
         }
     } else {
-        Serial.printf("Invalid packet received when asking position");
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet received when asking position");
     }
     return valid;
 }
@@ -186,9 +194,9 @@ bool Arm::askSpeed(XL430 &xl) {
     int value = 0;
     bool valid = ask(XL430::xl430CurrentVelocity, xl, value);
     if(valid) {
-        Serial.printf("Current velocity for XL n°%i is %i\n", xl.getId(), value);
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Current velocity for XL n°%i is %i", xl.getId(), value);
     } else {
-        Serial.printf("Invalid packet received when asking threshold");
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet received when asking threshold");
     }
     return valid && value < VELOCITY_THRESHOLD;
 }
@@ -197,9 +205,9 @@ bool Arm::askThreshold(XL430 &xl) {
     int value;
     bool valid = ask(XL430::xl430MovingThreshold, xl, value);
     if(valid) {
-        Serial.printf("Threshold for XL n°%i is %i\n", xl.getId(), value & ((1 << XL430::xl430MovingThreshold.length)-1));
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Threshold for XL n°%i is %i", xl.getId(), value & ((1 << XL430::xl430MovingThreshold.length)-1));
     } else {
-        Serial.printf("Invalid packet received when asking threshold");
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet received when asking threshold");
     }
     return valid;
 }
@@ -208,22 +216,22 @@ bool Arm::askOffset(XL430 &xl) {
     int value = 0;
     bool valid = ask(XL430::xl430MovingOffset, xl, value);
     if(valid) {
-        Serial.printf("MovingOffset for XL n°%i is %i\n", xl.getId(), value);
+        ComMgr::Instance().printfln(DEBUG_HEADER, "MovingOffset for XL n°%i is %i", xl.getId(), value);
     } else {
-        Serial.printf("Invalid packet received when asking MovingStatus");
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet received when asking MovingStatus");
     }
     return valid && (value & 0x1) != 0;
 }
 
 bool Arm::ask(const DynamixelAccessData& data, XL430& xl, float& value) {
-    Serial.println("Asking for movement...");
+    ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for movement...");
     DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
     const char* answer = manager.sendPacket(requestPacket);
     return xl.decapsulatePacket(answer, value);
 }
 
 bool Arm::ask(const DynamixelAccessData& data, XL430& xl, int& value) {
-    Serial.println("Asking for movement...");
+    ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for movement...");
     DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
     const char* answer = manager.sendPacket(requestPacket);
     return xl.decapsulatePacket(answer, value);

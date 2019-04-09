@@ -16,6 +16,8 @@ private:
     XL430& base;
     XL430& elbow;
     XL430& wrist;
+    uint16_t retryMovementAttempts;
+    const char* sideName;
     char* syncAngles = new char[XL430::xl430GoalAngle.length*3];
     XL430* XLlist = new XL430[3]{base,elbow,wrist};
     SyncWrite* syncVelocityLimit = new SyncWrite(manager, 3, XL430::xl430VelocityLimit);
@@ -34,7 +36,7 @@ private:
     bool ask(const DynamixelAccessData& data, XL430& xl, float& value);
 
 public:
-    Arm(DynamixelManager& manager, XL430& base, XL430& elbow, XL430& wrist);
+    Arm(const char* sideName, DynamixelManager& manager, XL430& base, XL430& elbow, XL430& wrist);
     void initTorque();
     void setPosition(const float* position);
     XL430* getXLlist();
@@ -45,8 +47,10 @@ public:
 
     /**
      * Attends que le bras ait fini de bouger. Si le bras n'est pas à la position demandée, cette méthode rappelle 'setPosition' pour essayer de corriger la position
+     * @param positions la position à atteindre
+     * @param previousPositions la position avant de tenter le mouvement, permet de réessayer le mouvement s'il échoue
      */
-    void waitForStop(const float* positions);
+    void waitForStop(const float* positions, const float* previousPositions);
 };
 
 
