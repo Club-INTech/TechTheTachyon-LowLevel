@@ -92,7 +92,7 @@ void Arm::prepareAngleData(unsigned int motorIndex, float angle) {
     }
 }
 
-void Arm::setPosition(const float* positions) {
+void Arm::setPosition(const float* positions, uint16_t retryMovementAttempts) {
     // récupère la position courante au cas où le mouvement échoue. Dans ce cas, les XL vont retourner à cette position courante et réessayer le mouvement
     float basePos = 0.0f;
     float elbowPos = 0.0f;
@@ -135,10 +135,10 @@ void Arm::setPosition(const float* positions) {
                                 sent[2]);
 
     syncAngleWriteData->send();
-    waitForStop(positions, actualPositions);
+    waitForStop(positions, actualPositions, retryMovementAttempts);
 }
 
-void Arm::waitForStop(const float* positions, const float* previousPositions) {
+void Arm::waitForStop(const float* positions, const float* previousPositions, uint16_t retryMovementAttempts) {
     bool wristMoving;
     bool elbowMoving;
     bool baseMoving;
@@ -158,12 +158,11 @@ void Arm::waitForStop(const float* positions, const float* previousPositions) {
             ComMgr::Instance().printfln(EVENT_HEADER, "armPositionFail %s", sideName);
         } else {
             ComMgr::Instance().printfln(DEBUG_HEADER, "Position non atteinte sur le bras (%i-%i-%i), nouvelle tentative (n°%i)", base.getId(), elbow.getId(), wrist.getId(), retryMovementAttempts);
-            retryMovementAttempts++;
             delay(10);
-            setPosition(previousPositions); // on renvoie l'ordre de position!
+            setPosition(previousPositions, retryMovementAttempts+1); // on renvoie l'ordre de position!
 
             delay(10);
-            setPosition(positions); // on renvoie l'ordre de position!
+            setPosition(positions, retryMovementAttempts+1); // on renvoie l'ordre de position!
         }
     } else {
         retryMovementAttempts = 0;

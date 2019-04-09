@@ -16,7 +16,6 @@ private:
     XL430& base;
     XL430& elbow;
     XL430& wrist;
-    uint16_t retryMovementAttempts;
     const char* sideName;
     char* syncAngles = new char[XL430::xl430GoalAngle.length*3];
     XL430* XLlist = new XL430[3]{base,elbow,wrist};
@@ -38,7 +37,7 @@ private:
 public:
     Arm(const char* sideName, DynamixelManager& manager, XL430& base, XL430& elbow, XL430& wrist);
     void initTorque();
-    void setPosition(const float* position);
+    void setPosition(const float* position, uint16_t retryMovementAttempts = 0);
     XL430* getXLlist();
 
     void fetchAngles(float angles[3]);
@@ -50,7 +49,7 @@ public:
      * @param positions la position à atteindre
      * @param previousPositions la position avant de tenter le mouvement, permet de réessayer le mouvement s'il échoue
      */
-    void waitForStop(const float* positions, const float* previousPositions);
+    void waitForStop(const float* positions, const float* previousPositions, uint16_t retryMovementAttempts);
 };
 
 
