@@ -547,9 +547,7 @@ void ORDER_suck::impl(Args args)
     if (!strcmp(args[0], "right")) {
         digitalWrite(RIGHT_PUMP_PIN, HIGH);
     }
-    else {
-        digitalWrite(LEFT_PUMP_PIN, HIGH);
-    }
+
 }
 
 void ORDER_unsuck::impl(Args args)
@@ -557,69 +555,23 @@ void ORDER_unsuck::impl(Args args)
     if (!strcmp(args[0], "right")) {
         digitalWrite(RIGHT_PUMP_PIN, LOW);
     }
-    else{
-        digitalWrite(LEFT_PUMP_PIN, LOW);
-    }
+
 }
 
 void ORDER_up::impl(Args args)
 {
     //int nbPas = 700;
-    if (!strcmp(args[0], "right")) {
-        /*digitalWrite(DIR_PIN_RIGHT, HIGH);
 
-        for (int i = 0; i < nbPas; ++i) {
-            digitalWrite(STEP_PIN_RIGHT, HIGH);
-            delayMicroseconds(ELEVATOR_TEMPO);
-            digitalWrite(STEP_PIN_RIGHT, LOW);
-            delayMicroseconds(ELEVATOR_TEMPO);
-        }*/
-        ActuatorsMgr::Instance().moveRightStepper(1);
-        orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
-    }
-    else{
-        /*digitalWrite(DIR_PIN_LEFT, HIGH);
-
-        for (int i = 0; i < nbPas; ++i) {
-            digitalWrite(STEP_PIN_LEFT, HIGH);
-            delayMicroseconds(ELEVATOR_TEMPO);
-            digitalWrite(STEP_PIN_LEFT, LOW);
-            delayMicroseconds(ELEVATOR_TEMPO);
-        }*/
-        orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper gauche de 1 unité!\n");
-        ActuatorsMgr::Instance().moveLeftStepper(1);
-    }
+    ActuatorsMgr::Instance().moveRightStepper(1);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
 
 }
 
 void ORDER_down::impl(Args args)
 {
-    //int nbPas = 700;
-    if (!strcmp(args[0], "right")) {
-       /* digitalWrite(DIR_PIN_RIGHT, LOW);
+    ActuatorsMgr::Instance().moveRightStepper(-1);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
 
-        for (int i = 0; i < nbPas; ++i) {
-            digitalWrite(STEP_PIN_RIGHT, HIGH);
-            delayMicroseconds(ELEVATOR_TEMPO);
-            digitalWrite(STEP_PIN_RIGHT, LOW);
-            delayMicroseconds(ELEVATOR_TEMPO);
-        }*/
-
-        ActuatorsMgr::Instance().moveRightStepper(-1);
-        orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
-    }
-    else{
-      /*  digitalWrite(DIR_PIN_LEFT, LOW);
-
-        for (int i = 0; i < nbPas; ++i) {
-            digitalWrite(STEP_PIN_LEFT, HIGH);
-            delayMicroseconds(ELEVATOR_TEMPO);
-            digitalWrite(STEP_PIN_LEFT, LOW);
-            delayMicroseconds(ELEVATOR_TEMPO);
-        }*/
-        ActuatorsMgr::Instance().moveLeftStepper(-1);
-        orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper gauche de 1 unité!\n");
-    }
 }
 
 void ORDER_dist::impl(Args args)
@@ -757,7 +709,7 @@ void ORDER_torqueBras::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    float couple[3] = {0, 0, 0};
+    /*float couple[3] = {0, 0, 0};
     if (!strcmp(args[1], "sol"))
     {
         for (int i = 0; i < 3; i++)
@@ -803,9 +755,9 @@ void ORDER_torqueBras::impl(Args args)
                 orderManager.highLevel.printfln(DEBUG_HEADER, "torque failed");
             }
         }
-    }
+    }*/
 }
-
+/*
 void ORDER_torqueXL :: impl(Args args){
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
@@ -817,4 +769,4 @@ void ORDER_torqueXL :: impl(Args args){
         orderManager.highLevel.printfln(DEBUG_HEADER,"%s","couple failed");
 
     }
-}
+}*/

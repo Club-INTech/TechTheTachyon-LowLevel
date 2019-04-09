@@ -61,7 +61,6 @@ public:
 	void handleInterrupt();
 	void initPWMs();
 	void initTorques();
-	void moveLeftStepper(int32_t count);
 	void moveRightStepper(int32_t count);
 
 };

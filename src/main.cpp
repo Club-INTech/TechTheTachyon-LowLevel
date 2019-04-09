@@ -38,9 +38,7 @@ int main() {
 	/* Actuators */
 	// Par sécurité on met tout les actuators à LOW quand on les initialise
 	/* Pompe */
-	pinMode(LEFT_PUMP_PIN,OUTPUT);
 	pinMode(RIGHT_PUMP_PIN,OUTPUT);
-	digitalWrite(LEFT_PUMP_PIN,LOW);
 	digitalWrite(RIGHT_PUMP_PIN,LOW);
 
 	/* Electrovanne */
