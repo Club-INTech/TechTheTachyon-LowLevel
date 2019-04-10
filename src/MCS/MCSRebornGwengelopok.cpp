@@ -24,9 +24,9 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     rightSpeedPID.setTunings(1.35, 0.005, 40, 0);
     rightSpeedPID.enableAWU(false);*/
 
-    leftSpeedPID.setTunings(1, 0, 0, 0);
+    leftSpeedPID.setTunings(1, 0, 20, 0);
     leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(1, 0, 0, 0);
+    rightSpeedPID.setTunings(0.8, 0, 20, 0);
     rightSpeedPID.enableAWU(false);
 
     translationPID.setTunings(0,0,0,0);

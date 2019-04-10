@@ -86,6 +86,7 @@ int main() {
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 		orderMgr.execute("rawposdata");
+		orderMgr.execute("cod");
 
 		delay(60);
 
