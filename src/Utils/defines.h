@@ -74,7 +74,7 @@ constexpr float     TICK_TO_RADIAN = TICK_TO_MM / DISTANCE_COD_GAUCHE_CENTRE; //
 *  Différents seuils des XL
 */
 constexpr uint32_t VELOCITY_THRESHOLD = 10; // en unités de Dynamixel (1 -> ~0.2 rpm)
-constexpr float POSITION_THRESHOLD = 2.5f; // en degrés
+constexpr float POSITION_THRESHOLD = 3.5f; // en degrés
 
 /**
  * Steppers
