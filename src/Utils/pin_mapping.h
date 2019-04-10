@@ -9,19 +9,19 @@ constexpr uint8_t RST = 24;
 
 
 /* Moteurs */
-constexpr uint8_t INA_LEFT = 8;
-constexpr uint8_t INB_LEFT = 9;
-constexpr uint8_t PIN_PWM_LEFT = 7;
+constexpr uint8_t INA_LEFT = 28;
+constexpr uint8_t INB_LEFT = 27;
+constexpr uint8_t PIN_PWM_LEFT = 25;
 
-constexpr uint8_t INA_RIGHT = 27;
-constexpr uint8_t INB_RIGHT = 28;
-constexpr uint8_t PIN_PWM_RIGHT = 25;
+constexpr uint8_t INA_RIGHT = 8;
+constexpr uint8_t INB_RIGHT = 9;
+constexpr uint8_t PIN_PWM_RIGHT = 7;
 
 /* Roues codeuses */
-constexpr uint8_t ENCODER_LEFT_A = 29;
-constexpr uint8_t ENCODER_LEFT_B = 30;
-constexpr uint8_t ENCODER_RIGHT_A = 3;
-constexpr uint8_t ENCODER_RIGHT_B = 4;
+constexpr uint8_t ENCODER_LEFT_A = 3;
+constexpr uint8_t ENCODER_LEFT_B = 4;
+constexpr uint8_t ENCODER_RIGHT_A = 29;
+constexpr uint8_t ENCODER_RIGHT_B = 30;
 
 /* CAPTEURS */
 constexpr uint8_t PIN_JMPR = 10;

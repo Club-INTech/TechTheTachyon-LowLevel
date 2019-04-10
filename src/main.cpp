@@ -85,29 +85,17 @@ int main() {
        // orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-		//orderMgr.execute("rawposdata");
+		orderMgr.execute("rawposdata");
 
-		delay(10);
+		delay(60);
 
     	if (i==5){
-    	//	orderMgr.execute("av");
-    	}/*
-    	if (i==200){
-    		orderMgr.execute("d 500");
+    	    orderMgr.execute("av");
     	}
-    	if (i==300){
-			orderMgr.execute("t -3.14");
-		}
-		if (i==400){
-			orderMgr.execute("d 500");
-		}
-		if (i==500){
-			orderMgr.execute("d -500");
-		}*/
     	if (i==220){
 			Serial.println("DATAEND");
     	}
-//		i++;
+		i++;
     }
 }
 
