@@ -432,6 +432,13 @@ void MCS::sendPositionUpdate() {
 void MCS::resetEncoders() {
     encoderLeft->write(0);
     encoderRight->write(0);
+    previousLeftTicks = 0;
+    previousRightTicks = 0;
+    leftTicks = 0;
+    rightTicks = 0;
+    currentDistance = 0;
+    translationPID.setGoal(currentDistance);
+    rotationPID.setGoal(robotStatus.orientation);
 }
 
 void MCS::disableP2P() {
