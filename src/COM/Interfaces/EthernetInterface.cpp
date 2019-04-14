@@ -40,7 +40,7 @@ void EthernetInterface::resetCard() {
     Ethernet.begin(mac, ip, dns, gateway, subnet);
     Ethernet.setLocalIP(ip);
 
-    while(!connect({192,168,0,2},13500))
+    while(!connect({192,168,1,2},13500))
     {
         delay(10);
         Serial.println("Retry ethernet connection ...");
