@@ -429,6 +429,11 @@ void MCS::sendPositionUpdate() {
     InterruptStackPrint::Instance().push(POSITION_HEADER, tmp);
 }
 
+void MCS::resetEncoders() {
+    encoderLeft->write(0);
+    encoderRight->write(0);
+}
+
 void MCS::disableP2P() {
     trajectory.clear();
     robotStatus.controlledP2P = false;

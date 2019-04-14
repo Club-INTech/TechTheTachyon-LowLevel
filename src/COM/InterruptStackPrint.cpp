@@ -28,6 +28,7 @@ void InterruptStackPrint::print()
             for( uint8_t i=0 ; i < current_size ; i++)
             {
                 ComMgr::Instance().printfln(headerStack[i], "%s", stack[i].c_str());
+                ComMgr::Instance().printfln(DEBUG_HEADER, "StackPrint n°%i/%i", i, current_size);
             }
             current_size=0;
         }
@@ -37,6 +38,7 @@ void InterruptStackPrint::print()
             for( uint8_t i=0 ; i < current_size ; i++)
             {
                 ComMgr::Instance().printfln(headerStack[i], "%s", stack[i].c_str());
+                ComMgr::Instance().printfln(DEBUG_HEADER, "StackPrint n°%i/%i", i, current_size);
             }
             current_size=0;
     }
