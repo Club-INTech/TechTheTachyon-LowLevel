@@ -8,7 +8,7 @@ constexpr uint8_t CS = 10;
 constexpr uint8_t RST = 24;
 
 
-/* Moteurs */
+// Moteurs
 constexpr uint8_t INA_LEFT = 28;
 constexpr uint8_t INB_LEFT = 27;
 constexpr uint8_t PIN_PWM_LEFT = 25;
@@ -17,11 +17,12 @@ constexpr uint8_t INA_RIGHT = 8;
 constexpr uint8_t INB_RIGHT = 9;
 constexpr uint8_t PIN_PWM_RIGHT = 7;
 
-/* Roues codeuses */
+//Roues codeuses
 constexpr uint8_t ENCODER_LEFT_B = 3;
 constexpr uint8_t ENCODER_LEFT_A = 4;
 constexpr uint8_t ENCODER_RIGHT_B = 29;
 constexpr uint8_t ENCODER_RIGHT_A = 30;
+/*
 
 /* CAPTEURS */
 constexpr uint8_t PIN_JMPR = 10;
