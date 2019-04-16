@@ -83,7 +83,7 @@ int main() {
 	// Timer pour la mise à jour de la position
 	IntervalTimer posTimer; // TODO: Passer sur un Metro?
 	posTimer.priority(253);
-    posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
+    //posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
 
 	Serial.println("Starting...");
     delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
@@ -107,55 +107,42 @@ int main() {
         //orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-		/*orderMgr.execute("rawposdata");
 
-		delay(10);
+		delay(60);
         orderMgr.execute("rawposdata");
 
-        delay(10);
-        orderMgr.execute("rawposdata");
 
-        delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-
-		if (i==0){
-			orderMgr.execute("goto 1000 0");
-		}
-		int multiplier = 2;
-		if (i==100*multiplier){
-            orderMgr.execute("goto 0 0");
+        if (i==5){
+            orderMgr.execute("t 0.60");
         }
-        if (i==200*multiplier){
-            orderMgr.execute("goto 1000 0");
-        }
-        if (i==300*multiplier){
-            orderMgr.execute("goto 0 0");
-        }
-        /*if (i==400*multiplier){
-            orderMgr.execute("goto 200 0");
-        }
-        if (i==500*multiplier){
-            orderMgr.execute("goto 0 0");
-        }*/
-        /*if (i==600*multiplier){
-            orderMgr.execute("d 200");
-        }
-        if (i==700*multiplier){
+        if (i==75){
             orderMgr.execute("t 0");
+        }
+		/*if (i==150){
+			orderMgr.execute("t 1.57");
+		}
+		if (i==225){
+			orderMgr.execute("t 0");
+		}
+        if (i==300){
+        	orderMgr.execute("t 3.14");
         }*/
-    	//if (i==1500){
-    	/*if (i==600*multiplier){
+        if (i==150){
 			Serial.println("DATAEND");
     	}
-		i++;*/
+		/*if (i==375){
+			orderMgr.execute("t 0");
+		}*/
+		/*if (i==300){
+			orderMgr.execute("t 3.14");
+		}
+		if (i==375){
+			orderMgr.execute("t 0");
+		}
+		if (i==450){
+			orderMgr.execute("t 3.14");
+		}*/
+		i++;
     }
 }
 

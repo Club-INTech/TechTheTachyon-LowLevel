@@ -34,7 +34,8 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     translationPID.enableAWU(false);
 //    rotationPID180.setTunings(6.5,0.0001,0,0);
 //    rotationPID.setTunings(8.75,0.000001,0,0);
-    rotationPID.setTunings(18,0.000001,0,0);
+  //  rotationPID.setTunings(18,0.000001,0,0);
+    rotationPID.setTunings(3.5,0.000001,0,0);
 //    rotationPID90.setTunings(10.3,0.0001,12,0);
 //    rotationPID180.enableAWU(false);
 //    rotationPID90.enableAWU(false);
@@ -52,7 +53,7 @@ void MCS::initSettings() {
     controlSettings.maxDeceleration = 1;//2;
 
     /* rad/s */
-    controlSettings.maxRotationSpeed = 0.5*PI;
+    controlSettings.maxRotationSpeed = 2*PI;
 
 
     /* mm/s */
@@ -329,12 +330,15 @@ void MCS::rotate(float angle) {
 
     }
 
-    /*if((45<ABS(differenceAngle) and ABS(differenceAngle)<135)){
-        rotationPID.setTunings(10.3,0.0001,12,0);
+    if((1.57<ABS(differenceAngle) and ABS(differenceAngle)<=3.14)){
+        rotationPID.setTunings(3.5,0.000001,0,0);
     }
-    else{
-        rotationPID.setTunings(6.5,0.0001,0,0);
-    }*/
+    else if ((0.75<ABS(differenceAngle) and ABS(differenceAngle)<=1.57)){
+        rotationPID.setTunings(5.1,0.000001,0,0);
+    }
+    else {
+        rotationPID.setTunings(9,0.000001,0,0);
+    }
     if( ! rotationPID.active) {
         rotationPID.fullReset();
         rotationPID.active = true;
