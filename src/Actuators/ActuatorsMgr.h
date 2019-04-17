@@ -49,8 +49,8 @@ public:
 	XL430* motor5 = (XL430*) dynamixelManager->createMotor(5, XL430GeneratorFunction);//new XL430(5,*manager);
 	XL430* motor6 = (XL430*) dynamixelManager->createMotor(6, XL430GeneratorFunction);//new XL430(6,*manager);
 
-	Arm* leftArm = new Arm("left", *dynamixelManager, *motor4, *motor5, *motor6);
-	Arm* rightArm = new Arm("right", *dynamixelManager, *motor1, *motor2, *motor3);
+	Arm* leftArm = new Arm("left", *dynamixelManager, *motor1, *motor2, *motor3);
+	Arm* rightArm = new Arm("right", *dynamixelManager, *motor4, *motor5, *motor6);
 
 	ActuatorsMgr();
 	~ActuatorsMgr();

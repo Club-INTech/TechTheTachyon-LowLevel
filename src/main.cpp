@@ -83,7 +83,7 @@ int main() {
 	// Timer pour la mise à jour de la position
 	IntervalTimer posTimer; // TODO: Passer sur un Metro?
 	posTimer.priority(253);
-    //posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
+    posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
 
 	Serial.println("Starting...");
     delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
@@ -96,53 +96,9 @@ int main() {
 	 * L'execution des ordres de ce dernier
 	 * Les capteurs
 	 */
-
-
-	int i=0;
-
     while (true) {
-
         interruptStackPrint.print();
         orderMgr.communicate();
-        //orderMgr.execute("cod");
-//		orderMgr.refreshUS();
-//		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-
-		delay(60);
-        orderMgr.execute("rawposdata");
-
-
-        if (i==5){
-            orderMgr.execute("t 0.60");
-        }
-        if (i==75){
-            orderMgr.execute("t 0");
-        }
-		/*if (i==150){
-			orderMgr.execute("t 1.57");
-		}
-		if (i==225){
-			orderMgr.execute("t 0");
-		}
-        if (i==300){
-        	orderMgr.execute("t 3.14");
-        }*/
-        if (i==150){
-			Serial.println("DATAEND");
-    	}
-		/*if (i==375){
-			orderMgr.execute("t 0");
-		}*/
-		/*if (i==300){
-			orderMgr.execute("t 3.14");
-		}
-		if (i==375){
-			orderMgr.execute("t 0");
-		}
-		if (i==450){
-			orderMgr.execute("t 3.14");
-		}*/
-		i++;
     }
 }
 
