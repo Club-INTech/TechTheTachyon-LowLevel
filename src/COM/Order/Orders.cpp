@@ -113,6 +113,10 @@ void ORDER_cxyo::impl(Args args)
     orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
     orderManager.motionControlSystem.setY(orderManager.parseFloat(args[1]));
     orderManager.motionControlSystem.setAngle(orderManager.parseFloat(args[2]));
+
+    // Mise à jour de l'offset et du target des codeuses. Faut pas tourner parce que le HL te dit où t'es. Je sais il est pas gentil mais faut l'accepter
+    orderManager.motionControlSystem.setAngleOffset(orderManager.parseFloat(args[2]));
+    orderManager.motionControlSystem.resetEncoders();
     orderManager.highLevel.printfln(DEBUG_HEADER, "X,Y,O set");
 }
 
@@ -869,4 +873,23 @@ void ORDER_torqueXL :: impl(Args args){
     else{
         orderManager.highLevel.printfln(DEBUG_HEADER,"%s","couple failed");
     }
+}
+
+void ORDER_waitJumper::impl(Args args) {
+    // ============================
+    // Commenter pour les tests
+    // ============================
+    Serial.println("Waiting for jumper...");
+
+    digitalWrite(LED1, HIGH);
+
+    // attente de front
+    while(digitalRead(PIN_JMPR) == HIGH);
+    while(digitalRead(PIN_JMPR) == LOW);
+    ComMgr::Instance().printfln(EVENT_HEADER, "gogogofast");
+    digitalWrite(LED1, LOW);
+
+    // ============================
+    // Fin de Commenter pour les tests
+    // ============================
 }

@@ -41,6 +41,9 @@ Header ATOM_COLOR_HEADER = { 0x20, 0x26 };
 // Séparateurs des mots d'ordres
 #define SEPARATOR  " "
 
+constexpr uint16_t MAX_MESSAGE_LENGTH = 256;
+constexpr uint16_t MAX_RETRY_ATTEMPTS = 1;
+
 // Fréquence d'envoi de la position
 constexpr uint8_t F_ENV_POS = 50;
 
@@ -68,8 +71,10 @@ constexpr float     TICK_TO_MM = static_cast<float>(PI*COD_WHEEL_DIAMETER/TICKS_
 constexpr float     TICK_TO_RADIAN = TICK_TO_MM / DISTANCE_COD_GAUCHE_CENTRE; // Unité : rad/ticks
 
 /**
-* Capteurs
+*  Différents seuils des XL
 */
+constexpr uint32_t VELOCITY_THRESHOLD = 10; // en unités de Dynamixel (1 -> ~0.2 rpm)
+constexpr float POSITION_THRESHOLD = 3.5f; // en degrés
 
 /**
  * Steppers

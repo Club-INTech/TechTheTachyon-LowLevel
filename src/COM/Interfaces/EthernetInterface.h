@@ -31,9 +31,9 @@ class EthernetInterface : public AbstractComInterface
 private:
 	//Param�tres TCP/IP
 	uint8_t mac[6]{ 0x04, 0xE9, 0xE5, 0x04, 0xE9, 0xE5 };  //Addresse mac de la Teensy, ne pas changer
-	IPAddress ip{ 192,168,0,1 };
+	IPAddress ip{ 192,168,1,1 };
 	IPAddress dns{ 8,8,8,8 };
-	IPAddress gateway{ 192,168,0,2 };
+	IPAddress gateway{ 192,168,1,2 };
 	IPAddress subnet{ 255,255,255,0 };
 
 	bool read_char(char & buffer);

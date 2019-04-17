@@ -83,7 +83,7 @@ int main() {
 	// Timer pour la mise à jour de la position
 	IntervalTimer posTimer; // TODO: Passer sur un Metro?
 	posTimer.priority(253);
-	posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
+    posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
 
 	Serial.println("Starting...");
     delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
@@ -96,66 +96,9 @@ int main() {
 	 * L'execution des ordres de ce dernier
 	 * Les capteurs
 	 */
-
-
-	int i=0;
-
     while (true) {
-
         interruptStackPrint.print();
         orderMgr.communicate();
-        //orderMgr.execute("cod");
-//		orderMgr.refreshUS();
-//		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-		/*orderMgr.execute("rawposdata");
-
-		delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-
-		if (i==0){
-			orderMgr.execute("goto 1000 0");
-		}
-		int multiplier = 2;
-		if (i==100*multiplier){
-            orderMgr.execute("goto 0 0");
-        }
-        if (i==200*multiplier){
-            orderMgr.execute("goto 1000 0");
-        }
-        if (i==300*multiplier){
-            orderMgr.execute("goto 0 0");
-        }
-        /*if (i==400*multiplier){
-            orderMgr.execute("goto 200 0");
-        }
-        if (i==500*multiplier){
-            orderMgr.execute("goto 0 0");
-        }*/
-        /*if (i==600*multiplier){
-            orderMgr.execute("d 200");
-        }
-        if (i==700*multiplier){
-            orderMgr.execute("t 0");
-        }*/
-    	//if (i==1500){
-    	/*if (i==600*multiplier){
-			Serial.println("DATAEND");
-    	}
-		i++;*/
     }
 }
 
