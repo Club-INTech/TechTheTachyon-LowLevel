@@ -321,13 +321,15 @@ void MCS::rotate(float angle) {
 
     float differenceAngle = robotStatus.orientation-targetAngle;
 
-    if((robotStatus.orientation<0 && targetAngle>0)){
-        differenceAngle+=2*PI;
-    }
-    if((targetAngle<0&&robotStatus.orientation>0)){
-        differenceAngle-=2*PI;
+    if(ABS(differenceAngle) > PI)
+    {
+        float signe = ABS(differenceAngle)/differenceAngle;
+        float ratio = floor(ABS(differenceAngle)/PI);
+        targetAngle -= signe*2*PI*ratio;
 
+        differenceAngle = robotStatus.orientation-targetAngle;
     }
+
 
     /*if((45<ABS(differenceAngle) and ABS(differenceAngle)<135)){
         rotationPID.setTunings(10.3,0.0001,12,0);
