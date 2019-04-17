@@ -39,11 +39,11 @@ constexpr uint8_t SICK_PINS[NBR_OF_DISTANCE_SENSOR] = {
 // ! Inversées par rapport au pin mapping !
 constexpr uint8_t STEP_PIN_RIGHT = 22; //vitesse
 constexpr uint8_t DIR_PIN_RIGHT = 23; //direction
-constexpr uint8_t RST_PIN_RIGHT = 21; //reset
+constexpr uint8_t RST_PIN_RIGHT = 99; //reset
 
 constexpr uint8_t STEP_PIN_LEFT = 17; //vitesse
 constexpr uint8_t DIR_PIN_LEFT = 20; //direction
-constexpr uint8_t RST_PIN_LEFT = 21; //reset
+constexpr uint8_t RST_PIN_LEFT = 99; //reset
 
 // ! Inversées par rapport au pin mapping !
 

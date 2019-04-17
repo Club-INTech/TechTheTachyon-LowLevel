@@ -96,9 +96,23 @@ int main() {
 	 * L'execution des ordres de ce dernier
 	 * Les capteurs
 	 */
+	 /*digitalWrite(LED1,HIGH);
+	 int i = 0;*/
     while (true) {
         interruptStackPrint.print();
         orderMgr.communicate();
+/*        orderMgr.execute("rawposdata");
+        if (i==0){
+            orderMgr.execute("t 3.14");
+        }
+        delay(10);
+        if (i==300) {
+            orderMgr.execute("t -3.14");
+        }
+        if (i==1200) {
+            Serial.println("DATAEND");
+        }
+        i++;*/
     }
 }
 

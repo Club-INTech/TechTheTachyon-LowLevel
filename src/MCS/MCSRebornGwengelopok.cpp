@@ -321,12 +321,12 @@ void MCS::rotate(float angle) {
     targetAngle = angle;
 
     float differenceAngle = robotStatus.orientation-targetAngle;
-
     if(ABS(differenceAngle) > PI)
     {
         float signe = ABS(differenceAngle)/differenceAngle;
         float ratio = floor(ABS(differenceAngle)/PI);
-        targetAngle -= signe*2*PI*ratio;
+        targetAngle += signe*2*PI*ratio;
+
 
         differenceAngle = robotStatus.orientation-targetAngle;
     }
@@ -346,7 +346,7 @@ void MCS::rotate(float angle) {
     }
     robotStatus.movement = (differenceAngle < PI && differenceAngle > - PI) ? MOVEMENT::TRIGO : MOVEMENT::ANTITRIGO;
 
-    rotationPID.setGoal(angle);
+    rotationPID.setGoal(targetAngle);
     robotStatus.moving = true;
 }
 
