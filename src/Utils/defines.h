@@ -42,7 +42,7 @@ Header ATOM_COLOR_HEADER = { 0x20, 0x26 };
 #define SEPARATOR  " "
 
 constexpr uint16_t MAX_MESSAGE_LENGTH = 256;
-constexpr uint16_t MAX_RETRY_ATTEMPTS = 3;
+constexpr uint16_t MAX_RETRY_ATTEMPTS = 1;
 
 // Fréquence d'envoi de la position
 constexpr uint8_t F_ENV_POS = 50;

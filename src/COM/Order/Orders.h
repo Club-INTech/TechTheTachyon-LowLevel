@@ -152,7 +152,6 @@ ORDER(brasRecule,1);
 ORDER(posBras,1);
 
 /* Ascenseurs */
-// ce ne sont pas des ACTUATOR_ORDER parce que ces ordres sont exécutés en "parallèle"
 ORDER(up,1);
 ORDER(down,1);
 
@@ -165,9 +164,12 @@ ORDER(valveoff,1);
 /*Electron*/
 ORDER(elec,0);
 
+/* SICK */
 ORDER(testSICK, 1);
 ORDER(rangeSICK, 3);
 ORDER(lectureSICK, 0);
+
+ORDER(waitJumper, 0);
 
 
 #endif //TECHTHETOWN_LOWLEVEL_ORDERS_H

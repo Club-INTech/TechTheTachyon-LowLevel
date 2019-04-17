@@ -874,3 +874,22 @@ void ORDER_torqueXL :: impl(Args args){
         orderManager.highLevel.printfln(DEBUG_HEADER,"%s","couple failed");
     }
 }
+
+void ORDER_waitJumper::impl(Args args) {
+    // ============================
+    // Commenter pour les tests
+    // ============================
+    Serial.println("Waiting for jumper...");
+
+    digitalWrite(LED1, HIGH);
+
+    // attente de front
+    while(digitalRead(PIN_JMPR) == HIGH);
+    while(digitalRead(PIN_JMPR) == LOW);
+    ComMgr::Instance().printfln(EVENT_HEADER, "gogogofast");
+    digitalWrite(LED1, LOW);
+
+    // ============================
+    // Fin de Commenter pour les tests
+    // ============================
+}
