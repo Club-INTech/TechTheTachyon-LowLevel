@@ -321,7 +321,7 @@ void MCS::rotate(float angle) {
     targetAngle = angle;
 
     float differenceAngle = robotStatus.orientation-targetAngle;
-    if(ABS(differenceAngle) > PI)
+    while(ABS(differenceAngle) > PI)
     {
         float signe = ABS(differenceAngle)/differenceAngle;
         float ratio = floor(ABS(differenceAngle)/PI);
