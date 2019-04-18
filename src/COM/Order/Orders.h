@@ -170,6 +170,7 @@ ORDER(rangeSICK, 3);
 ORDER(lectureSICK, 0);
 
 ORDER(waitJumper, 0);
+ORDER(endMatch, 0);
 
 
 #endif //TECHTHETOWN_LOWLEVEL_ORDERS_H
