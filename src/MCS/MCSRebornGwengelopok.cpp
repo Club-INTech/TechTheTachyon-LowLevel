@@ -311,6 +311,7 @@ void MCS::translate(int16_t amount) {
     robotStatus.movement = amount > 0 ? MOVEMENT::FORWARD : MOVEMENT::BACKWARD;
     translationPID.setGoal(amount + currentDistance);
     robotStatus.moving = true;
+    digitalWrite(LED2,LOW);
 }
 
 void MCS::rotate(float angle) {
@@ -348,6 +349,7 @@ void MCS::rotate(float angle) {
 
     rotationPID.setGoal(targetAngle);
     robotStatus.moving = true;
+    digitalWrite(LED2,LOW);
 }
 
 /*void MCS::gotoPoint(int16_t x, int16_t y, bool sequential) {
