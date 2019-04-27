@@ -3,6 +3,7 @@
 //
 
 #include "MCSReborn.h"
+#include "../Utils/utils.h"
 
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
@@ -25,17 +26,17 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     rightSpeedPID.enableAWU(false);*/
 
     //leftSpeedPID.setTunings(1.9, 0.004, 25, 17);
-    leftSpeedPID.setTunings(1.5, 0.002, 35, 0);
+    leftSpeedPID.setTunings(1.7, 0.002, 40, 0);
     leftSpeedPID.enableAWU(false);
     //rightSpeedPID.setTunings(1.75, 0.0063, 31.5, 10);
-    rightSpeedPID.setTunings(1, 0.001, 50, 0);
+    rightSpeedPID.setTunings(1.5, 0.002, 40, 0);
     rightSpeedPID.enableAWU(false);
 
-    translationPID.setTunings(0,0,0,0);
+    translationPID.setTunings(4.4,0.000001,0,0);
     translationPID.enableAWU(false);
 //    rotationPID180.setTunings(6.5,0.0001,0,0);
 //    rotationPID.setTunings(8.75,0.000001,0,0);
-    rotationPID.setTunings(0,0,0,0);
+    rotationPID.setTunings(8,0.000001,0,0);
 //    rotationPID90.setTunings(10.3,0.0001,12,0);
 //    rotationPID180.enableAWU(false);
 //    rotationPID90.enableAWU(false);
@@ -300,12 +301,15 @@ void MCS::rotate(float angle) {
 
     float differenceAngle = rotationPID.getCurrentState()-targetAngle;
 
-    /*if((45<ABS(differenceAngle) and ABS(differenceAngle)<135)){
-        rotationPID.setTunings(10.3,0.0001,12,0);
+    if((57<ABS(differenceAngle) and ABS(differenceAngle)<135)){
+        rotationPID.setTunings(7.75,0.000001,0,0);
+    }
+    else if(ABS(differenceAngle)>135){
+        rotationPID.setTunings(7,0.000001,0,0);
     }
     else{
-        rotationPID.setTunings(6.5,0.0001,0,0);
-    }*/
+        rotationPID.setTunings(8,0.000001,0,0);
+    }
     if( ! rotationPID.active) {
         rotationPID.fullReset();
         rotationPID.active = true;
