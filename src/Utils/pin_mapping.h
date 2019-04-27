@@ -20,8 +20,8 @@ constexpr uint8_t PIN_PWM_RIGHT = 7;
 //Roues codeuses
 constexpr uint8_t ENCODER_LEFT_B = 3;
 constexpr uint8_t ENCODER_LEFT_A = 4;
-constexpr uint8_t ENCODER_RIGHT_B = 29;
-constexpr uint8_t ENCODER_RIGHT_A = 30;
+constexpr uint8_t ENCODER_RIGHT_B = 30;
+constexpr uint8_t ENCODER_RIGHT_A = 29;
 /*
 
 /* CAPTEURS */
