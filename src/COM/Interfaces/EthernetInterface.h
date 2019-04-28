@@ -60,6 +60,8 @@ public:
 	void printf(const char *);
 
 	void resetCard();
+
+    void reconnectIfNeeded();
 };
 
 #endif

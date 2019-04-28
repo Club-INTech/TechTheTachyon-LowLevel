@@ -106,16 +106,9 @@ inline bool EthernetInterface::read(char* order)
     {
         setIP();                                // On essaye de la re-définir
     }
-/*
-    if( !client.connected() )
-    {
-        while(!connect({192,168,0,2},13500))
-        {
-            delay(10);
-            Serial.println("Retry ethernet connection ...");
-        }
-    }
-    */
+
+    reconnectIfNeeded();
+
     int length = client.available();
     if( length > 0 )
     {
@@ -180,15 +173,21 @@ bool EthernetInterface::read(float& value) {
 }
 
 void EthernetInterface::printf(const char *message) {
-    if(client.connected())
-    {
-        client.print(message);
-    }
+    reconnectIfNeeded();
+    client.print(message);
 }
 
 void EthernetInterface::printfln(const char* message) {
-	if(client.connected())
-    {
-	    client.println(message);
+	reconnectIfNeeded();
+    client.println(message);
+}
+
+void EthernetInterface::reconnectIfNeeded() {
+    if( ! client.connected()) {
+        ComMgr::Instance().printOnSerial("Retry ethernet connection\n");
+        while(!connect({192,168,1,2},13500)) {
+            ComMgr::Instance().printOnSerial("Retry ethernet connection ...\n");
+            delay(10);
+        }
     }
 }
