@@ -39,6 +39,8 @@ void EthernetInterface::resetCard() {
     Ethernet.init(CS);
     Ethernet.begin(mac, ip, dns, gateway, subnet);
     Ethernet.setLocalIP(ip);
+    Ethernet.setRetransmissionTimeout(50);
+    Ethernet.setRetransmissionCount(4);
 
     while(!connect({192,168,1,2},13500))
     {
@@ -183,6 +185,9 @@ void EthernetInterface::printfln(const char* message) {
 }
 
 void EthernetInterface::reconnectIfNeeded() {
+    /*char statusStr[128];
+    sprintf(statusStr, "Client status: %i", client.status());
+    ComMgr::Instance().printOnSerial(statusStr);*/
     if( ! client.connected()) {
         ComMgr::Instance().printOnSerial("Retry ethernet connection\n");
         while(!connect({192,168,1,2},13500)) {
