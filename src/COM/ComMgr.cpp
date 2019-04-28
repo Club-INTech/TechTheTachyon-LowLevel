@@ -5,7 +5,6 @@
 #include "ComMgr.h"
 
 ComMgr::ComMgr() {
-    sdlog = new SDLog();
     if(com_options & SERIAL_W) {
         while(!Serial);
         Serial.begin(115200);
@@ -15,6 +14,7 @@ ComMgr::ComMgr() {
         ethernet = new EthernetInterface();
     }
     serial = new SerialInterface();
+    sdlog = new SDLog();
 }
 
 bool ComMgr::connectedEthernet()

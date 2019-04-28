@@ -23,10 +23,11 @@ public:
     explicit operator bool();
 
 private:
-    static constexpr uint8_t fileCount = 6;
-    const char* headerList[fileCount]{STD_HEADER, DEBUG_HEADER, SENSOR_HEADER, POSITION_HEADER, EVENT_HEADER, SICK_HEADER};
+    static constexpr uint8_t headerCount = 6;
+    static constexpr uint8_t fileCount = 8;
+    const char* headerList[headerCount]{STD_HEADER, DEBUG_HEADER, SENSOR_HEADER, POSITION_HEADER, EVENT_HEADER, SICK_HEADER};
 
-    const char* fileList[fileCount]{"/STD.TXT","/DEBUG.TXT","/SENSOR.TXT","/SENSOR.TXT", "/EVENT.TXT", "/SICK.TXT"};
+    const char* fileList[fileCount]{"/FULL.TXT", "/INPUT.TXT", "/STD.TXT","/DEBUG.TXT","/SENSOR.TXT","/SENSOR.TXT", "/EVENT.TXT", "/SICK.TXT"};
 
     File fileStreams[fileCount];
 
