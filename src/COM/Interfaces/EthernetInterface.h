@@ -42,9 +42,6 @@ private:
 
 	/* Attributs Ethernet */
 
-	//EthernetServer server;
-	EthernetClient client;
-
 public:
 	EthernetInterface();
 	bool connect(IPAddress,int);
@@ -62,6 +59,13 @@ public:
 	void resetCard();
 
     void reconnectIfNeeded();
+
+//EthernetServer server;
+EthernetClient client = EthernetClient(0);
+	int sentCount = 0;
+
+	void flushRoutine();
 };
+static EthernetInterface* interfaceInstance;
 
 #endif

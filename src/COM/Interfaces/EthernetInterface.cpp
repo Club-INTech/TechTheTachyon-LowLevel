@@ -6,23 +6,29 @@
 */
 
 #include "EthernetInterface.h"
+#include <utility/w5100.h>
 
 void testInterrupt() {
-    InterruptStackPrint::Instance().push(DEBUG_HEADER, "INT Wiz");
-    // clear
-    // TODO
+    if(interfaceInstance) {
+        char formatted[128];
+        sprintf(formatted, "INT Wiz %i", W5100.readSnIR(interfaceInstance->client.getSocketNumber()));
+        InterruptStackPrint::Instance().push(DEBUG_HEADER, formatted);
+        // clear
+        W5100.writeSnIR(interfaceInstance->client.getSocketNumber(), 0);
+    }
 }
 
 EthernetInterface::EthernetInterface()
 {
 	resetCard();
+    interfaceInstance = this;
 
 	setIP();
 
     Serial.print("Ethernet Ready\nLocal ip: ");
     Serial.println(Ethernet.localIP());
 
-    attachInterrupt(INT, testInterrupt, RISING);
+    attachInterrupt(INT, testInterrupt, CHANGE);
 }
 
 void EthernetInterface::resetCard() {
@@ -46,6 +52,28 @@ void EthernetInterface::resetCard() {
 
     Ethernet.init(CS);
     Ethernet.begin(mac, ip, dns, gateway, subnet);
+
+
+    // Use No Delayed ACK (cf http://wizwiki.net/wiki/lib/exe/fetch.php?media=products:w5500:w5500_ds_v108e.pdf - 4.2 Socket Registers)
+    uint8_t mr = W5100.readSnMR(0);
+    W5100.writeSnMR(0, static_cast<uint8_t>(mr | (1 << 5)));
+
+    for(int i = 0;i<MAX_SOCK_NUM;i++) {
+        W5100.writeSnRX_SIZE(i, 0);
+        W5100.writeSnTX_SIZE(i, 0);
+    }
+    W5100.writeSnRX_SIZE(0, 4);
+    W5100.writeSnTX_SIZE(0, 4);
+
+    // set pointeurs de RX et TX au début du bloc sur la socket #0
+/*    W5100.writeSnRX_WR(0, 0);
+    W5100.writeSnRX_RD(0, 0);
+    W5100.writeSnTX_RD(0, 0);
+    W5100.writeSnTX_WR(0, 0);
+*/
+    // clear buffers RX et TX de la socket #0
+    // TODO
+
     Ethernet.setLocalIP(ip);
     Ethernet.setRetransmissionTimeout(50);
     Ethernet.setRetransmissionCount(2);
@@ -72,13 +100,14 @@ bool EthernetInterface::connect(IPAddress ip, int port)
     bool ret = client.connect(ip,port);
     if(ret)
     {
-        Serial.print("CONNECTED TO : ");
+        Serial.printf("CONNECTED ON SOCKET #%i TO : ", client.getSocketNumber());
         Serial.print(client.remoteIP());
         Serial.print(":");
         Serial.println(client.remotePort());
         Serial.print("Current ip is ");
         Ethernet.localIP().printTo(Serial);
         Serial.println();
+        Serial.printf("Sent count is %i\n", sentCount);
     }
     else
     {
@@ -190,21 +219,30 @@ bool EthernetInterface::read(float& value) {
 
 void EthernetInterface::printf(const char *message) {
     reconnectIfNeeded();
+    sentCount++;
     client.print(message);
+    flushRoutine();
 }
 
 void EthernetInterface::printfln(const char* message) {
 	reconnectIfNeeded();
+	sentCount++;
     client.println(message);
+    flushRoutine();
 }
 
 void EthernetInterface::reconnectIfNeeded() {
     //Serial.printf("Client status: %i\n", client.status());
     if( ! client.connected()) {
-        ComMgr::Instance().printOnSerial("Retry ethernet connection\n");
+        Serial.println("Retry ethernet connection\n");
         while(!connect({192,168,1,2},13500)) {
-            ComMgr::Instance().printOnSerial("Retry ethernet connection...\n");
+            Serial.println("Retry ethernet connection...\n");
             delay(10);
         }
     }
+}
+
+void EthernetInterface::flushRoutine() {
+    client.flush();
+    Serial.printf("Available: %i", client.availableForWrite());
 }

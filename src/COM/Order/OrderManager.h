@@ -37,6 +37,7 @@ private:
 	bool basicDetectionFinishedSent;
 	char readMessage[RX_BUFFER_SIZE];
     char charIDLastMessage;
+    uint64_t messageCount = 0;
 
 public:
 	HookList hookList;

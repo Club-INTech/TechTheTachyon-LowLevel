@@ -20,7 +20,8 @@ OrderManager::OrderManager():
 void OrderManager::communicate() {
     if (highLevel.read(readMessage)) {
         // TODO: debug only
-        highLevel.printfln(DEBUG_HEADER, "Received '''%s'''\n", readMessage);
+        highLevel.printfln(DEBUG_HEADER, "(%lli) Received '''%s'''\n", messageCount, readMessage);
+        messageCount++;
         execute(readMessage);
     }
 
@@ -47,14 +48,11 @@ void OrderManager::communicate() {
         executeHooks();
     }
 
-    static Metro sendPos = Metro(50);
+    static Metro sendPos = Metro(100);
     if (com_options & COM_OPTIONS::ETHERNET_W && sendPos.check()) {
         MCS::Instance().sendPositionUpdate();
-     }
+    }
  }
-
-
-
 
  void OrderManager::execute(const char* orderToExecute)
  {
