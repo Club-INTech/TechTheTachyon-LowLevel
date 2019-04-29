@@ -49,15 +49,7 @@ void OrderManager::communicate() {
 
     static Metro sendPos = Metro(50);
     if (com_options & COM_OPTIONS::ETHERNET_W && sendPos.check()) {
-        /* FIXME  if (motionControlSystem.isMoving()) {
-             float posToSend[3]={motionControlSystem.getX(), motionControlSystem.getY(), motionControlSystem.getAngleRadian()};
-             highLevel.sendPosition(posToSend);
-         } else {
-             if (motionControlSystem.previousIsMoving()){
-                 highLevel.sendEvent("stoppedMoving");
-                 motionControlSystem.setPreviousIsMoving(false);
-             }
-         }*/
+        MCS::Instance().sendPositionUpdate();
      }
  }
 

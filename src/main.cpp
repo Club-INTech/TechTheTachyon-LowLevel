@@ -86,10 +86,10 @@ int main() {
     stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
 
 	// Timer pour la mise à jour de la position
-	IntervalTimer posTimer; // TODO: Passer sur un Metro?
+/*	IntervalTimer posTimer; // TODO: Passer sur un Metro?
 	posTimer.priority(253);
     posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
-
+*/
 	Serial.println("Starting...");
     delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
     ActuatorsMgr::Instance().initTorques();

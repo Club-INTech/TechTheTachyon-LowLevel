@@ -884,8 +884,12 @@ void ORDER_waitJumper::impl(Args args) {
     digitalWrite(LED1, HIGH);
 
     // attente de front
-    while(digitalRead(PIN_JMPR) == HIGH);
-    while(digitalRead(PIN_JMPR) == LOW);
+    while(digitalRead(PIN_JMPR) == HIGH) {
+        InterruptStackPrint::Instance().print();
+    }
+    while(digitalRead(PIN_JMPR) == LOW) {
+        InterruptStackPrint::Instance().print();
+    }
     ComMgr::Instance().printfln(EVENT_HEADER, "gogogofast");
     digitalWrite(LED1, LOW);
 

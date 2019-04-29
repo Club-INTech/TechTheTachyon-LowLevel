@@ -16,7 +16,7 @@ constexpr uint32_t MIN_TIME_BETWEEN_GOTO_TR_ROT = 500; // en ticks d'asserv'
 constexpr uint8_t RX_BUFFER_SIZE = 64; // Taille max des messages
 constexpr uint8_t RX_WORD_COUNT = 10; // Nombre de mots max par ordre
 
-constexpr uint8_t INTERRUPT_PRINT_STACK_MAX_SIZE = 20;
+constexpr uint8_t INTERRUPT_PRINT_STACK_MAX_SIZE = 200;
 
 constexpr uint8_t NBR_OF_US_SENSOR = 0;
 constexpr uint8_t NBR_OF_DISTANCE_SENSOR = 6;

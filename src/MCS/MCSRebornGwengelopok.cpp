@@ -433,7 +433,8 @@ void MCS::sendPositionUpdate() {
     tmp.append(" ");
     tmp.append(robotStatus.orientation);
     tmp.append(" ");
-    InterruptStackPrint::Instance().push(POSITION_HEADER, tmp);
+    //InterruptStackPrint::Instance().push(POSITION_HEADER, tmp);
+    ComMgr::Instance().printfln(POSITION_HEADER, tmp.c_str());
 }
 
 void MCS::resetEncoders() {

@@ -7,6 +7,12 @@
 
 #include "EthernetInterface.h"
 
+void testInterrupt() {
+    InterruptStackPrint::Instance().push(DEBUG_HEADER, "INT Wiz");
+    // clear
+    // TODO
+}
+
 EthernetInterface::EthernetInterface()
 {
 	resetCard();
@@ -15,6 +21,8 @@ EthernetInterface::EthernetInterface()
 
     Serial.print("Ethernet Ready\nLocal ip: ");
     Serial.println(Ethernet.localIP());
+
+    attachInterrupt(INT, testInterrupt, RISING);
 }
 
 void EthernetInterface::resetCard() {
@@ -40,7 +48,7 @@ void EthernetInterface::resetCard() {
     Ethernet.begin(mac, ip, dns, gateway, subnet);
     Ethernet.setLocalIP(ip);
     Ethernet.setRetransmissionTimeout(50);
-    Ethernet.setRetransmissionCount(4);
+    Ethernet.setRetransmissionCount(2);
 
     while(!connect({192,168,1,2},13500))
     {
@@ -68,6 +76,9 @@ bool EthernetInterface::connect(IPAddress ip, int port)
         Serial.print(client.remoteIP());
         Serial.print(":");
         Serial.println(client.remotePort());
+        Serial.print("Current ip is ");
+        Ethernet.localIP().printTo(Serial);
+        Serial.println();
     }
     else
     {
@@ -75,6 +86,9 @@ bool EthernetInterface::connect(IPAddress ip, int port)
         Serial.print(client.remoteIP());
         Serial.print(":");
         Serial.println(client.remotePort());
+        Serial.print("Current ip is ");
+        Ethernet.localIP().printTo(Serial);
+        Serial.println();
     }
     return ret;
 }
@@ -185,13 +199,11 @@ void EthernetInterface::printfln(const char* message) {
 }
 
 void EthernetInterface::reconnectIfNeeded() {
-    /*char statusStr[128];
-    sprintf(statusStr, "Client status: %i", client.status());
-    ComMgr::Instance().printOnSerial(statusStr);*/
+    //Serial.printf("Client status: %i\n", client.status());
     if( ! client.connected()) {
         ComMgr::Instance().printOnSerial("Retry ethernet connection\n");
         while(!connect({192,168,1,2},13500)) {
-            ComMgr::Instance().printOnSerial("Retry ethernet connection ...\n");
+            ComMgr::Instance().printOnSerial("Retry ethernet connection...\n");
             delay(10);
         }
     }

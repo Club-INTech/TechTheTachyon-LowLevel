@@ -6,6 +6,7 @@
 /* Ethernet */
 constexpr uint8_t CS = 9;
 constexpr uint8_t RST = 29;
+constexpr uint8_t INT = 30;
 
 /* Moteurs */
 constexpr uint8_t INA_LEFT = 2;
