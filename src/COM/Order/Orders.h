@@ -144,6 +144,11 @@ ORDER(torqueBras,1);
 //ORDER(torqueXL,1);
 ORDER(brasToutDroit,1);
 
+
+/* Pousse palet en dehors des ascenceurs */
+ORDER(oust,0);
+ORDER(range,0);
+
 /* Ascenseurs */
 ORDER(up,1);
 ORDER(down,1);

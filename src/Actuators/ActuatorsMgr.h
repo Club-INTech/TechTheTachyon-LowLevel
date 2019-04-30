@@ -17,6 +17,7 @@
 
 #include "ActuatorValues.h"
 #include "Arm.h"
+#include "../Utils/Singleton.hpp"
 #include <vector>
 
 static HardwareSerial& XLSerial = Serial1;
@@ -48,9 +49,12 @@ public:
 	XL430* motor4 = (XL430*) dynamixelManager->createMotor(4, XL430GeneratorFunction);//new XL430(4,*manager);
 	XL430* motor5 = (XL430*) dynamixelManager->createMotor(5, XL430GeneratorFunction);//new XL430(5,*manager);
 	XL430* motor6 = (XL430*) dynamixelManager->createMotor(6, XL430GeneratorFunction);//new XL430(6,*manager);
+	//XL qui pousse les palets
+	XL430* motor7 = (XL430*) dynamixelManager->createMotor(7, XL430GeneratorFunction);//new XL430(7,*manager);
 
 	Arm* leftArm = new Arm(*dynamixelManager, *motor4, *motor5, *motor6);
 	Arm* rightArm = new Arm(*dynamixelManager, *motor1, *motor2, *motor3);
+	Arm* robot2Arm = new Arm(*dynamixelManager, *motor1, *motor2, *motor3);
 
 	ActuatorsMgr();
 	~ActuatorsMgr();

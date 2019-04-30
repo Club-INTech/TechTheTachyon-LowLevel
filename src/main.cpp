@@ -85,19 +85,19 @@ int main() {
        // orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-		orderMgr.execute("rawposdata");
+		//orderMgr.execute("rawposdata");
 		//orderMgr.execute("cod");
 
-		delay(60);
+		//delay(60);
 
-    	if (i==5){
+    	/*if (i==5){
     	    //orderMgr.execute("av");
     	    orderMgr.execute(("t 0.7"));
     	}
     	if (i==150){
 			Serial.println("DATAEND");
     	}
-		i++;
+		i++;*/
     }
 }
 

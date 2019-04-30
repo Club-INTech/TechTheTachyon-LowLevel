@@ -3,8 +3,11 @@
 //
 
 
+#include <XL430.h>
 #include "Orders.h"
 #include "../../MCS/RobotStatus.h"
+#include "../../Utils/pin_mapping.h"
+#include "../../Actuators/ActuatorsMgr.h"
 
 void ORDER_ping::impl(Args args)
 {
@@ -572,6 +575,21 @@ void ORDER_down::impl(Args args)
     ActuatorsMgr::Instance().moveRightStepper(-1);
     orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
 
+}
+
+void ORDER_oust::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    XL430* mot = manager.motor3;
+    mot->setGoalAngle(200);
+    mot->changeLED(1);
+}
+
+void ORDER_range::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    XL430* mot = manager.motor3;
+    mot->setGoalAngle(180);
 }
 
 void ORDER_dist::impl(Args args)
