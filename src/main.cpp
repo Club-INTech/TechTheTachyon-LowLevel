@@ -76,7 +76,7 @@ int main() {
 
     // MotionControlSystem interrupt on timer
     IntervalTimer motionControlInterruptTimer;
-    motionControlInterruptTimer.priority(253);
+    motionControlInterruptTimer.priority(0);
     motionControlInterruptTimer.begin(motionControlInterrupt, MCS_PERIOD); // Setup de l'interruption d'asservissement
 
 

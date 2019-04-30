@@ -20,6 +20,7 @@ MOSI	11/11
 #include "Utils/defines.h"
 #include <SPI.h>
 #include <Ethernet.h>
+#include <utility/w5100.h>
 #include "MCS/MCSReborn.h"
 #include "Utils/pin_mapping.h"
 #include "AbstractComInterface.h"
@@ -65,6 +66,8 @@ EthernetClient client = EthernetClient(0);
 	int sentCount = 0;
 
 	void flushRoutine();
+
+    void wizMemoryDump();
 };
 static EthernetInterface* interfaceInstance;
 

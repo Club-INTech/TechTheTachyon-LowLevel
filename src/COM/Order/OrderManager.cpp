@@ -48,8 +48,8 @@ void OrderManager::communicate() {
         executeHooks();
     }
 
-    static Metro sendPos = Metro(100);
-    if (com_options & COM_OPTIONS::ETHERNET_W && sendPos.check()) {
+    static Metro sendPos = Metro(50);
+    if (sendPos.check()) {
         MCS::Instance().sendPositionUpdate();
     }
  }
