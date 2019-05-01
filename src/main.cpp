@@ -76,7 +76,7 @@ int main() {
 	 * L'execution des ordres de ce dernier
 	 * Les capteurs
 	 */
-    orderMgr.execute("montlhery");
+    //orderMgr.execute("montlhery");
 
 	int i=0;
 
@@ -91,8 +91,8 @@ int main() {
 		delay(60);
 
     	if (i==5){
-    	    orderMgr.execute("av");
-    	    //orderMgr.execute(("t 0.7"));
+    	    //orderMgr.execute("av");
+    	    orderMgr.execute(("t 0.4"));
     	}
     	if (i==150){
 			Serial.println("DATAEND");

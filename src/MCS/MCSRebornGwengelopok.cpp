@@ -36,7 +36,7 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     translationPID.enableAWU(false);
 //    rotationPID180.setTunings(6.5,0.0001,0,0);
 //    rotationPID.setTunings(8.75,0.000001,0,0);
-    rotationPID.setTunings(8,0.000001,0,0);
+    rotationPID.setTunings(14.5,0,0,0);
 //    rotationPID90.setTunings(10.3,0.0001,12,0);
 //    rotationPID180.enableAWU(false);
 //    rotationPID90.enableAWU(false);
@@ -301,7 +301,7 @@ void MCS::rotate(float angle) {
 
     float differenceAngle = rotationPID.getCurrentState()-targetAngle;
 
-    if((57<ABS(differenceAngle) and ABS(differenceAngle)<135)){
+    /*if((57<ABS(differenceAngle) and ABS(differenceAngle)<135)){
         rotationPID.setTunings(7.75,0.000001,0,0);
     }
     else if(ABS(differenceAngle)>135){
@@ -309,7 +309,7 @@ void MCS::rotate(float angle) {
     }
     else{
         rotationPID.setTunings(8,0.000001,0,0);
-    }
+    }*/
     if( ! rotationPID.active) {
         rotationPID.fullReset();
         rotationPID.active = true;
