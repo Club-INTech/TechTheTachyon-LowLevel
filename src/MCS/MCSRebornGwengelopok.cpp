@@ -40,7 +40,7 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     rotationPID.setTunings(16.5,0.000001,0,0);
 //    rotationPID90.setTunings(10.3,0.0001,12,0);
 //    rotationPID180.enableAWU(false);
-    rotationPID.enableAWU(true);
+    rotationPID.enableAWU(false);
     leftMotor.init();
     rightMotor.init();
 }
@@ -62,7 +62,7 @@ void MCS::initSettings() {
     controlSettings.tolerancySpeed = 100;
 
     /* rad */
-    controlSettings.tolerancyAngle = 0.005;
+    controlSettings.tolerancyAngle = 0.05;
 
     /* mm */
     controlSettings.tolerancyTranslation = 1;
@@ -299,20 +299,24 @@ void MCS::rotate(float angle) {
         return;
     }
     targetAngle = angle;
-
     float differenceAngle = rotationPID.getCurrentState()-targetAngle;
-    Serial.println( "targetAngle =" );
-    Serial.println( targetAngle );
-    Serial.printf( "differenceAngle = %f\n", differenceAngle );
-    Serial.println( differenceAngle );
-    if((57<ABS(differenceAngle) and ABS(differenceAngle)<135)){
+    while(ABS(differenceAngle) > PI)
+    {
+        float signe = ABS(differenceAngle)/differenceAngle;
+        float ratio = floor(ABS(differenceAngle)/PI);
+        targetAngle += signe*2*PI*ratio;
+
+
+        differenceAngle = robotStatus.orientation-targetAngle;
+    }
+    if((0.994838<ABS(differenceAngle) and ABS(differenceAngle)<2.35619)){
         rotationPID.setTunings(7.75,0.000001,0,0);
     }
-    else if(ABS(differenceAngle)>135){
+    else if(ABS(differenceAngle)>2.35619){
         rotationPID.setTunings(7,0.000001,0,0);
     }
     else{
-        rotationPID.setTunings(-13.64*ABS(differenceAngle)+20.63,0.000001,0,0);
+        rotationPID.setTunings(-13.64*ABS(differenceAngle)+20.63,0.00005,0,0);
     }
     if( ! rotationPID.active) {
         rotationPID.fullReset();

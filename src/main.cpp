@@ -92,7 +92,7 @@ int main() {
 
     	if (i==5){
     	    //orderMgr.execute("av");
-    	    orderMgr.execute(("t 0.3"));
+    	    orderMgr.execute(("t 0.9"));
     	}
     	if (i==150){
 			Serial.println("DATAEND");
