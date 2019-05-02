@@ -713,13 +713,20 @@ void ORDER_testSICK::impl(Args args) {
 
 void ORDER_lectureSICK::impl(Args args) {
     SensorMgr mgr = SensorMgr::Instance();
-    orderManager.highLevel.printfln(SICK_HEADER, "%d %d %d %d %d %d",
-            mgr.getDistanceSensor(0).readDistance(),
-            mgr.getDistanceSensor(1).readDistance(),
-            mgr.getDistanceSensor(2).readDistance(),
-            mgr.getDistanceSensor(3).readDistance(),
-            mgr.getDistanceSensor(4).readDistance(),
-            mgr.getDistanceSensor(5).readDistance());
+    if(NBR_OF_DISTANCE_SENSOR == 3) {
+        orderManager.highLevel.printfln(SICK_HEADER, "%d %d %d",
+                                        mgr.getDistanceSensor(0).readDistance(),
+                                        mgr.getDistanceSensor(1).readDistance(),
+                                        mgr.getDistanceSensor(2).readDistance());
+    } else {
+        orderManager.highLevel.printfln(SICK_HEADER, "%d %d %d %d %d %d",
+                                        mgr.getDistanceSensor(0).readDistance(),
+                                        mgr.getDistanceSensor(1).readDistance(),
+                                        mgr.getDistanceSensor(2).readDistance(),
+                                        mgr.getDistanceSensor(3).readDistance(),
+                                        mgr.getDistanceSensor(4).readDistance(),
+                                        mgr.getDistanceSensor(5).readDistance());
+    }
 }
 
 void ORDER_torqueBras::impl(Args args)
