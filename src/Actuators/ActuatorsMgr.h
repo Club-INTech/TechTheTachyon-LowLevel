@@ -18,6 +18,7 @@
 #include "ActuatorValues.h"
 #include "Arm.h"
 #include <vector>
+#include <AX12.h>
 
 static HardwareSerial& XLSerial = Serial1;
 
@@ -41,16 +42,16 @@ public:
     DynamixelManager* dynamixelManager = new DynamixelManager(&XLSerial, &DebugSerial);
 
     // Liste des moteurs du bras 1
-	XL430* motor1 = (XL430*) dynamixelManager->createMotor(1, XL430GeneratorFunction);//new XL430(1,*manager);
-	XL430* motor2 = (XL430*) dynamixelManager->createMotor(2, XL430GeneratorFunction);//new XL430(2,*manager);
-	XL430* motor3 = (XL430*) dynamixelManager->createMotor(3, XL430GeneratorFunction);//new XL430(3,*manager);
+	AX12* motor1 = (AX12*) dynamixelManager->createMotor(1, AX12GeneratorFunction);//new XL430(1,*manager);
+	AX12* motor2 = (AX12*) dynamixelManager->createMotor(2, AX12GeneratorFunction);//new XL430(2,*manager);
+	AX12* motor3 = (AX12*) dynamixelManager->createMotor(3, AX12GeneratorFunction);//new XL430(3,*manager);
 	// Liste des moteurs du bras 2
 	XL430* motor4 = (XL430*) dynamixelManager->createMotor(4, XL430GeneratorFunction);//new XL430(4,*manager);
 	XL430* motor5 = (XL430*) dynamixelManager->createMotor(5, XL430GeneratorFunction);//new XL430(5,*manager);
 	XL430* motor6 = (XL430*) dynamixelManager->createMotor(6, XL430GeneratorFunction);//new XL430(6,*manager);
 
-	Arm* leftArm = new Arm("left", *dynamixelManager, *motor4, *motor5, *motor6);
-	Arm* rightArm = new Arm("right", *dynamixelManager, *motor1, *motor2, *motor3);
+	Arm<XL430>* leftArm = new Arm<XL430>("left", *dynamixelManager, new XL430[3]{*motor4, *motor5, *motor6});
+	Arm<AX12>* rightArm = new Arm<AX12>("right", *dynamixelManager, new AX12[3]{*motor1, *motor2, *motor3});
 
 	ActuatorsMgr();
 	~ActuatorsMgr();

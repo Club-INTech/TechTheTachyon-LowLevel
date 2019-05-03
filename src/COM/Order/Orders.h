@@ -172,5 +172,15 @@ ORDER(lectureSICK, 0);
 ORDER(waitJumper, 0);
 ORDER(endMatch, 0);
 
+// Permet de bouger un bras sans se soucier du type
+#define MOVE_ARM(side, actions)             \
+if(!strcmp(args[0], "right")) {             \
+    Arm<AX12>* arm = manager.rightArm;      \
+    actions;                                \
+} else {                                    \
+    Arm<XL430>* arm = manager.leftArm;      \
+    actions;                                \
+}
+
 
 #endif //TECHTHETOWN_LOWLEVEL_ORDERS_H
