@@ -272,10 +272,20 @@ void MCS::stop() {
     leftMotor.stop();
     rightMotor.stop();
 
+    digitalWrite(LED1,LOW);
+    digitalWrite(LED4,LOW);
     if(!robotStatus.controlledP2P) {
+        digitalWrite(LED1,HIGH);
         InterruptStackPrint::Instance().push(EVENT_HEADER, "stoppedMoving");
+    } else {
+        digitalWrite(LED4,HIGH);
     }
 
+    if(robotStatus.controlledP2P) {
+        InterruptStackPrint::Instance().push(DEBUG_HEADER, "controlledP2P");
+    } else {
+        InterruptStackPrint::Instance().push(DEBUG_HEADER, "NOT controlledP2P !!!");
+    }
     robotStatus.controlledP2P = false;
     trajectory.clear();
     translationPID.resetErrors();

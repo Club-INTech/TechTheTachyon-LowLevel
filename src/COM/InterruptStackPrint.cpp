@@ -11,12 +11,11 @@ void InterruptStackPrint::push(const String& str)
 
 void InterruptStackPrint::push(const Header header, const String& str)
 {
-    if( current_size == INTERRUPT_PRINT_STACK_MAX_SIZE )
-        return;
-    headerStack[current_size][0] = header[0];
-    headerStack[current_size][1] = header[1];
-    stack[current_size] = str;
-    current_size++;
+    headerStack[writePointer][0] = header[0];
+    headerStack[writePointer][1] = header[1];
+    stack[writePointer] = str;
+    writePointer++;
+    writePointer %= INTERRUPT_PRINT_STACK_MAX_SIZE;
 }
 
 void InterruptStackPrint::print()
@@ -25,21 +24,21 @@ void InterruptStackPrint::print()
     {
         if( ComMgr::Instance().connectedEthernet() )
         {
-            for( uint8_t i=0 ; i < current_size ; i++)
-            {
-                ComMgr::Instance().printfln(headerStack[i], "%s", stack[i].c_str());
-                ComMgr::Instance().printfln(DEBUG_HEADER, "StackPrint n°%i/%i", i, current_size);
-            }
-            current_size=0;
+            doPrint();
         }
     }
     else
     {
-            for( uint8_t i=0 ; i < current_size ; i++)
-            {
-                ComMgr::Instance().printfln(headerStack[i], "%s", stack[i].c_str());
-                ComMgr::Instance().printfln(DEBUG_HEADER, "StackPrint n°%i/%i", i, current_size);
-            }
-            current_size=0;
+        doPrint();
+    }
+}
+
+inline void InterruptStackPrint::doPrint() {
+    while(readPointer != writePointer) {
+        ComMgr::Instance().printfln(headerStack[readPointer], "%s", stack[readPointer].c_str());
+        ComMgr::Instance().printfln(DEBUG_HEADER, "StackPrint n°%i/%i", readPointer, writePointer);
+
+        readPointer++;
+        readPointer %= INTERRUPT_PRINT_STACK_MAX_SIZE;
     }
 }
