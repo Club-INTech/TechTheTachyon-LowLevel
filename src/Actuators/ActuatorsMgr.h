@@ -39,20 +39,15 @@ private:
 
 public:
     //Gestion des XL430
-    DynamixelManager* dynamixelManager = new DynamixelManager(&XLSerial, &DebugSerial);
+    DynamixelManager* dynamixelManager;
 
     // Liste des moteurs du bras 1
-	XL430* motor1 = (XL430*) dynamixelManager->createMotor(1, XL430GeneratorFunction);//new XL430(1,*manager);
-	XL430* motor2 = (XL430*) dynamixelManager->createMotor(2, XL430GeneratorFunction);//new XL430(2,*manager);
-	XL430* motor3 = (XL430*) dynamixelManager->createMotor(3, XL430GeneratorFunction);//new XL430(3,*manager);
-	// Liste des moteurs du bras 2
-	XL430* motor4 = (XL430*) dynamixelManager->createMotor(4, XL430GeneratorFunction);//new XL430(4,*manager);
-	XL430* motor5 = (XL430*) dynamixelManager->createMotor(5, XL430GeneratorFunction);//new XL430(5,*manager);
-	XL430* motor6 = (XL430*) dynamixelManager->createMotor(6, XL430GeneratorFunction);//new XL430(6,*manager);
+    AX12* motor1 = (AX12*) dynamixelManager->createMotor(1, AX12GeneratorFunction);//new XL430(1,*manager);
+    AX12* motor2 = (AX12*) dynamixelManager->createMotor(2, AX12GeneratorFunction);//new XL430(2,*manager);
+    AX12* motor3 = (AX12*) dynamixelManager->createMotor(3, AX12GeneratorFunction);//new XL430(3,*manager);
 	//XL qui pousse les palets
 	XL430* motor7 = (XL430*) dynamixelManager->createMotor(7, XL430GeneratorFunction);//new XL430(7,*manager);
 
-	Arm* leftArm = new Arm(*dynamixelManager, *motor4, *motor5, *motor6);
 	Arm* rightArm = new Arm(*dynamixelManager, *motor1, *motor2, *motor3);
 	Arm* robot2Arm = new Arm(*dynamixelManager, *motor1, *motor2, *motor3);
 

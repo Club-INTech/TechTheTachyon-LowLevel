@@ -4,7 +4,7 @@
 
 #include "ActuatorsMgr.h"
 
-ActuatorsMgr::ActuatorsMgr() : dynamixelManager(new DynamixelManager(&XLSerial, &DebugSerial))
+ActuatorsMgr::ActuatorsMgr() : dynamixelManager(new DynamixelManager(&XLSerial, &DebugSerial, 9600))
 {
 }
 
@@ -17,7 +17,6 @@ void stepperInterrupt() {
 }
 
 void ActuatorsMgr::initTorques() {
-    ActuatorsMgr::Instance().leftArm->initTorque();
     ActuatorsMgr::Instance().rightArm->initTorque();
 }
 

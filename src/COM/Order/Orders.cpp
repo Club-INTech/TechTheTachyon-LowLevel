@@ -68,7 +68,7 @@ void ORDER_goto::impl(Args args)
     }
 //                if(-1500 <= targetX && targetX <= 1500 && 0 <= targetY && targetY <= 2000)
 //                {
-       orderManager.motionControlSystem.gotoPoint(targetX,targetY, isSequential);
+    orderManager.motionControlSystem.gotoPoint(targetX,targetY, isSequential);
     orderManager.highLevel.printfln(DEBUG_HEADER, "goto %f %f %b", targetX, targetY, isSequential);
 //                }
 //                else
@@ -306,12 +306,12 @@ void ORDER_sstop::impl(Args args)
 
 void ORDER_toggle::impl(Args args)
 {
-   /* FIXME orderManager.motionControlSystem.translation = !orderManager.motionControlSystem.translation;   //Bascule entre le réglage d'asserv en translation et en rotation
-    if (orderManager.motionControlSystem.translation) {
-        orderManager.highLevel.printfln(DEBUG_HEADER, "reglage de la translation");
-    } else
-        orderManager.highLevel.printfln(DEBUG_HEADER, "reglage de la rotation");
-*/
+    /* FIXME orderManager.motionControlSystem.translation = !orderManager.motionControlSystem.translation;   //Bascule entre le réglage d'asserv en translation et en rotation
+     if (orderManager.motionControlSystem.translation) {
+         orderManager.highLevel.printfln(DEBUG_HEADER, "reglage de la translation");
+     } else
+         orderManager.highLevel.printfln(DEBUG_HEADER, "reglage de la rotation");
+ */
 }
 
 void ORDER_displayAsserv::impl(Args args)
@@ -323,37 +323,37 @@ void ORDER_displayAsserv::impl(Args args)
             kp_g, ki_g, kd_g,      // Vitesse gauche
             kp_d, ki_d, kd_d;      // Vitesse droite
             */
- /* FIXME   orderManager.motionControlSystem.getTranslationTunings(kp_t, ki_t, kd_t);
-    orderManager.motionControlSystem.getRotationTunings(kp_r, ki_r, kd_r);
-    orderManager.motionControlSystem.getLeftSpeedTunings(kp_g, ki_g, kd_g);
-    orderManager.motionControlSystem.getRightSpeedTunings(kp_d, ki_d, kd_d);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"trans : kp= %g ; ki= %g ; kd= %g", kp_t, ki_t, kd_t);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"rot   : kp= %g ; ki= %g ; kd= %g", kp_r, ki_r, kd_r);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"gauche: kp= %g ; ki= %g ; kd= %g", kp_g, ki_g, kd_g);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"droite: kp= %g ; ki= %g ; kd= %g", kp_d, ki_d, kd_d);
-*/
+    /* FIXME   orderManager.motionControlSystem.getTranslationTunings(kp_t, ki_t, kd_t);
+       orderManager.motionControlSystem.getRotationTunings(kp_r, ki_r, kd_r);
+       orderManager.motionControlSystem.getLeftSpeedTunings(kp_g, ki_g, kd_g);
+       orderManager.motionControlSystem.getRightSpeedTunings(kp_d, ki_d, kd_d);
+       orderManager.highLevel.printfln(DEBUG_HEADER,"trans : kp= %g ; ki= %g ; kd= %g", kp_t, ki_t, kd_t);
+       orderManager.highLevel.printfln(DEBUG_HEADER,"rot   : kp= %g ; ki= %g ; kd= %g", kp_r, ki_r, kd_r);
+       orderManager.highLevel.printfln(DEBUG_HEADER,"gauche: kp= %g ; ki= %g ; kd= %g", kp_g, ki_g, kd_g);
+       orderManager.highLevel.printfln(DEBUG_HEADER,"droite: kp= %g ; ki= %g ; kd= %g", kp_d, ki_d, kd_d);
+   */
 }
 
 void ORDER_kpt::impl(Args args)
 {
- /* FIXME   float kp, ki, kd;
-    orderManager.highLevel.printfln(STD_HEADER,"kp_trans ?");
-    orderManager.motionControlSystem.getTranslationTunings(kp, ki, kd);
-    kp = orderManager.parseFloat(args[0]);
-    orderManager.motionControlSystem.setTranslationTunings(kp, ki, kd);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"kp_trans = %g", kp);
-*/
+    /* FIXME   float kp, ki, kd;
+       orderManager.highLevel.printfln(STD_HEADER,"kp_trans ?");
+       orderManager.motionControlSystem.getTranslationTunings(kp, ki, kd);
+       kp = orderManager.parseFloat(args[0]);
+       orderManager.motionControlSystem.setTranslationTunings(kp, ki, kd);
+       orderManager.highLevel.printfln(DEBUG_HEADER,"kp_trans = %g", kp);
+   */
 }
 
 void ORDER_kdt::impl(Args args)
 {
-   /* FIXME float kp, ki, kd;
-    orderManager.highLevel.printfln(STD_HEADER,"kd_trans ?");
-    orderManager.motionControlSystem.getTranslationTunings(kp, ki, kd);
-    kd = orderManager.parseFloat(args[0]);
-    orderManager.motionControlSystem.setTranslationTunings(kp, ki, kd);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"kd_trans = %g", kd);
-*/
+    /* FIXME float kp, ki, kd;
+     orderManager.highLevel.printfln(STD_HEADER,"kd_trans ?");
+     orderManager.motionControlSystem.getTranslationTunings(kp, ki, kd);
+     kd = orderManager.parseFloat(args[0]);
+     orderManager.motionControlSystem.setTranslationTunings(kp, ki, kd);
+     orderManager.highLevel.printfln(DEBUG_HEADER,"kd_trans = %g", kd);
+ */
 }
 
 void ORDER_kit::impl(Args args)
@@ -369,13 +369,13 @@ void ORDER_kit::impl(Args args)
 
 void ORDER_kpr::impl(Args args)
 {
-  /* FIXME  float kp, ki, kd;
-    orderManager.highLevel.printfln(STD_HEADER,"kp_rot ?");
-    orderManager.motionControlSystem.getRotationTunings(kp, ki, kd);
-    kp = orderManager.parseFloat(args[0]);
-    orderManager.motionControlSystem.setRotationTunings(kp, ki, kd);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"kp_rot = %g", kp);
-*/
+    /* FIXME  float kp, ki, kd;
+      orderManager.highLevel.printfln(STD_HEADER,"kp_rot ?");
+      orderManager.motionControlSystem.getRotationTunings(kp, ki, kd);
+      kp = orderManager.parseFloat(args[0]);
+      orderManager.motionControlSystem.setRotationTunings(kp, ki, kd);
+      orderManager.highLevel.printfln(DEBUG_HEADER,"kp_rot = %g", kp);
+  */
 }
 
 void ORDER_kir::impl(Args args)
@@ -411,23 +411,23 @@ void ORDER_kpg::impl(Args args)
 
 void ORDER_kig::impl(Args args)
 {
-  /* FIXME  float kp, ki, kd;
-    orderManager.highLevel.printfln(STD_HEADER,"ki_gauche ?");
-    orderManager.motionControlSystem.getLeftSpeedTunings(kp, ki, kd);
-    ki = orderManager.parseFloat(args[0]);
-    orderManager.motionControlSystem.setLeftSpeedTunings(kp, ki, kd);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"ki_gauche = %g", ki);
-*/}
+    /* FIXME  float kp, ki, kd;
+      orderManager.highLevel.printfln(STD_HEADER,"ki_gauche ?");
+      orderManager.motionControlSystem.getLeftSpeedTunings(kp, ki, kd);
+      ki = orderManager.parseFloat(args[0]);
+      orderManager.motionControlSystem.setLeftSpeedTunings(kp, ki, kd);
+      orderManager.highLevel.printfln(DEBUG_HEADER,"ki_gauche = %g", ki);
+  */}
 
 void ORDER_kdg::impl(Args args)
 {
- /* FIXME   float kp, ki, kd;
-    orderManager.highLevel.printfln(STD_HEADER,"kd_gauche ?");
-    orderManager.motionControlSystem.getLeftSpeedTunings(kp, ki, kd);
-    kd = orderManager.parseFloat(args[0]);
-    orderManager.motionControlSystem.setLeftSpeedTunings(kp, ki, kd);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"kd_gauche = %g", kd);
-*/}
+    /* FIXME   float kp, ki, kd;
+       orderManager.highLevel.printfln(STD_HEADER,"kd_gauche ?");
+       orderManager.motionControlSystem.getLeftSpeedTunings(kp, ki, kd);
+       kd = orderManager.parseFloat(args[0]);
+       orderManager.motionControlSystem.setLeftSpeedTunings(kp, ki, kd);
+       orderManager.highLevel.printfln(DEBUG_HEADER,"kd_gauche = %g", kd);
+   */}
 
 void ORDER_kpd::impl(Args args)
 {
@@ -442,13 +442,13 @@ void ORDER_kpd::impl(Args args)
 
 void ORDER_kid::impl(Args args)
 {
-  /* FIXME  float kp, ki, kd;
-    orderManager.highLevel.printfln(STD_HEADER,"ki_droite ?");
-    orderManager.motionControlSystem.getRightSpeedTunings(kp, ki, kd);
-    ki = orderManager.parseFloat(args[0]);
-    orderManager.motionControlSystem.setRightSpeedTunings(kp, ki, kd);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"ki_droite = %g", ki);
-*/
+    /* FIXME  float kp, ki, kd;
+      orderManager.highLevel.printfln(STD_HEADER,"ki_droite ?");
+      orderManager.motionControlSystem.getRightSpeedTunings(kp, ki, kd);
+      ki = orderManager.parseFloat(args[0]);
+      orderManager.motionControlSystem.setRightSpeedTunings(kp, ki, kd);
+      orderManager.highLevel.printfln(DEBUG_HEADER,"ki_droite = %g", ki);
+  */
 }
 
 void ORDER_kdd::impl(Args args)
@@ -469,28 +469,28 @@ void ORDER_nh::impl(Args args)
     int32_t x;
     uint32_t y, r;
     float angleHook, angleTolerance;
-        id = (uint8_t) orderManager.parseInt(args[0]);
-        x = (int32_t) orderManager.parseInt(args[1]);
-        y = (uint32_t) orderManager.parseInt(args[2]);
-        r = (uint32_t) orderManager.parseInt(args[3]);
-        angleHook = orderManager.parseFloat(args[4]);
-        angleTolerance = orderManager.parseFloat(args[5]);
+    id = (uint8_t) orderManager.parseInt(args[0]);
+    x = (int32_t) orderManager.parseInt(args[1]);
+    y = (uint32_t) orderManager.parseInt(args[2]);
+    r = (uint32_t) orderManager.parseInt(args[3]);
+    angleHook = orderManager.parseFloat(args[4]);
+    angleTolerance = orderManager.parseFloat(args[5]);
 
-        char hookOrder[RX_BUFFER_SIZE] = "";
+    char hookOrder[RX_BUFFER_SIZE] = "";
 
-        for (int i = 6; i < nbr_args; i++) {
-            strcat(hookOrder, args[i]);
-            strcat(hookOrder, " ");
-        }
-        hookOrder[RX_BUFFER_SIZE - 1] = '\0';
+    for (int i = 6; i < nbr_args; i++) {
+        strcat(hookOrder, args[i]);
+        strcat(hookOrder, " ");
+    }
+    hookOrder[RX_BUFFER_SIZE - 1] = '\0';
 
-        orderManager.hookList.addHook(id, x, y, r, angleHook, angleTolerance, hookOrder);
+    orderManager.hookList.addHook(id, x, y, r, angleHook, angleTolerance, hookOrder);
 
-        Serial.print("Ordre du hook: ");
-        Serial.println(hookOrder);
+    Serial.print("Ordre du hook: ");
+    Serial.println(hookOrder);
 
-        //TEST:
-        Serial.println(orderManager.hookList.getHook(id).getOrder());
+    //TEST:
+    Serial.println(orderManager.hookList.getHook(id).getOrder());
 }
 
 void ORDER_eh::impl(Args args)
@@ -580,28 +580,34 @@ void ORDER_down::impl(Args args)
 void ORDER_oust::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    XL430* mot = manager.motor3;
+    XL430* mot = manager.motor7;
     mot->setGoalAngle(270);
 }
 
 void ORDER_range::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    XL430* mot = manager.motor3;
+    XL430* mot = manager.motor7;
     mot->setGoalAngle(180);
 }
 
 void ORDER_dist::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm* arm = manager.rightArm;
     arm->setPosition(positionDistributeur);
 }
 
 void ORDER_grnd::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm* arm = manager.rightArm;
     arm->setPosition(positionSolIntermediaire);
     arm->setPosition(positionSol);
 }
@@ -609,7 +615,10 @@ void ORDER_grnd::impl(Args args)
 void ORDER_stock::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm* arm = manager.rightArm;
     arm->setPosition(positionIntermediaire);
     arm->setPosition(positionStockage);
 }
@@ -617,35 +626,50 @@ void ORDER_stock::impl(Args args)
 void ORDER_acc::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm* arm = manager.rightArm;
     arm->setPosition(positionAccelerateur);
 }
 
 void ORDER_bal::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm* arm = manager.rightArm;
     arm->setPosition(positionBalance);
 }
 
 void ORDER_gold::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm* arm = manager.rightArm;
     arm->setPosition(positionGoldonium);
 }
 
 void ORDER_brasToutDroit::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm* arm = manager.rightArm;
     arm->setPosition(positionDroit);
 }
 
 void ORDER_brasRecule::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm* arm = manager.rightArm;
     arm->setPosition(positionRecule);
 }
 
@@ -732,7 +756,9 @@ void ORDER_lectureSICK::impl(Args args) {
 void ORDER_torqueBras::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
     /*float couple[3] = {0, 0, 0};
     if (!strcmp(args[1], "sol"))
     {
