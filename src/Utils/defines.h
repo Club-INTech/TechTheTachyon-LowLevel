@@ -47,7 +47,7 @@ constexpr uint8_t F_ENV_POS = 50;
 
 constexpr uint16_t  MCS_FREQ = 1000; //1Khz
 constexpr double    MCS_PERIOD = 1000000.0 / MCS_FREQ; // Durée en µs entre deux mesures
-constexpr uint16_t  STEPPER_FREQUENCY = 3000; // 625/2 Hz
+constexpr uint16_t  STEPPER_FREQUENCY = 1000; // 625/2 Hz
 constexpr double    STEPPER_PERIOD = 1000000.0 / STEPPER_FREQUENCY; // Durée en µs entre deux mesures
 
 constexpr uint16_t  TICKS_PER_TURN =            4096;   // Unité : ticks
@@ -69,5 +69,5 @@ constexpr float     TICK_TO_RADIAN = TICK_TO_MM / DISTANCE_COD_GAUCHE_CENTRE; //
  * Steppers
  */
 const unsigned int ELEVATOR_TEMPO = 800; //temporistaion entre les commandes du pas à pas
-const unsigned int STEP_COUNT = 1600*3; //nombre de pas par palet
+const unsigned int STEP_COUNT = 1400; //nombre de pas par palet
 #endif

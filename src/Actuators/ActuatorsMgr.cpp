@@ -46,7 +46,6 @@ void ActuatorsMgr::handleInterrupt() {
 
 void ActuatorsMgr::moveRightStepper(int32_t count) {
     this->rightDirection = count > 0 ? UP : DOWN;
-    noInterrupts();
     if(count > 0) {
         digitalWrite(DIR_PIN_RIGHT, HIGH);
     } else {
@@ -54,7 +53,6 @@ void ActuatorsMgr::moveRightStepper(int32_t count) {
     }
     rightStepCount = ABS(count)*STEP_COUNT;
  //   analogWrite(STEP_PIN_RIGHT, 128);
-    interrupts();
 /*    rightStepCount += count*STEP_COUNT;
     rightStepper.setTargetAbs(rightStepCount);
     stepControl.moveAsync(rightStepper);*/

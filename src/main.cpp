@@ -86,13 +86,13 @@ int main() {
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 
-		orderMgr.execute("rawposdata");
+		//orderMgr.execute("rawposdata");
 		//orderMgr.execute("cod");
 
 		delay(60);
 
     	if (i==5){
-    	    orderMgr.execute("t 0.9");
+    	    //orderMgr.execute("down right");
     	    //orderMgr.execute("d 100");
     	}
     	if (i==150){
