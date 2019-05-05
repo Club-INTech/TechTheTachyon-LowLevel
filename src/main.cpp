@@ -91,11 +91,11 @@ int main() {
 
 		delay(60);
 
-    	if (i==5){
-    	    //orderMgr.execute("down right");
-    	    //orderMgr.execute("d 100");
-    	}
-    	if (i==150){
+    	if (i==5) {
+			//orderMgr.execute("down right");
+			//orderMgr.execute("d 100");
+		}
+    	if (i==300){
 			Serial.println("DATAEND");
     	}
 		i++;

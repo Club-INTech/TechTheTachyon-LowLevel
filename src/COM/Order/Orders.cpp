@@ -599,6 +599,15 @@ void ORDER_dist::impl(Args args)
     }
     Arm* arm = manager.rightArm;
     arm->setPosition(positionDistributeur);
+
+}void ORDER_distSecondaire::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm* arm = manager.rightArm;
+    arm->setPosition(positionDistributeurSecondaire);
 }
 
 void ORDER_grnd::impl(Args args)
@@ -651,6 +660,7 @@ void ORDER_gold::impl(Args args)
     }
     Arm* arm = manager.rightArm;
     arm->setPosition(positionGoldonium);
+    arm->setPosition(positionMusclor);
 }
 
 void ORDER_brasToutDroit::impl(Args args)
