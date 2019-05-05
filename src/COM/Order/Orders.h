@@ -136,6 +136,7 @@ ORDER(XLs,2);
 ORDER(dist,1);
 ORDER(distSecondaire, 1);
 ORDER(grnd,1);
+ORDER(musclor, 0);
 ORDER(stock,1);
 ORDER(acc,1);
 ORDER(gold,0);

@@ -660,6 +660,14 @@ void ORDER_gold::impl(Args args)
     }
     Arm* arm = manager.rightArm;
     arm->setPosition(positionGoldonium);
+    //arm->setPosition(positionMusclor);
+
+}
+
+void ORDER_musclor::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm* arm = manager.rightArm;
     arm->setPosition(positionMusclor);
 }
 
