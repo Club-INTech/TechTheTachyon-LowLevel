@@ -16,6 +16,7 @@
 #include "pid.hpp"
 #include "SelfContainedPID.hpp"
 #include "PointToPointTrajectory.h"
+#include "COM/ComMgr.h"
 //#include "HardwareEncoder.h"
 
 #define ENCODER_OPTIMIZE_INTERRUPTS
@@ -96,6 +97,12 @@ public:
 
     void initSettings();
     void initStatus();
+
+
+    /**
+     * Méthode appelée par l'OrderManager afin d'envoyer au HL la position du robot
+     */
+    void sendPositionUpdate();
 
     int16_t getX();
     int16_t getY();

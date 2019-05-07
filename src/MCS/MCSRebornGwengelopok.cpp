@@ -385,6 +385,10 @@ void MCS::speedBasedMovement(MOVEMENT movement) {
     robotStatus.movement = movement;
 }
 
+void MCS::sendPositionUpdate() {
+    ComMgr::Instance().printfln(POSITION_HEADER, "%i %i %f", robotStatus.x, robotStatus.y, robotStatus.orientation);
+}
+
 void MCS::disableP2P() {
     trajectory.clear();
     robotStatus.controlledP2P = false;
