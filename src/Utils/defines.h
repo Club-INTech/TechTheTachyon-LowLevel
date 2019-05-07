@@ -80,5 +80,5 @@ constexpr float POSITION_THRESHOLD = 3.5f; // en degrés
  * Steppers
  */
 const unsigned int ELEVATOR_TEMPO = 800; //temporistaion entre les commandes du pas à pas
-const unsigned int STEP_COUNT = 1600*3; //nombre de pas par palet
+const unsigned int STEP_COUNT = 1600*3*4; //nombre de pas par palet
 #endif
