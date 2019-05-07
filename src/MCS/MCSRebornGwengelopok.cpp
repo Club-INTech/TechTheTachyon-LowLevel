@@ -431,15 +431,7 @@ void MCS::speedBasedMovement(MOVEMENT movement) {
 }
 
 void MCS::sendPositionUpdate() {
-    String tmp="";
-    tmp.append(robotStatus.x);
-    tmp.append(" ");
-    tmp.append(robotStatus.y);
-    tmp.append(" ");
-    tmp.append(robotStatus.orientation);
-    tmp.append(" ");
-    //InterruptStackPrint::Instance().push(POSITION_HEADER, tmp);
-    ComMgr::Instance().printfln(POSITION_HEADER, tmp.c_str());
+    ComMgr::Instance().printfln(POSITION_HEADER, "%i %i %f", robotStatus.x, robotStatus.y, robotStatus.orientation);
 }
 
 void MCS::resetEncoders() {
