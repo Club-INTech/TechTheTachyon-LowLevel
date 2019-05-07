@@ -28,7 +28,7 @@ void OrderManager::communicate() {
     memset(readMessage, 0, RX_BUFFER_SIZE);
 
     static Metro checkMovement = Metro(10);
-    static Metro checkArms = Metro(50);
+    static Metro checkArms = Metro(10);
     static Metro checkHooksTimer = Metro(20);
     static Metro sendPos = Metro(50);
 

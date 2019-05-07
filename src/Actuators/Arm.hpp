@@ -198,22 +198,11 @@ public:
         syncToggleTorqueWriteData->send();
     }
 
-    /**
-     * Si on a une autre position à laquelle il faut aller, on y va!
-     */
-    void gotoNextPosition() {
-        if(writeIndex != currentPositionIndex) {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Arm %s goto next position: %f %f %f", sideName, positionsAsked[currentPositionIndex][0], positionsAsked[currentPositionIndex][1], positionsAsked[currentPositionIndex][2]);
-            setPosition(positionsAsked[currentPositionIndex]);
-            currentPositionIndex++;
-            currentPositionIndex %= ARM_POSITION_BUFFER_SIZE;
-        }
-    }
-
     void update() {
         if(status != MOVING) {
             gotoNextPosition();
-        } else {
+        }
+        if(status == MOVING) {
             checkArmMovement();
         }
     }
@@ -256,10 +245,10 @@ public:
                 retryMovementAttempts++;
                 ComMgr::Instance().printfln(EVENT_HEADER, "armRetrying %s", sideName);
                 status = WRONG_POSITION;
-                uint16_t oldMovementAttempts = retryMovementAttempts;
-                setPosition(previousPositions, true); // on renvoie l'ordre de position!
+               // uint16_t oldMovementAttempts = retryMovementAttempts;
+           //     setPosition(previousPositions, true); // on renvoie l'ordre de position!
+             //   retryMovementAttempts = oldMovementAttempts; // sauvegarde du nombre d'essai
                 setPosition(targetPositions, false); // on renvoie l'ordre de position!
-                retryMovementAttempts = oldMovementAttempts; // sauvegarde du nombre d'essai
             }
         }
     }
@@ -269,6 +258,20 @@ public:
     }
 
 private:
+
+    /**
+     * Si on a une autre position à laquelle il faut aller, on y va!
+     */
+    void gotoNextPosition() {
+        if(writeIndex != currentPositionIndex) {
+            ComMgr::Instance().printfln(DEBUG_HEADER, "Arm %s goto next position: %f %f %f (writeIndex: %i; currentPositionIndex: %i", sideName, positionsAsked[currentPositionIndex][0], positionsAsked[currentPositionIndex][1], positionsAsked[currentPositionIndex][2], writeIndex, currentPositionIndex);
+            uint16_t positionIndex = currentPositionIndex;
+            currentPositionIndex++;
+            currentPositionIndex %= ARM_POSITION_BUFFER_SIZE;
+            setPosition(positionsAsked[positionIndex]);
+        }
+    }
+
     void prepareAngleData(unsigned int motorIndex, float angle) {
         uint32_t targetAngleValue = (uint32_t)(angle/base.getAngleFromValue());
         char* parameter = &syncAngles[motorIndex * MotorType::goalAngle.length];
