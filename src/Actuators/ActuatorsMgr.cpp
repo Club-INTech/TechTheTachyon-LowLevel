@@ -103,3 +103,7 @@ void ActuatorsMgr::moveRightStepper(int32_t count) {
     stepControl.moveAsync(rightStepper);*/
 }
 
+void ActuatorsMgr::checkArmMovements() {
+    leftArm->update();
+    rightArm->update();
+}

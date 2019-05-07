@@ -28,8 +28,9 @@ void OrderManager::communicate() {
     memset(readMessage, 0, RX_BUFFER_SIZE);
 
     static Metro checkMovement = Metro(10);
+    static Metro checkArms = Metro(50);
     static Metro checkHooksTimer = Metro(20);
-
+    static Metro sendPos = Metro(50);
 
     if (checkMovement.check())
     {
@@ -42,15 +43,19 @@ void OrderManager::communicate() {
         }*/
     }
 
+    if(checkArms.check())
+    {
+        actuatorsMgr.checkArmMovements();
+    }
+
     if (checkHooksTimer.check() && hooksEnabled)
     {
         checkHooks();
         executeHooks();
     }
 
-    static Metro sendPos = Metro(50);
     if (sendPos.check()) {
-        MCS::Instance().sendPositionUpdate();
+        motionControlSystem.sendPositionUpdate();
     }
  }
 

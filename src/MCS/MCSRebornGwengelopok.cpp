@@ -431,7 +431,7 @@ void MCS::speedBasedMovement(MOVEMENT movement) {
 }
 
 void MCS::sendPositionUpdate() {
-    ComMgr::Instance().printfln(POSITION_HEADER, "%i %i %f", robotStatus.x, robotStatus.y, robotStatus.orientation);
+    ComMgr::Instance().printfln(POSITION_HEADER, "%f %f %f", robotStatus.x, robotStatus.y, robotStatus.orientation);
 }
 
 void MCS::resetEncoders() {
