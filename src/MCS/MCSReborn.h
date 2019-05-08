@@ -108,6 +108,11 @@ public:
      */
     void sendPositionUpdate();
 
+    /**
+     * Reset des codeuses, utilisé quand le HL reset la position du robot (grâce aux SICK par exemple)
+     */
+    void resetEncoders();
+
     int16_t getX();
     int16_t getY();
     float getAngle();

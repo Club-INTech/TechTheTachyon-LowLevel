@@ -30,6 +30,11 @@ int main() {
 	pinMode(LED3,OUTPUT);
 	pinMode(LED4,OUTPUT);
 
+	digitalWrite(LED1,HIGH);
+    digitalWrite(LED2,HIGH);
+    digitalWrite(LED3,HIGH);
+    digitalWrite(LED4,HIGH);
+
 
 	/*************************
 	 * Initialisation du LL, gère:
@@ -71,7 +76,7 @@ int main() {
 
     // MotionControlSystem interrupt on timer
     IntervalTimer motionControlInterruptTimer;
-    motionControlInterruptTimer.priority(253);
+    motionControlInterruptTimer.priority(0);
     motionControlInterruptTimer.begin(motionControlInterrupt, MCS_PERIOD); // Setup de l'interruption d'asservissement
 
 
@@ -81,10 +86,10 @@ int main() {
     stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
 
 	// Timer pour la mise à jour de la position
-	IntervalTimer posTimer; // TODO: Passer sur un Metro?
+/*	IntervalTimer posTimer; // TODO: Passer sur un Metro?
 	posTimer.priority(253);
-// FIXME 	posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
-
+    posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
+*/
 	Serial.println("Starting...");
     delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
     ActuatorsMgr::Instance().initTorques();
@@ -97,65 +102,26 @@ int main() {
 	 * Les capteurs
 	 */
 
-
-	int i=0;
+    digitalWrite(LED1,LOW);
+    digitalWrite(LED2,LOW);
+    digitalWrite(LED3,LOW);
+    digitalWrite(LED4,LOW);
 
     while (true) {
-
         interruptStackPrint.print();
         orderMgr.communicate();
-        //orderMgr.execute("cod");
-//		orderMgr.refreshUS();
-//		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-		/*orderMgr.execute("rawposdata");
-
-		delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-        orderMgr.execute("rawposdata");
-
-        delay(10);
-
-		if (i==0){
-			orderMgr.execute("goto 1000 0");
-		}
-		int multiplier = 2;
-		if (i==100*multiplier){
-            orderMgr.execute("goto 0 0");
+/*        orderMgr.execute("rawposdata");
+        if (i==0){
+            orderMgr.execute("t 3.14");
         }
-        if (i==200*multiplier){
-            orderMgr.execute("goto 1000 0");
+        delay(10);
+        if (i==300) {
+            orderMgr.execute("t -3.14");
         }
-        if (i==300*multiplier){
-            orderMgr.execute("goto 0 0");
+        if (i==1200) {
+            Serial.println("DATAEND");
         }
-        /*if (i==400*multiplier){
-            orderMgr.execute("goto 200 0");
-        }
-        if (i==500*multiplier){
-            orderMgr.execute("goto 0 0");
-        }*/
-        /*if (i==600*multiplier){
-            orderMgr.execute("d 200");
-        }
-        if (i==700*multiplier){
-            orderMgr.execute("t 0");
-        }*/
-    	//if (i==1500){
-    	/*if (i==600*multiplier){
-			Serial.println("DATAEND");
-    	}
-		i++;*/
+        i++;*/
     }
 }
 

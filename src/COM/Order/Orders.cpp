@@ -113,6 +113,10 @@ void ORDER_cxyo::impl(Args args)
     orderManager.motionControlSystem.setX(orderManager.parseFloat(args[0]));
     orderManager.motionControlSystem.setY(orderManager.parseFloat(args[1]));
     orderManager.motionControlSystem.setAngle(orderManager.parseFloat(args[2]));
+
+    // Mise à jour de l'offset et du target des codeuses. Faut pas tourner parce que le HL te dit où t'es. Je sais il est pas gentil mais faut l'accepter
+    orderManager.motionControlSystem.setAngleOffset(orderManager.parseFloat(args[2]));
+    orderManager.motionControlSystem.resetEncoders();
     orderManager.highLevel.printfln(DEBUG_HEADER, "X,Y,O set");
 }
 
@@ -626,85 +630,96 @@ void ORDER_down::impl(Args args)
 void ORDER_dist2stock::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionPrePreDistributeur);
-    arm->setPosition(positionIntermediaire);
-    arm->setPosition(positionStockage);
+    MOVE_ARM(args[0],
+             arm->setPosition(positionPrePreDistributeur);
+             arm->setPosition(positionIntermediaire);
+             arm->setPosition(positionStockage);
+         )
 }
 
 void ORDER_dist::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionPrePreDistributeur);
-    arm->setPosition(positionPreDistributeur);
-    arm->setPosition(positionDistributeur);
+    MOVE_ARM(args[0],
+             arm->setPosition(positionPrePreDistributeur);
+             arm->setPosition(positionPreDistributeur);
+             arm->setPosition(positionDistributeur);
+    )
 }
 
 void ORDER_grnd::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionSolIntermediaire);
-    arm->setPosition(positionSol);
+    MOVE_ARM(args[0],
+             arm->setPosition(positionSolIntermediaire);
+             arm->setPosition(positionSol);
+    )
 }
 
 void ORDER_stock::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionIntermediaire);
-    arm->setPosition(positionStockage);
+    MOVE_ARM(args[0],
+             arm->setPosition(positionIntermediaire);
+             arm->setPosition(positionStockage);
+    )
 }
 
 void ORDER_acc::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionAccBIS);
-    arm->setPosition(positionAccTER);
-    arm->setPosition(positionAccelerateur);
+    MOVE_ARM(args[0],
+             arm->setPosition(positionAccBIS);
+             arm->setPosition(positionAccTER);
+             arm->setPosition(positionAccelerateur);
+    )
 }
 
 void ORDER_pushPalet::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionAccPoussePalet);
+    MOVE_ARM(args[0],
+             arm->setPosition(positionAccPoussePalet);
+    )
 }
 
 void ORDER_bal::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionBalance);
+    MOVE_ARM(args[0],
+             arm->setPosition(positionBalance);
+    )
 }
 
 void ORDER_gold::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionGoldonium);
+    MOVE_ARM(args[0],
+             arm->setPosition(positionGoldonium);
+    )
 }
 
 void ORDER_brasToutDroit::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionDroit);
+    MOVE_ARM(args[0],
+             arm->setPosition(positionDroit);
+    )
 }
 void ORDER_brasRecule::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionRecule);
+    MOVE_ARM(args[0],
+             arm->setPosition(positionRecule);
+    )
 }
 
 void ORDER_posinter::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setPosition(positionIntermediaire);
+    MOVE_ARM(args[0],
+             arm->setPosition(positionIntermediaire);
+    )
 }
 
 void ORDER_XLm::impl(Args args)
@@ -723,9 +738,10 @@ void ORDER_XLs::impl(Args args)
 
 void ORDER_posBras::impl(Args args) {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
     float angles[3];
-    arm->fetchAngles(angles);
+    MOVE_ARM(args[0],
+             arm->fetchAngles(angles);
+    )
     orderManager.highLevel.printfln(DEBUG_HEADER, "Angles are %f ; %f ; %f", angles[0], angles[1], angles[2]);
 }
 
@@ -790,20 +806,22 @@ void ORDER_lectureSICK::impl(Args args) {
 
 void ORDER_disableTorque::impl(Args args) {
     ActuatorsMgr &manager = ActuatorsMgr::Instance();
-    Arm *arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setTorque(false);
+    MOVE_ARM(args[0],
+             arm->setTorque(false);
+    )
 }
 
 void ORDER_enableTorque::impl(Args args) {
     ActuatorsMgr &manager = ActuatorsMgr::Instance();
-    Arm *arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
-    arm->setTorque(true);
+    MOVE_ARM(args[0],
+             arm->setTorque(true);
+    )
 }
 
 void ORDER_torqueBras::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
+    // TODO Arm* arm = !strcmp(args[0], "right") ? manager.rightArm : manager.leftArm;
     // TODO
     
     /*int couple[3] = {0, 0, 0};
@@ -860,6 +878,7 @@ void ORDER_torqueBras::impl(Args args)
 }
 
 void ORDER_torqueXL :: impl(Args args){
+    /* TODO
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
     int couple;
@@ -868,5 +887,45 @@ void ORDER_torqueXL :: impl(Args args){
     }
     else{
         orderManager.highLevel.printfln(DEBUG_HEADER,"%s","couple failed");
+    }*/
+}
+
+void ORDER_waitJumper::impl(Args args) {
+    // ============================
+    // Commenter pour les tests
+    // ============================
+    Serial.println("Waiting for jumper...");
+
+    digitalWrite(LED1, HIGH);
+
+    // attente de front
+    while(digitalRead(PIN_JMPR) == HIGH) {
+        InterruptStackPrint::Instance().print();
+    }
+    while(digitalRead(PIN_JMPR) == LOW) {
+        InterruptStackPrint::Instance().print();
+    }
+    ComMgr::Instance().printfln(EVENT_HEADER, "gogogofast");
+    digitalWrite(LED1, LOW);
+
+    // ============================
+    // Fin de Commenter pour les tests
+    // ============================
+}
+
+void ORDER_endMatch::impl(Args args) {
+    orderManager.execute("stop");
+    orderManager.execute("sstop");
+    while(true) {
+        digitalWrite(LED1, LOW);
+        digitalWrite(LED2, LOW);
+        digitalWrite(LED3, LOW);
+        digitalWrite(LED4, LOW);
+        delay(100);
+        digitalWrite(LED1, HIGH);
+        digitalWrite(LED2, HIGH);
+        digitalWrite(LED3, HIGH);
+        digitalWrite(LED4, HIGH);
+        delay(100);
     }
 }

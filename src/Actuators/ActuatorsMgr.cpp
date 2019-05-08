@@ -23,10 +23,14 @@ void ActuatorsMgr::initTorques() {
 }
 
 void ActuatorsMgr::initPWMs() {
-    pinMode(STEP_PIN_LEFT, OUTPUT);
-    pinMode(STEP_PIN_RIGHT, OUTPUT);
-    pinMode(DIR_PIN_LEFT, OUTPUT);
-    pinMode(DIR_PIN_RIGHT, OUTPUT);
+    // FIXME
+    pinMode(STEP_PIN_LEFT, INPUT);
+    pinMode(STEP_PIN_RIGHT, INPUT);
+
+    pinMode(DIR_PIN_LEFT, INPUT);
+    pinMode(DIR_PIN_RIGHT, INPUT);
+    // FIXME
+
     pinMode(RST_PIN_LEFT, OUTPUT);
     pinMode(RST_PIN_RIGHT, OUTPUT);
     digitalWrite(RST_PIN_LEFT, HIGH);
@@ -99,3 +103,7 @@ void ActuatorsMgr::moveRightStepper(int32_t count) {
     stepControl.moveAsync(rightStepper);*/
 }
 
+void ActuatorsMgr::checkArmMovements() {
+    leftArm->update();
+    rightArm->update();
+}

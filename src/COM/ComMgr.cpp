@@ -4,8 +4,7 @@
 
 #include "ComMgr.h"
 
-ComMgr::ComMgr()
-{
+ComMgr::ComMgr() {
     if(com_options & SERIAL_W) {
         while(!Serial);
         Serial.begin(115200);
@@ -98,6 +97,9 @@ void ComMgr::printf(Header header, const char *data, ...)
 void ComMgr::printOnSerial(const char* str)
 {
     Serial.print(str);
+    if(sdlog) {
+        sdlog->logWrite(str);
+    }
 }
 
 void ComMgr::startMatch()

@@ -152,7 +152,6 @@ ORDER(brasRecule,1);
 ORDER(posBras,1);
 
 /* Ascenseurs */
-// ce ne sont pas des ACTUATOR_ORDER parce que ces ordres sont exécutés en "parallèle"
 ORDER(up,1);
 ORDER(down,1);
 
@@ -165,9 +164,23 @@ ORDER(valveoff,1);
 /*Electron*/
 ORDER(elec,0);
 
+/* SICK */
 ORDER(testSICK, 1);
 ORDER(rangeSICK, 3);
 ORDER(lectureSICK, 0);
+
+ORDER(waitJumper, 0);
+ORDER(endMatch, 0);
+
+// Permet de bouger un bras sans se soucier du type
+#define MOVE_ARM(side, actions)             \
+if(!strcmp(args[0], "right")) {             \
+    Arm<XL430>* arm = manager.rightArm;      \
+    actions;                                \
+} else {                                    \
+    Arm<XL430>* arm = manager.leftArm;      \
+    actions;                                \
+}
 
 
 #endif //TECHTHETOWN_LOWLEVEL_ORDERS_H

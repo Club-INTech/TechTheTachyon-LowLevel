@@ -34,7 +34,8 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     translationPID.enableAWU(false);
 //    rotationPID180.setTunings(6.5,0.0001,0,0);
 //    rotationPID.setTunings(8.75,0.000001,0,0);
-    rotationPID.setTunings(18,0.000001,0,0);
+  //  rotationPID.setTunings(18,0.000001,0,0);
+    rotationPID.setTunings(3.5,0.000001,0,0);
 //    rotationPID90.setTunings(10.3,0.0001,12,0);
 //    rotationPID180.enableAWU(false);
 //    rotationPID90.enableAWU(false);
@@ -52,7 +53,7 @@ void MCS::initSettings() {
     controlSettings.maxDeceleration = 1;//2;
 
     /* rad/s */
-    controlSettings.maxRotationSpeed = 0.5*PI;
+    controlSettings.maxRotationSpeed = 2*PI;
 
 
     /* mm/s */
@@ -97,7 +98,7 @@ void MCS::updatePositionOrientation() {
     int32_t leftDistance = leftTicks * TICK_TO_MM;
     int32_t rightDistance = rightTicks * TICK_TO_MM;
 
-    robotStatus.orientation = (rightTicks - leftTicks) / 2 * TICK_TO_RADIAN;
+    robotStatus.orientation = (rightTicks - leftTicks) / 2 * TICK_TO_RADIAN + angleOffset;
 
     float cos = cosf(getAngle());
     float sin = sinf(getAngle());
@@ -275,6 +276,11 @@ void MCS::stop() {
         InterruptStackPrint::Instance().push(EVENT_HEADER, "stoppedMoving");
     }
 
+    if(robotStatus.controlledP2P) {
+        InterruptStackPrint::Instance().push(DEBUG_HEADER, "controlledP2P");
+    } else {
+        InterruptStackPrint::Instance().push(DEBUG_HEADER, "NOT controlledP2P !!!");
+    }
     robotStatus.controlledP2P = false;
     trajectory.clear();
     translationPID.resetErrors();
@@ -310,6 +316,7 @@ void MCS::translate(int16_t amount) {
     robotStatus.movement = amount > 0 ? MOVEMENT::FORWARD : MOVEMENT::BACKWARD;
     translationPID.setGoal(amount + currentDistance);
     robotStatus.moving = true;
+    digitalWrite(LED2,LOW);
 }
 
 void MCS::rotate(float angle) {
@@ -320,29 +327,34 @@ void MCS::rotate(float angle) {
     targetAngle = angle;
 
     float differenceAngle = robotStatus.orientation-targetAngle;
+    while(ABS(differenceAngle) > PI)
+    {
+        float signe = ABS(differenceAngle)/differenceAngle;
+        float ratio = floor(ABS(differenceAngle)/PI);
+        targetAngle += signe*2*PI*ratio;
 
-    if((robotStatus.orientation<0 && targetAngle>0)){
-        differenceAngle+=2*PI;
-    }
-    if((targetAngle<0&&robotStatus.orientation>0)){
-        differenceAngle-=2*PI;
 
+        differenceAngle = robotStatus.orientation-targetAngle;
     }
 
-    /*if((45<ABS(differenceAngle) and ABS(differenceAngle)<135)){
-        rotationPID.setTunings(10.3,0.0001,12,0);
+    if(1.57<ABS(differenceAngle)) {
+        rotationPID.setTunings(3.5,0.000001,0,0);
     }
-    else{
-        rotationPID.setTunings(6.5,0.0001,0,0);
-    }*/
+    else if (0.75<ABS(differenceAngle) and ABS(differenceAngle)<=1.57) {
+        rotationPID.setTunings(5.1,0.000001,0,0);
+    }
+    else {
+        rotationPID.setTunings(9,0.000001,0,0);
+    }
     if( ! rotationPID.active) {
         rotationPID.fullReset();
         rotationPID.active = true;
     }
     robotStatus.movement = (differenceAngle < PI && differenceAngle > - PI) ? MOVEMENT::TRIGO : MOVEMENT::ANTITRIGO;
 
-    rotationPID.setGoal(angle);
+    rotationPID.setGoal(targetAngle);
     robotStatus.moving = true;
+    digitalWrite(LED2,LOW);
 }
 
 /*void MCS::gotoPoint(int16_t x, int16_t y, bool sequential) {
@@ -419,14 +431,19 @@ void MCS::speedBasedMovement(MOVEMENT movement) {
 }
 
 void MCS::sendPositionUpdate() {
-    String tmp="";
-    tmp.append(robotStatus.x);
-    tmp.append(" ");
-    tmp.append(robotStatus.y);
-    tmp.append(" ");
-    tmp.append(robotStatus.orientation);
-    tmp.append(" ");
-    InterruptStackPrint::Instance().push(POSITION_HEADER, tmp);
+    ComMgr::Instance().printfln(POSITION_HEADER, "%f %f %f", robotStatus.x, robotStatus.y, robotStatus.orientation);
+}
+
+void MCS::resetEncoders() {
+    encoderLeft->write(0);
+    encoderRight->write(0);
+    previousLeftTicks = 0;
+    previousRightTicks = 0;
+    leftTicks = 0;
+    rightTicks = 0;
+    currentDistance = 0;
+    translationPID.setGoal(currentDistance);
+    rotationPID.setGoal(robotStatus.orientation);
 }
 
 void MCS::disableP2P() {

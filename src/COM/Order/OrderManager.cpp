@@ -20,15 +20,17 @@ OrderManager::OrderManager():
 void OrderManager::communicate() {
     if (highLevel.read(readMessage)) {
         // TODO: debug only
-        highLevel.printfln(DEBUG_HEADER, "Received '''%s'''\n", readMessage);
+        highLevel.printfln(DEBUG_HEADER, "(%lli) Received '''%s'''\n", messageCount, readMessage);
+        messageCount++;
         execute(readMessage);
     }
 
     memset(readMessage, 0, RX_BUFFER_SIZE);
 
     static Metro checkMovement = Metro(10);
+    static Metro checkArms = Metro(10);
     static Metro checkHooksTimer = Metro(20);
-
+    static Metro sendPos = Metro(50);
 
     if (checkMovement.check())
     {
@@ -41,28 +43,21 @@ void OrderManager::communicate() {
         }*/
     }
 
+    if(checkArms.check())
+    {
+        actuatorsMgr.checkArmMovements();
+    }
+
     if (checkHooksTimer.check() && hooksEnabled)
     {
         checkHooks();
         executeHooks();
     }
 
-    static Metro sendPos = Metro(50);
-    if (com_options & COM_OPTIONS::ETHERNET_W && sendPos.check()) {
-        /* FIXME  if (motionControlSystem.isMoving()) {
-             float posToSend[3]={motionControlSystem.getX(), motionControlSystem.getY(), motionControlSystem.getAngleRadian()};
-             highLevel.sendPosition(posToSend);
-         } else {
-             if (motionControlSystem.previousIsMoving()){
-                 highLevel.sendEvent("stoppedMoving");
-                 motionControlSystem.setPreviousIsMoving(false);
-             }
-         }*/
-     }
+    if (sendPos.check()) {
+        motionControlSystem.sendPositionUpdate();
+    }
  }
-
-
-
 
  void OrderManager::execute(const char* orderToExecute)
  {

@@ -16,8 +16,9 @@
 #include "Utils/defines.h"
 
 #include "ActuatorValues.h"
-#include "Arm.h"
+#include "Arm.hpp"
 #include <vector>
+#include <AX12.h>
 
 static HardwareSerial& XLSerial = Serial1;
 
@@ -49,8 +50,8 @@ public:
 	XL430* motor5 = (XL430*) dynamixelManager->createMotor(5, XL430GeneratorFunction);//new XL430(5,*manager);
 	XL430* motor6 = (XL430*) dynamixelManager->createMotor(6, XL430GeneratorFunction);//new XL430(6,*manager);
 
-	Arm* leftArm = new Arm("left", *dynamixelManager, *motor4, *motor5, *motor6);
-	Arm* rightArm = new Arm("right", *dynamixelManager, *motor1, *motor2, *motor3);
+	Arm<XL430>* leftArm = new Arm<XL430>("left", *dynamixelManager, new XL430[3]{*motor4, *motor5, *motor6});
+	Arm<XL430>* rightArm = new Arm<XL430>("right", *dynamixelManager, new XL430[3]{*motor1, *motor2, *motor3});
 
 	ActuatorsMgr();
 	~ActuatorsMgr();
@@ -63,6 +64,8 @@ public:
 	void initTorques();
 	void moveLeftStepper(int32_t count);
 	void moveRightStepper(int32_t count);
+
+	void checkArmMovements();
 
 };
 
