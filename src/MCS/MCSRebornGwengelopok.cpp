@@ -67,7 +67,6 @@ void MCS::initSettings() {
     /* mm */
     controlSettings.tolerancyTranslation = 1;
 
-    controlSettings.tolerancyDerivative = 100;
 
     /* ms */
     controlSettings.stopDelay = 25;
@@ -226,7 +225,7 @@ void MCS::manageStop() {
 
     averageRotationDerivativeError.add(rotationPID.getDerivativeError());
     averageTranslationDerivativeError.add(translationPID.getDerivativeError());
-    if(robotStatus.moving && translationPID.getDerivativeError()==0 && ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && rotationPID.getDerivativeError()==0 && ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
+    if(robotStatus.moving && ABS(translationPID.getDerivativeError())<= controlSettings.tolerancyDerivative && ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && ABS(rotationPID.getDerivativeError())<=controlSettings.tolerancyDerivative && ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
         leftMotor.setDirection(Direction::NONE);
         rightMotor.setDirection(Direction::NONE);
         robotStatus.Lbooly = robotStatus.controlledP2P;
