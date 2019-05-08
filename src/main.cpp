@@ -81,6 +81,7 @@ int main() {
 	int i=0;
 
     while (true) {
+    	InterruptStackPrint::Instance().print();
         orderMgr.communicate();
        // orderMgr.execute("cod");
 //		orderMgr.refreshUS();

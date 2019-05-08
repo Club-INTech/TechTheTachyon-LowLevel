@@ -110,7 +110,6 @@ void MCS::updatePositionOrientation() {
     robotStatus.y += distanceTravelled * sin;
 
     currentDistance = distance;
-
     //   Serial.printf("%f \n", currentRotation);
 }
 
@@ -229,12 +228,12 @@ void MCS::manageStop() {
         ABS(rotationPID.getCurrentState() - rotationPID.getCurrentGoal()) <= controlSettings.tolerancyAngle) {
         leftMotor.setDirection(Direction::NONE);
         rightMotor.setDirection(Direction::NONE);
-        //robotStatus.Lbooly = robotStatus.controlledP2P;
+        robotStatus.Lbooly = robotStatus.controlledP2P;
         if (robotStatus.controlledP2P) {
             gotoTimer = MIN_TIME_BETWEEN_GOTO_TR_ROT;
         }
         stop();
-        //robotStatus.controlledP2P = robotStatus.Lbooly;
+        robotStatus.controlledP2P = robotStatus.Lbooly;
 //        digitalWrite(LED1,HIGH);
     }
     //  digitalWrite(LED2,(ABS(leftSpeedPID.getCurrentState())<=0.25*controlSettings.tolerancySpeed));
