@@ -94,6 +94,9 @@ public:
     void setRotationSpeed(float);
     void setMaxTranslationSpeed(float);
     void setMaxRotationSpeed(float);
+    void resetEncoders();
+    void gotoPoint2(int16_t,  int16_t);
+
 
     void initSettings();
     void initStatus();
@@ -129,6 +132,11 @@ public:
     void setX(int16_t);
     void setY(int16_t);
     void setAngle(float);
+
+
+
+    // Timer entre translation et rotation pour les goto
+    uint32_t gotoTimer;
 };
 
 #endif //LL_MCSREBORN_H

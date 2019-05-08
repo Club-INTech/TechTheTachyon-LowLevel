@@ -6,34 +6,30 @@
 #define TECHTHETACHYON_LOWLEVEL_INTERRUPTSTACKPRINT_H
 
 #include <cstdint>
-#include "../Utils/Singleton.hpp"
 #include <Arduino.h>
+#include "../Utils/defines.h"
+#include "../Utils/Singleton.hpp"
+#include "ComMgr.h"
 
 class InterruptStackPrint : public Singleton<InterruptStackPrint>
 {
 private:
-    static constexpr uint8_t MAX_STACK_SIZE = 100;
-    const char* stack[MAX_STACK_SIZE];
-    uint8_t current_size = 0;
+    String stack[INTERRUPT_PRINT_STACK_MAX_SIZE];
+    char headerStack[INTERRUPT_PRINT_STACK_MAX_SIZE][HEADER_LENGTH];
+    uint8_t writePointer = 0;
+    uint8_t readPointer = 0;
 public:
 
-    void push(const char* str)
-    {
-        if( current_size == MAX_STACK_SIZE )
-            return;
-        stack[current_size] = str;
-        current_size++;
-    }
+    InterruptStackPrint() = default;
 
-    void print()
-    {
-        for( uint8_t i=0 ; i < current_size ; i++)
-        {
-            Serial.println(stack[i]);
-        }
-        current_size=0;
-    }
+    void push(const String& str);
+    void push(Header header, const String& str);
 
+    void print();
+
+    ~InterruptStackPrint() = default;
+
+    void doPrint();
 };
 
 

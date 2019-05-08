@@ -33,6 +33,9 @@ public:
 
     uint8_t tolerancyDiferential;
     uint8_t tolerancyDerivative;
+
+    /* patate */
+    float tolerancyDifferenceSpeed;
 };
 
 #endif //LL_CONTROLSETTINGS_H
