@@ -16,6 +16,7 @@
 #include "pid.hpp"
 #include "SelfContainedPID.hpp"
 #include "PointToPointTrajectory.h"
+#include <cmath>
 #include "COM/ComMgr.h"
 //#include "HardwareEncoder.h"
 
@@ -47,7 +48,6 @@ private:
     SelfContainedPID<float> rotationPID;
 
     int32_t currentDistance;
-    float currentRotation;
     int16_t targetX;
     int16_t targetY;
 
@@ -63,9 +63,14 @@ private:
 
     Average<int32_t, 100> averageLeftSpeed;
     Average<int32_t, 100> averageRightSpeed;
+    Average<float, 25> averageRotationDerivativeError;
+    Average<float, 25> averageTranslationDerivativeError;
 
     bool sequentialMovement;
     PointToPointTrajectory trajectory;
+
+    // Timer entre translation et rotation pour les goto
+    uint32_t gotoTimer;
 
 
 public:
@@ -82,6 +87,7 @@ public:
     void translate(int16_t);
     void rotate(float);
     void gotoPoint(int16_t,int16_t,bool);
+    void gotoPoint2(int16_t,int16_t);
     void followTrajectory(const double* xTable, const double* yTable, int count);
 
     void speedBasedMovement(MOVEMENT);
@@ -94,18 +100,19 @@ public:
     void setRotationSpeed(float);
     void setMaxTranslationSpeed(float);
     void setMaxRotationSpeed(float);
-    void resetEncoders();
-    void gotoPoint2(int16_t,  int16_t);
-
 
     void initSettings();
     void initStatus();
 
-
     /**
-     * Méthode appelée par l'OrderManager afin d'envoyer au HL la position du robot
+     * Méthode appelée par un InterruptTimer afin d'envoyer au HL la position du robot
      */
     void sendPositionUpdate();
+
+    /**
+     * Reset des codeuses, utilisé quand le HL reset la position du robot (grâce aux SICK par exemple)
+     */
+    void resetEncoders();
 
     int16_t getX();
     int16_t getY();
@@ -132,11 +139,6 @@ public:
     void setX(int16_t);
     void setY(int16_t);
     void setAngle(float);
-
-
-
-    // Timer entre translation et rotation pour les goto
-    uint32_t gotoTimer;
 };
 
 #endif //LL_MCSREBORN_H

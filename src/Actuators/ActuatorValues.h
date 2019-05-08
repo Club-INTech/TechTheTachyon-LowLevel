@@ -72,13 +72,35 @@ static float positionSol[3] = { /*Valeur de test:*/ 278.0f /*272.0f*/, 97.0f, 18
 static float positionRecule[3] = {0,0,0};
 static float coupleSolseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
 /** Ligne référence le XL et Colonne le type de Palet du plus lourd au plus léger (bleu, vert, rouge, vide)*/
-static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
-/**De même*/
-static char* couleurspalets[4]={"bleu","vert","rouge","vide"};      //TODO remplacer par un enum class parcque les char* bon ...
-static float* stepsFromStorageToDistrib[] = {
+const static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
+
+/** Couleurs des plalets */
+enum class PaletColor
+{
+    // ordonné par masse décroissante
+    GOLD,
+    BLUE,
+    GREEN,
+    RED,
+    NONE
+};
+
+static String PaletColorToString( const PaletColor color )
+{
+    switch(color)
+    {
+        case PaletColor::BLUE  : return "bleu";
+        case PaletColor::GREEN : return "vert";
+        case PaletColor::RED   : return "rouge";
+        case PaletColor::GOLD  : return "goldenium";
+        default                : return "inconnu";
+    }
+}
+
+const static float* stepsFromStorageToDistrib[] = {
         positionStockage, positionIntermediaire, positionPreDistributeur, positionDistributeur
 };
-static float* stepsFromDistribToStorage[] = {
+const static float* stepsFromDistribToStorage[] = {
         positionDistributeur, positionPreDistributeur, positionIntermediaire, positionStockage
 };
 

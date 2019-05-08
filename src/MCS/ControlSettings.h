@@ -31,11 +31,11 @@ public:
     /* rad */
     float tolerancyAngle;
 
-    uint8_t tolerancyDiferential;
-    uint8_t tolerancyDerivative;
-
     /* patate */
     float tolerancyDifferenceSpeed;
+
+    uint8_t tolerancyDiferential;
+    uint8_t tolerancyDerivative;
 };
 
 #endif //LL_CONTROLSETTINGS_H

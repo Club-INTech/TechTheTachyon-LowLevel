@@ -65,6 +65,9 @@ ORDER(rawspeed,0);
 ORDER(rawposdata,0);
 ORDER(reseteth,0);
 
+ORDER(disableTorque, 1);
+ORDER(enableTorque, 1);
+
 /*			 ___________________________
 * 		   *|                           |*
 *		   *|         MONTLHERY         |*
@@ -142,11 +145,11 @@ ORDER(stockSecondaire,1);
 ORDER(acc,1);
 ORDER(gold,0);
 ORDER(bal,1);
-ORDER(brasRecule,1);
 ORDER(torqueBras,1);
-//ORDER(torqueXL,1);
+ORDER(torqueXL,1);
 ORDER(brasToutDroit,1);
-
+ORDER(brasRecule,1);
+ORDER(posBras,1);
 
 /* Pousse palet en dehors des ascenceurs */
 ORDER(oust,0);
@@ -165,9 +168,21 @@ ORDER(valveoff,1);
 /*Electron*/
 ORDER(elec,0);
 
+/* SICK */
 ORDER(testSICK, 1);
 ORDER(rangeSICK, 3);
 ORDER(lectureSICK, 0);
+
+ORDER(waitJumper, 0);
+ORDER(endMatch, 0);
+
+// Permet de bouger un bras sans se soucier du type
+#define MOVE_ARM(side, actions)             \
+if(!strcmp(args[0], "right")) {             \
+    Arm<AX12>* arm = manager.rightArm;      \
+    actions;                                \
+} else {                                    \
+}
 
 
 #endif //TECHTHETOWN_LOWLEVEL_ORDERS_H

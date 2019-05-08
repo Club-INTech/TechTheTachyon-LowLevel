@@ -15,11 +15,11 @@ constexpr uint32_t MIN_TIME_BETWEEN_GOTO_TR_ROT = 100; // en ticks d'asserv'
 constexpr uint8_t RX_BUFFER_SIZE = 64; // Taille max des messages
 constexpr uint8_t RX_WORD_COUNT = 10; // Nombre de mots max par ordre
 
+constexpr uint8_t INTERRUPT_PRINT_STACK_MAX_SIZE = 200;
+
 constexpr uint8_t NBR_OF_US_SENSOR = 0;
 constexpr uint8_t NBR_OF_DISTANCE_SENSOR = 3;
 constexpr uint8_t NBR_SICK_MEASUREMENTS = 100;
-
-constexpr uint8_t INTERRUPT_PRINT_STACK_MAX_SIZE = 200;
 
 // Divers headers de communication pour l'éthernet
 constexpr uint8_t HEADER_LENGTH = 2;
@@ -40,6 +40,9 @@ Header ATOM_COLOR_HEADER = { 0x20, 0x26 };
 // Séparateurs des mots d'ordres
 #define SEPARATOR  " "
 
+constexpr uint16_t MAX_MESSAGE_LENGTH = 256;
+constexpr uint16_t MAX_RETRY_ATTEMPTS = 1;
+
 // Fréquence d'envoi de la position
 constexpr uint8_t F_ENV_POS = 50;
 
@@ -52,6 +55,8 @@ constexpr uint16_t  MCS_FREQ = 1000; //1Khz
 constexpr double    MCS_PERIOD = 1000000.0 / MCS_FREQ; // Durée en µs entre deux mesures
 constexpr uint16_t  STEPPER_FREQUENCY = 1000; // 625/2 Hz
 constexpr double    STEPPER_PERIOD = 1000000.0 / STEPPER_FREQUENCY; // Durée en µs entre deux mesures
+constexpr uint16_t  POSITION_UPDATE_FREQUENCY = 20; // 20 Hz
+constexpr double    POSITION_UPDATE_PERIOD = 1000000.0 / POSITION_UPDATE_FREQUENCY; // Durée en µs entre deux mesures
 
 constexpr uint16_t  TICKS_PER_TURN =            4096;   // Unité : ticks
 constexpr float     COD_WHEEL_DIAMETER =        64.35;  // Unité : mm
@@ -65,8 +70,11 @@ constexpr float     TICK_TO_MM = static_cast<float>(PI*COD_WHEEL_DIAMETER/TICKS_
 constexpr float     TICK_TO_RADIAN = TICK_TO_MM / DISTANCE_COD_GAUCHE_CENTRE; // Unité : rad/ticks
 
 /**
-* Capteurs
+*  Différents seuils des XL
 */
+constexpr uint32_t VELOCITY_THRESHOLD = 10; // en unités de Dynamixel (1 -> ~0.2 rpm)
+constexpr float POSITION_THRESHOLD = 3.5f; // en degrés
+constexpr uint32_t ARM_POSITION_BUFFER_SIZE = 20; // nombre de positions stockées en même temps (pour pouvoir demander plusieurs positions aux XL à la suite)
 
 /**
  * Steppers

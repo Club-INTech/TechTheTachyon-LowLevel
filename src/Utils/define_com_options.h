@@ -20,6 +20,7 @@ enum COM_OPTIONS {
     ETHERNET_RW_SERIAL_RW  = ETHERNET_RW|SERIAL_RW
 
 };
+
 inline COM_OPTIONS operator|(COM_OPTIONS a, COM_OPTIONS b)
 {return static_cast<COM_OPTIONS >(static_cast<int>(a) | static_cast<int>(b));}
 

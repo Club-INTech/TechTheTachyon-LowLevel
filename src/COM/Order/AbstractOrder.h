@@ -16,6 +16,8 @@ typedef OrderData& Args;
 
 class OrderManager;
 
+static uint32_t actuatorOrderIndex;
+
 class AbstractOrder
 {
 public:
@@ -23,6 +25,9 @@ public:
     virtual ~AbstractOrder() = default;
     bool exec(Args args);
     virtual void impl(Args args) = 0;
+
+    static uint32_t nextActuatorOrderIndex();
+
 
     inline bool operator()(Args args){ return exec(args); }
 
@@ -41,6 +46,7 @@ static struct ORDER_##name : public AbstractOrder, public Singleton<ORDER_##name
     }                                                                               \
     void impl(Args);                                                                \
 } __ORDER_##name;
+
 
 static std::map<String, AbstractOrder*> allOrders;
 

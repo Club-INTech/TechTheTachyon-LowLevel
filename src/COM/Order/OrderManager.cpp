@@ -18,16 +18,19 @@ OrderManager::OrderManager():
 
 
 void OrderManager::communicate() {
-
     if (highLevel.read(readMessage)) {
+        // TODO: debug only
+        highLevel.printfln(DEBUG_HEADER, "(%lli) Received '''%s'''\n", messageCount, readMessage);
+        messageCount++;
         execute(readMessage);
     }
 
     memset(readMessage, 0, RX_BUFFER_SIZE);
 
     static Metro checkMovement = Metro(10);
+    static Metro checkArms = Metro(10);
     static Metro checkHooksTimer = Metro(20);
-
+    static Metro sendPos = Metro(50);
 
     if (checkMovement.check())
     {
@@ -40,15 +43,19 @@ void OrderManager::communicate() {
         }*/
     }
 
+    if(checkArms.check())
+    {
+        actuatorsMgr.checkArmMovements();
+    }
+
     if (checkHooksTimer.check() && hooksEnabled)
     {
         checkHooks();
         executeHooks();
     }
 
-    static Metro sendPos = Metro(50);
     if (sendPos.check()) {
-        MCS::Instance().sendPositionUpdate();
+        motionControlSystem.sendPositionUpdate();
     }
  }
 

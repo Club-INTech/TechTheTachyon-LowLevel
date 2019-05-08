@@ -7,8 +7,9 @@
 
 #include "COM/Order/OrderManager.h"
 #include "Utils/Monitoring.h"
-#include <string>
 #include "Utils/pin_mapping.h"
+#include "COM/InterruptStackPrint.h"
+
 //#include "MCS/HardwareEncoder_ISRDEF.h"
 
 /* Interruptions d'asservissements */
@@ -16,6 +17,11 @@ void motionControlInterrupt() {
 	static MCS &motionControlSystem = MCS::Instance();
 	motionControlSystem.control();
 	motionControlSystem.manageStop();
+}
+
+void positionInterrupt() {
+	static MCS &motionControlSystem = MCS::Instance();
+	motionControlSystem.sendPositionUpdate();
 }
 
 int main() {
@@ -52,9 +58,12 @@ int main() {
 	orderMgr.init();
     Serial.println("Order manager ok");
 
+    /* InterruotStackPrint */
+    InterruptStackPrint& interruptStackPrint = InterruptStackPrint::Instance();
+
     // MotionControlSystem interrupt on timer
     IntervalTimer motionControlInterruptTimer;
-    motionControlInterruptTimer.priority(253);
+    motionControlInterruptTimer.priority(0);
     motionControlInterruptTimer.begin(motionControlInterrupt, MCS_PERIOD); // Setup de l'interruption d'asservissement
 
 
@@ -80,15 +89,16 @@ int main() {
      * L'execution des ordres de ce dernier
      * Les capteurs
      */
-    while (true) {
-    	InterruptStackPrint::Instance().print();
+    while (true)
+    {
+        InterruptStackPrint::Instance().print();
         orderMgr.communicate();
-       // orderMgr.execute("cod");
+        // orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
 
-		//orderMgr.execute("rawposdata");
-		//orderMgr.execute("cod");
+        //orderMgr.execute("rawposdata");
+        //orderMgr.execute("cod");
 /*
 		delay(60);
 
@@ -101,6 +111,7 @@ int main() {
     	}
 		i++;
     }*/
+    }
 }
 
                    /*``.           `-:--.`
