@@ -7,7 +7,6 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
     encoderLeft = new Encoder(ENCODER_LEFT_A,ENCODER_LEFT_B);
     encoderRight = new Encoder(ENCODER_RIGHT_A,ENCODER_RIGHT_B);
-    float differenceAngle = rotationPID.getCurrentState()-targetAngle;
 
     initSettings();
     initStatus();
@@ -348,7 +347,7 @@ void MCS::rotate(float angle) {
         rotationPID.active = true;
     }
     robotStatus.movement = angle > 0.0 ? MOVEMENT::TRIGO : MOVEMENT::ANTITRIGO;
-    rotationPID.setGoal(angle + rotationPID.getCurrentGoal());
+    rotationPID.setGoal(targetAngle);
     robotStatus.moving = true;
 }
 
@@ -361,7 +360,7 @@ void MCS::gotoPoint(int16_t x, int16_t y, bool sequential) {
 }
 
 void MCS::gotoPoint2(int16_t x, int16_t y) {
-        targetX = x;
+    targetX = x;
     targetY = y;
 //    digitalWrite(LED2,LOW);
     float dx = x-robotStatus.x;

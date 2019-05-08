@@ -64,22 +64,22 @@ int main() {
     stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
 
 
-    Serial.println("Starting 5s wait");
-    delay(5000);//Laisse le temps aux capteurs de clignotter leur ID
+    Serial.println("Starting...");
+    delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
     ActuatorsMgr::Instance().initTorques();
 
     Serial.println("Ready!");
-    delay(60);
-	/**
-	 * Boucle principale, y est géré:
-	 * La communication HL
-	 * L'execution des ordres de ce dernier
-	 * Les capteurs
-	 */
+
     //orderMgr.execute("montlhery");
 
-	int i=0;
+    //	int i=0;
 
+    /**
+     * Boucle principale, y est géré:
+     * La communication HL
+     * L'execution des ordres de ce dernier
+     * Les capteurs
+     */
     while (true) {
     	InterruptStackPrint::Instance().print();
         orderMgr.communicate();
@@ -89,7 +89,7 @@ int main() {
 
 		//orderMgr.execute("rawposdata");
 		//orderMgr.execute("cod");
-
+/*
 		delay(60);
 
     	if (i==5) {
@@ -100,7 +100,7 @@ int main() {
 			Serial.println("DATAEND");
     	}
 		i++;
-    }
+    }*/
 }
 
                    /*``.           `-:--.`
