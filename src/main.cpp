@@ -107,21 +107,15 @@ int main() {
     digitalWrite(LED3,LOW);
     digitalWrite(LED4,LOW);
 
+    int i=0;
+
     while (true) {
         interruptStackPrint.print();
         orderMgr.communicate();
-/*        orderMgr.execute("rawposdata");
-        if (i==0){
-            orderMgr.execute("t 3.14");
-        }
-        delay(10);
-        if (i==300) {
-            orderMgr.execute("t -3.14");
-        }
-        if (i==1200) {
-            Serial.println("DATAEND");
-        }
-        i++;*/
+        orderMgr.execute("t 0");
+        delay(3000);
+        orderMgr.execute("t 3.1415");
+        delay(3000);
     }
 }
 
