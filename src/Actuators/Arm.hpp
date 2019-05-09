@@ -205,7 +205,7 @@ public:
             if(mute) {
                 if(millis()-lastMuteCheck >= MUTE_ARM_CHECK_DELAY) {
                     float tmp = 0.0f;
-                    if(ask(MotorType::goalAngle, base, tmp) && ask(MotorType::goalAngle, elbow, tmp) && ask(MotorType::goalAngle, wrist, tmp)) {
+                    if(ask(MotorType::goalAngle, base, tmp, true) && ask(MotorType::goalAngle, elbow, tmp, true) && ask(MotorType::goalAngle, wrist, tmp, true)) {
                         mute = false;
                         ComMgr::Instance().printfln(EVENT_HEADER, "armIsSpeaking %s", sideName);
                     }
@@ -344,8 +344,8 @@ private:
         return valid && ABS(value) < VELOCITY_THRESHOLD;
     }
 
-    bool ask(const DynamixelAccessData& data, MotorType& xl, float& value) {
-        if(mute) {
+    bool ask(const DynamixelAccessData& data, MotorType& xl, float& value, bool force=false) {
+        if(mute && !force) {
             ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
             return false;
         }
@@ -372,8 +372,8 @@ private:
         return validPacket;
     }
 
-    bool ask(const DynamixelAccessData& data, MotorType& xl, int& value) {
-        if(mute) {
+    bool ask(const DynamixelAccessData& data, MotorType& xl, int& value, bool force=false) {
+        if(mute && !force) {
             ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
             return false;
         }
