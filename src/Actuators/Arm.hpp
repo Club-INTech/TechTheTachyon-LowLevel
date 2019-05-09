@@ -35,12 +35,31 @@ private:
     SyncRead* syncHardwareError = new SyncRead(manager, 3, MotorType::hardwareError);
     ArmStatus status = OK;
 
-    float previousPositions[3] = {0.0f};
     float targetPositions[3] = {0.0f};
     uint16_t retryMovementAttempts = 0;
     float positionsAsked[ARM_POSITION_BUFFER_SIZE][3] = { {0.0f} };
     uint16_t writeIndex = 0;
     uint16_t currentPositionIndex = 0;
+
+    /**
+     * Est ce que le bras veut pas répondre? Dans ce cas on retient et on attend plus de réponse
+     */
+    bool mute = false;
+
+    /**
+     * Nombre d'essais de lecture de paquets Dynamixel avant de déclarer ce bras muet
+     */
+    uint8_t attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
+
+    /**
+     * Temps de début du mouvement, utilisé au cas où le bras ne réponde pas
+     */
+    long movementStartTime = 0;
+
+    /**
+     * Temps de la dernière vérification que le bras répondait pas
+     */
+    long lastMuteCheck = 0;
 
 public:
     Arm(const char* sideName, DynamixelManager& manager, MotorType* list): sideName(sideName), manager(manager), XLlist(list), base(list[0]), elbow(list[1]), wrist(list[2]), status(ArmStatus::OK) {
@@ -127,26 +146,9 @@ public:
         if(resetRetryCounter) {
             retryMovementAttempts = 0;
         }
+        movementStartTime = millis();
 
         status = MOVING;
-        // récupère la position courante au cas où le mouvement échoue. Dans ce cas, les XL vont retourner à cette position courante et réessayer le mouvement
-        float basePos = 0.0f;
-        float elbowPos = 0.0f;
-        float wristPos = 0.0f;
-        // lecture des positions, avec réessai si échec de la comm
-        while(!base.getCurrentAngle(basePos)) {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Echec de la lecture de la position actuelle du XL n°%i, réessai", base.getId());
-            delay(1);
-        }
-        while(!elbow.getCurrentAngle(elbowPos)) {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Echec de la lecture de la position actuelle du XL n°%i, réessai", elbow.getId());
-            delay(1);
-        }
-        while(!wrist.getCurrentAngle(wristPos)) {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Echec de la lecture de la position actuelle du XL n°%i, réessai", wrist.getId());
-            delay(1);
-        }
-        float actualPositions[] = {basePos, elbowPos, wristPos};
         prepareAngleData(0, positions[0]);
         prepareAngleData(1, positions[1]);
         prepareAngleData(2, positions[2]);
@@ -170,7 +172,7 @@ public:
                                     sent[1],
                                     sent[2]);
         syncAngleWriteData->send();
-        savePositions(positions, actualPositions);
+        savePositions(positions);
     }
 
     MotorType* getXLlist() {
@@ -200,11 +202,23 @@ public:
 
     void update() {
         if(status != MOVING) {
+            if(mute) {
+                if(millis()-lastMuteCheck >= MUTE_ARM_CHECK_DELAY) {
+                    float tmp = 0.0f;
+                    if(ask(MotorType::goalAngle, base, tmp, true) && ask(MotorType::goalAngle, elbow, tmp, true) && ask(MotorType::goalAngle, wrist, tmp, true)) {
+                        mute = false;
+                        ComMgr::Instance().printfln(EVENT_HEADER, "armIsSpeaking %s", sideName);
+                    }
+                    lastMuteCheck = millis();
+                }
+            }
+
             gotoNextPosition();
         }
         if(status == MOVING) {
             checkArmMovement();
         }
+
     }
 
     /**
@@ -213,10 +227,18 @@ public:
      */
     void checkArmMovement() {
         if(status == OK || status == WRONG_POSITION) {
+            movementStartTime = millis();
             return;
         }
 
         // on bouge, il faut tester les XL
+        if(mute) { // on ne reçoit aucune réponse des bras, on va attendre un petit temps que les bras bougent
+            if(millis()-movementStartTime >= MUTE_ARM_DELAY) {
+                status = WRONG_POSITION;
+                ComMgr::Instance().printfln(EVENT_HEADER, "armFinishedMovement %s", sideName);
+            }
+            return;
+        }
         bool wristMoving;
         bool elbowMoving;
         bool baseMoving;
@@ -230,7 +252,9 @@ public:
         }
         if (askPosition(base, targetPositions[0]) && askPosition(elbow, targetPositions[1]) && askPosition(wrist, targetPositions[2])) { // si chacune des positions est correcte
             status = OK;
-            ComMgr::Instance().printfln(EVENT_HEADER, "armFinishedMovement %s", sideName);
+            if(writeIndex == currentPositionIndex) {
+                ComMgr::Instance().printfln(EVENT_HEADER, "armFinishedMovement %s", sideName);
+            }
         } else { // si les positions n'ont pas été atteintes
             if (retryMovementAttempts >= MAX_RETRY_ATTEMPTS) { // on a essayé trop de fois
                 ComMgr::Instance().printfln(DEBUG_HEADER,
@@ -245,9 +269,6 @@ public:
                 retryMovementAttempts++;
                 ComMgr::Instance().printfln(EVENT_HEADER, "armRetrying %s", sideName);
                 status = WRONG_POSITION;
-               // uint16_t oldMovementAttempts = retryMovementAttempts;
-           //     setPosition(previousPositions, true); // on renvoie l'ordre de position!
-             //   retryMovementAttempts = oldMovementAttempts; // sauvegarde du nombre d'essai
                 setPosition(targetPositions, false); // on renvoie l'ordre de position!
             }
         }
@@ -283,17 +304,13 @@ private:
     }
 
     /**
-     * Sauvegarde l'état actuel du bras et la position cible
+     * Sauvegarde la position cible pour pouvoir réessayer le mouvement
      * @param positions la position à atteindre
-     * @param previousPositions la position avant de tenter le mouvement, permet de réessayer le mouvement s'il échoue
      */
-    void savePositions(const float *positions, const float *previousPositions) {
+    void savePositions(const float *positions) {
         this->targetPositions[0] = positions[0];
         this->targetPositions[1] = positions[1];
         this->targetPositions[2] = positions[2];
-        this->previousPositions[0] = previousPositions[0];
-        this->previousPositions[1] = previousPositions[1];
-        this->previousPositions[2] = previousPositions[2];
     }
 
     bool askPosition(MotorType &xl, const float askedPosition) {
@@ -327,40 +344,60 @@ private:
         return valid && ABS(value) < VELOCITY_THRESHOLD;
     }
 
-    bool askThreshold(MotorType &xl) {
-        int value;
-        bool valid = ask(MotorType::movingThreshold, xl, value);
-        if(valid) {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Threshold for XL n°%i is %i", xl.getId(), value & ((1 << MotorType::movingThreshold.length)-1));
-        } else {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet received when asking threshold");
+    bool ask(const DynamixelAccessData& data, MotorType& xl, float& value, bool force=false) {
+        if(mute && !force) {
+            ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
+            return false;
         }
-        return valid;
-    }
-
-    bool askOffset(MotorType &xl) {
-        int value = 0;
-        bool valid = ask(MotorType::movingOffset, xl, value);
-        if(valid) {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "MovingOffset for XL n°%i is %i", xl.getId(), value);
-        } else {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet received when asking MovingStatus");
-        }
-        return valid && (value & 0x1) != 0;
-    }
-
-    bool ask(const DynamixelAccessData& data, MotorType& xl, float& value) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for movement...");
         DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
         const char* answer = manager.sendPacket(requestPacket);
-        return xl.decapsulatePacket(answer, value);
+        bool validPacket = xl.decapsulatePacket(answer, value);
+        if(validPacket) {
+            attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
+        } else {
+            ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet, contents of rxBuffer:");
+            for(unsigned int i = 0; i < 30; i++)
+            {
+                ComMgr::Instance().printfln(DEBUG_HEADER, "%i", (int)manager.rxBuffer[i]);
+            }
+            ComMgr::Instance().printfln(DEBUG_HEADER, "END OF RX BUFFER");
+            if(attemptsBeforeMute > 0) {
+                attemptsBeforeMute--;
+            } else {
+                ComMgr::Instance().printfln(EVENT_HEADER, "armIsMute %s", sideName);
+                mute = true;
+            }
+        }
+        return validPacket;
     }
 
-    bool ask(const DynamixelAccessData& data, MotorType& xl, int& value) {
+    bool ask(const DynamixelAccessData& data, MotorType& xl, int& value, bool force=false) {
+        if(mute && !force) {
+            ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
+            return false;
+        }
         ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for movement...");
         DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
         const char* answer = manager.sendPacket(requestPacket);
-        return xl.decapsulatePacket(answer, value);
+        bool validPacket = xl.decapsulatePacket(answer, value);
+        if(validPacket) {
+            attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
+        } else {
+            ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet, contents of rxBuffer:");
+            for(unsigned int i = 0; i < 30; i++)
+            {
+                ComMgr::Instance().printfln(DEBUG_HEADER, "%i", (int)manager.rxBuffer[i]);
+            }
+            ComMgr::Instance().printfln(DEBUG_HEADER, "END OF RX BUFFER");
+            if(attemptsBeforeMute > 0) {
+                attemptsBeforeMute--;
+            } else {
+                ComMgr::Instance().printfln(EVENT_HEADER, "armIsMute %s", sideName);
+                mute = true;
+            }
+        }
+        return validPacket;
     }
 
 };
