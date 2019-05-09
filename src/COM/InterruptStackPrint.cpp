@@ -22,10 +22,10 @@ void InterruptStackPrint::print()
 {
     if( com_options & ETHERNET_RW )
     {
-        /*if( ComMgr::Instance().connectedEthernet() )
+        if( ComMgr::Instance().connectedEthernet() )
         {
             doPrint();
-        }*/
+        }
     }
     else
     {

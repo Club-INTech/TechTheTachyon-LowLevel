@@ -16,9 +16,9 @@
 #include "Utils/defines.h"
 
 #include "ActuatorValues.h"
-#include "Arm.h"
-#include "../Utils/Singleton.hpp"
+#include "Arm.hpp"
 #include <vector>
+#include <AX12.h>
 
 static HardwareSerial& XLSerial = Serial1;
 
@@ -39,7 +39,7 @@ private:
 
 public:
     //Gestion des XL430
-    DynamixelManager* dynamixelManager;
+    DynamixelManager* dynamixelManager = new DynamixelManager(&XLSerial, &DebugSerial);
 
     // Liste des moteurs du bras 1
     AX12* motor1 = (AX12*) dynamixelManager->createMotor(1, AX12GeneratorFunction);//new XL430(1,*manager);
@@ -48,8 +48,7 @@ public:
 	//XL qui pousse les palets
 	XL430* motor7 = (XL430*) dynamixelManager->createMotor(7, XL430GeneratorFunction);//new XL430(7,*manager);
 
-	Arm* rightArm = new Arm(*dynamixelManager, *motor1, *motor2, *motor3);
-	Arm* robot2Arm = new Arm(*dynamixelManager, *motor1, *motor2, *motor3);
+	Arm<AX12>* rightArm = new Arm<AX12>("right", *dynamixelManager, new AX12[3]{*motor1, *motor2, *motor3});
 
 	ActuatorsMgr();
 	~ActuatorsMgr();
@@ -61,6 +60,8 @@ public:
 	void initPWMs();
 	void initTorques();
 	void moveRightStepper(int32_t count);
+
+	void checkArmMovements();
 
 };
 

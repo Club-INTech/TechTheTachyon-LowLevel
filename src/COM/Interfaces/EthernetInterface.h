@@ -20,6 +20,7 @@ MOSI	11/11
 #include "Utils/defines.h"
 #include <SPI.h>
 #include <Ethernet.h>
+#include <utility/w5100.h>
 #include "MCS/MCSReborn.h"
 #include "Utils/pin_mapping.h"
 #include "AbstractComInterface.h"
@@ -31,9 +32,9 @@ class EthernetInterface : public AbstractComInterface
 private:
 	//Param�tres TCP/IP
 	uint8_t mac[6]{ 0x04, 0xE9, 0xE5, 0x04, 0xE9, 0xE5 };  //Addresse mac de la Teensy, ne pas changer
-	IPAddress ip{ 192,168,0,1 };
+	IPAddress ip{ 192,168,1,1 };
 	IPAddress dns{ 8,8,8,8 };
-	IPAddress gateway{ 192,168,0,2 };
+	IPAddress gateway{ 192,168,1,2 };
 	IPAddress subnet{ 255,255,255,0 };
 
 	bool read_char(char & buffer);
@@ -42,11 +43,10 @@ private:
 
 	/* Attributs Ethernet */
 
-	EthernetServer server;
-	EthernetClient client;
-
 public:
 	EthernetInterface();
+	bool connect(IPAddress,int);
+	bool connected();
 	bool read(char*);
 	bool read(int32_t&);
 	bool read(int16_t&);
@@ -58,6 +58,17 @@ public:
 	void printf(const char *);
 
 	void resetCard();
+
+    void reconnectIfNeeded();
+
+//EthernetServer server;
+EthernetClient client = EthernetClient(0);
+	int sentCount = 0;
+
+	void flushRoutine();
+
+    void wizMemoryDump();
 };
+static EthernetInterface* interfaceInstance;
 
 #endif

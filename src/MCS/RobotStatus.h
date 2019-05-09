@@ -15,10 +15,10 @@ struct RobotStatus
     bool controlledTranslation;
     bool controlledRotation;
     bool controlledP2P;
+    bool Lbooly;
     bool forcedMovement;
     bool moving;
     bool stuck;
-    bool Lbooly;
 
     float x;
     float y;

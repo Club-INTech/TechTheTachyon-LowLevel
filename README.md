@@ -3,8 +3,12 @@
 Pour pouvoir utiliser le projet:
 - Installer Platformio ([Guide d'installation](https://club-intech.minet.net/images/9/97/Guide_PIO.pdf))
 - Clonez ce dépot
-- **Initialisez le sous-module DynamixelCom avec la commande** `git submodule update --init Dynamixe-lCom`
-- Ouvrez un terminal dans le dossier du dépot, et effectuez la commande \
+- Deux solutions : 
+ - Solution 1 :
+  - **Initialisez le sous-module DynamixelCom avec la commande** `git submodule update --init Dynamixel-Com`
+  - Ouvrez un terminal dans le dossier du dépot, et effectuez la commande \
+ - Solution 2 :
+  - ```./setup.sh```
 ```pio init --ide IDE --board teensy35```\
 avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio Code
 - Ouvrez le dossier du dépot avec CLion ou VSCode.
@@ -12,10 +16,10 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 
 ## TODO
 
-- [ ] Compléter le nouveau MCS
-- [ ] Asservissement
-- [ ] Vérifier l'état de la communication LL/HL
-- [ ] Implémenter les nouveaux ordres
+- [x] Compléter le nouveau MCS
+- [x] Asservissement
+- [x] Vérifier l'état de la communication LL/HL
+- [x] Implémenter les nouveaux ordres
 - [ ] Ordre propre pour la récupération de données d'asservissement + scripts en conséquence
 - [ ] Mise en place de cas d'erreur explicites et plus nombreux pour le HL
 - [ ] Gagner la Coupe
@@ -82,11 +86,13 @@ avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio 
 |:---------:|:--------------------------------------------------:|:--------------------------|
 |    XLm    |Envoie le XL-430 à un α en °                        |id XL / α                  |
 |    XLs    |Modifie la vitesse d'un XL-430                      |id XL / speed              |
+|    posBras|Récupère les angles (en °) d'un bras                		 |side(left/right)			 |
 |	brasToutDroit	|Envoie le bras à la position "tout droit"           |side(left/right)           |
 |    dist   		|Envoie le bras à la position "distributeur"         |side(left/right)           |
 |   grnd    		|Envoie le bras à la position "sol"                  |side(left/right)           |
 |   stock   		|Envoie le bras à la position "ascenceur"            |side(left/right)           |
 |    acc    		|Envoie le bras à la position "accélérateur"         |side(left/right)           |
+|    posinter 		|Envoie le bras à la position "intermediaire"        |side(left/right)           |
 |     up    		|Monte l'ascenceur de la hauteur d'un palet          |side(left/right)           |
 |    down   		|Descend l'ascenseur de la hauteur d'un palet        |side(left/right)           |
 |    suck   		|Active la pompe                                     |side(left/right)           |

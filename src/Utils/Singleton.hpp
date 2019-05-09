@@ -19,5 +19,4 @@ protected:
 	Singleton() {
 	}
 };
-
 #endif

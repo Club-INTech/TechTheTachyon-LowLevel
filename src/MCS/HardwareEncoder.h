@@ -267,7 +267,7 @@ public:
         /* Activates channel interrupts */
         C0SC() = 0x50;
 
-        /* Enables write protection on registers */
+        /* Enables write protectiint32_t value = cnt_H*0x10000+CNT();on on registers */
         ENABLE_PROTECTION();
     }
 

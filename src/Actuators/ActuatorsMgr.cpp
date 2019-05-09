@@ -2,6 +2,7 @@
 // 
 // 
 
+#include <COM/InterruptStackPrint.h>
 #include "ActuatorsMgr.h"
 
 ActuatorsMgr::ActuatorsMgr() : dynamixelManager(new DynamixelManager(&XLSerial, &DebugSerial, 9600))
@@ -34,10 +35,14 @@ void ActuatorsMgr::handleInterrupt() {
             digitalWrite(STEP_PIN_RIGHT, LOW);
         }
         rightStepCount--;
+
+        if(rightStepCount == 0) {
+            InterruptStackPrint::Instance().push(EVENT_HEADER, "rightElevatorStopped");
+        }
     } else {
         rightStepCount = 0;
-        //analogWrite(STEP_PIN_RIGHT, 0);
         digitalWrite(STEP_PIN_RIGHT, LOW);
+        //analogWrite(STEP_PIN_RIGHT, 0);
     }
 }
 
@@ -57,3 +62,6 @@ void ActuatorsMgr::moveRightStepper(int32_t count) {
     stepControl.moveAsync(rightStepper);*/
 }
 
+void ActuatorsMgr::checkArmMovements() {
+    rightArm->update();
+}

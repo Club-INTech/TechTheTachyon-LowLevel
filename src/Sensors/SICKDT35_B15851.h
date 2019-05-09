@@ -45,7 +45,7 @@ public:
      * Réglage de la valeur de résistance utilisée pour lire l'information du SICK
      * @param la valeur de la résistance, en Ohm
      */
-    void setResistorValue(double value);
+     void setResistorValue(double value);
 
 private:
     uint8_t pin = 255;
