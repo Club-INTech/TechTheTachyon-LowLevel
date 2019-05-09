@@ -235,7 +235,9 @@ public:
         }
         if (askPosition(base, targetPositions[0]) && askPosition(elbow, targetPositions[1]) && askPosition(wrist, targetPositions[2])) { // si chacune des positions est correcte
             status = OK;
-            ComMgr::Instance().printfln(EVENT_HEADER, "armFinishedMovement %s", sideName);
+            if(writeIndex == currentPositionIndex) {
+                ComMgr::Instance().printfln(EVENT_HEADER, "armFinishedMovement %s", sideName);
+            }
         } else { // si les positions n'ont pas été atteintes
             if (retryMovementAttempts >= MAX_RETRY_ATTEMPTS) { // on a essayé trop de fois
                 ComMgr::Instance().printfln(DEBUG_HEADER,
