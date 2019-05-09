@@ -338,6 +338,7 @@ private:
             if(attemptsBeforeMute > 0) {
                 attemptsBeforeMute--;
             } else {
+                ComMgr::Instance().printfln(EVENT_HEADER, "armIsMute %s", sideName);
                 mute = true;
             }
         }
@@ -359,6 +360,7 @@ private:
             if(attemptsBeforeMute > 0) {
                 attemptsBeforeMute--;
             } else {
+                ComMgr::Instance().printfln(EVENT_HEADER, "armIsMute %s", sideName);
                 mute = true;
             }
         }
