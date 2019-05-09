@@ -210,6 +210,7 @@ public:
      */
     void checkArmMovement() {
         if(status == OK || status == WRONG_POSITION) {
+            movementStartTime = millis();
             return;
         }
 
@@ -327,7 +328,7 @@ private:
     bool ask(const DynamixelAccessData& data, MotorType& xl, float& value) {
         if(mute) {
             ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
-            return true;
+            return false;
         }
         ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for movement...");
         DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
@@ -349,7 +350,7 @@ private:
     bool ask(const DynamixelAccessData& data, MotorType& xl, int& value) {
         if(mute) {
             ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
-            return true;
+            return false;
         }
         ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for movement...");
         DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
