@@ -112,10 +112,6 @@ int main() {
     while (true) {
         interruptStackPrint.print();
         orderMgr.communicate();
-        orderMgr.execute("t 0");
-        delay(3000);
-        orderMgr.execute("t 3.1415");
-        delay(3000);
     }
 }
 
