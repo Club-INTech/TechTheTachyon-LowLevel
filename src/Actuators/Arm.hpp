@@ -56,6 +56,11 @@ private:
      */
     long movementStartTime = 0;
 
+    /**
+     * Temps de la dernière vérification que le bras répondait pas
+     */
+    long lastMuteCheck = 0;
+
 public:
     Arm(const char* sideName, DynamixelManager& manager, MotorType* list): sideName(sideName), manager(manager), XLlist(list), base(list[0]), elbow(list[1]), wrist(list[2]), status(ArmStatus::OK) {
 
@@ -197,11 +202,23 @@ public:
 
     void update() {
         if(status != MOVING) {
+            if(mute) {
+                if(millis()-lastMuteCheck >= MUTE_ARM_CHECK_DELAY) {
+                    float tmp = 0.0f;
+                    if(ask(MotorType::goalAngle, base, tmp) && ask(MotorType::goalAngle, elbow, tmp) && ask(MotorType::goalAngle, wrist, tmp)) {
+                        mute = false;
+                        ComMgr::Instance().printfln(EVENT_HEADER, "armIsSpeaking %s", sideName);
+                    }
+                    lastMuteCheck = millis();
+                }
+            }
+
             gotoNextPosition();
         }
         if(status == MOVING) {
             checkArmMovement();
         }
+
     }
 
     /**
@@ -339,6 +356,12 @@ private:
         if(validPacket) {
             attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
         } else {
+            ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet, contents of rxBuffer:");
+            for(unsigned int i = 0; i < 30; i++)
+            {
+                ComMgr::Instance().printfln(DEBUG_HEADER, "%i", (int)manager.rxBuffer[i]);
+            }
+            ComMgr::Instance().printfln(DEBUG_HEADER, "END OF RX BUFFER");
             if(attemptsBeforeMute > 0) {
                 attemptsBeforeMute--;
             } else {
@@ -361,6 +384,12 @@ private:
         if(validPacket) {
             attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
         } else {
+            ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet, contents of rxBuffer:");
+            for(unsigned int i = 0; i < 30; i++)
+            {
+                ComMgr::Instance().printfln(DEBUG_HEADER, "%i", (int)manager.rxBuffer[i]);
+            }
+            ComMgr::Instance().printfln(DEBUG_HEADER, "END OF RX BUFFER");
             if(attemptsBeforeMute > 0) {
                 attemptsBeforeMute--;
             } else {

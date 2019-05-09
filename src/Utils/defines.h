@@ -78,6 +78,7 @@ constexpr float POSITION_THRESHOLD = 3.5f; // en degrés
 constexpr uint32_t ARM_POSITION_BUFFER_SIZE = 20; // nombre de positions stockées en même temps (pour pouvoir demander plusieurs positions aux XL à la suite)
 constexpr uint32_t ARM_ATTEMPTS_BEFORE_MUTE = 3; // nombre d'essais de lecture de paquets à la suite avant de déclarer qu'un bras ne répondra jamais
 constexpr uint32_t MUTE_ARM_DELAY = 50; // délai utilisé pour attendre qu'un bras qui ne répond pas ait bougé
+constexpr uint32_t MUTE_ARM_CHECK_DELAY = 300; // délai entre deux vérifications qu'un bras est toujours muet
 
 /**
  * Steppers
