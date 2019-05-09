@@ -216,7 +216,8 @@ public:
         // on bouge, il faut tester les XL
         if(mute) { // on ne reçoit aucune réponse des bras, on va attendre un petit temps que les bras bougent
             if(millis()-movementStartTime >= MUTE_ARM_DELAY) {
-                status = OK;
+                status = WRONG_POSITION;
+                ComMgr::Instance().printfln(EVENT_HEADER, "armFinishedMovement %s", sideName);
             }
             return;
         }
