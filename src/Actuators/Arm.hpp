@@ -207,6 +207,7 @@ public:
                     float tmp = 0.0f;
                     if(ask(MotorType::goalAngle, base, tmp, true) && ask(MotorType::goalAngle, elbow, tmp, true) && ask(MotorType::goalAngle, wrist, tmp, true)) {
                         mute = false;
+                        attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
                         ComMgr::Instance().printfln(EVENT_HEADER, "armIsSpeaking %s", sideName);
                     }
                     lastMuteCheck = millis();
@@ -349,13 +350,13 @@ private:
             ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
             return false;
         }
-        ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for movement...");
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for Dynamixel data %02X%02X", data.address[1], data.address[0]);
         DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
         const char* answer = manager.sendPacket(requestPacket);
         bool validPacket = xl.decapsulatePacket(answer, value);
         if(validPacket) {
             attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
-        } else {
+        } else if(!force) /* Si on force la lecture, c'est qu'on veut vérifier que le bras est toujours muet, pas besoin de le redire */ {
             ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet, contents of rxBuffer:");
             for(unsigned int i = 0; i < 30; i++)
             {
@@ -377,13 +378,13 @@ private:
             ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
             return false;
         }
-        ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for movement...");
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for Dynamixel data %02X%02X", data.address[1], data.address[0]);
         DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
         const char* answer = manager.sendPacket(requestPacket);
         bool validPacket = xl.decapsulatePacket(answer, value);
         if(validPacket) {
             attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
-        } else {
+        } else if(!force) /* Si on force la lecture, c'est qu'on veut vérifier que le bras est toujours muet, pas besoin de le redire */ {
             ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet, contents of rxBuffer:");
             for(unsigned int i = 0; i < 30; i++)
             {
