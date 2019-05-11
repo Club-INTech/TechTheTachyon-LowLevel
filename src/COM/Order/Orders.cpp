@@ -612,6 +612,7 @@ void ORDER_dist::impl(Args args)
     }
     Arm<AX12>* arm = manager.rightArm;
     arm->setPosition(positionIntermediaireSecondaire);
+    arm->setPosition(positionIntermediaireSecondaire2);
     arm->setPosition(positionDistributeurSecondaire);
 }
 
@@ -644,6 +645,7 @@ void ORDER_stockSecondaire::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<AX12>* arm = manager.rightArm;
+    arm->setPosition(positionIntermediaireSecondaire2);
     arm->setPosition(positionIntermediaireSecondaire);
     arm->setPosition(positionStockageSecondaire);
 }

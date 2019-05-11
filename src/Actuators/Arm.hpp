@@ -26,10 +26,10 @@ private:
     const char* sideName;
     char* syncAngles = new char[MotorType::goalAngle.length*3];
     MotorType* XLlist;
-    SyncWrite* syncVelocityLimit = new SyncWrite(manager, 3, MotorType::velocityLimit);
-    SyncWrite* syncAngleWriteData = new SyncWrite(manager, 3, MotorType::goalAngle);
-    SyncWrite* syncToggleTorqueWriteData = new SyncWrite(manager, 3, MotorType::torqueEnable);
-    SyncWrite* syncReturnDelay = new SyncWrite(manager, 3, MotorType::returnDelay);
+    SyncWrite* syncVelocityLimit = new SyncWrite(manager, 3, MotorType::velocityLimit, 1);
+    SyncWrite* syncAngleWriteData = new SyncWrite(manager, 3, MotorType::goalAngle, 1);
+    SyncWrite* syncToggleTorqueWriteData = new SyncWrite(manager, 3, MotorType::torqueEnable, 1);
+    SyncWrite* syncReturnDelay = new SyncWrite(manager, 3, MotorType::returnDelay, 1);
     SyncRead* syncMovingRead = new SyncRead(manager, 3, MotorType::moving);
     SyncRead* syncMovingStatus = new SyncRead(manager, 3, MotorType::movingStatus);
     SyncRead* syncHardwareError = new SyncRead(manager, 3, MotorType::hardwareError);
