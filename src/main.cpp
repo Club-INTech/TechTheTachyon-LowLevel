@@ -83,8 +83,6 @@ int main() {
 
     Serial.println("Ready!");
 
-    //orderMgr.execute("montlhery");
-
     /**
      * Boucle principale, y est géré:
      * La communication HL
@@ -92,7 +90,7 @@ int main() {
      * Les capteurs
      */
     //orderMgr.execute("montlhery");
-    int i =0;
+    //int i =0;
     while (true)
     {
         InterruptStackPrint::Instance().print();
@@ -100,7 +98,7 @@ int main() {
         // orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-        orderMgr.execute("rawposdata");
+        /*orderMgr.execute("rawposdata");
         delay(60);
         if(i==5){
             orderMgr.execute("t 2.4");
@@ -111,7 +109,7 @@ int main() {
         if(i==300){
             orderMgr.execute("DATAEND");
         }
-        i++;
+        i++;*/
     }
 }
 
