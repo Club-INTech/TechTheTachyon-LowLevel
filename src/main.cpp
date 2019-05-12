@@ -100,6 +100,18 @@ int main() {
         // orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
+        orderMgr.execute("rawposdata");
+        delay(60);
+        if(i==5){
+            orderMgr.execute("t 2.4");
+        }
+        if(i==150){
+            orderMgr.execute("t 0");
+        }
+        if(i==300){
+            orderMgr.execute("DATAEND");
+        }
+        i++;
     }
 }
 

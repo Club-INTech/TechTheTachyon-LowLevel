@@ -38,7 +38,7 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     translationPID.enableAWU(false);
 //    rotationPID180.setTunings(6.5,0.0001,0,0);
 //    rotationPID.setTunings(8.75,0.000001,0,0);
-    rotationPID.setTunings(16.5,0.000001,0,0);
+    rotationPID.setTunings(5.6,0.000001,0,0);
 //    rotationPID90.setTunings(10.3,0.0001,12,0);
 //    rotationPID180.enableAWU(false);
     rotationPID.enableAWU(false);
@@ -338,11 +338,12 @@ void MCS::rotate(float angle) {
 
         differenceAngle = robotStatus.orientation-targetAngle;
     }
-    if((0.994838<ABS(differenceAngle) and ABS(differenceAngle)<2.35619)){
-        rotationPID.setTunings(7.74,0.000001,0,0);
+    if((1<=ABS(differenceAngle) and ABS(differenceAngle)<1.5)){
+        //rotationPID.setTunings(7.74,0.000001,0,0);
+        rotationPID.setTunings(-5.4*ABS(differenceAngle)+13.07,0.000001,0,0);
     }
-    else if(ABS(differenceAngle)>2.35619){
-        rotationPID.setTunings(7,0.000001,0,0);
+    else if(ABS(differenceAngle)>=1.5){
+        rotationPID.setTunings(-1.15*ABS(differenceAngle)+7.23,0.000001,0,0);
     }
     else{
         rotationPID.setTunings(-13.54*ABS(differenceAngle)+20.53,0.000001,10,0);
