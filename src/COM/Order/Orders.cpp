@@ -660,7 +660,7 @@ void ORDER_dist2stock::impl(Args args)
     MOVE_ARM(args[0],
              arm->setPosition(positionPrePreDistributeur);
              arm->setPosition(positionIntermediaire);
-             arm->setPosition(positionStockagePrise);
+             arm->setPosition(positionStockageDepot);
          )
 }
 
