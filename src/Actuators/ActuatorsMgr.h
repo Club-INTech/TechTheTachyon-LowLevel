@@ -31,8 +31,10 @@ class ActuatorsMgr : public Singleton<ActuatorsMgr>
 private:
     StepperDirection leftDirection;
     StepperDirection rightDirection;
-	volatile int leftStepCount;
-	volatile int rightStepCount;
+	volatile int32_t leftStepCount;
+	volatile int32_t rightStepCount;
+	int32_t nextLeftStepCount;
+	int32_t nextRightStepCount;
    /* Stepper leftStepper = Stepper(STEP_PIN_LEFT, DIR_PIN_LEFT);
     Stepper rightStepper = Stepper(STEP_PIN_RIGHT, DIR_PIN_RIGHT);
     StepControl<> stepControl = StepControl<>();*/
@@ -62,8 +64,8 @@ public:
 	void handleInterrupt();
 	void initPWMs();
 	void initTorques();
-	void moveLeftStepper(int32_t count);
-	void moveRightStepper(int32_t count);
+	void moveLeftStepper(int32_t count, int32_t nextCount = 0);
+	void moveRightStepper(int32_t count, int32_t nextCount = 0);
 
 	void checkArmMovements();
 

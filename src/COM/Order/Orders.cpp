@@ -627,6 +627,34 @@ void ORDER_down::impl(Args args)
     }
 }
 
+void ORDER_updown::impl(Args args)
+{
+    if(!strcmp(args[0], "right"))
+    {
+        ActuatorsMgr::Instance().moveRightStepper(1,-1);
+        orderManager.highLevel.printf(DEBUG_HEADER, "Monte puis descend le stepper droit d'une unité\n");
+    }
+    else
+    {
+        ActuatorsMgr::Instance().moveLeftStepper(1,-1);
+        orderManager.highLevel.printf(DEBUG_HEADER, "Monte ouis descend le stepper gauche d'une unité\n");
+    }
+}
+
+void ORDER_downup::impl(Args args)
+{
+    if(!strcmp(args[0], "right"))
+    {
+        ActuatorsMgr::Instance().moveRightStepper(-1,1);
+        orderManager.highLevel.printf(DEBUG_HEADER, "Descend puis monte le stepper droit d'une unité\n");
+    }
+    else
+    {
+        ActuatorsMgr::Instance().moveLeftStepper(-1,1);
+        orderManager.highLevel.printf(DEBUG_HEADER, "Descend puis monte le stepper gauche d'une unité\n");
+    }
+}
+
 void ORDER_dist2stock::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();

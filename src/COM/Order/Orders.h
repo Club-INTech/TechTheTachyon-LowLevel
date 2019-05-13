@@ -154,6 +154,8 @@ ORDER(posBras,1);
 /* Ascenseurs */
 ORDER(up,1);
 ORDER(down,1);
+ORDER(updown,1);
+ORDER(downup,1);
 
 /*Pompes et électrovannes*/
 ORDER(suck,1);
