@@ -29,7 +29,6 @@ echo "Initialisation du dépôt du bas niveau"
 echo "Clonage des submodule"
 
 git submodule update --init Dynamixel-Com
-git submodule update --init TeensyStep
 
 echo "Fin du clonage"
 echo "Initialisation avec platformio"

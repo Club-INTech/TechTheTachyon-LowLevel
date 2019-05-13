@@ -46,8 +46,12 @@ void ActuatorsMgr::handleInterrupt() {
         }
         leftStepCount--;
 
-        if(leftStepCount == 0) {
+        if(leftStepCount == 0 && nextLeftStepCount == 0) {
             InterruptStackPrint::Instance().push(EVENT_HEADER, "leftElevatorStopped");
+        }
+        else if(rightStepCount == 0)
+        {
+            moveLeftStepper(nextLeftStepCount);
         }
     } else {
         leftStepCount = 0;
@@ -63,8 +67,12 @@ void ActuatorsMgr::handleInterrupt() {
         }
         rightStepCount--;
 
-        if(rightStepCount == 0) {
+        if(rightStepCount == 0 && nextRightStepCount == 0) {
             InterruptStackPrint::Instance().push(EVENT_HEADER, "rightElevatorStopped");
+        }
+        else if(rightStepCount == 0)
+        {
+            moveRightStepper(nextRightStepCount);
         }
     } else {
         rightStepCount = 0;
@@ -73,7 +81,7 @@ void ActuatorsMgr::handleInterrupt() {
     }
 }
 
-void ActuatorsMgr::moveLeftStepper(int32_t count) {
+void ActuatorsMgr::moveLeftStepper(int32_t count, int32_t nextCount) {
     this->leftDirection = count > 0 ? UP : DOWN;
 
     // inversé par rapport à droite
@@ -83,13 +91,15 @@ void ActuatorsMgr::moveLeftStepper(int32_t count) {
         digitalWrite(DIR_PIN_LEFT, LOW);
     }
     leftStepCount = ABS(count)*STEP_COUNT;
+
+    nextLeftStepCount = nextCount;
    // analogWrite(STEP_PIN_LEFT, 128);
 /*    leftStepCount += count*STEP_COUNT;
     leftStepper.setTargetAbs(leftStepCount);
     stepControl.moveAsync(leftStepper);*/
 }
 
-void ActuatorsMgr::moveRightStepper(int32_t count) {
+void ActuatorsMgr::moveRightStepper(int32_t count, int32_t nextCount) {
     this->rightDirection = count > 0 ? UP : DOWN;
     if(count > 0) {
         digitalWrite(DIR_PIN_RIGHT, HIGH);
@@ -97,6 +107,8 @@ void ActuatorsMgr::moveRightStepper(int32_t count) {
         digitalWrite(DIR_PIN_RIGHT, LOW);
     }
     rightStepCount = ABS(count)*STEP_COUNT;
+
+    nextRightStepCount = nextCount;
  //   analogWrite(STEP_PIN_RIGHT, 128);
 /*    rightStepCount += count*STEP_COUNT;
     rightStepper.setTargetAbs(rightStepCount);
