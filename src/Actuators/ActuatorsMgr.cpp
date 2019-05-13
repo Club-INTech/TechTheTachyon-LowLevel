@@ -49,7 +49,7 @@ void ActuatorsMgr::handleInterrupt() {
         if(leftStepCount == 0 && nextLeftStepCount == 0) {
             InterruptStackPrint::Instance().push(EVENT_HEADER, "leftElevatorStopped");
         }
-        else if(rightStepCount == 0)
+        else if(leftStepCount == 0)
         {
             moveLeftStepper(nextLeftStepCount);
         }
