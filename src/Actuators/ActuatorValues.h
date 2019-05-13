@@ -61,7 +61,8 @@ const static float positionAccPoussePalet[3] = {286.0f, 247.0f, 219.0f};
 const static float positionAccelerateur[3] = {292.0f, 272.0f, 244.0f};
 const static float positionAccBIS[3] = {193.0f, 235.0f, 90.0f};
 const static float positionAccTER[3] = {287.0f, 290.0f+5.0f, 185.0f-5.0f};
-const static float positionStockage[3] = { 195.0f, 250.0f, 95.0f};//{170.0f, 232.0f, 55.5f};
+const static float positionStockageDepot[3] = { 195.0f, 250.0f, 95.0f};//{170.0f, 232.0f, 55.5f};
+const static float positionStockagePrise[3] = {170.0f, 240.0f, 80.0f};
 const static float positionIntermediaire[3] = {195.18f, 249.83f-10, 82.19f+10};
 
 const static float positionPrePreDistributeur[3] = {254.50f, 230.21f, 122.23f};
@@ -104,10 +105,10 @@ static String PaletColorToString( const PaletColor color )
 }
 
 const static float* stepsFromStorageToDistrib[] = {
-        positionStockage, positionIntermediaire, positionPreDistributeur, positionDistributeur
+        positionStockagePrise, positionIntermediaire, positionPreDistributeur, positionDistributeur
 };
 const static float* stepsFromDistribToStorage[] = {
-        positionDistributeur, positionPreDistributeur, positionIntermediaire, positionStockage
+        positionDistributeur, positionPreDistributeur, positionIntermediaire, positionStockageDepot
 };
 
 #endif //LL_ACTUTORVALUES_H

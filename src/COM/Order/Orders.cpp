@@ -647,8 +647,7 @@ void ORDER_downup::impl(Args args)
     {
         ActuatorsMgr::Instance().moveRightStepper(-1,1);
         orderManager.highLevel.printf(DEBUG_HEADER, "Descend puis monte le stepper droit d'une unité\n");
-    }
-    else
+    } else
     {
         ActuatorsMgr::Instance().moveLeftStepper(-1,1);
         orderManager.highLevel.printf(DEBUG_HEADER, "Descend puis monte le stepper gauche d'une unité\n");
@@ -661,7 +660,7 @@ void ORDER_dist2stock::impl(Args args)
     MOVE_ARM(args[0],
              arm->setPosition(positionPrePreDistributeur);
              arm->setPosition(positionIntermediaire);
-             arm->setPosition(positionStockage);
+             arm->setPosition(positionStockagePrise);
          )
 }
 
@@ -684,12 +683,21 @@ void ORDER_grnd::impl(Args args)
     )
 }
 
+void ORDER_stockDepot::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+             arm->setPosition(positionIntermediaire);
+             arm->setPosition(positionStockageDepot);
+    )
+}
+
 void ORDER_stock::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
              arm->setPosition(positionIntermediaire);
-             arm->setPosition(positionStockage);
+                     arm->setPosition(positionStockagePrise);
     )
 }
 
