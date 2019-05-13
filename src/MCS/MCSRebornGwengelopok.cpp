@@ -306,8 +306,11 @@ void MCS::translate(int16_t amount) {
     if(!robotStatus.controlledTranslation)
         return;
     targetDistance = amount;
-    if(amount == 0)
+    if(amount == 0) {
+        translationPID.setGoal(currentDistance);
+        robotStatus.moving = true;
         return;
+    }
     if( ! translationPID.active) {
         translationPID.fullReset();
         translationPID.active = true;
@@ -430,7 +433,7 @@ void MCS::speedBasedMovement(MOVEMENT movement) {
 }
 
 void MCS::sendPositionUpdate() {
-    ComMgr::Instance().printfln(POSITION_HEADER, "%f %f %f", robotStatus.x, robotStatus.y, robotStatus.orientation);
+    ComMgr::Instance().printfln(POSITION_HEADER, "%f %f %f %li", robotStatus.x, robotStatus.y, robotStatus.orientation, millis());
 }
 
 void MCS::resetEncoders() {
