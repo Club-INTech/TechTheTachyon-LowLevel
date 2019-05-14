@@ -100,7 +100,7 @@ public:
     baud->send();*/
 
         ComMgr::Instance().printf(DEBUG_HEADER, "Setting velocity limit... ");
-        char velocityLimit[] = {static_cast<char>(200), 0, 0, 0};
+        char velocityLimit[] = {0, 0, 0, 0};
         syncVelocityLimit->setData(0, velocityLimit);
         syncVelocityLimit->setData(1, velocityLimit);
         syncVelocityLimit->setData(2, velocityLimit);
