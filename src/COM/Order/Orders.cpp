@@ -677,10 +677,11 @@ void ORDER_gold::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<AX12>* arm = manager.rightArm;
+    //arm->setPosition(positionPreGoldonium);
     arm->setPosition(positionGoldonium);
-    //arm->setPosition(positionMusclor);
 
 }
+
 
 void ORDER_musclor::impl(Args args)
 {
