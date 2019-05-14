@@ -32,7 +32,7 @@ private:
     File fileStreams[fileCount];
 
     uint32_t startingTime;
-    bool sdStatus;
+    bool sdStatus = false;
 
     bool logToFile(const String&,uint8_t);
 };

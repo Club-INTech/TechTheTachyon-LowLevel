@@ -35,9 +35,11 @@ private:
 	volatile int32_t rightStepCount;
 	int32_t nextLeftStepCount;
 	int32_t nextRightStepCount;
-   /* Stepper leftStepper = Stepper(STEP_PIN_LEFT, DIR_PIN_LEFT);
-    Stepper rightStepper = Stepper(STEP_PIN_RIGHT, DIR_PIN_RIGHT);
-    StepControl<> stepControl = StepControl<>();*/
+	volatile int32_t timerForLeftStepper = -1;
+	volatile int32_t timerForRightStepper = -1;
+	/* Stepper leftStepper = Stepper(STEP_PIN_LEFT, DIR_PIN_LEFT);
+     Stepper rightStepper = Stepper(STEP_PIN_RIGHT, DIR_PIN_RIGHT);
+     StepControl<> stepControl = StepControl<>();*/
 
 public:
     //Gestion des XL430

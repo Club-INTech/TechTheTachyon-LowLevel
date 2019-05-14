@@ -97,7 +97,7 @@ void MCS::updatePositionOrientation() {
     int32_t leftDistance = leftTicks * TICK_TO_MM;
     int32_t rightDistance = rightTicks * TICK_TO_MM;
 
-    robotStatus.orientation = (rightTicks - leftTicks) / 2 * TICK_TO_RADIAN + angleOffset;
+    robotStatus.orientation = (rightTicks - leftTicks) / 2.0 * TICK_TO_RADIAN + angleOffset;
 
     float cos = cosf(getAngle());
     float sin = sinf(getAngle());

@@ -60,8 +60,8 @@ private:
     float targetAngle;
     float angleOffset;
 
-    Average<int32_t, 100> averageLeftSpeed;
-    Average<int32_t, 100> averageRightSpeed;
+    Average<float, 100> averageLeftSpeed;
+    Average<float, 100> averageRightSpeed;
     Average<float, 25> averageRotationDerivativeError;
     Average<float, 25> averageTranslationDerivativeError;
 
