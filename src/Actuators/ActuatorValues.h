@@ -57,6 +57,7 @@ static usb_serial_class& DebugSerial = SerialUSB;
 // Définition des différentes positions
 static float positionDroit[3] = {180.0f,180.0f,180.0f};
 static float positionAccelerateur[3] = {186.0f, 55.0f, 141.0f};
+static float positionAccelerateurSecondaire[3] = {213.4f,180.0f,151.4f};
 static float positionStockage[3] = {174.50f, 255.64f, 80.87f};
 static float positionStockageSecondaire[3] = { 140.00f, 75.00f, 55.00f};
 static float positionIntermediaire[3] = {195.18f, 249.83f, 82.19f};

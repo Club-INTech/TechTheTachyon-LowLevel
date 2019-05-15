@@ -660,6 +660,16 @@ void ORDER_acc::impl(Args args)
     arm->setPosition(positionAccelerateur);
 }
 
+void ORDER_accSecondaire::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<AX12>* arm = manager.rightArm;
+    arm->setPosition(positionAccelerateurSecondaire);
+}
+
 void ORDER_bal::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
