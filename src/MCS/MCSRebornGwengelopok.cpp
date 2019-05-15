@@ -19,6 +19,7 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.controlledRotation = true;
     robotStatus.controlledTranslation = true;
     robotStatus.controlledP2P = false;
+    robotStatus.sentMoveAbnormal = false;
     robotStatus.movement = MOVEMENT::NONE;
 
 
@@ -355,7 +356,7 @@ void MCS::rotate(float angle) {
         rotationPID.fullReset();
         rotationPID.active = true;
     }
-    robotStatus.movement = angle > 0.0 ? MOVEMENT::TRIGO : MOVEMENT::ANTITRIGO;
+    robotStatus.movement = differenceAngle > 0.0 ? MOVEMENT::TRIGO : MOVEMENT::ANTITRIGO;
     rotationPID.setGoal(targetAngle);
     robotStatus.moving = true;
     digitalWrite(LED2_1,HIGH);
@@ -534,4 +535,16 @@ float MCS::getRightSpeed() {
 void MCS::getSpeedGoals(long &leftGoal, long &rightGoal) {
     leftGoal = leftSpeedPID.getCurrentGoal();
     rightGoal = rightSpeedPID.getCurrentGoal();
+}
+
+bool MCS::sentMoveAbnormal() {
+    return robotStatus.sentMoveAbnormal;
+}
+
+bool MCS::isMoveAbnormal() {
+    return robotStatus.stuck;
+}
+
+void MCS::setMoveAbnormalSent(bool val) {
+    robotStatus.sentMoveAbnormal = val;
 }

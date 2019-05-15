@@ -139,6 +139,10 @@ public:
     void setX(int16_t);
     void setY(int16_t);
     void setAngle(float);
+    
+    bool sentMoveAbnormal();
+    bool isMoveAbnormal();
+    void setMoveAbnormalSent(bool);
 };
 
 #endif //LL_MCSREBORN_H
