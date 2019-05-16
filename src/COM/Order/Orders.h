@@ -144,8 +144,6 @@ ORDER(overPuck,1);
 ORDER(stock,1);
 ORDER(acc,1);
 ORDER(accMiddle, 1);
-ORDER(accMiddle2, 1);
-ORDER(accMiddle3, 1);
 ORDER(accMiddleDepot, 1);
 ORDER(gold,0);
 ORDER(bal,1);
