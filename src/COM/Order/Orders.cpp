@@ -980,6 +980,10 @@ void ORDER_waitJumper::impl(Args args) {
 }
 
 void ORDER_endMatch::impl(Args args) {
+    digitalWrite(LEFT_PUMP_PIN, LOW);
+    digitalWrite(RIGHT_PUMP_PIN, LOW);
+    digitalWrite(LEFT_VALVE_PIN, HIGH);
+    digitalWrite(RIGHT_VALVE_PIN, HIGH);
     orderManager.execute("stop");
     orderManager.execute("sstop");
     while(true) {

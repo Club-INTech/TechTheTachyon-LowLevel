@@ -84,5 +84,5 @@ constexpr uint32_t MUTE_ARM_CHECK_DELAY = 300; // délai entre deux vérificatio
  * Steppers
  */
 const unsigned int STEPPER_DELAY = static_cast<const unsigned int>(0.1 * STEPPER_FREQUENCY); //temporistaion entre les commandes du pas à pas
-const unsigned int STEP_COUNT = 1600*3*4; //nombre de pas par palet
+const unsigned int STEP_COUNT = (1600+200)*3*4; //nombre de pas par palet
 #endif
