@@ -24,12 +24,8 @@ void InitAllPins() {
     digitalWrite(INB_RIGHT, LOW);
 
     // Steppers
-    pinMode(DIR_PIN_LEFT, OUTPUT);
-    digitalWrite(DIR_PIN_LEFT, LOW);
     pinMode(DIR_PIN_RIGHT, OUTPUT);
     digitalWrite(DIR_PIN_RIGHT, LOW);
-    pinMode(STEP_PIN_LEFT, OUTPUT);
-    digitalWrite(STEP_PIN_LEFT, LOW);
     pinMode(STEP_PIN_RIGHT, OUTPUT);
     digitalWrite(STEP_PIN_RIGHT, LOW);
 
@@ -38,8 +34,6 @@ void InitAllPins() {
     digitalWrite(LEFT_VALVE_PIN, LOW);
     pinMode(RIGHT_VALVE_PIN, OUTPUT);
     digitalWrite(RIGHT_VALVE_PIN, LOW);
-    pinMode(LEFT_PUMP_PIN, OUTPUT);
-    digitalWrite(LEFT_PUMP_PIN, LOW);
     pinMode(RIGHT_PUMP_PIN, OUTPUT);
     digitalWrite(RIGHT_PUMP_PIN, LOW);
 }
