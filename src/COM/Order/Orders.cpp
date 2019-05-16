@@ -683,6 +683,14 @@ void ORDER_grnd::impl(Args args)
     )
 }
 
+void ORDER_overPuck::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+             arm->setPosition(positionSolIntermediaire);
+    )
+}
+
 void ORDER_stockDepot::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();

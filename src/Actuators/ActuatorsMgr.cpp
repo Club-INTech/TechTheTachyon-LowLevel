@@ -49,14 +49,20 @@ void ActuatorsMgr::handleInterrupt() {
         if(leftStepCount == 0 && nextLeftStepCount == 0) {
             InterruptStackPrint::Instance().push(EVENT_HEADER, "leftElevatorStopped");
         }
-        else if(leftStepCount == 0)
-        {
-            moveLeftStepper(nextLeftStepCount);
-        }
     } else {
         leftStepCount = 0;
         digitalWrite(STEP_PIN_LEFT, LOW);
-//        analogWrite(STEP_PIN_LEFT, 0);
+
+        if(timerForLeftStepper < 0) {
+            timerForLeftStepper = STEPPER_DELAY;
+        }
+        if(timerForLeftStepper > 0) {
+            timerForLeftStepper--;
+        }
+        if(timerForLeftStepper == 0) {
+            moveLeftStepper(nextLeftStepCount);
+            nextLeftStepCount = 0;
+        }
     }
 
     if(rightStepCount > 0) {
@@ -70,18 +76,25 @@ void ActuatorsMgr::handleInterrupt() {
         if(rightStepCount == 0 && nextRightStepCount == 0) {
             InterruptStackPrint::Instance().push(EVENT_HEADER, "rightElevatorStopped");
         }
-        else if(rightStepCount == 0)
-        {
-            moveRightStepper(nextRightStepCount);
-        }
     } else {
         rightStepCount = 0;
         digitalWrite(STEP_PIN_RIGHT, LOW);
-        //analogWrite(STEP_PIN_RIGHT, 0);
+
+        if(timerForRightStepper < 0) { // lance l'attente
+            timerForRightStepper = STEPPER_DELAY;
+        }
+        if(timerForRightStepper > 0) {
+            timerForRightStepper--;
+        }
+        if(timerForRightStepper == 0) { // si l'attente est finie
+            moveRightStepper(nextRightStepCount);
+            nextRightStepCount = 0;
+        }
     }
 }
 
 void ActuatorsMgr::moveLeftStepper(int32_t count, int32_t nextCount) {
+    timerForLeftStepper = STEPPER_DELAY;
     this->leftDirection = count > 0 ? UP : DOWN;
 
     // inversé par rapport à droite
@@ -100,6 +113,7 @@ void ActuatorsMgr::moveLeftStepper(int32_t count, int32_t nextCount) {
 }
 
 void ActuatorsMgr::moveRightStepper(int32_t count, int32_t nextCount) {
+    timerForRightStepper = STEPPER_DELAY;
     this->rightDirection = count > 0 ? UP : DOWN;
     if(count > 0) {
         digitalWrite(DIR_PIN_RIGHT, HIGH);
