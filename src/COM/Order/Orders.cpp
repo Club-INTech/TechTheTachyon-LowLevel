@@ -727,6 +727,22 @@ void ORDER_accMiddle::impl(Args args)
     )
 }
 
+void ORDER_accMiddle2::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+             arm->setPosition(positionAccelerateurMiddle2);
+    )
+}
+
+void ORDER_accMiddle3::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+             arm->setPosition(positionAccelerateurMiddle3);
+    )
+}
+
 
 void ORDER_accMiddleDepot::impl(Args args)
 {
