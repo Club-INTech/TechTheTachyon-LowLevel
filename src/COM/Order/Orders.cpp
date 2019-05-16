@@ -711,6 +711,25 @@ void ORDER_acc::impl(Args args)
     )
 }
 
+void ORDER_accMiddle::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+             arm->setPosition(positionAccelerateurMiddle);
+    )
+}
+
+
+void ORDER_accMiddleDepot::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+             arm->setPosition(positionAccelerateurMiddleDepot);
+    )
+}
+
+
+
 void ORDER_pushPalet::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();

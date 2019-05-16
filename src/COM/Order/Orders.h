@@ -142,6 +142,8 @@ ORDER(stockDepot, 1);
 ORDER(grnd,1);
 ORDER(stock,1);
 ORDER(acc,1);
+ORDER(accMiddle, 1);
+ORDER(accMiddleDepot, 1);
 ORDER(gold,0);
 ORDER(bal,1);
 ORDER(pushPalet,1);
