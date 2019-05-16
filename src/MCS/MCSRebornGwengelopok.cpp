@@ -78,7 +78,7 @@ void MCS::initSettings() {
 
     /* mm/s */
     //controlSettings.tolerancyDerivative = 0;
-    controlSettings.tolerancyDerivative = 1;
+    controlSettings.tolerancyDerivative = 1.7;
 
     /* patate */
     controlSettings.tolerancyDifferenceSpeed = 500*2;
