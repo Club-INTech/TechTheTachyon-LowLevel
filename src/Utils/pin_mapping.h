@@ -60,4 +60,6 @@ constexpr uint8_t LED2 = 14;
 constexpr uint8_t LED3 = 15;
 constexpr uint8_t LED4 = 31;
 
+void InitAllPins();
+
 #endif //_PIN_MAPPING_h
