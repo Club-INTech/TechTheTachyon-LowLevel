@@ -72,16 +72,16 @@ int main() {
     stepperTimer.priority(253);
     stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
 
-
-    Serial.println("Starting...");
+	// Timer pour la mise à jour de la position
+/*	IntervalTimer posTimer; // TODO: Passer sur un Metro?
+	posTimer.priority(253);
+    posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
+*/
+	Serial.println("Starting...");
     delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
     ActuatorsMgr::Instance().initTorques();
 
     Serial.println("Ready!");
-
-    //orderMgr.execute("montlhery");
-
-    //	int i=0;
 
     /**
      * Boucle principale, y est géré:
@@ -89,6 +89,8 @@ int main() {
      * L'execution des ordres de ce dernier
      * Les capteurs
      */
+    //orderMgr.execute("montlhery");
+    //int i =0;
     while (true)
     {
         InterruptStackPrint::Instance().print();
@@ -96,21 +98,18 @@ int main() {
         // orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-
-        //orderMgr.execute("rawposdata");
-        //orderMgr.execute("cod");
-/*
-		delay(60);
-
-    	if (i==5) {
-			//orderMgr.execute("down right");
-			//orderMgr.execute("d 100");
-		}
-    	if (i==300){
-			Serial.println("DATAEND");
-    	}
-		i++;
-    }*/
+        /*orderMgr.execute("rawposdata");
+        delay(60);
+        if(i==5){
+            orderMgr.execute("t 2.4");
+        }
+        if(i==150){
+            orderMgr.execute("t 0");
+        }
+        if(i==300){
+            orderMgr.execute("DATAEND");
+        }
+        i++;*/
     }
 }
 

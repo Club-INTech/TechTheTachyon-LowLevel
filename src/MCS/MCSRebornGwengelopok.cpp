@@ -19,6 +19,7 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.controlledRotation = true;
     robotStatus.controlledTranslation = true;
     robotStatus.controlledP2P = false;
+    robotStatus.sentMoveAbnormal = false;
     robotStatus.movement = MOVEMENT::NONE;
 
 
@@ -28,17 +29,17 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     rightSpeedPID.enableAWU(false);*/
 
     //leftSpeedPID.setTunings(1.9, 0.004, 25, 17);
-    leftSpeedPID.setTunings(1.7, 0.002, 50, 0);
+    leftSpeedPID.setTunings(1.7, 0.002, 40, 0);
     leftSpeedPID.enableAWU(false);
     //rightSpeedPID.setTunings(1.75, 0.0063, 31.5, 10);
-    rightSpeedPID.setTunings(1.5, 0.002, 50, 0);
+    rightSpeedPID.setTunings(1.5, 0.002, 40, 0);
     rightSpeedPID.enableAWU(false);
 
     translationPID.setTunings(4.4,0.000001,0,0);
     translationPID.enableAWU(false);
 //    rotationPID180.setTunings(6.5,0.0001,0,0);
 //    rotationPID.setTunings(8.75,0.000001,0,0);
-    rotationPID.setTunings(16.5,0.000001,0,0);
+    rotationPID.setTunings(5.6,0.000001,0,0);
 //    rotationPID90.setTunings(10.3,0.0001,12,0);
 //    rotationPID180.enableAWU(false);
     rotationPID.enableAWU(false);
@@ -77,7 +78,7 @@ void MCS::initSettings() {
 
     /* mm/s */
     //controlSettings.tolerancyDerivative = 0;
-    controlSettings.tolerancyDerivative = 1;
+    controlSettings.tolerancyDerivative = 1.7;
 
     /* patate */
     controlSettings.tolerancyDifferenceSpeed = 500*2;
@@ -228,7 +229,7 @@ void MCS::manageStop() {
 
     averageRotationDerivativeError.add(rotationPID.getDerivativeError());
     averageTranslationDerivativeError.add(translationPID.getDerivativeError());
-    if(robotStatus.moving && ABS(translationPID.getDerivativeError())<= controlSettings.tolerancyDerivative && ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && ABS(rotationPID.getDerivativeError())<=controlSettings.tolerancyDerivative && ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
+    if(robotStatus.moving && ABS(averageTranslationDerivativeError.value())<= controlSettings.tolerancyDerivative && ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && ABS(averageRotationDerivativeError.value())<=controlSettings.tolerancyDerivative && ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
         leftMotor.setDirection(Direction::NONE);
         rightMotor.setDirection(Direction::NONE);
         robotStatus.Lbooly = robotStatus.controlledP2P;
@@ -309,8 +310,11 @@ void MCS::translate(int16_t amount) {
     if(!robotStatus.controlledTranslation)
         return;
     targetDistance = amount;
-    if(amount == 0)
+    if(amount == 0) {
+        translationPID.setGoal(currentDistance);
+        robotStatus.moving = true;
         return;
+    }
     if( ! translationPID.active) {
         translationPID.fullReset();
         translationPID.active = true;
@@ -338,11 +342,12 @@ void MCS::rotate(float angle) {
 
         differenceAngle = robotStatus.orientation-targetAngle;
     }
-    if((0.994838<ABS(differenceAngle) and ABS(differenceAngle)<2.35619)){
-        rotationPID.setTunings(7.74,0.000001,0,0);
+    if((1<=ABS(differenceAngle) and ABS(differenceAngle)<1.5)){
+        //rotationPID.setTunings(7.74,0.000001,0,0);
+        rotationPID.setTunings(-5.4*ABS(differenceAngle)+13.07,0.000001,0,0);
     }
-    else if(ABS(differenceAngle)>2.35619){
-        rotationPID.setTunings(7,0.000001,0,0);
+    else if(ABS(differenceAngle)>=1.5){
+        rotationPID.setTunings(-1.15*ABS(differenceAngle)+7.23,0.000001,0,0);
     }
     else{
         rotationPID.setTunings(-13.54*ABS(differenceAngle)+20.53,0.000001,10,0);
@@ -351,7 +356,7 @@ void MCS::rotate(float angle) {
         rotationPID.fullReset();
         rotationPID.active = true;
     }
-    robotStatus.movement = angle > 0.0 ? MOVEMENT::TRIGO : MOVEMENT::ANTITRIGO;
+    robotStatus.movement = differenceAngle > 0.0 ? MOVEMENT::TRIGO : MOVEMENT::ANTITRIGO;
     rotationPID.setGoal(targetAngle);
     robotStatus.moving = true;
     digitalWrite(LED2_1,HIGH);
@@ -530,4 +535,16 @@ float MCS::getRightSpeed() {
 void MCS::getSpeedGoals(long &leftGoal, long &rightGoal) {
     leftGoal = leftSpeedPID.getCurrentGoal();
     rightGoal = rightSpeedPID.getCurrentGoal();
+}
+
+bool MCS::sentMoveAbnormal() {
+    return robotStatus.sentMoveAbnormal;
+}
+
+bool MCS::isMoveAbnormal() {
+    return robotStatus.stuck;
+}
+
+void MCS::setMoveAbnormalSent(bool val) {
+    robotStatus.sentMoveAbnormal = val;
 }

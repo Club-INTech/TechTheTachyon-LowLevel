@@ -25,11 +25,11 @@ constexpr uint8_t ENCODER_RIGHT_A = 29;
 /*
 
 /* CAPTEURS */
-constexpr uint8_t PIN_JMPR = 10;
+constexpr uint8_t PIN_JMPR = 2;
 constexpr uint8_t SICK_PINS[NBR_OF_DISTANCE_SENSOR] = {
-        15, // 1er
-        16, // 2e
-        17, // 3e
+        17, // 1er
+        15, // 2e
+        16, // 3e
 };
 
 // TechTheTachyon
@@ -58,5 +58,6 @@ constexpr uint8_t LED3_1 = 21;
 constexpr uint8_t LED3_2 = 22;
 constexpr uint8_t LED3_3 = 23;
 
+void InitAllPins();
 
 #endif //_PIN_MAPPING_h

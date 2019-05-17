@@ -33,6 +33,8 @@ struct RobotStatus
 
     RobotStatus();
     void updateStatus();
+
+    bool sentMoveAbnormal;
 };
 
 #endif //LL_ROBOTSTATUS_H

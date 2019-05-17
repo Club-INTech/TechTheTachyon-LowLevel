@@ -28,19 +28,19 @@ void OrderManager::communicate() {
     memset(readMessage, 0, RX_BUFFER_SIZE);
 
     static Metro checkMovement = Metro(10);
-    static Metro checkArms = Metro(10);
+    static Metro checkArms = Metro(70);
     static Metro checkHooksTimer = Metro(20);
     static Metro sendPos = Metro(50);
 
     if (checkMovement.check())
     {
-        /* FIXME if (!motionControlSystem.sentMoveAbnormal() && motionControlSystem.isMoveAbnormal()) {//Si on est bloqué et qu'on n'a pas encore prévenu
+        if (!motionControlSystem.sentMoveAbnormal() && motionControlSystem.isMoveAbnormal()) { //Si on est bloqué et qu'on n'a pas encore prévenu
             motionControlSystem.setMoveAbnormalSent(true);
-            highLevel.sendEvent("unableToMove p");
+            highLevel.printfln(EVENT_HEADER, "unableToMove");
         }
         else if (motionControlSystem.sentMoveAbnormal() && !motionControlSystem.isMoveAbnormal()) {//Si on est plus bloqué et qu'on avait prévenu
             motionControlSystem.setMoveAbnormalSent(false);
-        }*/
+        }
     }
 
     if(checkArms.check())

@@ -612,6 +612,7 @@ void ORDER_dist::impl(Args args)
     }
     Arm<AX12>* arm = manager.rightArm;
     arm->setPosition(positionIntermediaireSecondaire);
+    arm->setPosition(positionIntermediaireSecondaire2);
     arm->setPosition(positionDistributeurSecondaire);
 }
 
@@ -644,6 +645,7 @@ void ORDER_stockSecondaire::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<AX12>* arm = manager.rightArm;
+    arm->setPosition(positionIntermediaireSecondaire2);
     arm->setPosition(positionIntermediaireSecondaire);
     arm->setPosition(positionStockageSecondaire);
 }
@@ -656,6 +658,16 @@ void ORDER_acc::impl(Args args)
     }
     Arm<AX12>* arm = manager.rightArm;
     arm->setPosition(positionAccelerateur);
+}
+
+void ORDER_accSecondaire::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<AX12>* arm = manager.rightArm;
+    arm->setPosition(positionAccelerateurSecondaire);
 }
 
 void ORDER_bal::impl(Args args)
@@ -675,16 +687,35 @@ void ORDER_gold::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<AX12>* arm = manager.rightArm;
+    //arm->setPosition(positionPreGoldonium);
     arm->setPosition(positionGoldonium);
-    //arm->setPosition(positionMusclor);
 
 }
+
 
 void ORDER_musclor::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm<AX12>* arm = manager.rightArm;
     arm->setPosition(positionMusclor);
+    arm->setPosition(positionMusclor2);
+    arm->setPosition(positionMusclor3);
+    arm->setPosition(positionMusclor4);
+}
+
+void ORDER_goldDepot::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<AX12>* arm = manager.rightArm;
+    arm->setPosition(positionMusclor4);
+    arm->setPosition(positionMusclor3);
+    arm->setPosition(positionMusclor2);
+    arm->setPosition(positionMusclor);
+    arm->setPosition(positionGoldonium);
+
 }
 
 void ORDER_brasToutDroit::impl(Args args)

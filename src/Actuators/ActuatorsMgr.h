@@ -39,7 +39,7 @@ private:
 
 public:
     //Gestion des XL430
-    DynamixelManager* dynamixelManager = new DynamixelManager(&XLSerial, &DebugSerial);
+    DynamixelManager* dynamixelManager = new DynamixelManager(&XLSerial, &DebugSerial, 9600);
 
     // Liste des moteurs du bras 1
     AX12* motor1 = (AX12*) dynamixelManager->createMotor(1, AX12GeneratorFunction);//new XL430(1,*manager);
