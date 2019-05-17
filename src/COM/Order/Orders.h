@@ -145,6 +145,7 @@ ORDER(stockSecondaire,1);
 ORDER(acc,1);
 ORDER(accSecondaire, 1)
 ORDER(gold,0);
+ORDER(goldDepot, 0)
 ORDER(bal,1);
 ORDER(torqueBras,1);
 ORDER(torqueXL,1);

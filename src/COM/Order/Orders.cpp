@@ -698,6 +698,24 @@ void ORDER_musclor::impl(Args args)
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm<AX12>* arm = manager.rightArm;
     arm->setPosition(positionMusclor);
+    arm->setPosition(positionMusclor2);
+    arm->setPosition(positionMusclor3);
+    arm->setPosition(positionMusclor4);
+}
+
+void ORDER_goldDepot::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<AX12>* arm = manager.rightArm;
+    arm->setPosition(positionMusclor4);
+    arm->setPosition(positionMusclor3);
+    arm->setPosition(positionMusclor2);
+    arm->setPosition(positionMusclor);
+    arm->setPosition(positionGoldonium);
+
 }
 
 void ORDER_brasToutDroit::impl(Args args)
