@@ -757,6 +757,14 @@ void ORDER_bal::impl(Args args)
     )
 }
 
+void ORDER_balP::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+             arm->setPosition(positionBalancePrincipal);
+    )
+}
+
 void ORDER_gold::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
