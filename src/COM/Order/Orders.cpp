@@ -705,7 +705,7 @@ void ORDER_stockDepot::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
-             arm->setPosition(positionIntermediaire);
+             //arm->setPosition(positionIntermediaire);
              arm->setPosition(positionStockageDepot);
     )
 }
