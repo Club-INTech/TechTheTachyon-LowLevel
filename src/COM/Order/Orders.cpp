@@ -668,7 +668,7 @@ void ORDER_dist::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     bool retry = false;
-    if(args.size() > 1) {
+    if(args.nbrParams() > 1) {
         retry = ! strcmp(args[1], "noretry");
     }
     MOVE_ARM(args[0],
