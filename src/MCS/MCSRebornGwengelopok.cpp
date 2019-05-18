@@ -189,10 +189,10 @@ void MCS::control()
         sprintf(str, "Goto position: dx=%f dy=%f target=%f current orientation=%f", dx, dy, target, robotStatus.orientation);
         InterruptStackPrint::Instance().push(DEBUG_HEADER, str);
         //digitalWrite(LED2,HIGH);
-        translate(target);
-
-       // Serial.printf("Target is %f current angle is %f (dx=%f dy=%f) (x=%f y=%f)\n", target, getAngle(), dx, dy, robotStatus.x, robotStatus.y);
         robotStatus.controlledP2P = false;
+        translate((uint16_t) round(target));
+
+        // Serial.printf("Target is %f current angle is %f (dx=%f dy=%f) (x=%f y=%f)\n", target, getAngle(), dx, dy, robotStatus.x, robotStatus.y);
     }
 
 }
@@ -309,14 +309,11 @@ void MCS::translate(int16_t amount) {
     if(!robotStatus.controlledTranslation)
         return;
     targetDistance = amount;
+    translationPID.fullReset();
     if(amount == 0) {
         translationPID.setGoal(currentDistance);
         robotStatus.moving = true;
         return;
-    }
-    if( ! translationPID.active) {
-        translationPID.fullReset();
-        translationPID.active = true;
     }
     robotStatus.movement = amount > 0 ? MOVEMENT::FORWARD : MOVEMENT::BACKWARD;
     translationPID.setGoal(amount + currentDistance);
@@ -440,12 +437,12 @@ void MCS::sendPositionUpdate() {
 }
 
 void MCS::resetEncoders() {
+    leftTicks = 0;
+    rightTicks = 0;
     encoderLeft->write(0);
     encoderRight->write(0);
     previousLeftTicks = 0;
     previousRightTicks = 0;
-    leftTicks = 0;
-    rightTicks = 0;
     currentDistance = 0;
     translationPID.setGoal(currentDistance);
     rotationPID.setGoal(robotStatus.orientation);
