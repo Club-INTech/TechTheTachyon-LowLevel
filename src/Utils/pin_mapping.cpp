@@ -5,7 +5,7 @@
 
 void InitAllPins() {
     // Jumper
-    pinMode(PIN_JMPR, INPUT);
+    pinMode(PIN_JMPR, INPUT_PULLUP);
 
     // Moteurs
     pinMode(PIN_PWM_LEFT, OUTPUT);
