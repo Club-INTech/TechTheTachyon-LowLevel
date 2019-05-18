@@ -381,8 +381,8 @@ void MCS::gotoPoint2(int16_t x, int16_t y) {
     ComMgr::Instance().printfln(DEBUG_HEADER, "Required angle: %f", rotation);
 
     rotate(rotation);
-    robotStatus.controlledP2P = true;
     robotStatus.moving = true;
+    robotStatus.controlledP2P = true;
 }
 
 void MCS::followTrajectory(const double* xTable, const double* yTable, int count) {
