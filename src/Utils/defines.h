@@ -73,7 +73,7 @@ constexpr float     TICK_TO_RADIAN = TICK_TO_MM / DISTANCE_COD_GAUCHE_CENTRE; //
 /**
 *  Différents seuils des XL
 */
-constexpr uint32_t VELOCITY_THRESHOLD = 10; // en unités de Dynamixel (1 -> ~0.2 rpm)
+constexpr uint32_t VELOCITY_THRESHOLD = 1; // en unités de Dynamixel (1 -> ~0.2 rpm)
 constexpr float POSITION_THRESHOLD = 3.5f; // en degrés
 constexpr uint32_t ARM_POSITION_BUFFER_SIZE = 20; // nombre de positions stockées en même temps (pour pouvoir demander plusieurs positions aux XL à la suite)
 constexpr uint32_t ARM_ATTEMPTS_BEFORE_MUTE = 3; // nombre d'essais de lecture de paquets à la suite avant de déclarer qu'un bras ne répondra jamais

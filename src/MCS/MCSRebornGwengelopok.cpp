@@ -185,6 +185,9 @@ void MCS::control()
         float dx = (targetX-robotStatus.x);
         float dy = (targetY-robotStatus.y);
         float target = sqrtf(dx*dx+dy*dy);
+        char str[128];
+        sprintf(str, "Goto position: dx=%f dy=%f target=%f current orientation=%f", dx, dy, target, robotStatus.orientation);
+        InterruptStackPrint::Instance().push(DEBUG_HEADER, str);
         //digitalWrite(LED2,HIGH);
         translate(target);
 
@@ -378,8 +381,8 @@ void MCS::gotoPoint2(int16_t x, int16_t y) {
     ComMgr::Instance().printfln(DEBUG_HEADER, "Required angle: %f", rotation);
 
     rotate(rotation);
-    robotStatus.controlledP2P = true;
     robotStatus.moving = true;
+    robotStatus.controlledP2P = true;
 }
 
 void MCS::followTrajectory(const double* xTable, const double* yTable, int count) {
