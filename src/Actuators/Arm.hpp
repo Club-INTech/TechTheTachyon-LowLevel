@@ -39,6 +39,7 @@ private:
     float targetPositions[3] = {0.0f};
     uint16_t retryMovementAttempts = 0;
     float positionsAsked[ARM_POSITION_BUFFER_SIZE][3] = { {0.0f} };
+    bool noRetryAsked[ARM_POSITION_BUFFER_SIZE] = { false };
     uint16_t writeIndex = 0;
     uint16_t currentPositionIndex = 0;
 
@@ -61,6 +62,8 @@ private:
      * Temps de la dernière vérification que le bras répondait pas
      */
     long lastMuteCheck = 0;
+
+    bool noRetry = false;
 
 public:
     Arm(const char* sideName, DynamixelManager& manager, MotorType* list): sideName(sideName), manager(manager), XLlist(list), base(list[0]), elbow(list[1]), wrist(list[2]), status(ArmStatus::OK) {
@@ -126,15 +129,22 @@ public:
         ComMgr::Instance().printfln(DEBUG_HEADER, "Done!");
     }
 
-    void setPosition(const float* positions, bool resetRetryCounter = true) {
+    void setPositionNoRetry(const float* positions, bool resetRetryCounter = true) {
+        setPosition(positions, resetRetryCounter, true);
+    }
+
+    void setPosition(const float* positions, bool resetRetryCounter = true, bool noRetry = false) {
         if(status == MOVING) {
             positionsAsked[writeIndex][0] = positions[0];
             positionsAsked[writeIndex][1] = positions[1];
             positionsAsked[writeIndex][2] = positions[2];
+            noRetryAsked[writeIndex] = noRetry;
             writeIndex++;
             writeIndex %= ARM_POSITION_BUFFER_SIZE;
             return;
         }
+        
+        this->noRetry = noRetry;
 
         if(resetRetryCounter) {
             retryMovementAttempts = 0;
@@ -249,7 +259,7 @@ public:
                 ComMgr::Instance().printfln(EVENT_HEADER, "armFinishedMovement %s", sideName);
             }
         } else { // si les positions n'ont pas été atteintes
-            if (retryMovementAttempts >= MAX_RETRY_ATTEMPTS) { // on a essayé trop de fois
+            if (retryMovementAttempts >= MAX_RETRY_ATTEMPTS || noRetry) { // on a essayé trop de fois
                 ComMgr::Instance().printfln(DEBUG_HEADER,
                                             "Position non atteinte sur le bras (%i-%i-%i) après %i tentatives, abandon",
                                             base.getId(), elbow.getId(), wrist.getId(), retryMovementAttempts);
@@ -298,7 +308,11 @@ private:
             uint16_t positionIndex = currentPositionIndex;
             currentPositionIndex++;
             currentPositionIndex %= ARM_POSITION_BUFFER_SIZE;
-            setPosition(positionsAsked[positionIndex]);
+            if(noRetryAsked[positionIndex]) {
+                setPositionNoRetry(positionsAsked[positionIndex]);
+            } else {
+                setPosition(positionsAsked[positionIndex]);
+            }
         }
     }
 

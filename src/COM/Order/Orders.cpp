@@ -667,10 +667,20 @@ void ORDER_dist2stock::impl(Args args)
 void ORDER_dist::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    bool retry = false;
+    if(args.size() > 1) {
+        retry = ! strcmp(args[1], "noretry");
+    }
     MOVE_ARM(args[0],
-             arm->setPosition(positionPrePreDistributeur);
-             arm->setPosition(positionPreDistributeur);
-             arm->setPosition(positionDistributeur);
+             if(retry) {
+                 arm->setPosition(positionPrePreDistributeur);
+                 arm->setPosition(positionPreDistributeur);
+                 arm->setPosition(positionDistributeur);
+             } else {
+                 arm->setPositionNoRetry(positionPrePreDistributeur, retry);
+                 arm->setPositionNoRetry(positionPreDistributeur, retry);
+                 arm->setPositionNoRetry(positionDistributeur, retry);
+             }
     )
 }
 
