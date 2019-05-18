@@ -677,9 +677,9 @@ void ORDER_dist::impl(Args args)
                  arm->setPosition(positionPreDistributeur);
                  arm->setPosition(positionDistributeur);
              } else {
-                 arm->setPositionNoRetry(positionPrePreDistributeur, retry);
-                 arm->setPositionNoRetry(positionPreDistributeur, retry);
-                 arm->setPositionNoRetry(positionDistributeur, retry);
+                 arm->setPositionNoRetry(positionPrePreDistributeur);
+                 arm->setPositionNoRetry(positionPreDistributeur);
+                 arm->setPositionNoRetry(positionDistributeur);
              }
     )
 }
