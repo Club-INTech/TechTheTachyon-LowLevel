@@ -664,6 +664,14 @@ void ORDER_dist2stock::impl(Args args)
          )
 }
 
+void ORDER_holdBlue::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+             arm->setPosition(positionHoldBlue);
+         )
+}
+
 void ORDER_dist::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
@@ -714,7 +722,7 @@ void ORDER_stock::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
-             arm->setPosition(positionIntermediaire);
+            // arm->setPosition(positionIntermediaire);
                      arm->setPosition(positionStockagePrise);
     )
 }

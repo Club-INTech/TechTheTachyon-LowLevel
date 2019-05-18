@@ -148,6 +148,7 @@ ORDER(accMiddleDepot, 1);
 ORDER(gold,0);
 ORDER(bal,1);
 ORDER(balP, 1)
+ORDER(holdBlue, 1)
 ORDER(pushPalet,1);
 ORDER(posinter,1);
 ORDER(torqueBras,1);
