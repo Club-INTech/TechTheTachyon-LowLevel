@@ -39,16 +39,16 @@ private:
 
 public:
     //Gestion des XL430
-    DynamixelManager* dynamixelManager = new DynamixelManager(&XLSerial, &DebugSerial, 9600);
+    DynamixelManager* dynamixelManager = new DynamixelManager(&XLSerial, &DebugSerial);
 
     // Liste des moteurs du bras 1
-    AX12* motor1 = (AX12*) dynamixelManager->createMotor(1, AX12GeneratorFunction);//new XL430(1,*manager);
-    AX12* motor2 = (AX12*) dynamixelManager->createMotor(2, AX12GeneratorFunction);//new XL430(2,*manager);
-    AX12* motor3 = (AX12*) dynamixelManager->createMotor(3, AX12GeneratorFunction);//new XL430(3,*manager);
+	XL430* motor1 = (XL430*) dynamixelManager->createMotor(1, AX12GeneratorFunction);//new XL430(1,*manager);
+	XL430* motor2 = (XL430*) dynamixelManager->createMotor(2, AX12GeneratorFunction);//new XL430(2,*manager);
+	XL430* motor3 = (XL430*) dynamixelManager->createMotor(3, AX12GeneratorFunction);//new XL430(3,*manager);
 	//XL qui pousse les palets
 	XL430* motor7 = (XL430*) dynamixelManager->createMotor(7, XL430GeneratorFunction);//new XL430(7,*manager);
 
-	Arm<AX12>* rightArm = new Arm<AX12>("right", *dynamixelManager, new AX12[3]{*motor1, *motor2, *motor3});
+	Arm<XL430>* rightArm = new Arm<XL430>("right", *dynamixelManager, new XL430[3]{*motor1, *motor2, *motor3});
 
 	ActuatorsMgr();
 	~ActuatorsMgr();

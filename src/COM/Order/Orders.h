@@ -181,7 +181,7 @@ ORDER(endMatch, 0);
 // Permet de bouger un bras sans se soucier du type
 #define MOVE_ARM(side, actions)             \
 if(!strcmp(args[0], "right")) {             \
-    Arm<AX12>* arm = manager.rightArm;      \
+    Arm<XL430>* arm = manager.rightArm;      \
     actions;                                \
 } else {                                    \
 }

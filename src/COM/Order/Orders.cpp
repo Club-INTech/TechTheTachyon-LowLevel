@@ -601,7 +601,7 @@ void ORDER_dist::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionDistributeur);
 
 }void ORDER_distSecondaire::impl(Args args)
@@ -610,7 +610,7 @@ void ORDER_dist::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionIntermediaireSecondaire);
     arm->setPosition(positionIntermediaireSecondaire2);
     arm->setPosition(positionDistributeurSecondaire);
@@ -622,7 +622,7 @@ void ORDER_grnd::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionSolIntermediaire);
     arm->setPosition(positionSol);
 }
@@ -633,7 +633,7 @@ void ORDER_stock::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionIntermediaire);
     arm->setPosition(positionStockage);
 }
@@ -644,7 +644,7 @@ void ORDER_stockSecondaire::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionIntermediaireSecondaire2);
     arm->setPosition(positionIntermediaireSecondaire);
     arm->setPosition(positionStockageSecondaire);
@@ -656,7 +656,7 @@ void ORDER_acc::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionAccelerateur);
 }
 
@@ -666,7 +666,7 @@ void ORDER_accSecondaire::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionIntermediaireSecondaire);
     arm->setPosition(positionIntermediaireSecondaire2);
     arm->setPosition(positionAccelerateurSecondaire);
@@ -678,7 +678,7 @@ void ORDER_bal::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionBalance);
 }
 
@@ -688,7 +688,7 @@ void ORDER_gold::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     //arm->setPosition(positionPreGoldonium);
     arm->setPosition(positionGoldonium);
 
@@ -698,7 +698,7 @@ void ORDER_gold::impl(Args args)
 void ORDER_musclor::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionMusclor);
     arm->setPosition(positionMusclor2);
     arm->setPosition(positionMusclor3);
@@ -711,7 +711,7 @@ void ORDER_goldDepot::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionMusclor4);
     arm->setPosition(positionMusclor3);
     arm->setPosition(positionMusclor2);
@@ -726,7 +726,7 @@ void ORDER_brasToutDroit::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionDroit);
 }
 
@@ -736,21 +736,21 @@ void ORDER_brasRecule::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
-    Arm<AX12>* arm = manager.rightArm;
+    Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionRecule);
 }
 
 void ORDER_XLm::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    AX12* motor = (AX12*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
+    XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
     motor->setGoalAngle(orderManager.parseFloat(args[1]));
 }
 
 void ORDER_XLs::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    AX12* motor = (AX12*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
+    XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
     motor->setGoalVelocity(orderManager.parseFloat(args[1]));
 }
 

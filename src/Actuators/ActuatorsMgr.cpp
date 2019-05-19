@@ -5,7 +5,7 @@
 #include <COM/InterruptStackPrint.h>
 #include "ActuatorsMgr.h"
 
-ActuatorsMgr::ActuatorsMgr() : dynamixelManager(new DynamixelManager(&XLSerial, &DebugSerial, 9600))
+ActuatorsMgr::ActuatorsMgr() : dynamixelManager(new DynamixelManager(&XLSerial, &DebugSerial))
 {
 }
 
