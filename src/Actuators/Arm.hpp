@@ -26,18 +26,20 @@ private:
     const char* sideName;
     char* syncAngles = new char[MotorType::goalAngle.length*3];
     MotorType* XLlist;
-    SyncWrite* syncVelocityLimit = new SyncWrite(manager, 3, MotorType::velocityLimit, 1);
-    SyncWrite* syncAngleWriteData = new SyncWrite(manager, 3, MotorType::goalAngle, 1);
-    SyncWrite* syncToggleTorqueWriteData = new SyncWrite(manager, 3, MotorType::torqueEnable, 1);
-    SyncWrite* syncReturnDelay = new SyncWrite(manager, 3, MotorType::returnDelay, 1);
+    SyncWrite* syncVelocityLimit = new SyncWrite(manager, 3, MotorType::velocityLimit);
+    SyncWrite* syncAngleWriteData = new SyncWrite(manager, 3, MotorType::goalAngle);
+    SyncWrite* syncToggleTorqueWriteData = new SyncWrite(manager, 3, MotorType::torqueEnable);
+    SyncWrite* syncReturnDelay = new SyncWrite(manager, 3, MotorType::returnDelay);
     SyncRead* syncMovingRead = new SyncRead(manager, 3, MotorType::moving);
     SyncRead* syncMovingStatus = new SyncRead(manager, 3, MotorType::movingStatus);
     SyncRead* syncHardwareError = new SyncRead(manager, 3, MotorType::hardwareError);
+    SyncWrite* syncWatchdog = new SyncWrite(manager, 3, MotorType::watchdog);
     ArmStatus status = OK;
 
     float targetPositions[3] = {0.0f};
     uint16_t retryMovementAttempts = 0;
     float positionsAsked[ARM_POSITION_BUFFER_SIZE][3] = { {0.0f} };
+    bool noRetryAsked[ARM_POSITION_BUFFER_SIZE] = { false };
     uint16_t writeIndex = 0;
     uint16_t currentPositionIndex = 0;
 
@@ -61,35 +63,22 @@ private:
      */
     long lastMuteCheck = 0;
 
+    bool noRetry = false;
+
 public:
     Arm(const char* sideName, DynamixelManager& manager, MotorType* list): sideName(sideName), manager(manager), XLlist(list), base(list[0]), elbow(list[1]), wrist(list[2]), status(ArmStatus::OK) {
 
     }
 
     void initTorque() {
-        syncMovingRead->setMotorID(0, base.getId());
-        syncMovingRead->setMotorID(1, elbow.getId());
-        syncMovingRead->setMotorID(2, wrist.getId());
-
-        syncMovingStatus->setMotorID(0, base.getId());
-        syncMovingStatus->setMotorID(1, elbow.getId());
-        syncMovingStatus->setMotorID(2, wrist.getId());
-
-        syncHardwareError->setMotorID(0, base.getId());
-        syncHardwareError->setMotorID(1, elbow.getId());
-        syncHardwareError->setMotorID(2, wrist.getId());
-
-        syncAngleWriteData->setMotorID(0, base.getId());
-        syncAngleWriteData->setMotorID(1, elbow.getId());
-        syncAngleWriteData->setMotorID(2, wrist.getId());
-
-        syncVelocityLimit->setMotorID(0, base.getId());
-        syncVelocityLimit->setMotorID(1, elbow.getId());
-        syncVelocityLimit->setMotorID(2, wrist.getId());
-
-        syncReturnDelay->setMotorID(0, base.getId());
-        syncReturnDelay->setMotorID(1, elbow.getId());
-        syncReturnDelay->setMotorID(2, wrist.getId());
+        setupSync(syncMovingRead);
+        setupSync(syncMovingStatus);
+        setupSync(syncHardwareError);
+        setupSync(syncAngleWriteData);
+        setupSync(syncVelocityLimit);
+        setupSync(syncReturnDelay);
+        setupSync(syncWatchdog);
+        setupSync(syncToggleTorqueWriteData);
 
         ComMgr::Instance().printf(DEBUG_HEADER, "Unlocking EEPROM by disabling torque...");
         setTorque(false);
@@ -131,17 +120,31 @@ public:
         ComMgr::Instance().printf(DEBUG_HEADER, "Toggling torque (and locking EEPROM)... ");
         setTorque(true);
         ComMgr::Instance().printfln(DEBUG_HEADER, "Done!");
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Resetting watchdog... ");
+        char data[] = { 0 }; // reset le watchdog
+        syncWatchdog->setData(0, data);
+        syncWatchdog->setData(1, data);
+        syncWatchdog->setData(2, data);
+        resetWatchdog();
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Done!");
     }
 
-    void setPosition(const float* positions, bool resetRetryCounter = true) {
+    void setPositionNoRetry(const float* positions, bool resetRetryCounter = true) {
+        setPosition(positions, resetRetryCounter, true);
+    }
+
+    void setPosition(const float* positions, bool resetRetryCounter = true, bool noRetry = false) {
         if(status == MOVING) {
             positionsAsked[writeIndex][0] = positions[0];
             positionsAsked[writeIndex][1] = positions[1];
             positionsAsked[writeIndex][2] = positions[2];
+            noRetryAsked[writeIndex] = noRetry;
             writeIndex++;
             writeIndex %= ARM_POSITION_BUFFER_SIZE;
             return;
         }
+
+        this->noRetry = noRetry;
 
         if(resetRetryCounter) {
             retryMovementAttempts = 0;
@@ -171,6 +174,7 @@ public:
                                     sent[0],
                                     sent[1],
                                     sent[2]);
+        resetWatchdog();
         syncAngleWriteData->send();
         savePositions(positions);
     }
@@ -188,10 +192,6 @@ public:
     }
 
     void setTorque(bool enabled) {
-        syncToggleTorqueWriteData->setMotorID(0, base.getId());
-        syncToggleTorqueWriteData->setMotorID(1, elbow.getId());
-        syncToggleTorqueWriteData->setMotorID(2, wrist.getId());
-
         char toggleData[] = {enabled};
         syncToggleTorqueWriteData->setData(0, toggleData);
         syncToggleTorqueWriteData->setData(1, toggleData);
@@ -205,8 +205,10 @@ public:
             if(mute) {
                 if(millis()-lastMuteCheck >= MUTE_ARM_CHECK_DELAY) {
                     float tmp = 0.0f;
+                    resetWatchdog();
                     if(ask(MotorType::goalAngle, base, tmp, true) && ask(MotorType::goalAngle, elbow, tmp, true) && ask(MotorType::goalAngle, wrist, tmp, true)) {
                         mute = false;
+                        attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
                         ComMgr::Instance().printfln(EVENT_HEADER, "armIsSpeaking %s", sideName);
                     }
                     lastMuteCheck = millis();
@@ -242,6 +244,7 @@ public:
         bool wristMoving;
         bool elbowMoving;
         bool baseMoving;
+        resetWatchdog();
         baseMoving = !askSpeed(base);
         elbowMoving = !askSpeed(elbow);
         wristMoving = !askSpeed(wrist);
@@ -256,7 +259,7 @@ public:
                 ComMgr::Instance().printfln(EVENT_HEADER, "armFinishedMovement %s", sideName);
             }
         } else { // si les positions n'ont pas été atteintes
-            if (retryMovementAttempts >= MAX_RETRY_ATTEMPTS) { // on a essayé trop de fois
+            if (retryMovementAttempts >= MAX_RETRY_ATTEMPTS || noRetry) { // on a essayé trop de fois
                 ComMgr::Instance().printfln(DEBUG_HEADER,
                                             "Position non atteinte sur le bras (%i-%i-%i) après %i tentatives, abandon",
                                             base.getId(), elbow.getId(), wrist.getId(), retryMovementAttempts);
@@ -280,6 +283,22 @@ public:
 
 private:
 
+    void resetWatchdog() {
+        syncWatchdog->send();
+    }
+
+    void setupSync(SyncRead* syncRead) {
+        syncRead->setMotorID(0, base.getId());
+        syncRead->setMotorID(1, elbow.getId());
+        syncRead->setMotorID(2, wrist.getId());
+    }
+
+    void setupSync(SyncWrite* syncWrite) {
+        syncWrite->setMotorID(0, base.getId());
+        syncWrite->setMotorID(1, elbow.getId());
+        syncWrite->setMotorID(2, wrist.getId());
+    }
+
     /**
      * Si on a une autre position à laquelle il faut aller, on y va!
      */
@@ -289,7 +308,11 @@ private:
             uint16_t positionIndex = currentPositionIndex;
             currentPositionIndex++;
             currentPositionIndex %= ARM_POSITION_BUFFER_SIZE;
-            setPosition(positionsAsked[positionIndex]);
+            if(noRetryAsked[positionIndex]) {
+                setPositionNoRetry(positionsAsked[positionIndex]);
+            } else {
+                setPosition(positionsAsked[positionIndex]);
+            }
         }
     }
 
@@ -349,13 +372,13 @@ private:
             ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
             return false;
         }
-        ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for movement...");
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for Dynamixel data %02X%02X", data.address[1], data.address[0]);
         DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
         const char* answer = manager.sendPacket(requestPacket);
         bool validPacket = xl.decapsulatePacket(answer, value);
         if(validPacket) {
             attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
-        } else {
+        } else if(!force) /* Si on force la lecture, c'est qu'on veut vérifier que le bras est toujours muet, pas besoin de le redire */ {
             ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet, contents of rxBuffer:");
             for(unsigned int i = 0; i < 30; i++)
             {
@@ -377,13 +400,13 @@ private:
             ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
             return false;
         }
-        ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for movement...");
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for Dynamixel data %02X%02X", data.address[1], data.address[0]);
         DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
         const char* answer = manager.sendPacket(requestPacket);
         bool validPacket = xl.decapsulatePacket(answer, value);
         if(validPacket) {
             attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
-        } else {
+        } else if(!force) /* Si on force la lecture, c'est qu'on veut vérifier que le bras est toujours muet, pas besoin de le redire */ {
             ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet, contents of rxBuffer:");
             for(unsigned int i = 0; i < 30; i++)
             {
