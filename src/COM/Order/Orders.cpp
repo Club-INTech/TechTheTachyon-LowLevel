@@ -584,14 +584,14 @@ void ORDER_down::impl(Args args)
 void ORDER_oust::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    XL430* mot = manager.motor7;
+    XL430* mot = manager.motor4;
     mot->setGoalAngle(270);
 }
 
 void ORDER_range::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    XL430* mot = manager.motor7;
+    XL430* mot = manager.motor4;
     mot->setGoalAngle(180);
 }
 
