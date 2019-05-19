@@ -309,14 +309,11 @@ void MCS::translate(int16_t amount) {
     if(!robotStatus.controlledTranslation)
         return;
     targetDistance = amount;
+    translationPID.fullReset();
     if(amount == 0) {
         translationPID.setGoal(currentDistance);
         robotStatus.moving = true;
         return;
-    }
-    if( ! translationPID.active) {
-        translationPID.fullReset();
-        translationPID.active = true;
     }
     robotStatus.movement = amount > 0 ? MOVEMENT::FORWARD : MOVEMENT::BACKWARD;
     translationPID.setGoal(amount + currentDistance);
