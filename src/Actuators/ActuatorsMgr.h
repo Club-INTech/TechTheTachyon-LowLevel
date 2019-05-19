@@ -18,7 +18,6 @@
 #include "ActuatorValues.h"
 #include "Arm.hpp"
 #include <vector>
-#include <AX12.h>
 
 static HardwareSerial& XLSerial = Serial1;
 
@@ -42,9 +41,9 @@ public:
     DynamixelManager* dynamixelManager = new DynamixelManager(&XLSerial, &DebugSerial);
 
     // Liste des moteurs du bras 1
-	XL430* motor1 = (XL430*) dynamixelManager->createMotor(1, AX12GeneratorFunction);//new XL430(1,*manager);
-	XL430* motor2 = (XL430*) dynamixelManager->createMotor(2, AX12GeneratorFunction);//new XL430(2,*manager);
-	XL430* motor3 = (XL430*) dynamixelManager->createMotor(3, AX12GeneratorFunction);//new XL430(3,*manager);
+	XL430* motor1 = (XL430*) dynamixelManager->createMotor(1, XL430GeneratorFunction);//new XL430(1,*manager);
+	XL430* motor2 = (XL430*) dynamixelManager->createMotor(2, XL430GeneratorFunction);//new XL430(2,*manager);
+	XL430* motor3 = (XL430*) dynamixelManager->createMotor(3, XL430GeneratorFunction);//new XL430(3,*manager);
 	//XL qui pousse les palets
 	XL430* motor4 = (XL430*) dynamixelManager->createMotor(4, XL430GeneratorFunction);//new XL430(7,*manager);
 
