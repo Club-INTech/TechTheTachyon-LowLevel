@@ -681,11 +681,11 @@ void ORDER_dist::impl(Args args)
     }
     MOVE_ARM(args[0],
              if(retry) {
-                 //arm->setPosition(positionPrePreDistributeur);
+                 arm->setPosition(positionPrePreDistributeur);
                  arm->setPosition(positionPreDistributeur);
                  arm->setPosition(positionDistributeur);
              } else {
-                 //arm->setPositionNoRetry(positionPrePreDistributeur);
+                 arm->setPositionNoRetry(positionPrePreDistributeur);
                  arm->setPositionNoRetry(positionPreDistributeur);
                  arm->setPositionNoRetry(positionDistributeur);
              }
