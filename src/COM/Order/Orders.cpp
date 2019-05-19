@@ -741,7 +741,7 @@ void ORDER_accMiddle::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
-             arm->setPosition(positionAccelerateurMiddle);
+             arm->setPositionNoRetry(positionAccelerateurMiddle);
     )
 }
 
@@ -751,9 +751,9 @@ void ORDER_accMiddleDepot::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
-             arm->setPosition(positionAccelerateurMiddle2);
-             arm->setPosition(positionAccelerateurMiddle3);
-             arm->setPosition(positionAccelerateurMiddleDepot);
+             arm->setPositionNoRetry(positionAccelerateurMiddle2);
+             arm->setPositionNoRetry(positionAccelerateurMiddle3);
+             arm->setPositionNoRetry(positionAccelerateurMiddleDepot);
     )
 }
 
