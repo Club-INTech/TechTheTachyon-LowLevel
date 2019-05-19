@@ -65,7 +65,7 @@ void MCS::initSettings() {
     controlSettings.tolerancySpeed = 100;
 
     /* rad */
-    controlSettings.tolerancyAngle = 0.0010;
+    controlSettings.tolerancyAngle = 0.0070;
     //controlSettings.tolerancyAngle = 0.0005;
 
     /* mm */
