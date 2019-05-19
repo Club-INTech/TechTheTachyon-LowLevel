@@ -57,28 +57,68 @@ static Stream& DebugSerial = Serial2;
 // Définition des différentes positions
 static float positionDroit[3] = {180.0f,180.0f,180.0f};
 static float positionAccelerateur[3] = {186.0f, 55.0f, 141.0f};
-static float positionAccelerateurSecondaire[3] = {213.4f,180.0f,151.4f};
 static float positionStockage[3] = {174.50f, 255.64f, 80.87f};
-static float positionStockageSecondaire[3] = { 140.00f, 75.00f, 55.00f};
 static float positionIntermediaire[3] = {195.18f, 249.83f, 82.19f};
-static float positionIntermediaireSecondaire[3] = {150.00f, 80.00f, 60.00f};
-static float positionIntermediaireSecondaire2[3] = {249.00f, 70.00f, 55.00f};
 static float positionPreDistributeur[3] = {329.41f, 270.77f, 90.57f};
 static float positionDistributeur[3] = {295.77f, 216.30f, 195.18f};
+
+//old: static float positionGoldonium[3]={250.0f, 190.0f, 140.0f};
+
+static float positionSolIntermediaire[3] = { /*Valeur de test:*/ 278.0f-5 /*272.0f*/, 97.0f+5, 189.0f};
+static float positionSol[3] = { /*Valeur de test:*/ 278.0f /*272.0f*/, 97.0f, 189.0f};
+static float positionRecule[3] = {0,0,0};
+static float coupleSolseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
+
+
+
+/**
+ * positions du secondaire pour les AXs
+ */
+/*
+static float positionAccelerateurSecondaire[3] = {213.4f,180.0f,151.4f};
+static float positionStockageSecondaire[3] = { 140.00f, 75.00f, 55.00f};
+static float positionIntermediaireSecondaire[3] = {150.00f, 80.00f, 60.00f};
+static float positionIntermediaireSecondaire2[3] = {249.00f, 70.00f, 55.00f};
 static float positionDistributeurSecondaire[3] = {249.0f, 163.0f, 130.0f};
+
 static float positionBalance[3]={160.0f,210.0f,160.0f};
 static float positionMusclor[3]={250.0f, 60.0f,150.0f};
 static float positionMusclor2[3]={250.0f, 47.0f,150.0f};
 static float positionMusclor3[3]={250.0f, 47.0f,140.0f};
 static float positionMusclor4[3]={235.0f, 47.0f,140.0f};
 static float positionMusclor5[3]={250.0f, 47.0f,90.0f};
-//old: static float positionGoldonium[3]={250.0f, 190.0f, 140.0f};
 static float positionGoldonium[3]={250.0f, 95.0f,189.0f};
 static float positionPreGoldonium[3]={180.0f,230.0f,130.0f};
-static float positionSolIntermediaire[3] = { /*Valeur de test:*/ 278.0f-5 /*272.0f*/, 97.0f+5, 189.0f};
-static float positionSol[3] = { /*Valeur de test:*/ 278.0f /*272.0f*/, 97.0f, 189.0f};
-static float positionRecule[3] = {0,0,0};
-static float coupleSolseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
+*/
+
+
+/**
+ * positions du secondaire pour des XLs
+ */
+
+const static float cst=30;  // constante pour passer de XL (home à 180) à AX (home à 150)
+
+static float positionAccelerateurSecondaire[3] = {213.4f+cst, 360-(180.0f+cst),151.4f+cst};
+static float positionStockageSecondaire[3] = { 140.00f+cst, 360-(75.00f+cst), 55.00f+cst};
+static float positionIntermediaireSecondaire[3] = {150.00f+cst, 360-(80.00f+cst), 60.00f+cst};
+static float positionIntermediaireSecondaire2[3] = {249.00f+cst, 360-(70.00f+cst), 55.00f+cst};
+static float positionDistributeurSecondaire[3] = {249.0f+cst, 360-(163.0f+cst), 130.0f+cst};
+
+static float positionBalance[3]={160.0f+cst, 360-(210.0f+cst), 160.0f+cst};
+static float positionMusclor[3]={250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
+static float positionMusclor2[3]={250.0f+cst, 360-(47.0f+cst), 150.0f+cst};
+static float positionMusclor3[3]={250.0f+cst, 360-(47.0f+cst), 140.0f+cst};
+static float positionMusclor4[3]={235.0f+cst, 360-(47.0f+cst), 140.0f+cst};
+static float positionMusclor5[3]={250.0f+cst, 360(47.0f+cst), 90.0f+cst};
+static float positionGoldonium[3]={250.0f+cst, 360-(95.0f+cst), 189.0f+cst};
+static float positionPreGoldonium[3]={180.0f+cst, 360-(230.0f+cst), 130.0f+cst};
+
+
+
+
+
+
+
 /** Ligne référence le XL et Colonne le type de Palet du plus lourd au plus léger (bleu, vert, rouge, vide)*/
 const static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
 
