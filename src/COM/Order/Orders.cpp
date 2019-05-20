@@ -693,6 +693,7 @@ void ORDER_gold::impl(Args args)
     Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionPreGoldonium);
     arm->setPosition(positionGoldonium);
+    arm->setPosition(positionPostGoldonium);
 }
 
 
