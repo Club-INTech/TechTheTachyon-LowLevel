@@ -671,6 +671,7 @@ void ORDER_accSecondaire::impl(Args args)
     arm->setPosition(positionIntermediaireSecondaire);
     arm->setPosition(positionIntermediaireSecondaire2);
     arm->setPosition(positionAccelerateurSecondaire);
+    arm->setPosition(positionAccelerateurSecondaire2);
 }
 
 void ORDER_bal::impl(Args args)

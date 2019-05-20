@@ -99,6 +99,7 @@ static float positionPreGoldonium[3]={180.0f,230.0f,130.0f};
 const static float cst=30;  // constante pour passer de XL (home à 180) à AX (home à 150)
 
 static float positionAccelerateurSecondaire[3] = {213.4f+cst, 360-(180.0f+cst),151.4f+cst};
+static float positionAccelerateurSecondaire2[3]= {259.600006f,168.608002f,177.231995f};
 static float positionStockageSecondaire[3] = { 140.00f+cst, 360-(75.00f+cst), 55.00f+cst};
 static float positionIntermediaireSecondaire[3] = {150.00f+cst, 360-(80.00f+cst), 60.00f+cst};
 static float positionIntermediaireSecondaire2[3] = {249.00f+cst, 360-(70.00f+cst), 55.00f+cst};
