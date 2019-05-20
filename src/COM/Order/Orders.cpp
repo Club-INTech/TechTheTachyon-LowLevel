@@ -711,11 +711,13 @@ void ORDER_goldDepot::impl(Args args)
     }
     // TODO
     Arm<XL430>* arm = manager.rightArm;
-    arm->setPosition(positionMusclor4);
+/*    arm->setPosition(positionMusclor4);
     arm->setPosition(positionMusclor3);
     //arm->setPosition(positionMusclor2);
     arm->setPosition(positionMusclor);
     arm->setPosition(positionGoldonium);
+*/
+    arm->setPosition(positionPreGoldonium);
 
 }
 
