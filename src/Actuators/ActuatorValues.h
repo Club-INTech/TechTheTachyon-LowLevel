@@ -65,7 +65,7 @@ static float positionDistributeur[3] = {295.77f, 216.30f, 195.18f};
 //old: static float positionGoldonium[3]={250.0f, 190.0f, 140.0f};
 
 static float positionSolIntermediaire[3] = { 282.303986f, 128.744003f, 212.783997f};
-static float positionSol[3] = { 301.84f, 157.25f, 213.66f};
+static float positionSol[3] = {304.656006f, 162.447998f, 199.847992f};//{ 301.84f, 157.25f, 213.66f};
 static float positionRecule[3] = {0,0,0};
 static float coupleSolseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
 
