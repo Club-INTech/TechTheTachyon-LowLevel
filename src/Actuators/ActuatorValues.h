@@ -105,20 +105,18 @@ static float positionIntermediaireSecondaire2[3] = {249.00f+cst, 360-(70.00f+cst
 static float positionDistributeurSecondaire[3] = {249.0f+cst, 360-(163.0f+cst), 130.0f+cst};
 
 static float positionBalance[3]={160.0f+cst, 360-(210.0f+cst), 160.0f+cst};
-static float positionMusclor[3]={250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
-static float positionMusclor2[3]={250.0f+cst, 360-(47.0f+cst), 150.0f+cst};
-static float positionMusclor3[3]={250.0f+cst, 360-(47.0f+cst), 140.0f+cst};
+static float positionMusclor[3]={285.648010f, 278.695984f, 98.648003f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
+static float positionMusclor2[3]={288.639984f, 277.992004f, 84.304001f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
+//static float positionMusclor2[3]={285.648010f, 278.695984f, 98.648003f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
+//static float positionMusclor[3]={285.648010f, 278.695984f, 279.928009f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
+//static float positionMusclor2[3]={257.928009f, 269.455994f, 83.599998f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
+//static float positionMusclor2[3]={250.0f+cst, 360-(47.0f+cst), 150.0f+cst};
+static float positionMusclor3[3]={269.544006f, 250.184006f, 121.264000f};//{203.279999f, 109.384003f, 82.720001f};//{250.0f+cst, 360-(47.0f+cst), 140.0f+cst};
 static float positionMusclor4[3]={235.0f+cst, 360-(47.0f+cst), 140.0f+cst};
 static float positionMusclor5[3]={250.0f+cst, 360-(47.0f+cst), 90.0f+cst};
 //static float positionGoldonium[3]={250.0f+cst, 360-(95.0f+cst), 189.0f+cst};
-static float positionGoldonium[3]={212,89,147};
-static float positionPreGoldonium[3]={180.0f+cst, 360-(230.0f+cst), 130.0f+cst};
-
-
-
-
-
-
+static float positionGoldonium[3]={285.648010f, 278.695984f, 279.928009f};//{212,89,147};
+static float positionPreGoldonium[3]={271.303986f, 281.687988f, 279.664001f};//{291.015991f, 278.432007f, 86.503998f};//{180.0f+cst, 360-(230.0f+cst), 130.0f+cst};
 
 /** Ligne référence le XL et Colonne le type de Palet du plus lourd au plus léger (bleu, vert, rouge, vide)*/
 const static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};

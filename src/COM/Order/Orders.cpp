@@ -690,9 +690,8 @@ void ORDER_gold::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<XL430>* arm = manager.rightArm;
-    //arm->setPosition(positionPreGoldonium);
+    arm->setPosition(positionPreGoldonium);
     arm->setPosition(positionGoldonium);
-
 }
 
 
@@ -702,8 +701,6 @@ void ORDER_musclor::impl(Args args)
     Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionMusclor);
     arm->setPosition(positionMusclor2);
-    arm->setPosition(positionMusclor3);
-    arm->setPosition(positionMusclor4);
 }
 
 void ORDER_goldDepot::impl(Args args)
@@ -712,10 +709,11 @@ void ORDER_goldDepot::impl(Args args)
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
+    // TODO
     Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionMusclor4);
     arm->setPosition(positionMusclor3);
-    arm->setPosition(positionMusclor2);
+    //arm->setPosition(positionMusclor2);
     arm->setPosition(positionMusclor);
     arm->setPosition(positionGoldonium);
 
