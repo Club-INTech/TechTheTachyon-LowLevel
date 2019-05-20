@@ -276,9 +276,11 @@ void MCS::stop() {
     leftMotor.stop();
     rightMotor.stop();
 
+    bool shouldResetP2P = true;
     if(!robotStatus.controlledP2P) {
         if(robotStatus.Lbooly && ABS(targetX-robotStatus.x)>=controlSettings.tolerancyX && ABS(targetY-robotStatus.y)>=controlSettings.tolerancyY){
             gotoPoint2(targetX,targetY);
+            shouldResetP2P = false;
         }
         else {
             InterruptStackPrint::Instance().push(EVENT_HEADER, "stoppedMoving");
@@ -293,12 +295,15 @@ void MCS::stop() {
         }
     }
 
+    if(shouldResetP2P) {
+        robotStatus.controlledP2P = false;
+    }
+
     if(robotStatus.controlledP2P) {
         InterruptStackPrint::Instance().push(DEBUG_HEADER, "controlledP2P");
     } else {
         InterruptStackPrint::Instance().push(DEBUG_HEADER, "NOT controlledP2P !!!");
     }
-    robotStatus.controlledP2P = false;
     trajectory.clear();
     translationPID.resetErrors();
     rotationPID.resetErrors();
