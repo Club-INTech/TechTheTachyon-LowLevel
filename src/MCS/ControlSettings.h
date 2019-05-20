@@ -26,6 +26,8 @@ public:
 
     /* mm */
     uint8_t tolerancyTranslation;
+    uint8_t tolerancyX;
+    uint8_t tolerancyY;
     float tolerancyRadius;
 
     /* rad */

@@ -70,6 +70,8 @@ void MCS::initSettings() {
 
     /* mm */
     controlSettings.tolerancyTranslation = 2;//1
+    controlSettings.tolerancyX=5;
+    controlSettings.tolerancyY=5;
 
 
     /* ms */
@@ -231,12 +233,12 @@ void MCS::manageStop() {
     if(robotStatus.moving && ABS(averageTranslationDerivativeError.value())<= controlSettings.tolerancyDerivative && ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && ABS(averageRotationDerivativeError.value())<=controlSettings.tolerancyDerivative && ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
         leftMotor.setDirection(Direction::NONE);
         rightMotor.setDirection(Direction::NONE);
-        robotStatus.Lbooly = robotStatus.controlledP2P;
+        boolean booly = robotStatus.controlledP2P;
         if(robotStatus.controlledP2P) {
             gotoTimer = MIN_TIME_BETWEEN_GOTO_TR_ROT;
         }
         stop();
-        robotStatus.controlledP2P = robotStatus.Lbooly;
+        robotStatus.controlledP2P = booly;
 //        digitalWrite(LED1,HIGH);
     }
   //  digitalWrite(LED2,(ABS(leftSpeedPID.getCurrentState())<=0.25*controlSettings.tolerancySpeed));
@@ -275,7 +277,20 @@ void MCS::stop() {
     rightMotor.stop();
 
     if(!robotStatus.controlledP2P) {
-        InterruptStackPrint::Instance().push(EVENT_HEADER, "stoppedMoving");
+        if(robotStatus.Lbooly && ABS(targetX-robotStatus.x)>=controlSettings.tolerancyX && ABS(targetY-robotStatus.y)>=controlSettings.tolerancyY){
+            gotoPoint2(targetX,targetY);
+        }
+        else {
+            InterruptStackPrint::Instance().push(EVENT_HEADER, "stoppedMoving");
+            robotStatus.Lbooly=false;
+            leftSpeedPID.setGoal(0);
+            rightSpeedPID.setGoal(0);
+
+            translationPID.resetOutput(0);
+            rotationPID.resetOutput(0);
+            translationPID.setGoal(currentDistance);
+            rotationPID.setGoal(robotStatus.orientation);
+        }
     }
 
     if(robotStatus.controlledP2P) {
@@ -290,13 +305,6 @@ void MCS::stop() {
     leftSpeedPID.resetErrors();
     rightSpeedPID.resetErrors();
 
-    leftSpeedPID.setGoal(0);
-    rightSpeedPID.setGoal(0);
-
-    translationPID.resetOutput(0);
-    rotationPID.resetOutput(0);
-    translationPID.setGoal(currentDistance);
-    rotationPID.setGoal(robotStatus.orientation);
 
     InterruptStackPrint::Instance().push("[DEBUG] On s'arrête!!");
     //if(robotStatus.movement != MOVEMENT::NONE) {
@@ -367,6 +375,7 @@ void MCS::rotate(float angle) {
 }*/
 
 void MCS::gotoPoint2(int16_t x, int16_t y) {
+    robotStatus.Lbooly=true;
     targetX = x;
     targetY = y;
 //    digitalWrite(LED2,LOW);
