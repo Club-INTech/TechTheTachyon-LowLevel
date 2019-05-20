@@ -233,7 +233,7 @@ void MCS::manageStop() {
     if(robotStatus.moving && ABS(averageTranslationDerivativeError.value())<= controlSettings.tolerancyDerivative && ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && ABS(averageRotationDerivativeError.value())<=controlSettings.tolerancyDerivative && ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
         leftMotor.setDirection(Direction::NONE);
         rightMotor.setDirection(Direction::NONE);
-        boolean booly = robotStatus.controlledP2P;
+        bool booly = robotStatus.controlledP2P;
         if(robotStatus.controlledP2P) {
             gotoTimer = MIN_TIME_BETWEEN_GOTO_TR_ROT;
         }
@@ -276,6 +276,11 @@ void MCS::stop() {
     leftMotor.stop();
     rightMotor.stop();
 
+    translationPID.setGoal(currentDistance);
+
+    translationPID.resetOutput(0);
+    rotationPID.resetOutput(0);
+
     bool shouldResetP2P = true;
     if(!robotStatus.controlledP2P) {
         if(robotStatus.Lbooly && ABS(targetX-robotStatus.x)>=controlSettings.tolerancyX && ABS(targetY-robotStatus.y)>=controlSettings.tolerancyY){
@@ -287,10 +292,6 @@ void MCS::stop() {
             robotStatus.Lbooly=false;
             leftSpeedPID.setGoal(0);
             rightSpeedPID.setGoal(0);
-
-            translationPID.resetOutput(0);
-            rotationPID.resetOutput(0);
-            translationPID.setGoal(currentDistance);
             rotationPID.setGoal(robotStatus.orientation);
         }
     }
