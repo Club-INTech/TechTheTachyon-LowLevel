@@ -623,6 +623,7 @@ void ORDER_grnd::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionIntermediaire);
     arm->setPosition(positionSolIntermediaire);
     arm->setPosition(positionSol);
 }
