@@ -758,6 +758,15 @@ void ORDER_accMiddleDepot::impl(Args args)
 }
 
 
+void ORDER_accMiddle7Depot::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+            arm->setPositionNoRetry(positionAccelerateur7Middle3);
+            arm->setPositionNoRetry(positionAccelerateur7MiddleDepot);
+    )
+}
+
 
 void ORDER_pushPalet::impl(Args args)
 {

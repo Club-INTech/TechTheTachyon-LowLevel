@@ -58,11 +58,16 @@ static Stream& DebugSerial = Serial2;//SerialUSB;
 const static float positionDroit[3] = {180.0f,180.0f,180.0f};
 const static float positionRecule[3] = {302.0f,280.0f,247.0f};
 const static float positionAccPoussePalet[3] = {286.0f, 247.0f, 219.0f};
+
 const static float positionAccelerateur[3] = {292.0f, 272.0f, 244.0f};
 const static float positionAccelerateurMiddle[3] = {200.0f, 90.0f, 135.0f+10};
 const static float positionAccelerateurMiddle2[3] = {210.0f, 90.0f, 135.0f};
 const static float positionAccelerateurMiddle3[3] = {215.0f, 80.0f, 135.0f};
 const static float positionAccelerateurMiddleDepot[3] = {220.0f, 80.0f, 135.0f};
+
+const static float positionAccelerateur7Middle3[3] = {210.0f, 90.0f, 130.0f+10};
+const static float positionAccelerateur7MiddleDepot[3] = {210.0f, 80.0f, 120.0f};
+
 const static float positionAccBIS[3] = {193.0f, 235.0f, 90.0f};
 const static float positionAccTER[3] = {287.0f, 290.0f+5.0f, 185.0f-5.0f};
 const static float positionStockageDepot[3] = { 195.0f, 250.0f, 95.0f};//{170.0f, 232.0f, 55.5f};
