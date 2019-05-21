@@ -67,7 +67,8 @@ const static float positionAccelerateurMiddleDepot[3] = {220.0f, 80.0f, 135.0f};
 
 
 const static float positionAccelerateur7Middle3[3] = {200.0f, 90.0f, 130.0f+10};
-const static float positionAccelerateur7MiddleDepot[3] = {220.0f, 83.0f, 120.0f};
+//const static float positionAccelerateur7MiddleDepot[3] = {220.0f, 83.0f, 120.0f};
+const static float positionAccelerateur7MiddleDepot[3] = {207.151993f, 88.351997f, 147.664001f};
 
 const static float positionAccelerateur8Middle3[3] = {200.0f, 80.0f, 110.0f+10};
 const static float positionAccelerateur8MiddleDepot[3] = {200.0f, 80.0f, 130.0f};
