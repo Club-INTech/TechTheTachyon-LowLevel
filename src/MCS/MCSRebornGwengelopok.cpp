@@ -286,6 +286,9 @@ void MCS::stop() {
         if(robotStatus.Lbooly && ABS(targetX-robotStatus.x)>=controlSettings.tolerancyX && ABS(targetY-robotStatus.y)>=controlSettings.tolerancyY){
             gotoPoint2(targetX,targetY);
             InterruptStackPrint::Instance().push(EVENT_HEADER, "renvoie un goto");
+            InterruptStackPrint::Instance().push(EVENT_HEADER, targetX);
+            InterruptStackPrint::Instance().push(EVENT_HEADER, targetY);
+            InterruptStackPrint::Instance().push(EVENT_HEADER, targetAngle);
             shouldResetP2P = false;
         }
         else {
@@ -370,7 +373,7 @@ void MCS::rotate(float angle) {
     robotStatus.movement = differenceAngle > 0.0 ? MOVEMENT::TRIGO : MOVEMENT::ANTITRIGO;
     rotationPID.setGoal(targetAngle);
     robotStatus.moving = true;
-    digitalWrite(LED2_1,HIGH);
+    digitalWrite(LED2_1,LOW);
 }
 
 /*void MCS::gotoPoint(int16_t x, int16_t y, bool sequential) {
