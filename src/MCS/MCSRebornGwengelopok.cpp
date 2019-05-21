@@ -285,6 +285,7 @@ void MCS::stop() {
     if(!robotStatus.controlledP2P) {
         if(robotStatus.Lbooly && ABS(targetX-robotStatus.x)>=controlSettings.tolerancyX && ABS(targetY-robotStatus.y)>=controlSettings.tolerancyY){
             gotoPoint2(targetX,targetY);
+            InterruptStackPrint::Instance().push(EVENT_HEADER, "renvoie un goto");
             shouldResetP2P = false;
         }
         else {
