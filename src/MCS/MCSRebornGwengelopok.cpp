@@ -69,7 +69,7 @@ void MCS::initSettings() {
     //controlSettings.tolerancyAngle = 0.0005;
 
     /* mm */
-    controlSettings.tolerancyTranslation = 2;//1
+    controlSettings.tolerancyTranslation = 1;//1
     controlSettings.tolerancyX=5;
     controlSettings.tolerancyY=5;
 
