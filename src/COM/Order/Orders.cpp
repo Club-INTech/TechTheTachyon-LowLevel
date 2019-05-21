@@ -831,6 +831,14 @@ void ORDER_posinter::impl(Args args)
     )
 }
 
+void ORDER_freeElevator::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+             arm->setPosition(positionLiberationAsc);
+    )
+}
+
 void ORDER_XLm::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();

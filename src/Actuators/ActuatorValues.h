@@ -97,6 +97,8 @@ const static float coupleSolseuil[3][4] = {
 /** Ligne référence le XL et Colonne le type de Palet du plus lourd au plus léger (bleu, vert, rouge, vide)*/
 const static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
 
+const static float positionLiberationAsc[3] = {170.895996f, 172.479996f, 91.695999f};
+
 /** Couleurs des plalets */
 enum class PaletColor
 {
