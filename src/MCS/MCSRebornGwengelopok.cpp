@@ -282,6 +282,9 @@ void MCS::stop() {
     translationPID.resetOutput(0);
     rotationPID.resetOutput(0);
 
+
+    robotStatus.moving = false;
+
     bool shouldResetP2P = true;
     if(!robotStatus.controlledP2P) {
         if(robotStatus.Lbooly && ABS(targetX-robotStatus.x)>=controlSettings.tolerancyX && ABS(targetY-robotStatus.y)>=controlSettings.tolerancyY && !robotStatus.stuck){
@@ -289,6 +292,7 @@ void MCS::stop() {
             rotationPID.resetErrors();
             leftSpeedPID.resetErrors();
             rightSpeedPID.resetErrors();
+
             gotoPoint2(targetX,targetY);
             InterruptStackPrint::Instance().push(EVENT_HEADER, "renvoie un goto");
             InterruptStackPrint::Instance().push(EVENT_HEADER, targetX);
@@ -309,7 +313,6 @@ void MCS::stop() {
     if(shouldResetP2P) {
         robotStatus.controlledP2P = false;
         robotStatus.movement = MOVEMENT::NONE;
-        robotStatus.moving = false;
     }
 
     if(robotStatus.controlledP2P) {
