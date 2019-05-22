@@ -668,10 +668,10 @@ void ORDER_accSecondaire::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<XL430>* arm = manager.rightArm;
-    arm->setPosition(positionIntermediaireSecondaire);
+    //arm->setPosition(positionIntermediaireSecondaire);
     arm->setPosition(positionIntermediaireSecondaire2);
     arm->setPosition(positionAccelerateurSecondaire);
-    arm->setPosition(positionAccelerateurSecondaire2);
+    //arm->setPosition(positionAccelerateurSecondaire2);
 }
 
 void ORDER_accSecondaire2::impl(Args args)
@@ -682,7 +682,7 @@ void ORDER_accSecondaire2::impl(Args args)
     }
     Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionAccelerateurSecondaire);
-    arm->setPosition(positionAccelerateurSecondaire2);
+    //arm->setPosition(positionAccelerateurSecondaire2);
 }
 
 void ORDER_bal::impl(Args args)
