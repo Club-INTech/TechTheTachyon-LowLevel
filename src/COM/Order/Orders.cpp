@@ -703,9 +703,10 @@ void ORDER_gold::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<XL430>* arm = manager.rightArm;
-    arm->setPosition(positionPreGoldonium);
-    arm->setPosition(positionGoldonium);
-    arm->setPosition(positionPostGoldonium);
+    arm->setPositionNoRetry(positionPreGoldonium);
+    arm->setPositionNoRetry(positionGoldonium);
+    arm->setPositionNoRetry(positionPostGoldonium);
+
 }
 
 
