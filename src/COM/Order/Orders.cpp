@@ -788,17 +788,21 @@ void ORDER_deposePaletZoneDep::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
+             arm->setPosition(positionDeposeZoneDepartIntermediaireVersAscenceur);
              arm->setPosition(positionDeposeZoneDepart);
     )
 }
 
-void ORDER_deposePaletZoneDepInt::impl(Args args)
+void ORDER_deposePaletZoneDep2Stock::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
+             arm->setPosition(positionDeposeZoneDepart);
              arm->setPosition(positionDeposeZoneDepartIntermediaireVersAscenceur);
+             arm->setPosition(positionStockagePrise);
     )
 }
+
 
 void ORDER_bal::impl(Args args)
 {
