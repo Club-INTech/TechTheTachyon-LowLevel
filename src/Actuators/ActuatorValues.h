@@ -108,6 +108,7 @@ static float positionDistributeurSecondaire[3] = {249.0f+cst, 360-(163.0f+cst), 
 static float positionBalance[3]={160.0f+cst, 360-(210.0f+cst), 160.0f+cst};
 static float positionMusclor[3]={285.648010f, 278.695984f, 98.648003f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
 static float positionMusclor2[3]={288.639984f, 277.992004f, 84.304001f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
+static float positionFinMusclor[3]={253.352005f, 279.488007f, 91.695999f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
 //static float positionMusclor2[3]={285.648010f, 278.695984f, 98.648003f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
 //static float positionMusclor[3]={285.648010f, 278.695984f, 279.928009f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
 //static float positionMusclor2[3]={257.928009f, 269.455994f, 83.599998f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
