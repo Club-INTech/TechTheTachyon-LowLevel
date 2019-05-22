@@ -158,6 +158,7 @@ ORDER(torqueXL,1);
 ORDER(brasToutDroit,1);
 ORDER(brasRecule,1);
 ORDER(freeElevator,1);
+ORDER(deposePaletZoneDep,1);
 ORDER(posBras,1);
 
 /* Ascenseurs */

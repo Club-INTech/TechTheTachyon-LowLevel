@@ -784,6 +784,14 @@ void ORDER_pushPalet::impl(Args args)
     )
 }
 
+void ORDER_deposePaletZoneDep::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+             arm->setPosition(positionDeposeZoneDepart);
+    )
+}
+
 void ORDER_bal::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
