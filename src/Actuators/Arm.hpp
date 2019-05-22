@@ -263,7 +263,9 @@ public:
                 ComMgr::Instance().printfln(DEBUG_HEADER,
                                             "Position non atteinte sur le bras (%i-%i-%i) après %i tentatives, abandon",
                                             base.getId(), elbow.getId(), wrist.getId(), retryMovementAttempts);
-                ComMgr::Instance().printfln(EVENT_HEADER, "armPositionFail %s", sideName);
+                if(writeIndex == currentPositionIndex) {
+                    ComMgr::Instance().printfln(EVENT_HEADER, "armPositionFail %s", sideName);
+                }
                 status = WRONG_POSITION;
             } else { // on retente
                 ComMgr::Instance().printfln(DEBUG_HEADER,
