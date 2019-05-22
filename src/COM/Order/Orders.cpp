@@ -796,7 +796,7 @@ void ORDER_deposePaletZoneDepInt::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
-             arm->setPosition(positionDeposeZoneDepartIntermedaireVersAscenceur);
+             arm->setPosition(positionDeposeZoneDepartIntermediaireVersAscenceur);
     )
 }
 
