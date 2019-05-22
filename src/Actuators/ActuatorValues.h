@@ -87,6 +87,8 @@ const static float positionBalance[3]={182.6f,101.6f,181.7f};
 const static float positionHoldBlue[3]={188.584000f, 101.463997f, 181.016006f};
 
 const static float positionDeposeZoneDepart[3]={196.944000f, 108.503998f, 252.559998f};
+
+const static float positionDeposeZoneDepartIntermedaireVersAscenceur[3]={196.944000f, 108.503998f, 252.559998f};
 const static float positionBalancePrincipal[3]={220.0f,150.0f,181.7f}; // dépot du palet bleu de X6
 const static float positionGoldonium[3]={213.4f,101.8f,151.4f};
 const static float positionSolIntermediaire[3] = { /*Valeur de test:*/ 278.0f-5 /*272.0f*/, 97.0f+5, 189.0f};
