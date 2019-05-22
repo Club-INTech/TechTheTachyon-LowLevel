@@ -237,6 +237,13 @@ void MCS::manageStop() {
         if(robotStatus.controlledP2P) {
             gotoTimer = MIN_TIME_BETWEEN_GOTO_TR_ROT;
         }
+        InterruptStackPrint::Instance().push("ici manage stop envoie stop");
+        InterruptStackPrint::Instance().push(translationPID.getCurrentState());
+        InterruptStackPrint::Instance().push(translationPID.getCurrentGoal());
+        InterruptStackPrint::Instance().push(rotationPID.getCurrentState());
+        InterruptStackPrint::Instance().push(rotationPID.getCurrentGoal());
+
+
         stop();
         robotStatus.controlledP2P = booly;
 //        digitalWrite(LED1,HIGH);
