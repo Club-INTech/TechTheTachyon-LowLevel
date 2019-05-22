@@ -260,6 +260,7 @@ void MCS::manageStop() {
         leftMotor.setDirection(Direction::NONE);
         rightMotor.setDirection(Direction::NONE);
         stop();
+        InterruptStackPrint::Instance().push("blocage asymétrique");
         robotStatus.stuck=true;
         digitalWrite(LED3_1,LOW);
 
@@ -283,7 +284,7 @@ void MCS::stop() {
 
     bool shouldResetP2P = true;
     if(!robotStatus.controlledP2P) {
-        if(robotStatus.Lbooly && ABS(targetX-robotStatus.x)>=controlSettings.tolerancyX && ABS(targetY-robotStatus.y)>=controlSettings.tolerancyY){
+        if(robotStatus.Lbooly && ABS(targetX-robotStatus.x)>=controlSettings.tolerancyX && ABS(targetY-robotStatus.y)>=controlSettings.tolerancyY && !robotStatus.stuck){
             translationPID.resetErrors();
             rotationPID.resetErrors();
             leftSpeedPID.resetErrors();
