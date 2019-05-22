@@ -284,12 +284,17 @@ void MCS::stop() {
     bool shouldResetP2P = true;
     if(!robotStatus.controlledP2P) {
         if(robotStatus.Lbooly && ABS(targetX-robotStatus.x)>=controlSettings.tolerancyX && ABS(targetY-robotStatus.y)>=controlSettings.tolerancyY){
+            translationPID.resetErrors();
+            rotationPID.resetErrors();
+            leftSpeedPID.resetErrors();
+            rightSpeedPID.resetErrors();
             gotoPoint2(targetX,targetY);
             InterruptStackPrint::Instance().push(EVENT_HEADER, "renvoie un goto");
             InterruptStackPrint::Instance().push(EVENT_HEADER, targetX);
             InterruptStackPrint::Instance().push(EVENT_HEADER, targetY);
             InterruptStackPrint::Instance().push(EVENT_HEADER, targetAngle);
             shouldResetP2P = false;
+
         }
         else {
             InterruptStackPrint::Instance().push(EVENT_HEADER, "stoppedMoving");
@@ -302,6 +307,8 @@ void MCS::stop() {
 
     if(shouldResetP2P) {
         robotStatus.controlledP2P = false;
+        robotStatus.movement = MOVEMENT::NONE;
+        robotStatus.moving = false;
     }
 
     if(robotStatus.controlledP2P) {
@@ -319,8 +326,6 @@ void MCS::stop() {
     InterruptStackPrint::Instance().push("[DEBUG] On s'arrête!!");
     //if(robotStatus.movement != MOVEMENT::NONE) {
     //}
-    robotStatus.movement = MOVEMENT::NONE;
-    robotStatus.moving = false;
 }
 
 void MCS::translate(int16_t amount) {
