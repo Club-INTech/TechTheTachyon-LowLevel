@@ -92,6 +92,7 @@ public:
 	void resetErrors() {
 		pre_error = 0;
 		integral = 0;
+		derivative = 0;
 	}
 	float getKp() const {
 		return kp;
