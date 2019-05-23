@@ -329,6 +329,7 @@ void MCS::stop() {
     leftSpeedPID.resetErrors();
     rightSpeedPID.resetErrors();
 
+    robotStatus.controlledTranslation = true;
 
     InterruptStackPrint::Instance().push("[DEBUG] On s'arrête!!");
     //if(robotStatus.movement != MOVEMENT::NONE) {
@@ -356,6 +357,9 @@ void MCS::rotate(float angle) {
     if(!robotStatus.controlledRotation){
         return;
     }
+
+    robotStatus.controlledTranslation = false;
+
     targetAngle = angle;
 
     float differenceAngle = robotStatus.orientation-targetAngle;
