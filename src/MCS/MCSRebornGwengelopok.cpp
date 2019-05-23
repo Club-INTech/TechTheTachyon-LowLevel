@@ -204,32 +204,6 @@ void MCS::control()
 
 void MCS::manageStop() {
     static int timeCounter =0;
-    /*if(translationPID.active) {
-        if((ABS(translationPID.getError()) <= controlSettings.tolerancyTranslation) && (ABS(translationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative)){
-            translationPID.active = false;
-            InterruptStackPrint::Instance().push("arret tolerance translation");
-            Serial.println("Tolérance translation");
-        }
-    }
-    if(rotationPID.active) {
-        if((ABS(rotationPID.getError()) <= controlSettings.tolerancyAngle && (ABS(rotationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative ))){
-            rotationPID.active = false;
-            InterruptStackPrint::Instance().push("arret tolerance rotation");
-            Serial.println("Tolérance rotation");
-        }
-    }
-
-
-    if(!translationPID.active && !rotationPID.active ) {
-        if( !robotStatus.forcedMovement )
-        {
-            leftMotor.brake();
-            rightMotor.brake();
-            if(ABS(robotStatus.speedLeftWheel) <= controlSettings.tolerancySpeed && ABS(robotStatus.speedRightWheel) <= controlSettings.tolerancySpeed){
-                stop();
-            }
-        }
-    }*/
 
     averageRotationDerivativeError.add(rotationPID.getDerivativeError());
     averageTranslationDerivativeError.add(translationPID.getDerivativeError());
@@ -249,17 +223,22 @@ void MCS::manageStop() {
     }
   //  digitalWrite(LED2,(ABS(leftSpeedPID.getCurrentState())<=0.25*controlSettings.tolerancySpeed));
    // digitalWrite(LED1,(ABS(rightSpeedPID.getCurrentState())<=0.25*controlSettings.tolerancySpeed));
-    /*if((ABS(leftSpeedPID.getCurrentState())<=0.25*ABS(leftSpeedPID.getCurrentGoal())) && ABS((rightSpeedPID.getCurrentState())<=0.25*ABS(rightSpeedPID.getCurrentGoal())) && robotStatus.moving){          //si robot a les deux roues bloquées
-        if (timeCounter==50){
-            leftMotor.setDirection(Direction::NONE);
-            rightMotor.setDirection(Direction::NONE);
+    if((ABS(leftSpeedPID.getCurrentState())<=0.25*ABS(leftSpeedPID.getCurrentGoal())) && ABS((rightSpeedPID.getCurrentState())<=0.25*ABS(rightSpeedPID.getCurrentGoal())) && robotStatus.moving){          //si robot a les deux roues bloquées
+        if (timeCounter==50)
+        {
             stop();
             timeCounter=0;
             robotStatus.stuck=true;
-            digitalWrite(LED4,HIGH);
+            digitalWrite(LED3_1,LOW);
+            digitalWrite(LED3_2,HIGH);
+            digitalWrite(LED3_3,HIGH;
         }
         timeCounter++;
-    }*/
+    }
+    else
+    {
+        timeCounter=0;
+    }
 
 //    digitalWrite(LED3,robotStatus.moving);
     if(ABS(ABS(leftSpeedPID.getCurrentState())-ABS(rightSpeedPID.getCurrentState()))>controlSettings.tolerancyDifferenceSpeed && robotStatus.moving){          //si le robot a une seule roue bloquée
@@ -278,6 +257,8 @@ void MCS::manageStop() {
     }*/
 }
 
+
+
 void MCS::stop() {
     digitalWrite(LED2_1,LOW);
     leftMotor.stop();
@@ -287,7 +268,14 @@ void MCS::stop() {
 
     translationPID.resetOutput(0);
     rotationPID.resetOutput(0);
+    if (robotStatus.stuck)
+    {
+        robotStatus.inGoto = false;
+        robotStatus.inRotationInGoto = false;
+        robotStatus.moving = false;
 
+        InterruptStackPrint::Instance().push(EVENT_HEADER,"unableToMove");
+    }
 
 
     bool shouldResetP2P = true;
@@ -368,7 +356,6 @@ void MCS::rotate(float angle) {
         float signe = ABS(differenceAngle)/differenceAngle;
         float ratio = floor(ABS(differenceAngle)/PI);
         targetAngle += signe*2*PI*ratio;
-
 
         differenceAngle = robotStatus.orientation-targetAngle;
     }

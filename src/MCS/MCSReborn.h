@@ -79,7 +79,7 @@ public:
     void initEncoders();
 
     void manageStop();
-    void updatePositionOrientation();
+    void manageStopT(); void updatePositionOrientation();
     void updateSpeed();
     void control();
     void stop();

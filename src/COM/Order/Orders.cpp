@@ -119,7 +119,8 @@ void ORDER_cxyo::impl(Args args)
     // Mise à jour de l'offset et du target des codeuses. Faut pas tourner parce que le HL te dit où t'es. Je sais il est pas gentil mais faut l'accepter
     orderManager.motionControlSystem.setAngleOffset(orderManager.parseFloat(args[2]));
     orderManager.motionControlSystem.resetEncoders();
-    orderManager.highLevel.printfln(DEBUG_HEADER, "X,Y,O set");
+    //orderManager.motionControlSystem.stop();
+    orderManager.highLevel.printfln(DEBUG_HEADER, "X,Y,O set to %d %d %f", orderManager.motionControlSystem.getX(),orderManager.motionControlSystem.getY(), orderManager.motionControlSystem.getAngle());
 }
 
 void ORDER_ctv::impl(Args args)
