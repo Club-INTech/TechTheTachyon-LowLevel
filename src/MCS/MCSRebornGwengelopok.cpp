@@ -186,27 +186,18 @@ void MCS::control()
     //averageRotationDerivativeError.add(rotationPID.getDerivativeError());
     if(gotoTimer > 0)
         gotoTimer--;
-    if(robotStatus.inRotationInGoto) {//ABS(averageRotationDerivativeError.value()) <= controlSettings.tolerancyDerivative && ABS(rotationPID.getError())<=controlSettings.tolerancyAngle){
-        InterruptStackPrint::Instance().push("inRotationInGoto");
-        if(!robotStatus.moving) {
-            InterruptStackPrint::Instance().push("!moving");
-            if(gotoTimer == 0) {
-                InterruptStackPrint::Instance().push("gotoTimer");
-                float dx = (targetX-robotStatus.x);
-                float dy = (targetY-robotStatus.y);
-                float target = sqrtf(dx*dx+dy*dy);
+    if(robotStatus.inRotationInGoto  && !robotStatus.moving && gotoTimer == 0) {//ABS(averageRotationDerivativeError.value()) <= controlSettings.tolerancyDerivative && ABS(rotationPID.getError())<=controlSettings.tolerancyAngle){
+        float dx = (targetX - robotStatus.x);
+        float dy = (targetY - robotStatus.y);
+        float target = sqrtf(dx * dx + dy * dy);
 
-                InterruptStackPrint::Instance().push("Translate pour goto: (dx, dy, translation)");
-                InterruptStackPrint::Instance().push(dx);
-                InterruptStackPrint::Instance().push(dy);
-                InterruptStackPrint::Instance().push(target);
-                //digitalWrite(LED2,HIGH);
-                translate(target);
+        //digitalWrite(LED2,HIGH);
+        translate(target);
 
-                // Serial.printf("Target is %f current angle is %f (dx=%f dy=%f) (x=%f y=%f)\n", target, getAngle(), dx, dy, robotStatus.x, robotStatus.y);
-                robotStatus.inRotationInGoto = false;
-            }
-        }
+        // Serial.printf("Target is %f current angle is %f (dx=%f dy=%f) (x=%f y=%f)\n", target, getAngle(), dx, dy, robotStatus.x, robotStatus.y);
+        robotStatus.inRotationInGoto = false;
+
+
     }
 
 }
@@ -245,19 +236,15 @@ void MCS::manageStop() {
     if(robotStatus.moving && ABS(averageTranslationDerivativeError.value())<= controlSettings.tolerancyDerivative && ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && ABS(averageRotationDerivativeError.value())<=controlSettings.tolerancyDerivative && ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
         leftMotor.setDirection(Direction::NONE);
         rightMotor.setDirection(Direction::NONE);
-        bool booly = robotStatus.inRotationInGoto;
+        bool ElBooly = robotStatus.inRotationInGoto;
         if(robotStatus.inRotationInGoto) {
             gotoTimer = MIN_TIME_BETWEEN_GOTO_TR_ROT;
         }
         InterruptStackPrint::Instance().push("ici manage stop envoie stop");
-        InterruptStackPrint::Instance().push(translationPID.getCurrentState());
-        InterruptStackPrint::Instance().push(translationPID.getCurrentGoal());
-        InterruptStackPrint::Instance().push(rotationPID.getCurrentState());
-        InterruptStackPrint::Instance().push(rotationPID.getCurrentGoal());
 
 
         stop();
-        robotStatus.inRotationInGoto = booly;
+        robotStatus.inRotationInGoto = ElBooly;
 //        digitalWrite(LED1,HIGH);
     }
   //  digitalWrite(LED2,(ABS(leftSpeedPID.getCurrentState())<=0.25*controlSettings.tolerancySpeed));
@@ -313,9 +300,6 @@ void MCS::stop() {
 
             gotoPoint2(targetX,targetY);
             InterruptStackPrint::Instance().push(EVENT_HEADER, "renvoie un goto");
-            InterruptStackPrint::Instance().push(EVENT_HEADER, targetX);
-            InterruptStackPrint::Instance().push(EVENT_HEADER, targetY);
-            InterruptStackPrint::Instance().push(EVENT_HEADER, targetAngle);
             shouldResetP2P = false;
 
         }
