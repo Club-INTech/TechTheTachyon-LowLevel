@@ -27,7 +27,6 @@ void ActuatorsMgr::initPWMs() {
 }
 
 void ActuatorsMgr::handleInterrupt() {
-
     if(rightStepCount > 0) {
         if (rightStepCount % 2 == 0) {
             digitalWrite(STEP_PIN_RIGHT, HIGH);
@@ -36,19 +35,28 @@ void ActuatorsMgr::handleInterrupt() {
         }
         rightStepCount--;
 
-        if(rightStepCount == 0) {
+        if(rightStepCount == 0 && nextRightStepCount == 0) {
             InterruptStackPrint::Instance().push(EVENT_HEADER, "rightElevatorStopped");
         }
     } else {
         rightStepCount = 0;
         digitalWrite(STEP_PIN_RIGHT, LOW);
-        //analogWrite(STEP_PIN_RIGHT, 0);
+
+        if(timerForRightStepper < 0) { // lance l'attente
+            timerForRightStepper = STEPPER_DELAY;
+        }
+        if(timerForRightStepper > 0) {
+            timerForRightStepper--;
+        }
+        if(timerForRightStepper == 0) { // si l'attente est finie
+            moveRightStepper(nextRightStepCount);
+            nextRightStepCount = 0;
+        }
     }
 }
 
-
-
-void ActuatorsMgr::moveRightStepper(int32_t count) {
+void ActuatorsMgr::moveRightStepper(int32_t count, int32_t nextCount) {
+    timerForRightStepper = STEPPER_DELAY;
     this->rightDirection = count > 0 ? UP : DOWN;
     if(count > 0) {
         digitalWrite(DIR_PIN_RIGHT, HIGH);
@@ -56,7 +64,9 @@ void ActuatorsMgr::moveRightStepper(int32_t count) {
         digitalWrite(DIR_PIN_RIGHT, LOW);
     }
     rightStepCount = ABS(count)*STEP_COUNT;
- //   analogWrite(STEP_PIN_RIGHT, 128);
+
+    nextRightStepCount = nextCount;
+    //   analogWrite(STEP_PIN_RIGHT, 128);
 /*    rightStepCount += count*STEP_COUNT;
     rightStepper.setTargetAbs(rightStepCount);
     stepControl.moveAsync(rightStepper);*/

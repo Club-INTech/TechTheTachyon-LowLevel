@@ -581,6 +581,18 @@ void ORDER_down::impl(Args args)
 
 }
 
+void ORDER_updown::impl(Args args)
+{
+    ActuatorsMgr::Instance().moveRightStepper(1,-1);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Monte puis descend le stepper droit d'une unité\n");
+}
+
+void ORDER_downup::impl(Args args)
+{
+    ActuatorsMgr::Instance().moveRightStepper(-1,1);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Descend puis monte le stepper droit d'une unité\n");
+}
+
 void ORDER_oust::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();

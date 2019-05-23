@@ -160,8 +160,10 @@ ORDER(oust,0);
 ORDER(range,0);
 
 /* Ascenseurs */
-ORDER(up,1);
-ORDER(down,1);
+ORDER(up,0);
+ORDER(down,0);
+ORDER(downup,0);
+ORDER(updown,0);
 
 /*Pompes et électrovannes*/
 ORDER(suck,1);
