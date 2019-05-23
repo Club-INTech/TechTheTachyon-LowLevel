@@ -728,7 +728,6 @@ void ORDER_musclorRed::impl(Args args)
     Arm<XL430>* arm = manager.rightArm;
     arm->setPositionNoRetry(positionMusclor);
     arm->setPositionNoRetry(positionMusclor2);
-    arm->setPositionNoRetry(positionFinMusclor);
 }
 
 void ORDER_musclor::impl(Args args)
@@ -737,6 +736,7 @@ void ORDER_musclor::impl(Args args)
     Arm<XL430>* arm = manager.rightArm;
     arm->setPositionNoRetry(positionMusclor);
     arm->setPositionNoRetry(positionMusclor2);
+    arm->setPositionNoRetry(positionFinMusclor);
 }
 
 void ORDER_goldDepot::impl(Args args)
