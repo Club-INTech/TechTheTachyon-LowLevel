@@ -104,6 +104,7 @@ static float positionStockageSecondaire[3] = { 140.00f+cst, 360-(75.00f+cst), 55
 static float positionIntermediaireSecondaire[3] = {150.00f+cst, 360-(80.00f+cst), 60.00f+cst};
 static float positionIntermediaireSecondaire2[3] = {249.00f+cst, 360-(70.00f+cst), 55.00f+cst};
 static float positionDistributeurSecondaire[3] = {249.0f+cst, 360-(163.0f+cst), 130.0f+cst};
+static float positionDistributeurSecondairePreRecule[3] = {259.776001f, 100.935997f, 104.367996f};
 
 static float positionBalance[3]={160.0f+cst, 360-(210.0f+cst), 160.0f+cst};
 static float positionMusclor[3]={285.648010f, 278.695984f, 98.648003f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};

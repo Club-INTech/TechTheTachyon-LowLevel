@@ -625,6 +625,7 @@ void ORDER_dist::impl(Args args)
     Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionIntermediaireSecondaire);
     arm->setPosition(positionIntermediaireSecondaire2);
+    arm->setPosition(positionDistributeurSecondairePreRecule);
     arm->setPosition(positionDistributeurSecondaire);
 }
 
