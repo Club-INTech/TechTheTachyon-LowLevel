@@ -231,7 +231,7 @@ void MCS::manageStop() {
             robotStatus.stuck=true;
             digitalWrite(LED3_1,LOW);
             digitalWrite(LED3_2,HIGH);
-            digitalWrite(LED3_3,HIGH;
+            digitalWrite(LED3_3,HIGH);
         }
         timeCounter++;
     }
