@@ -119,7 +119,7 @@ static float positionMusclor3[3]={269.544006f, 250.184006f, 121.264000f};//{203.
 static float positionMusclor4[3]={235.0f+cst, 360-(47.0f+cst), 140.0f+cst};
 static float positionMusclor5[3]={250.0f+cst, 360-(47.0f+cst), 90.0f+cst};
 //static float positionGoldonium[3]={250.0f+cst, 360-(95.0f+cst), 189.0f+cst};
-static float positionGoldonium[3]={285.648010f, 278.695984f, 279.928009f};//{212,89,147};
+static float positionGoldonium[3]={285.648010f, 278.695984f, 269.928009f};//{212,89,147};
 static float positionPostGoldonium[3]={279.648010f, 265.695984f, 260.0f};//{212,89,147};
 static float positionPreGoldonium[3]={271.303986f, 281.687988f, 279.664001f};//{291.015991f, 278.432007f, 86.503998f};//{180.0f+cst, 360-(230.0f+cst), 130.0f+cst};
 
