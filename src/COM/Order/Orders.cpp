@@ -706,6 +706,24 @@ void ORDER_accSecondaire2::impl(Args args)
     //arm->setPosition(positionAccelerateurSecondaire2);
 }
 
+void ORDER_getBlueAcc::impl(Args args) {
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    if (strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430> *arm = manager.rightArm;
+    arm->setPosition(positionAccelerateurBleu);
+}
+
+void ORDER_putPuckAcc::impl(Args args) {
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    if (strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430> *arm = manager.rightArm;
+    arm->setPosition(positionAccelerateurDepotPalet);
+}
+
 void ORDER_bal::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
