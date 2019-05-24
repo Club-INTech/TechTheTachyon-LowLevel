@@ -19,6 +19,7 @@ void stepperInterrupt() {
 
 void ActuatorsMgr::initTorques() {
     ActuatorsMgr::Instance().rightArm->initTorque();
+    ActuatorsMgr::Instance().motor4->toggleTorque(true);
 }
 
 void ActuatorsMgr::initPWMs() {
