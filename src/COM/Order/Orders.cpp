@@ -737,6 +737,7 @@ void ORDER_putPuckAcc::impl(Args args) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<XL430> *arm = manager.rightArm;
+    arm->setPosition(positionPreBalance);
     arm->setPosition(positionAccelerateurDepotPalet);
 }
 
