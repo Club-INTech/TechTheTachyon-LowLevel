@@ -227,6 +227,9 @@ void MCS::manageStop() {
     if((ABS(leftSpeedPID.getCurrentState())<0.01*ABS(leftSpeedPID.getCurrentGoal())) && ABS((rightSpeedPID.getCurrentState())<0.01*ABS(rightSpeedPID.getCurrentGoal())) && robotStatus.moving && expectedWallImpact){          //si robot a les deux roues bloquées
         if (timeCounter==1000)
         {
+            leftMotor.setDirection(Direction::NONE);
+            rightMotor.setDirection(Direction::NONE);
+            robotStatus.controlledRotation=true;
             stop();
             timeCounter=0;
             robotStatus.stuck=true;
