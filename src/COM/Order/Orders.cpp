@@ -41,7 +41,9 @@ void ORDER_d::impl(Args args)
     }
     orderManager.highLevel.printfln(DEBUG_HEADER,"distance : %d %i",deplacement, expectedWallImpact);
     orderManager.motionControlSystem.disableP2P();
-
+    if(expectedWallImpact) {
+        orderManager.motionControlSystem.expectWallImpact();
+    }
     orderManager.motionControlSystem.translate(deplacement);
 }
 
