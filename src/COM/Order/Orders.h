@@ -163,7 +163,9 @@ ORDER(range,0);
 
 /* Ascenseurs */
 ORDER(up,0);
+ORDER(upOust,0);
 ORDER(down,0);
+ORDER(downOust,0);
 ORDER(downup,0);
 ORDER(updown,0);
 

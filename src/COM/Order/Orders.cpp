@@ -582,9 +582,25 @@ void ORDER_up::impl(Args args)
 
 }
 
+void ORDER_upOust::impl(Args args)
+{
+    //int nbPas = 700;
+
+    ActuatorsMgr::Instance().moveRightStepperOust(1);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
+
+}
+
 void ORDER_down::impl(Args args)
 {
     ActuatorsMgr::Instance().moveRightStepper(-1);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
+
+}
+
+void ORDER_downOust::impl(Args args)
+{
+    ActuatorsMgr::Instance().moveRightStepperOust(-1);
     orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
 
 }
