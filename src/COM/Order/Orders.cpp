@@ -276,6 +276,11 @@ void ORDER_maxro::impl(Args args) {
     orderManager.motionControlSystem.setMaxRotationSpeed(orderManager.parseFloat(args[0]));
 }
 
+void ORDER_maxtrro::impl(Args args){
+    orderManager.motionControlSystem.setMaxTranslationSpeed(orderManager.parseFloat(args[0]));
+    orderManager.motionControlSystem.setMaxRotationSpeed(orderManager.parseFloat(args[1]));
+}
+
 void ORDER_av::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::FORWARD);
