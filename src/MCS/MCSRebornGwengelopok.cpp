@@ -130,10 +130,18 @@ void MCS::updateSpeed()
     {
         robotStatus.speedTranslation = translationPID.compute(currentDistance);
     }
+    else
+    {
+        robotStatus.speedTranslation = 0.0f;
+    }
 
     if(robotStatus.controlledRotation)
     {
         robotStatus.speedRotation = rotationPID.compute(robotStatus.orientation);
+    }
+    else
+    {
+        robotStatus.speedRotation = 0.0f;
     }
 
 
