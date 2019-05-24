@@ -223,12 +223,15 @@ void MCS::manageStop() {
     }
   //  digitalWrite(LED2,(ABS(leftSpeedPID.getCurrentState())<=0.25*controlSettings.tolerancySpeed));
    // digitalWrite(LED1,(ABS(rightSpeedPID.getCurrentState())<=0.25*controlSettings.tolerancySpeed));
-    if((ABS(leftSpeedPID.getCurrentState())<=0.25*ABS(leftSpeedPID.getCurrentGoal())) && ABS((rightSpeedPID.getCurrentState())<=0.25*ABS(rightSpeedPID.getCurrentGoal())) && robotStatus.moving){          //si robot a les deux roues bloquées
-        if (timeCounter==50)
+
+    if((ABS(leftSpeedPID.getCurrentState())<0.01*ABS(leftSpeedPID.getCurrentGoal())) && ABS((rightSpeedPID.getCurrentState())<0.01*ABS(rightSpeedPID.getCurrentGoal())) && robotStatus.moving && expectedWallImpact){          //si robot a les deux roues bloquées
+        if (timeCounter==1000)
         {
             stop();
             timeCounter=0;
             robotStatus.stuck=true;
+            expectedWallImpact=false;
+            InterruptStackPrint::Instance().push("blocage symétrique");
             digitalWrite(LED3_1,LOW);
             digitalWrite(LED3_2,HIGH);
             digitalWrite(LED3_3,HIGH);
@@ -565,4 +568,8 @@ bool MCS::isMoveAbnormal() {
 
 void MCS::setMoveAbnormalSent(bool val) {
     robotStatus.sentMoveAbnormal = val;
+}
+
+void MCS::expectWallImpact() {
+    expectedWallImpact=true;
 }

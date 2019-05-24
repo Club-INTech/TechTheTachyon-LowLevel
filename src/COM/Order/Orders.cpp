@@ -35,8 +35,13 @@ void ORDER_xyo::impl(Args args)
 void ORDER_d::impl(Args args)
 {
     int16_t deplacement = strtod(args[0], nullptr);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"distance : %d",deplacement);
+    bool expectedWallImpact = false;
+    if(args.nbrParams() == 2) {
+        expectedWallImpact = ! strcmp(args[1], "true");
+    }
+    orderManager.highLevel.printfln(DEBUG_HEADER,"distance : %d %i",deplacement, expectedWallImpact);
     orderManager.motionControlSystem.disableP2P();
+
     orderManager.motionControlSystem.translate(deplacement);
 }
 
