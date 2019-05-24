@@ -582,9 +582,25 @@ void ORDER_up::impl(Args args)
 
 }
 
+void ORDER_upOust::impl(Args args)
+{
+    //int nbPas = 700;
+
+    ActuatorsMgr::Instance().moveRightStepperOust(1);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
+
+}
+
 void ORDER_down::impl(Args args)
 {
     ActuatorsMgr::Instance().moveRightStepper(-1);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
+
+}
+
+void ORDER_downOust::impl(Args args)
+{
+    ActuatorsMgr::Instance().moveRightStepperOust(-1);
     orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
 
 }
@@ -704,6 +720,24 @@ void ORDER_accSecondaire2::impl(Args args)
     Arm<XL430>* arm = manager.rightArm;
     arm->setPosition(positionAccelerateurSecondaire);
     //arm->setPosition(positionAccelerateurSecondaire2);
+}
+
+void ORDER_getBlueAcc::impl(Args args) {
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    if (strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430> *arm = manager.rightArm;
+    arm->setPosition(positionAccelerateurBleu);
+}
+
+void ORDER_putPuckAcc::impl(Args args) {
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    if (strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430> *arm = manager.rightArm;
+    arm->setPosition(positionAccelerateurDepotPalet);
 }
 
 void ORDER_bal::impl(Args args)

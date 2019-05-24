@@ -155,6 +155,8 @@ ORDER(torqueXL,1);
 ORDER(brasToutDroit,1);
 ORDER(brasRecule,1);
 ORDER(posBras,1);
+ORDER(getBlueAcc, 1);       //prendre le palet bleu de l'acc avec le secondaire
+ORDER(putPuckAcc, 1);       //mettre un palet dans l'acc avec le secondaire
 
 /* Pousse palet en dehors des ascenceurs */
 ORDER(oust,0);
@@ -162,7 +164,9 @@ ORDER(range,0);
 
 /* Ascenseurs */
 ORDER(up,0);
+ORDER(upOust,0);
 ORDER(down,0);
+ORDER(downOust,0);
 ORDER(downup,0);
 ORDER(updown,0);
 
