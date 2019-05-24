@@ -108,6 +108,8 @@ static float positionDistributeurSecondaire[3] = {269.0f, 150.0f, 150.0f};
 static float positionDistributeurSecondairePreRecule[3] = {245.0f, 100.935997f, 125.0f};
 
 static float positionBalance[3]={160.0f+cst, 360-(210.0f+cst), 160.0f+cst};
+static float positionPreBalance[3]={237.160004f, 260.127991f, 94.776001f};
+static float positionPreBalance2[3]={249.479996f, 187.968002f, 107.624001f};
 static float positionMusclor[3]={285.648010f, 278.695984f, 98.648003f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
 static float positionMusclor2[3]={288.639984f, 277.992004f, 84.304001f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
 static float positionFinMusclor[3]={253.352005f, 279.488007f, 91.695999f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
@@ -122,6 +124,8 @@ static float positionMusclor5[3]={250.0f+cst, 360-(47.0f+cst), 90.0f+cst};
 static float positionGoldonium[3]={285.648010f, 278.695984f, 279.928009f};//{212,89,147};
 static float positionPostGoldonium[3]={279.648010f, 265.695984f, 260.0f};//{212,89,147};
 static float positionPreGoldonium[3]={271.303986f, 281.687988f, 279.664001f};//{291.015991f, 278.432007f, 86.503998f};//{180.0f+cst, 360-(230.0f+cst), 130.0f+cst};
+
+
 
 /** Ligne référence le XL et Colonne le type de Palet du plus lourd au plus léger (bleu, vert, rouge, vide)*/
 const static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
