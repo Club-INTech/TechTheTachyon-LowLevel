@@ -70,8 +70,8 @@ void MCS::initSettings() {
 
     /* mm */
     controlSettings.tolerancyTranslation = 1;//1
-    controlSettings.tolerancyX=2;
-    controlSettings.tolerancyY=2;
+    controlSettings.tolerancyX=5;
+    controlSettings.tolerancyY=5;
 
 
     /* ms */
