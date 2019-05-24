@@ -149,7 +149,7 @@ ORDER(accSecondaire2,1); //pour le recule2acc
 ORDER(gold,0);
 ORDER(goldDepot, 0)
 ORDER(bal,1);
-ORDER(bal2,1);
+ORDER(stock2bal,1);
 ORDER(torqueBras,1);
 ORDER(torqueXL,1);
 ORDER(brasToutDroit,1);

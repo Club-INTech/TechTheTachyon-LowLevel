@@ -750,7 +750,7 @@ void ORDER_bal::impl(Args args)
     arm->setPosition(positionBalance);
 }
 
-void ORDER_bal2::impl(Args args){
+void ORDER_stock2bal::impl(Args args){
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     if(strcmp(args[0], "right") != 0) {
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
