@@ -58,6 +58,7 @@ void MCS::initSettings() {
 
     /* rad/s */
     controlSettings.maxRotationSpeed = 2*PI;
+    //controlSettings.maxRotationSpeed = 3*PI;
 
 
     /* mm/s */
@@ -70,8 +71,8 @@ void MCS::initSettings() {
 
     /* mm */
     controlSettings.tolerancyTranslation = 1;//1
-    controlSettings.tolerancyX=5;
-    controlSettings.tolerancyY=5;
+    controlSettings.tolerancyX=10;
+    controlSettings.tolerancyY=10;
 
 
     /* ms */
@@ -222,7 +223,7 @@ void MCS::manageStop() {
         if(robotStatus.inRotationInGoto) {
             gotoTimer = MIN_TIME_BETWEEN_GOTO_TR_ROT;
         }
-        InterruptStackPrint::Instance().push("ici manage stop envoie stop");
+//        InterruptStackPrint::Instance().push("ici manage stop envoie stop");
 
 
         stop();
@@ -241,7 +242,7 @@ void MCS::manageStop() {
             expectedWallImpact = false;
             timeCounter = 0;
             robotStatus.stuck = true;
-            InterruptStackPrint::Instance().push("blocage symétrique");
+//            InterruptStackPrint::Instance().push("blocage symétrique");
             digitalWrite(LED3_1, LOW);
             digitalWrite(LED3_2, HIGH);
             digitalWrite(LED3_3, HIGH);
@@ -258,7 +259,7 @@ void MCS::manageStop() {
         leftMotor.setDirection(Direction::NONE);
         rightMotor.setDirection(Direction::NONE);
         stop();
-        InterruptStackPrint::Instance().push("blocage asymétrique");
+//        InterruptStackPrint::Instance().push("blocage asymétrique");
         robotStatus.stuck=true;
         digitalWrite(LED3_1,LOW);
 
@@ -320,9 +321,9 @@ void MCS::stop() {
     }
 
     if(robotStatus.inRotationInGoto) {
-        InterruptStackPrint::Instance().push(DEBUG_HEADER, "inRotationInGoto");
+//        InterruptStackPrint::Instance().push(DEBUG_HEADER, "inRotationInGoto");
     } else {
-        InterruptStackPrint::Instance().push(DEBUG_HEADER, "NOT inRotationInGoto !!!");
+//        InterruptStackPrint::Instance().push(DEBUG_HEADER, "NOT inRotationInGoto !!!");
     }
     trajectory.clear();
     translationPID.resetErrors();
@@ -332,7 +333,7 @@ void MCS::stop() {
 
     //robotStatus.controlledTranslation = true;
 
-    InterruptStackPrint::Instance().push("[DEBUG] On s'arrête!!");
+//    InterruptStackPrint::Instance().push("[DEBUG] On s'arrête!!");
     //if(robotStatus.movement != MOVEMENT::NONE) {
     //}
     robotStatus.stuck=false;

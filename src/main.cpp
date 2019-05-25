@@ -90,7 +90,7 @@ int main() {
      * Les capteurs
      */
     //orderMgr.execute("montlhery");
-    //int i =0;
+    int i =0;
     while (true)
     {
         InterruptStackPrint::Instance().print();
@@ -98,15 +98,21 @@ int main() {
         // orderMgr.execute("cod");
 //		orderMgr.refreshUS();
 //		orderMgr.isHLWaiting() ? orderMgr.checkJumper() : void();
-        /*orderMgr.execute("rawposdata");
+       /* orderMgr.execute("rawposdata");
         delay(60);
         if(i==5){
-            orderMgr.execute("t 2.4");
+            orderMgr.execute("t 3.14");
         }
         if(i==150){
             orderMgr.execute("t 0");
         }
-        if(i==300){
+        if (i==300){
+            orderMgr.execute("t 3.14");
+        }
+        if (i== 450){
+            orderMgr.execute("t 0");
+        }
+        if(i==600){
             orderMgr.execute("DATAEND");
         }
         i++;*/

@@ -13,14 +13,14 @@ OrderManager::OrderManager():
     isSendingUS = true;
     hooksEnabled = true;
     HLWaiting = false;
-    highLevel.printfln(DEBUG_HEADER,"Communications ready");
+//    highLevel.printfln(DEBUG_HEADER,"Communications ready");
 }
 
 
 void OrderManager::communicate() {
     if (highLevel.read(readMessage)) {
         // TODO: debug only
-        highLevel.printfln(DEBUG_HEADER, "(%lli) Received '''%s'''\n", messageCount, readMessage);
+//        highLevel.printfln(DEBUG_HEADER, "(%lli) Received '''%s'''\n", messageCount, readMessage);
         messageCount++;
         execute(readMessage);
     }
@@ -65,7 +65,7 @@ void OrderManager::communicate() {
      char orderBuffer[RX_BUFFER_SIZE];
      bool requiresConfirmation = orderToExecute[0] == '!';
      if(requiresConfirmation) {
-         highLevel.printfln(DEBUG_HEADER, "Confirmation requested for %s", orderToExecute);
+//         highLevel.printfln(DEBUG_HEADER, "Confirmation requested for %s", orderToExecute);
          strcpy(orderBuffer, &orderToExecute[1]);
      } else {
          strcpy(orderBuffer, orderToExecute);
@@ -81,17 +81,17 @@ void OrderManager::communicate() {
 
          auto it = orders.find(str_order);
          if(it != orders.end()) {
-             highLevel.printfln(DEBUG_HEADER, "Received order str: '%s'", orderBuffer);
+//             highLevel.printfln(DEBUG_HEADER, "Received order str: '%s'", orderBuffer);
              it->second->exec(orderData);
              if(requiresConfirmation){
-                 highLevel.printfln(DEBUG_HEADER, "Sending confirmation for '%s'", orderBuffer);
+//                 highLevel.printfln(DEBUG_HEADER, "Sending confirmation for '%s'", orderBuffer);
                  highLevel.printfln(EVENT_HEADER, "confirmOrder %s", orderBuffer);
              }
          }
          else
          {
              highLevel.printfln(STD_HEADER,"wat. '%s'", orderToExecute);
-             highLevel.printfln(DEBUG_HEADER,"T'es un déchêt");
+//             highLevel.printfln(DEBUG_HEADER,"T'es un déchêt");
          }
      }
      checkHooks();
