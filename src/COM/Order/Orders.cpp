@@ -702,7 +702,15 @@ void ORDER_grnd::impl(Args args)
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
              arm->setPosition(positionSolIntermediaire);
-             arm->setPosition(positionSol);
+             arm->setPosition(positionSolGauche);
+    )
+}
+void ORDER_grndRight::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+             arm->setPosition(positionSolIntermediaire);
+                     arm->setPosition(positionSolDroit);
     )
 }
 

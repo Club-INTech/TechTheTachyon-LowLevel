@@ -141,6 +141,7 @@ ORDER(dist,1);
 ORDER(dist2stock,1);
 ORDER(stockDepot, 1);
 ORDER(grnd,1);
+ORDER(grndRight,1); //pour le bras droit
 ORDER(overPuck,1);
 ORDER(stock,1);
 ORDER(acc,1);
