@@ -39,7 +39,7 @@ void ORDER_d::impl(Args args)
     if(args.nbrParams() == 2) {
         expectedWallImpact = ! strcmp(args[1], "true");
     }
-    orderManager.highLevel.printfln(DEBUG_HEADER,"distance : %d %i",deplacement, expectedWallImpact);
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"distance : %d %i",deplacement, expectedWallImpact);
     orderManager.motionControlSystem.disableP2P();
     if(expectedWallImpact) {
         orderManager.motionControlSystem.expectWallImpact();
@@ -55,7 +55,7 @@ void ORDER_t::impl(Args args)
     } else {
         angle = strtof(args[0], nullptr);
     }
-    orderManager.highLevel.printfln(DEBUG_HEADER,"angle : %f", angle);
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"angle : %f", angle);
 
     orderManager.motionControlSystem.disableP2P();
     orderManager.motionControlSystem.rotate(angle);
@@ -76,7 +76,7 @@ void ORDER_goto::impl(Args args)
 //                if(-1500 <= targetX && targetX <= 1500 && 0 <= targetY && targetY <= 2000)
 //                {
     orderManager.motionControlSystem.gotoPoint2(targetX,targetY);
-    orderManager.highLevel.printfln(DEBUG_HEADER, "goto %f %f %b", targetX, targetY, isSequential);
+//    orderManager.highLevel.printfln(DEBUG_HEADER, "goto %f %f %b", targetX, targetY, isSequential);
 //                }
 //                else
 //      {
@@ -92,14 +92,14 @@ void ORDER_followTrajectory::impl(Args args)
     }
     else
     {
-        orderManager.highLevel.printfln(DEBUG_HEADER,"ERREUR::Paramètres incorrects");
+//        orderManager.highLevel.printfln(DEBUG_HEADER,"ERREUR::Paramètres incorrects");
     }
 }
 
 void ORDER_stop::impl(Args args)
 {
     orderManager.motionControlSystem.stop();
-    orderManager.highLevel.printfln(DEBUG_HEADER,"A priori, je m'arrête");
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"A priori, je m'arrête");
 }
 
 void ORDER_cx::impl(Args args)
@@ -127,7 +127,7 @@ void ORDER_cxyo::impl(Args args)
     orderManager.motionControlSystem.setAngleOffset(orderManager.parseFloat(args[2]));
     orderManager.motionControlSystem.resetEncoders();
     //orderManager.motionControlSystem.stop();
-    orderManager.highLevel.printfln(DEBUG_HEADER, "X,Y,O set to %d %d %f", orderManager.motionControlSystem.getX(),orderManager.motionControlSystem.getY(), orderManager.motionControlSystem.getAngle());
+//    orderManager.highLevel.printfln(DEBUG_HEADER, "X,Y,O set to %d %d %f", orderManager.motionControlSystem.getX(),orderManager.motionControlSystem.getY(), orderManager.motionControlSystem.getAngle());
 }
 
 void ORDER_ctv::impl(Args args)
@@ -159,45 +159,45 @@ void ORDER_dfm::impl(Args args)
 void ORDER_ct0::impl(Args args)
 {
     orderManager.motionControlSystem.controlledTranslation(false);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Non asservi en translation");
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"Non asservi en translation");
 }
 
 void ORDER_ct1::impl(Args args)
 {
     orderManager.motionControlSystem.controlledTranslation(true);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Asservi en translation");
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"Asservi en translation");
 }
 
 void ORDER_cr0::impl(Args args)
 {
     orderManager.motionControlSystem.controlledRotation(false);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Non asservi en rotation");
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"Non asservi en rotation");
 }
 
 void ORDER_cr1::impl(Args args)
 {
     orderManager.motionControlSystem.controlledRotation(true);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Asservi en rotation");
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"Asservi en rotation");
 }
 
 void ORDER_cv0::impl(Args args)
 {
     orderManager.motionControlSystem.setControl(false);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Non asservi en vitesse");
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"Non asservi en vitesse");
 }
 
 void ORDER_cv1::impl(Args args)
 {
     orderManager.motionControlSystem.setControl(true);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en vitesse");
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"asservi en vitesse");
 }
 
 void ORDER_cod::impl(Args args)
 {
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Gauche:");
-    orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getLeftTicks());
-    orderManager.highLevel.printfln(DEBUG_HEADER,"Droite:");
-    orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getRightTicks());
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"Gauche:");
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getLeftTicks());
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"Droite:");
+//    orderManager.highLevel.printfln(DEBUG_HEADER,"%ld", orderManager.motionControlSystem.getRightTicks());
 }
 
 void ORDER_pfdebug::impl(Args args)
@@ -275,7 +275,7 @@ void ORDER_montlhery::impl(Args args)
     orderManager.motionControlSystem.controlledRotation(false);
     orderManager.motionControlSystem.controlledTranslation(false);
     orderManager.motionControlSystem.setForcedMovement(true);
-    orderManager.highLevel.printfln(DEBUG_HEADER, "monthlery received");
+//    orderManager.highLevel.printfln(DEBUG_HEADER, "monthlery received");
 }
 
 void ORDER_maxtr::impl(Args args) {
@@ -289,31 +289,31 @@ void ORDER_maxro::impl(Args args) {
 void ORDER_av::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::FORWARD);
-    orderManager.highLevel.printfln(DEBUG_HEADER, "av received");
+//    orderManager.highLevel.printfln(DEBUG_HEADER, "av received");
 }
 
 void ORDER_rc::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::BACKWARD);
-    orderManager.highLevel.printfln(DEBUG_HEADER, "rc received");
+//    orderManager.highLevel.printfln(DEBUG_HEADER, "rc received");
 }
 
 void ORDER_td::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::ANTITRIGO);
-    orderManager.highLevel.printfln(DEBUG_HEADER, "td received");
+//    orderManager.highLevel.printfln(DEBUG_HEADER, "td received");
 }
 
 void ORDER_tg::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::TRIGO);
-    orderManager.highLevel.printfln(DEBUG_HEADER, "tg received");
+//    orderManager.highLevel.printfln(DEBUG_HEADER, "tg received");
 }
 
 void ORDER_sstop::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::NONE);
-    orderManager.highLevel.printfln(DEBUG_HEADER, "sstop received");
+//    orderManager.highLevel.printfln(DEBUG_HEADER, "sstop received");
 }
 
 void ORDER_toggle::impl(Args args)
@@ -514,7 +514,7 @@ void ORDER_eh::impl(Args args)
     }
     else
     {
-        orderManager.highLevel.printfln(DEBUG_HEADER,"ERREUR::Activation d'un hook inexistant");
+//        orderManager.highLevel.printfln(DEBUG_HEADER,"ERREUR::Activation d'un hook inexistant");
     }
 }
 
@@ -524,7 +524,7 @@ void ORDER_dh::impl(Args args) {
     if (orderManager.hookList.hookWithId(hookId)) {
         orderManager.hookList.disableHook((uint8_t) hookId); //Singe proof ?
     } else {
-        orderManager.highLevel.printfln(DEBUG_HEADER, "ERREUR::Activation d'un hook inexistant");
+//        orderManager.highLevel.printfln(DEBUG_HEADER, "ERREUR::Activation d'un hook inexistant");
     }
 }
 
@@ -578,7 +578,7 @@ void ORDER_up::impl(Args args)
     //int nbPas = 700;
 
     ActuatorsMgr::Instance().moveRightStepper(1);
-    orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
+//    orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
 
 }
 
@@ -587,34 +587,34 @@ void ORDER_upOust::impl(Args args)
     //int nbPas = 700;
 
     ActuatorsMgr::Instance().moveRightStepperOust(1);
-    orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
+//    orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
 
 }
 
 void ORDER_down::impl(Args args)
 {
     ActuatorsMgr::Instance().moveRightStepper(-1);
-    orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
+//    orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
 
 }
 
 void ORDER_downOust::impl(Args args)
 {
     ActuatorsMgr::Instance().moveRightStepperOust(-1);
-    orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
+//    orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
 
 }
 
 void ORDER_updown::impl(Args args)
 {
     ActuatorsMgr::Instance().moveRightStepper(1,-1);
-    orderManager.highLevel.printf(DEBUG_HEADER, "Monte puis descend le stepper droit d'une unité\n");
+//    orderManager.highLevel.printf(DEBUG_HEADER, "Monte puis descend le stepper droit d'une unité\n");
 }
 
 void ORDER_downup::impl(Args args)
 {
     ActuatorsMgr::Instance().moveRightStepper(-1,1);
-    orderManager.highLevel.printf(DEBUG_HEADER, "Descend puis monte le stepper droit d'une unité\n");
+//    orderManager.highLevel.printf(DEBUG_HEADER, "Descend puis monte le stepper droit d'une unité\n");
 }
 
 void ORDER_oust::impl(Args args)
@@ -875,7 +875,7 @@ void ORDER_posBras::impl(Args args) {
     MOVE_ARM(args[0],
              arm->fetchAngles(angles);
     )
-    orderManager.highLevel.printfln(DEBUG_HEADER, "Angles are %f ; %f ; %f", angles[0], angles[1], angles[2]);
+//    orderManager.highLevel.printfln(DEBUG_HEADER, "Angles are %f ; %f ; %f", angles[0], angles[1], angles[2]);
 }
 
 void ORDER_valveon::impl(Args args)
@@ -910,9 +910,9 @@ void ORDER_rangeSICK::impl(Args args) {
     if(index < NBR_OF_DISTANCE_SENSOR) {
         SensorMgr::Instance().getDistanceSensor(index).setRange(min, max);
     } else {
-        orderManager.highLevel.printf(DEBUG_HEADER, "Aucun SICK à l'indice %i!\n", index);
+//        orderManager.highLevel.printf(DEBUG_HEADER, "Aucun SICK à l'indice %i!\n", index);
     }
-    orderManager.highLevel.printf(DEBUG_HEADER, "Le SICK %i est maintenant dans l'intervalle [%i; %i]\n", index, min, max);
+//    orderManager.highLevel.printf(DEBUG_HEADER, "Le SICK %i est maintenant dans l'intervalle [%i; %i]\n", index, min, max);
 }
 
 void ORDER_testSICK::impl(Args args) {
@@ -921,7 +921,7 @@ void ORDER_testSICK::impl(Args args) {
         if(index < NBR_OF_DISTANCE_SENSOR) {
             orderManager.highLevel.printf(SICK_HEADER, "%i\n", SensorMgr::Instance().getDistanceSensor(index).readDistance());
         } else {
-            orderManager.highLevel.printf(DEBUG_HEADER, "Aucun SICK à l'indice %i!\n", index);
+//            orderManager.highLevel.printf(DEBUG_HEADER, "Aucun SICK à l'indice %i!\n", index);
         }
     }
 }
