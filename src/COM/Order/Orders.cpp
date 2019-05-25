@@ -695,9 +695,9 @@ void ORDER_stockSecondaire::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<XL430>* arm = manager.rightArm;
-    arm->setPosition(positionIntermediaireSecondaire2);
-    arm->setPosition(positionIntermediaireSecondaire);
-    arm->setPosition(positionStockageSecondaire);
+    arm->setPositionNoRetry(positionIntermediaireSecondaire2);
+    arm->setPositionNoRetry(positionIntermediaireSecondaire);
+    arm->setPositionNoRetry(positionStockageSecondaire);
 }
 
 void ORDER_acc::impl(Args args)
