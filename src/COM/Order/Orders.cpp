@@ -760,7 +760,9 @@ void ORDER_putPuckAcc::impl(Args args) {
     }
     Arm<XL430> *arm = manager.rightArm;
     arm->setPosition(positionPreBalance);
+    arm->setPosition(positionPreAccelerateurDepotPalet);
     arm->setPosition(positionAccelerateurDepotPalet);
+    arm->setPosition(positionPostAccelerateurDepotPalet);
 }
 
 void ORDER_bal::impl(Args args)
