@@ -70,10 +70,10 @@ void OrderManager::communicate() {
      } else {
          strcpy(orderBuffer, orderToExecute);
      }
-
+     highLevel.printfln(DEBUG_HEADER, "je me prépare à être parser");
      int8_t n_param = split(orderBuffer, orderData,
                             SEPARATOR);        //Sépare l'ordre en plusieurs mots, n_param=nombre de paramètres
-
+     highLevel.printfln(DEBUG_HEADER, "je suis parsé");
      if (n_param >= 0) {
          strcpy(str_order, orderData.at(0));
 
