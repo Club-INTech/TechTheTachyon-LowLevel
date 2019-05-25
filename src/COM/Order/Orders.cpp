@@ -772,7 +772,7 @@ void ORDER_putPuckAcc::impl(Args args) {
     arm->setPosition(positionPreBalance);
     arm->setPosition(positionPreAccelerateurDepotPalet);
     arm->setPosition(positionAccelerateurDepotPalet);
-    arm->setPosition(positionPostAccelerateurDepotPalet);
+    //arm->setPosition(positionPostAccelerateurDepotPalet);
 }
 
 void ORDER_putPuckAccFinalize::impl(Args args) {
