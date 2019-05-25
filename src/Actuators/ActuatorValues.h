@@ -64,8 +64,8 @@ static float positionDistributeur[3] = {295.77f, 216.30f, 195.18f};
 
 //old: static float positionGoldonium[3]={250.0f, 190.0f, 140.0f};
 
-static float positionSolIntermediaire[3] = { 282.303986f, 128.744003f, 212.783997f};
-static float positionSol[3] = {304.656006f, 162.447998f, 199.847992f};//{ 301.84f, 157.25f, 213.66f};
+static float positionSolIntermediaire[3] = { 282.303986f, 180.0f, 220.0f};
+static float positionSol[3] = {300.0, 160.0f, 220.0f};//{ 301.84f, 157.25f, 213.66f};
 static float positionRecule[3] = {234.520004f, 80.695999f, 113.959999f};
 static float coupleSolseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};
 
@@ -101,7 +101,7 @@ const static float cst=30;  // constante pour passer de XL (home à 180) à AX (
 static float positionAccelerateurSecondaire[3] = {213.4f+cst, 360-(180.0f+cst),151.4f+cst};
 static float positionAccelerateurSecondaire2[3]= {291.368011f, 245.080002f, 219.912003f};//{259.600006f,168.608002f,177.231995f};
 static float positionStockageSecondaire[3] = { 140.00f+cst, 360-(75.00f+cst), 55.00f+cst};
-static float positionIntermediaireSecondaire[3] = {150.00f+cst, 360-(80.00f+cst)-10, 60.00f+cst+10};
+static float positionIntermediaireSecondaire[3] = {150.00f+cst, 360-(80.00f+cst), 60.00f+cst};
 static float positionIntermediaireSecondaire2[3] = {249.00f+cst, 360-(70.00f+cst), 55.00f+cst};
 static float positionDistributeurSecondaire[3] = {269.0f, 150.0f, 150.0f};
 //static float positionDistributeurSecondairePreRecule[3] = {259.776001f, 100.935997f, 104.367996f};
