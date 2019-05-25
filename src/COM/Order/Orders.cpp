@@ -741,7 +741,7 @@ void ORDER_letRedBeGood::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<XL430>* arm = manager.rightArm;
-    arm->setPositionNoRetry(positionLetRedBeGood);
+    arm->setPosition(positionIntermediaireSecondaire);
 }
 
 void ORDER_getBlueAcc::impl(Args args) {
