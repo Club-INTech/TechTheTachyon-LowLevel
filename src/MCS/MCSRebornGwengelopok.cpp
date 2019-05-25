@@ -58,6 +58,7 @@ void MCS::initSettings() {
 
     /* rad/s */
     controlSettings.maxRotationSpeed = 2*PI;
+    //controlSettings.maxRotationSpeed = 3*PI;
 
 
     /* mm/s */
