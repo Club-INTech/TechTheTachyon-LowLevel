@@ -143,6 +143,7 @@ ORDER(musclor, 0);
 ORDER(musclorRed, 0);
 ORDER(stock,1);
 ORDER(stockSecondaire,1);
+ORDER(dist2stock,1);
 ORDER(acc,1);
 ORDER(accSecondaire, 1);
 ORDER(accSecondaire2,1); //pour le recule2acc
