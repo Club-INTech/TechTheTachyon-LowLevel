@@ -700,6 +700,16 @@ void ORDER_stockSecondaire::impl(Args args)
     arm->setPositionNoRetry(positionStockageSecondaire);
 }
 
+void ORDER_stockSecondaireForRed::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPositionNoRetry(positionStockageSecondaire);
+}
+
 void ORDER_acc::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
