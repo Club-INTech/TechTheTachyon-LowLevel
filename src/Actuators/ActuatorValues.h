@@ -103,11 +103,16 @@ static float positionAccelerateurSecondaire2[3]= {291.368011f, 245.080002f, 219.
 static float positionStockageSecondaire[3] = { 140.00f+cst, 360-(75.00f+cst), 55.00f+cst};
 static float positionIntermediaireSecondaire[3] = {150.00f+cst, 360-(80.00f+cst), 60.00f+cst};
 static float positionIntermediaireSecondaire2[3] = {249.00f+cst, 360-(70.00f+cst), 55.00f+cst};
-static float positionDistributeurSecondaire[3] = {249.0f+cst, 360-(163.0f+cst), 130.0f+cst};
+static float positionDistributeurSecondaire[3] = {269.0f, 150.0f, 150.0f};
+//static float positionDistributeurSecondairePreRecule[3] = {259.776001f, 100.935997f, 104.367996f};
+static float positionDistributeurSecondairePreRecule[3] = {245.0f, 100.935997f, 125.0f};
 
 static float positionBalance[3]={160.0f+cst, 360-(210.0f+cst), 160.0f+cst};
+static float positionPreBalance[3]={237.160004f, 260.127991f, 94.776001f};
+static float positionPreBalance2[3]={249.479996f, 187.968002f, 107.624001f};
 static float positionMusclor[3]={285.648010f, 278.695984f, 98.648003f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
 static float positionMusclor2[3]={288.639984f, 277.992004f, 84.304001f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
+static float positionFinMusclor[3]={253.352005f, 279.488007f, 91.695999f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
 //static float positionMusclor2[3]={285.648010f, 278.695984f, 98.648003f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
 //static float positionMusclor[3]={285.648010f, 278.695984f, 279.928009f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
 //static float positionMusclor2[3]={257.928009f, 269.455994f, 83.599998f};//{250.0f+cst, 360-(60.0f+cst), 150.0f+cst};
@@ -116,9 +121,16 @@ static float positionMusclor3[3]={269.544006f, 250.184006f, 121.264000f};//{203.
 static float positionMusclor4[3]={235.0f+cst, 360-(47.0f+cst), 140.0f+cst};
 static float positionMusclor5[3]={250.0f+cst, 360-(47.0f+cst), 90.0f+cst};
 //static float positionGoldonium[3]={250.0f+cst, 360-(95.0f+cst), 189.0f+cst};
-static float positionGoldonium[3]={285.648010f, 278.695984f, 279.928009f};//{212,89,147};
+static float positionGoldonium[3]={285.648010f, 278.695984f, 269.928009f};//{212,89,147};
 static float positionPostGoldonium[3]={279.648010f, 265.695984f, 260.0f};//{212,89,147};
 static float positionPreGoldonium[3]={271.303986f, 281.687988f, 279.664001f};//{291.015991f, 278.432007f, 86.503998f};//{180.0f+cst, 360-(230.0f+cst), 130.0f+cst};
+
+static float positionLetRedBeGood[3]={271.303986f, 281.687988f, 279.664001f};//{291.015991f, 278.432007f, 86.503998f};//{180.0f+cst, 360-(230.0f+cst), 130.0f+cst};
+
+
+
+static float positionAccelerateurBleu[3] ={281.07f,228.88f,220.09f};
+static float positionAccelerateurDepotPalet[3] ={284.33f,243.14f,231.53f};
 
 /** Ligne référence le XL et Colonne le type de Palet du plus lourd au plus léger (bleu, vert, rouge, vide)*/
 const static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,112,111},{124,123,122,121}};

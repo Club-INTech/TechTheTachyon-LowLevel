@@ -36,4 +36,24 @@ void InitAllPins() {
     digitalWrite(RIGHT_VALVE_PIN, LOW);
     pinMode(RIGHT_PUMP_PIN, OUTPUT);
     digitalWrite(RIGHT_PUMP_PIN, LOW);
+
+    pinMode(LED1_1,OUTPUT);
+    pinMode(LED2_1,OUTPUT);
+    pinMode(LED3_1,OUTPUT);
+    pinMode(LED1_2,OUTPUT);
+    pinMode(LED2_2,OUTPUT);
+    pinMode(LED3_2,OUTPUT);
+    pinMode(LED1_3,OUTPUT);
+    pinMode(LED2_3,OUTPUT);
+    pinMode(LED3_3,OUTPUT);
+
+    digitalWrite(LED1_1,HIGH);
+    digitalWrite(LED2_1,HIGH);
+    digitalWrite(LED3_1,HIGH);
+    digitalWrite(LED1_2,HIGH);
+    digitalWrite(LED2_2,HIGH);
+    digitalWrite(LED3_2,HIGH);
+    digitalWrite(LED1_3,HIGH);
+    digitalWrite(LED2_3,HIGH);
+    digitalWrite(LED3_3,HIGH);
 }

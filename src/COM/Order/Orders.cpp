@@ -35,8 +35,15 @@ void ORDER_xyo::impl(Args args)
 void ORDER_d::impl(Args args)
 {
     int16_t deplacement = strtod(args[0], nullptr);
-    orderManager.highLevel.printfln(DEBUG_HEADER,"distance : %d",deplacement);
+    bool expectedWallImpact = false;
+    if(args.nbrParams() == 2) {
+        expectedWallImpact = ! strcmp(args[1], "true");
+    }
+    orderManager.highLevel.printfln(DEBUG_HEADER,"distance : %d %i",deplacement, expectedWallImpact);
     orderManager.motionControlSystem.disableP2P();
+    if(expectedWallImpact) {
+        orderManager.motionControlSystem.expectWallImpact();
+    }
     orderManager.motionControlSystem.translate(deplacement);
 }
 
@@ -119,7 +126,8 @@ void ORDER_cxyo::impl(Args args)
     // Mise à jour de l'offset et du target des codeuses. Faut pas tourner parce que le HL te dit où t'es. Je sais il est pas gentil mais faut l'accepter
     orderManager.motionControlSystem.setAngleOffset(orderManager.parseFloat(args[2]));
     orderManager.motionControlSystem.resetEncoders();
-    orderManager.highLevel.printfln(DEBUG_HEADER, "X,Y,O set");
+    //orderManager.motionControlSystem.stop();
+    orderManager.highLevel.printfln(DEBUG_HEADER, "X,Y,O set to %d %d %f", orderManager.motionControlSystem.getX(),orderManager.motionControlSystem.getY(), orderManager.motionControlSystem.getAngle());
 }
 
 void ORDER_ctv::impl(Args args)
@@ -574,11 +582,39 @@ void ORDER_up::impl(Args args)
 
 }
 
+void ORDER_upOust::impl(Args args)
+{
+    //int nbPas = 700;
+
+    ActuatorsMgr::Instance().moveRightStepperOust(1);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
+
+}
+
 void ORDER_down::impl(Args args)
 {
     ActuatorsMgr::Instance().moveRightStepper(-1);
     orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
 
+}
+
+void ORDER_downOust::impl(Args args)
+{
+    ActuatorsMgr::Instance().moveRightStepperOust(-1);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
+
+}
+
+void ORDER_updown::impl(Args args)
+{
+    ActuatorsMgr::Instance().moveRightStepper(1,-1);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Monte puis descend le stepper droit d'une unité\n");
+}
+
+void ORDER_downup::impl(Args args)
+{
+    ActuatorsMgr::Instance().moveRightStepper(-1,1);
+    orderManager.highLevel.printf(DEBUG_HEADER, "Descend puis monte le stepper droit d'une unité\n");
 }
 
 void ORDER_oust::impl(Args args)
@@ -611,9 +647,22 @@ void ORDER_dist::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<XL430>* arm = manager.rightArm;
-    arm->setPosition(positionIntermediaireSecondaire);
-    arm->setPosition(positionIntermediaireSecondaire2);
-    arm->setPosition(positionDistributeurSecondaire);
+    arm->setPositionNoRetry(positionIntermediaireSecondaire);
+    arm->setPositionNoRetry(positionIntermediaireSecondaire2);
+    arm->setPositionNoRetry(positionDistributeurSecondairePreRecule);
+    arm->setPositionNoRetry(positionDistributeurSecondaire);
+}
+
+void ORDER_dist2stock::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPositionNoRetry(positionIntermediaireSecondaire2);
+    arm->setPositionNoRetry(positionIntermediaireSecondaire);
+    arm->setPositionNoRetry(positionStockageSecondaire);
 }
 
 void ORDER_grnd::impl(Args args)
@@ -685,6 +734,35 @@ void ORDER_accSecondaire2::impl(Args args)
     //arm->setPosition(positionAccelerateurSecondaire2);
 }
 
+void ORDER_letRedBeGood::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionLetRedBeGood);
+}
+
+void ORDER_getBlueAcc::impl(Args args) {
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    if (strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430> *arm = manager.rightArm;
+    arm->setPosition(positionAccelerateurBleu);
+}
+
+void ORDER_putPuckAcc::impl(Args args) {
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    if (strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430> *arm = manager.rightArm;
+    arm->setPosition(positionPreBalance);
+    arm->setPosition(positionAccelerateurDepotPalet);
+}
+
 void ORDER_bal::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
@@ -692,6 +770,18 @@ void ORDER_bal::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionBalance);
+}
+
+void ORDER_stock2bal::impl(Args args){
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+
+    arm->setPosition(positionPreBalance);
+    arm->setPosition(positionPreBalance2);
     arm->setPosition(positionBalance);
 }
 
@@ -710,12 +800,21 @@ void ORDER_gold::impl(Args args)
 }
 
 
+void ORDER_musclorRed::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPositionNoRetry(positionMusclor);
+    arm->setPositionNoRetry(positionMusclor2);
+}
+
 void ORDER_musclor::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     Arm<XL430>* arm = manager.rightArm;
     arm->setPositionNoRetry(positionMusclor);
     arm->setPositionNoRetry(positionMusclor2);
+    arm->setPositionNoRetry(positionFinMusclor);
 }
 
 void ORDER_goldDepot::impl(Args args)

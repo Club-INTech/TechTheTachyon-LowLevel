@@ -60,6 +60,7 @@ private:
     int16_t targetDistance;
     float targetAngle;
     float angleOffset;
+    bool expectedWallImpact;
 
     Average<int32_t, 100> averageLeftSpeed;
     Average<int32_t, 100> averageRightSpeed;
@@ -143,6 +144,7 @@ public:
     bool sentMoveAbnormal();
     bool isMoveAbnormal();
     void setMoveAbnormalSent(bool);
+    void expectWallImpact();
 };
 
 #endif //LL_MCSREBORN_H
