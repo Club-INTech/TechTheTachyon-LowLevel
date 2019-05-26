@@ -876,8 +876,9 @@ void ORDER_freeElevator::impl(Args args)
 void ORDER_XLm::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
-    XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
-    motor->setGoalAngle(orderManager.parseFloat(args[1]));
+    uint8_t id = orderManager.parseInt(args[0]);
+    XL430* motor = (XL430*)manager.dynamixelManager->getMotor(id);
+    motor->setGoalAngle(orderManager.parseFloat(args[1])+xlOffsets[id-1]);
 }
 
 void ORDER_XLs::impl(Args args)

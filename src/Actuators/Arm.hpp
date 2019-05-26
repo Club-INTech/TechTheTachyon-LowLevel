@@ -34,6 +34,7 @@ private:
     SyncRead* syncMovingStatus = new SyncRead(manager, 3, MotorType::movingStatus);
     SyncRead* syncHardwareError = new SyncRead(manager, 3, MotorType::hardwareError);
     SyncWrite* syncWatchdog = new SyncWrite(manager, 3, MotorType::watchdog);
+    SyncWrite* syncHomePos = new SyncWrite(manager, 3, MotorType::movingOffset);
     ArmStatus status = OK;
 
     float targetPositions[3] = {0.0f};
@@ -78,6 +79,7 @@ public:
         setupSync(syncVelocityLimit);
         setupSync(syncReturnDelay);
         setupSync(syncWatchdog);
+        setupSync(syncHomePos);
         setupSync(syncToggleTorqueWriteData);
 
         ComMgr::Instance().printf(DEBUG_HEADER, "Unlocking EEPROM by disabling torque...");
@@ -108,6 +110,16 @@ public:
         syncVelocityLimit->setData(1, velocityLimit);
         syncVelocityLimit->setData(2, velocityLimit);
         syncVelocityLimit->send();
+
+        ComMgr::Instance().printfln(DEBUG_HEADER, "Setting home position");
+        char homePos[MotorType::movingOffset.length*3] = {0,0,0,0, 0,0,0,0, 0,0,0,0};
+/*        prepareAngleData(homePos, 0, xlOffsets[base.getId()-1]);
+        prepareAngleData(homePos, 1, xlOffsets[elbow.getId()-1]);
+        prepareAngleData(homePos, 2, xlOffsets[wrist.getId()-1]);*/
+        syncHomePos->setData(0, &homePos[0*MotorType::movingOffset.length]);
+        syncHomePos->setData(1, &homePos[1*MotorType::movingOffset.length]);
+        syncHomePos->setData(2, &homePos[2*MotorType::movingOffset.length]);
+        syncHomePos->send();
 
         ComMgr::Instance().printf(DEBUG_HEADER, "Configuring moving threshold... ");
         char threshold[] = {10, 0, 0, 0};
@@ -152,9 +164,9 @@ public:
         movementStartTime = millis();
 
         status = MOVING;
-        prepareAngleData(0, positions[0]);
-        prepareAngleData(1, positions[1]);
-        prepareAngleData(2, positions[2]);
+        prepareAngleData(syncAngles, 0, positions[0]+xlOffsets[base.getId()-1]);
+        prepareAngleData(syncAngles, 1, positions[1]+xlOffsets[elbow.getId()-1]);
+        prepareAngleData(syncAngles, 2, positions[2]+xlOffsets[wrist.getId()-1]);
         syncAngleWriteData->setData(0, &syncAngles[0*MotorType::goalAngle.length]);
         syncAngleWriteData->setData(1, &syncAngles[1*MotorType::goalAngle.length]);
         syncAngleWriteData->setData(2, &syncAngles[2*MotorType::goalAngle.length]);
@@ -221,7 +233,7 @@ public:
             checkArmMovement();
         }
     }
-    
+
     void rebootXLsIfNecessary() {
         rebootIfNeeded(base);
         rebootIfNeeded(elbow);
@@ -325,9 +337,9 @@ private:
         }
     }
 
-    void prepareAngleData(unsigned int motorIndex, float angle) {
+    void prepareAngleData(char* angles, unsigned int motorIndex, float angle) {
         uint32_t targetAngleValue = (uint32_t)(angle/base.getAngleFromValue());
-        char* parameter = &syncAngles[motorIndex * MotorType::goalAngle.length];
+        char* parameter = &angles[motorIndex * MotorType::goalAngle.length];
 
         for(int i = 0;i<MotorType::goalAngle.length;i++) {
             parameter[i] = targetAngleValue & 0xFF;

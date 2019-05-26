@@ -105,6 +105,11 @@ const static float coupleDistributeurseuil[3][4] = {{103,102,101,100},{114,113,1
 
 const static float positionLiberationAsc[3] = {170.895996f, 172.479996f, 91.695999f};
 
+const static float xlOffsets[6] = {
+        -4.0f, +5.0f, 0.0f,
+        0.0f, 0.0f, 0.0f,
+};
+
 /** Couleurs des plalets */
 enum class PaletColor
 {
