@@ -66,6 +66,12 @@ private:
 
     bool noRetry = false;
 
+    /**
+     * Est-ce qu'on a pas eu de problème avec l'Alarm dans le dernier mouvement?
+     */
+    bool lastAlerts[6] = {true, true, true, true, true, true};
+    bool reactivated[6] = {true, true, true, true, true, true};
+
 public:
     Arm(const char* sideName, DynamixelManager& manager, MotorType* list): sideName(sideName), manager(manager), XLlist(list), base(list[0]), elbow(list[1]), wrist(list[2]), status(ArmStatus::OK) {
 
@@ -182,10 +188,10 @@ public:
             sent[i] = v*base.getAngleFromValue();
         }
 
-        ComMgr::Instance().printfln(DEBUG_HEADER, "Sending syncAngles: %f/%f/%f\n",
+      /*  ComMgr::Instance().printfln(DEBUG_HEADER, "Sending syncAngles: %f/%f/%f\n",
                                     sent[0],
                                     sent[1],
-                                    sent[2]);
+                                    sent[2]);*/
         resetWatchdog();
         syncAngleWriteData->send();
         savePositions(positions);
@@ -265,7 +271,7 @@ public:
         baseMoving = !askSpeed(base);
         elbowMoving = !askSpeed(elbow);
         wristMoving = !askSpeed(wrist);
-        ComMgr::Instance().printfln(DEBUG_HEADER, "Arm Moving = {%i %i %i}", baseMoving, elbowMoving, wristMoving);
+      //  ComMgr::Instance().printfln(DEBUG_HEADER, "Arm Moving = {%i %i %i}", baseMoving, elbowMoving, wristMoving);
         if(wristMoving || elbowMoving || baseMoving) {
             status = MOVING;
             return;
@@ -277,9 +283,9 @@ public:
             }
         } else { // si les positions n'ont pas été atteintes
             if (retryMovementAttempts >= MAX_RETRY_ATTEMPTS || noRetry) { // on a essayé trop de fois
-                ComMgr::Instance().printfln(DEBUG_HEADER,
+               /* ComMgr::Instance().printfln(DEBUG_HEADER,
                                             "Position non atteinte sur le bras (%i-%i-%i) après %i tentatives, abandon",
-                                            base.getId(), elbow.getId(), wrist.getId(), retryMovementAttempts);
+                                            base.getId(), elbow.getId(), wrist.getId(), retryMovementAttempts);*/
                 if(writeIndex != currentPositionIndex) { // si on a d'autres mouvements à faire
                     ComMgr::Instance().printfln(EVENT_HEADER, "armPositionFailing %s", sideName);
                 } else {
@@ -287,9 +293,9 @@ public:
                 }
                 status = WRONG_POSITION;
             } else { // on retente
-                ComMgr::Instance().printfln(DEBUG_HEADER,
+             /*   ComMgr::Instance().printfln(DEBUG_HEADER,
                                             "Position non atteinte sur le bras (%i-%i-%i), nouvelle tentative (n°%i)",
-                                            base.getId(), elbow.getId(), wrist.getId(), retryMovementAttempts);
+                                            base.getId(), elbow.getId(), wrist.getId(), retryMovementAttempts);*/
                 retryMovementAttempts++;
                 ComMgr::Instance().printfln(EVENT_HEADER, "armRetrying %s", sideName);
                 status = WRONG_POSITION;
@@ -325,7 +331,7 @@ private:
      */
     void gotoNextPosition() {
         if(writeIndex != currentPositionIndex) {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Arm %s goto next position: %f %f %f (writeIndex: %i; currentPositionIndex: %i", sideName, positionsAsked[currentPositionIndex][0], positionsAsked[currentPositionIndex][1], positionsAsked[currentPositionIndex][2], writeIndex, currentPositionIndex);
+        //    ComMgr::Instance().printfln(DEBUG_HEADER, "Arm %s goto next position: %f %f %f (writeIndex: %i; currentPositionIndex: %i", sideName, positionsAsked[currentPositionIndex][0], positionsAsked[currentPositionIndex][1], positionsAsked[currentPositionIndex][2], writeIndex, currentPositionIndex);
             uint16_t positionIndex = currentPositionIndex;
             currentPositionIndex++;
             currentPositionIndex %= ARM_POSITION_BUFFER_SIZE;
@@ -364,15 +370,15 @@ private:
         bool valid2 = ask(MotorType::goalAngle, xl, value2);
         value2 *= xl.getAngleFromValue();
         if(valid && valid2) {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Current position for XL n°%i is %f\n", xl.getId(), value);
+         //   ComMgr::Instance().printfln(DEBUG_HEADER, "Current position for XL n°%i is %f\n", xl.getId(), value);
             if(ABS(value-askedPosition) >= POSITION_THRESHOLD) {
-                ComMgr::Instance().printfln(DEBUG_HEADER, "Threshold fail on XL %i (goal: %f; expected: %f; reached: %f; diff: %f)", xl.getId(), value2, askedPosition, value, ABS(value-askedPosition));
+            //    ComMgr::Instance().printfln(DEBUG_HEADER, "Threshold fail on XL %i (goal: %f; expected: %f; reached: %f; diff: %f)", xl.getId(), value2, askedPosition, value, ABS(value-askedPosition));
                 return false;
             } else {
-                ComMgr::Instance().printfln(DEBUG_HEADER, "Threshold success on XL %i (goal: %f; expected: %f; reached: %f; diff: %f)", xl.getId(), value2, askedPosition, value, ABS(value-askedPosition));
+             //   ComMgr::Instance().printfln(DEBUG_HEADER, "Threshold success on XL %i (goal: %f; expected: %f; reached: %f; diff: %f)", xl.getId(), value2, askedPosition, value, ABS(value-askedPosition));
             }
         } else {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet received when asking position");
+          //  ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet received when asking position");
         }
         return valid;
     }
@@ -380,32 +386,33 @@ private:
     bool askSpeed(MotorType &xl) {
         int value = 0;
         bool valid = ask(MotorType::currentVelocity, xl, value);
-        if(valid) {
+    /*    if(valid) {
             ComMgr::Instance().printfln(DEBUG_HEADER, "Current velocity for XL n°%i is %i", xl.getId(), value);
         } else {
             ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet received when asking threshold");
-        }
+        }*/
         return valid && ABS(value) < VELOCITY_THRESHOLD;
     }
 
     bool ask(const DynamixelAccessData& data, MotorType& xl, float& value, bool force=false) {
         if(mute && !force) {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
+     //       ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
             return false;
         }
-        ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for Dynamixel data %02X%02X", data.address[1], data.address[0]);
+     //   ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for Dynamixel data %02X%02X", data.address[1], data.address[0]);
         DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
         const char* answer = manager.sendPacket(requestPacket);
         bool validPacket = xl.decapsulatePacket(answer, value);
         if(validPacket) {
+
             attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
         } else if(!force) /* Si on force la lecture, c'est qu'on veut vérifier que le bras est toujours muet, pas besoin de le redire */ {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet, contents of rxBuffer:");
+       /*     ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet, contents of rxBuffer:");
             for(unsigned int i = 0; i < 30; i++)
             {
                 ComMgr::Instance().printfln(DEBUG_HEADER, "%i", (int)manager.rxBuffer[i]);
             }
-            ComMgr::Instance().printfln(DEBUG_HEADER, "END OF RX BUFFER");
+            ComMgr::Instance().printfln(DEBUG_HEADER, "END OF RX BUFFER");*/
             if(attemptsBeforeMute > 0) {
                 attemptsBeforeMute--;
             } else {
@@ -418,26 +425,27 @@ private:
 
     bool ask(const DynamixelAccessData& data, MotorType& xl, int& value, bool force=false) {
         if(mute && !force) {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
+         //   ComMgr::Instance().printfln(DEBUG_HEADER, "Mute arm (base #%i)", base.getId());
             return false;
         }
-        ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for Dynamixel data %02X%02X", data.address[1], data.address[0]);
+   //     ComMgr::Instance().printfln(DEBUG_HEADER, "Asking for Dynamixel data %02X%02X", data.address[1], data.address[0]);
         DynamixelPacketData* requestPacket = xl.makeReadPacket(data);
         const char* answer = manager.sendPacket(requestPacket);
         bool validPacket = xl.decapsulatePacket(answer, value);
         if(validPacket) {
+            lastAlerts[xl.getId()-1] = xl.checkAlert(answer);
             attemptsBeforeMute = ARM_ATTEMPTS_BEFORE_MUTE;
         } else if(!force) /* Si on force la lecture, c'est qu'on veut vérifier que le bras est toujours muet, pas besoin de le redire */ {
-            ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet, contents of rxBuffer:");
+         /*   ComMgr::Instance().printfln(DEBUG_HEADER, "Invalid packet, contents of rxBuffer:");
             for(unsigned int i = 0; i < 30; i++)
             {
                 ComMgr::Instance().printfln(DEBUG_HEADER, "%i", (int)manager.rxBuffer[i]);
             }
-            ComMgr::Instance().printfln(DEBUG_HEADER, "END OF RX BUFFER");
+            ComMgr::Instance().printfln(DEBUG_HEADER, "END OF RX BUFFER");*/
             if(attemptsBeforeMute > 0) {
                 attemptsBeforeMute--;
             } else {
-                ComMgr::Instance().printfln(EVENT_HEADER, "armIsMute %s", sideName);
+            //    ComMgr::Instance().printfln(EVENT_HEADER, "armIsMute %s", sideName);
                 mute = true;
             }
         }
@@ -445,18 +453,16 @@ private:
     }
 
     void rebootIfNeeded(MotorType& xl) {
-        char* answer = manager.sendPacket(xl.makeReadPacket(MotorType::hardwareError));
-        int error = 0;
-        bool valid = xl.decapsulatePacket(answer, error);
-        if(valid) {
-            if( ! xl.checkAlert(answer)) {
-                // on lance un reboot
-                ComMgr::Instance().printfln(DEBUG_HEADER, "Rebooting xl %i", xl.getId());
-                xl.reboot();
-            } else {
-                // on réactive le couple périodiquement pour être sûr que le XL désasservi est réasservi dès que possible
-                xl.toggleTorque(true);
-            }
+        if( ! lastAlerts[xl.getId()-1]) {
+            // on lance un reboot
+          //  ComMgr::Instance().printfln(DEBUG_HEADER, "Rebooting xl %i", xl.getId());
+            xl.reboot();
+            lastAlerts[xl.getId()-1] = true;
+            reactivated[xl.getId()-1] = false;
+        } else if(!reactivated[xl.getId()-1]) {
+            // on réactive le couple périodiquement pour être sûr que le XL désasservi est réasservi dès que possible
+            xl.toggleTorque(true);
+            reactivated[xl.getId()-1] = true;
         }
     }
 

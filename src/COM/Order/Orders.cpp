@@ -585,7 +585,7 @@ void ORDER_up::impl(Args args)
             delayMicroseconds(ELEVATOR_TEMPO);
         }*/
         ActuatorsMgr::Instance().moveRightStepper(1);
-        orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
+       // orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
     }
     else{
         /*digitalWrite(DIR_PIN_LEFT, HIGH);
@@ -596,7 +596,7 @@ void ORDER_up::impl(Args args)
             digitalWrite(STEP_PIN_LEFT, LOW);
             delayMicroseconds(ELEVATOR_TEMPO);
         }*/
-        orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper gauche de 1 unité!\n");
+      //  orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper gauche de 1 unité!\n");
         ActuatorsMgr::Instance().moveLeftStepper(1);
     }
 
@@ -616,7 +616,7 @@ void ORDER_down::impl(Args args)
         }*/
 
         ActuatorsMgr::Instance().moveRightStepper(-1);
-        orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
+       // orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
     }
     else{
       /*  digitalWrite(DIR_PIN_LEFT, LOW);
@@ -628,7 +628,7 @@ void ORDER_down::impl(Args args)
             delayMicroseconds(ELEVATOR_TEMPO);
         }*/
         ActuatorsMgr::Instance().moveLeftStepper(-1);
-        orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper gauche de 1 unité!\n");
+       // orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper gauche de 1 unité!\n");
     }
 }
 

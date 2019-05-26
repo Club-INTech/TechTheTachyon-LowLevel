@@ -29,7 +29,7 @@ void OrderManager::communicate() {
 
     static Metro checkMovement = Metro(10);
     static Metro checkArms = Metro(70);
-    static Metro rebootXLs = Metro(100);
+    static Metro rebootXLs = Metro(1000);
     static Metro checkHooksTimer = Metro(20);
     static Metro sendPos = Metro(50);
 
@@ -43,7 +43,7 @@ void OrderManager::communicate() {
             motionControlSystem.setMoveAbnormalSent(false);
         }*/
     }
-    
+
     if(rebootXLs.check()) {
         actuatorsMgr.rebootArms();
     }
