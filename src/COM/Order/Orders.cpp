@@ -663,8 +663,9 @@ void ORDER_dist2stock::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
-             arm->setPosition(positionPrePreDistributeur);
-             arm->setPosition(positionIntermediaire);
+             //arm->setPosition(positionPrePreDistributeur);
+             //arm->setPosition(positionIntermediaire);
+             arm->setPosition(positionIntermediaireDist2Stock);
              arm->setPosition(positionStockageDepot);
          )
 }
