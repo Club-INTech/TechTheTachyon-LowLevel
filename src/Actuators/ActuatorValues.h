@@ -76,7 +76,7 @@ const static float positionAccelerateur8MiddleDepot[3] = {200.0f, 80.0f, 130.0f}
 const static float positionAccBIS[3] = {193.0f, 235.0f, 90.0f};
 const static float positionAccTER[3] = {287.0f, 290.0f+5.0f, 185.0f-5.0f};
 const static float positionStockageDepot[3] = { 195.0f, 250.0f, 95.0f};//{170.0f, 232.0f, 55.5f};
-const static float positionStockagePrise[3] = {169.0f, 240.0f, 75.0f};
+const static float positionStockagePrise[3] = {171.0f, 254.0f, 75.0f};
 const static float positionIntermediaire[3] = {195.18f, 249.83f-10, 82.19f+10};
 const static float positionIntermediaireDist2Stock[3] = {190.0f, 85.0f, 135.0f};
 
