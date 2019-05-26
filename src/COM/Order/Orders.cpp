@@ -649,8 +649,8 @@ void ORDER_dist::impl(Args args)
     Arm<XL430>* arm = manager.rightArm;
     arm->setPositionNoRetry(positionIntermediaireSecondaire);
     arm->setPositionNoRetry(positionIntermediaireSecondaire2);
-    arm->setPositionNoRetry(positionDistributeurSecondairePreRecule);
-    arm->setPositionNoRetry(positionDistributeurSecondaire);
+    arm->setPosition(positionDistributeurSecondairePreRecule);
+    arm->setPosition(positionDistributeurSecondaire);
 }
 
 void ORDER_dist2stock::impl(Args args)
@@ -696,7 +696,7 @@ void ORDER_stockSecondaire::impl(Args args)
     }
     Arm<XL430>* arm = manager.rightArm;
     arm->setPositionNoRetry(positionIntermediaireSecondaire2);
-    arm->setPositionNoRetry(positionIntermediaireSecondaire);
+    arm->setPosition(positionIntermediaireSecondaire);
     arm->setPositionNoRetry(positionStockageSecondaire);
 }
 
