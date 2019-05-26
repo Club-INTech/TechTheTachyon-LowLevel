@@ -133,3 +133,8 @@ void ActuatorsMgr::checkArmMovements() {
     leftArm->update();
     rightArm->update();
 }
+
+void ActuatorsMgr::rebootArms() {
+    leftArm->rebootXLsIfNecessary();
+    rightArm->rebootXLsIfNecessary();
+}

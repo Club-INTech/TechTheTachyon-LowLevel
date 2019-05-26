@@ -70,6 +70,7 @@ public:
 	void moveRightStepper(int32_t count, int32_t nextCount = 0);
 
 	void checkArmMovements();
+	void rebootArms();
 
 };
 

@@ -52,7 +52,7 @@ constexpr int frontDoorClosed = 155;
 constexpr int backDoorOpen = 150;
 constexpr int backDoorClosed = 245;
 
-static Stream& DebugSerial = Serial2;//SerialUSB;
+static Stream& DebugSerial = SerialUSB;//SerialUSB;
 
 // Définition des différentes positions
 const static float positionDroit[3] = {180.0f,180.0f,180.0f};

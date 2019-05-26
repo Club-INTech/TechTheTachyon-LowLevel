@@ -220,7 +220,12 @@ public:
         if(status == MOVING) {
             checkArmMovement();
         }
-
+    }
+    
+    void rebootXLsIfNecessary() {
+        rebootIfNeeded(base);
+        rebootIfNeeded(elbow);
+        rebootIfNeeded(wrist);
     }
 
     /**
@@ -425,6 +430,22 @@ private:
             }
         }
         return validPacket;
+    }
+
+    void rebootIfNeeded(MotorType& xl) {
+        char* answer = manager.sendPacket(xl.makeReadPacket(MotorType::hardwareError));
+        int error = 0;
+        bool valid = xl.decapsulatePacket(answer, error);
+        if(valid) {
+            if( ! xl.checkAlert(answer)) {
+                // on lance un reboot
+                ComMgr::Instance().printfln(DEBUG_HEADER, "Rebooting xl %i", xl.getId());
+                xl.reboot();
+            } else {
+                // on réactive le couple périodiquement pour être sûr que le XL désasservi est réasservi dès que possible
+                xl.toggleTorque(true);
+            }
+        }
     }
 
 };
