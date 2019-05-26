@@ -751,7 +751,7 @@ void ORDER_letRedBeGood::impl(Args args)
         ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
     }
     Arm<XL430>* arm = manager.rightArm;
-    arm->setPosition(positionIntermediaireSecondaire);
+    arm->setPosition(positionLetRedBeGood);
 }
 
 void ORDER_getBlueAcc::impl(Args args) {
@@ -896,7 +896,7 @@ void ORDER_posBras::impl(Args args) {
     MOVE_ARM(args[0],
              arm->fetchAngles(angles);
     )
-//    orderManager.highLevel.printfln(DEBUG_HEADER, "Angles are %f ; %f ; %f", angles[0], angles[1], angles[2]);
+    orderManager.highLevel.printfln(DEBUG_HEADER, "Angles are %f ; %f ; %f", angles[0], angles[1], angles[2]);
 }
 
 void ORDER_valveon::impl(Args args)
