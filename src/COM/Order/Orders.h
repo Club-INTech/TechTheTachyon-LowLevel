@@ -161,6 +161,7 @@ ORDER(posBras,1);
 ORDER(getBlueAcc, 1);       //prendre le palet bleu de l'acc avec le secondaire
 ORDER(putPuckAcc, 1);       //mettre un palet dans l'acc avec le secondaire
 ORDER(putPuckAccFinalize, 1);
+ORDER(oustBras, 1);
 
 /* Pousse palet en dehors des ascenceurs */
 ORDER(oust,0);
