@@ -106,6 +106,7 @@ static float positionIntermediaireSecondaire2[3] = {249.00f+cst, 360-(70.00f+cst
 static float positionDistributeurSecondaire[3] = {269.0f, 150.0f, 150.0f};
 //static float positionDistributeurSecondairePreRecule[3] = {259.776001f, 100.935997f, 104.367996f};
 static float positionDistributeurSecondairePreRecule[3] = {245.0f, 100.935997f, 125.0f};
+static float positionLetOust[3] = {210.0f, 240.0f, 85.0f};
 
 static float positionBalance[3]={160.0f+cst, 360-(210.0f+cst), 160.0f+cst};
 static float positionPreBalance[3]={237.160004f, 260.127991f, 94.776001f};
