@@ -90,6 +90,23 @@ void ActuatorsMgr::moveRightStepperOust(int32_t count, int32_t nextCount) {
     stepControl.moveAsync(rightStepper);*/
 }
 
+void ActuatorsMgr::moveRightStepperOust2(int32_t count, int32_t nextCount) {
+    timerForRightStepper = STEPPER_DELAY;
+    this->rightDirection = count > 0 ? UP : DOWN;
+    if(count > 0) {
+        digitalWrite(DIR_PIN_RIGHT, HIGH);
+    } else {
+        digitalWrite(DIR_PIN_RIGHT, LOW);
+    }
+    rightStepCount = ABS(count)*(STEP_COUNT+STEP_COUNT_OUST);
+
+    nextRightStepCount = nextCount;
+    //   analogWrite(STEP_PIN_RIGHT, 128);
+/*    rightStepCount += count*STEP_COUNT_OUST;
+    rightStepper.setTargetAbs(rightStepCount);
+    stepControl.moveAsync(rightStepper);*/
+}
+
 void ActuatorsMgr::checkArmMovements() {
     rightArm->update();
 }
