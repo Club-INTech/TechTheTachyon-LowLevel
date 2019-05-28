@@ -163,6 +163,7 @@ ORDER(freeElevator,1);
 ORDER(deposePaletZoneDep,1);
 ORDER(deposePaletZoneDep2Stock,1);
 ORDER(posBras,1);
+ORDER(forceArmsReboot,0);
 
 /* Ascenseurs */
 ORDER(up,1);

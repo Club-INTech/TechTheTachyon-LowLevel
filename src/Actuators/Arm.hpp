@@ -245,6 +245,12 @@ public:
         rebootIfNeeded(elbow);
         rebootIfNeeded(wrist);
     }
+    
+    void forceReboot() {
+        base.reboot();
+        elbow.reboot();
+        wrist.reboot();
+    }
 
     /**
      * Vérifies où en sont les XL. Si le bras est dans l'état 'ArmStatus::OK' ou 'ArmStatus::WRONG_POSITION', cette méthode retourne immédiatement

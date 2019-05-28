@@ -865,6 +865,12 @@ void ORDER_posinter::impl(Args args)
     )
 }
 
+void ORDER_forceArmsReboot::impl(Args args) {
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    manager.leftArm->forceReboot();
+    manager.rightArm->forceReboot();
+}
+
 void ORDER_freeElevator::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
