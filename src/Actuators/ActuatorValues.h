@@ -93,7 +93,7 @@ const static float positionDeposeZoneDepartIntermediaireVersAscenceur[3]={196.94
 const static float positionBalancePrincipal[3]={220.0f,150.0f,181.7f}; // dépot du palet bleu de X6
 const static float positionGoldonium[3]={213.4f,101.8f,151.4f};
 const static float positionSolIntermediaire[3] = { /*Valeur de test:*/ 278.0f-5 /*272.0f*/, 97.0f+5, 190.0f};
-const static float positionSolGauche[3] = { /*Valeur de test:*/ 278.0f+10 /*272.0f*/, 97.0f+18, 190.0f};
+const static float positionSolGauche[3] = { /*Valeur de test:*/ 278.0f+10 /*272.0f*/, 97.0f+8, 184.0f};
 const static float positionSolDroit[3] = { /*Valeur de test:*/ 283.45f /*272.0f*/, 106.57f, 179.69f};
 const static float coupleSolseuil[3][4] = {
         {103,102,101,100},
