@@ -835,6 +835,20 @@ void ORDER_gold::impl(Args args)
     arm->setPositionNoRetry(positionPreGoldonium);
     arm->setPositionNoRetry(positionGoldonium);
     arm->setPositionNoRetry(positionPostGoldonium);
+    arm->setPositionNoRetry(positionPostPostGoldonium);
+
+}
+
+void ORDER_goldBlue::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPositionNoRetry(positionPreGoldonium);
+    arm->setPositionNoRetry(positionGoldonium);
+    arm->setPositionNoRetry(positionPostGoldonium);
 
 }
 

@@ -150,6 +150,7 @@ ORDER(accSecondaire, 1);
 ORDER(accSecondaire2,1); //pour le recule2acc
 ORDER(letRedBeGood,1);
 ORDER(gold,0);
+ORDER(goldBlue,0);
 ORDER(goldDepot, 0)
 ORDER(bal,1);
 ORDER(stock2bal,1);
