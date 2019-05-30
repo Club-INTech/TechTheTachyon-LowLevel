@@ -139,6 +139,7 @@ ORDER(XLm,2);
 ORDER(XLs,2);
 ORDER(dist,1);
 ORDER(dist2stock,1);
+ORDER(dist6,1);
 ORDER(stockDepot, 1);
 ORDER(grnd,1);
 ORDER(grndRight,1); //pour le bras droit

@@ -83,6 +83,7 @@ const static float positionIntermediaireDist2Stock[3] = {190.0f, 85.0f, 135.0f};
 const static float positionPrePreDistributeur[3] = {211.464005f, 76.736000f, 37.840000f};//{254.50f, 230.21f, 122.23f};
 const static float positionPreDistributeur[3] = {235.664001f, 77.000000f, 103.575996f};//{246.46f, 85.00f, 100.00f};
 const static float positionDistributeur[3] = {250.00f, 115.00f, 135.0f};
+const static float positionPostDistributeur[3] = {230.00f, 100.00f, 135.0f};
 
 const static float positionBalance[3]={182.6f,101.6f,181.7f};
 const static float positionHoldBlue[3]={188.584000f, 101.463997f, 181.016006f};

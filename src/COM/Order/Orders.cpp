@@ -698,6 +698,15 @@ void ORDER_dist::impl(Args args)
     )
 }
 
+void ORDER_dist6::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    MOVE_ARM(args[0],
+                 arm->setPositionNoRetry(positionPostDistributeur);
+
+    )
+}
+
 void ORDER_grnd::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
