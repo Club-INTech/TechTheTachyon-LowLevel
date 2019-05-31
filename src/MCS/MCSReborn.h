@@ -59,6 +59,7 @@ private:
     int16_t targetDistance;
     float targetAngle;
     float angleOffset;
+    bool expectedWallImpact;
 
     Average<float, 100> averageLeftSpeed;
     Average<float, 100> averageRightSpeed;
@@ -138,6 +139,8 @@ public:
     void setX(int16_t);
     void setY(int16_t);
     void setAngle(float);
+
+    void expectWallImpact();
 };
 
 #endif //LL_MCSREBORN_H
