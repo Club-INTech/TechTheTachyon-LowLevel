@@ -555,3 +555,15 @@ void MCS::expectWallImpact()
 {
     expectedWallImpact = true;
 }
+
+bool MCS::sentMoveAbnormal() {
+    return robotStatus.sentMoveAbnormal;
+}
+
+bool MCS::isMoveAbnormal() {
+    return robotStatus.stuck;
+}
+
+void MCS::setMoveAbnormalSent(bool val) {
+    robotStatus.sentMoveAbnormal = val;
+}

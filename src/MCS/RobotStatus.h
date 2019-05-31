@@ -31,6 +31,8 @@ struct RobotStatus
     float speedLeftWheel;
     float speedRightWheel;
 
+    bool sentMoveAbnormal;
+
     RobotStatus();
     void updateStatus();
 };

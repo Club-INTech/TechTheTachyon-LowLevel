@@ -141,6 +141,10 @@ public:
     void setAngle(float);
 
     void expectWallImpact();
+
+    bool sentMoveAbnormal();
+    bool isMoveAbnormal();
+    void setMoveAbnormalSent(bool);
 };
 
 #endif //LL_MCSREBORN_H
