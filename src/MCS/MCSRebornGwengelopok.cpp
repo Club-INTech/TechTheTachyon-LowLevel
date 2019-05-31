@@ -291,6 +291,13 @@ void MCS::stop() {
     leftMotor.stop();
     rightMotor.stop();
 
+    if (robotStatus.stuck) {
+        robotStatus.controlledP2P = false;
+        robotStatus.Lbooly = false;
+        robotStatus.moving = false;
+        InterruptStackPrint::Instance().push(EVENT_HEADER, "unableToMove");
+    }
+
     if(!robotStatus.controlledP2P) {
         InterruptStackPrint::Instance().push(EVENT_HEADER, "stoppedMoving");
     }
@@ -320,6 +327,7 @@ void MCS::stop() {
     //}
     robotStatus.movement = MOVEMENT::NONE;
     robotStatus.moving = false;
+    robotStatus.stuck = false;
 }
 
 void MCS::translate(int16_t amount) {
