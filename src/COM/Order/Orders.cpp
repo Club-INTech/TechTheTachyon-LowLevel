@@ -312,6 +312,16 @@ void ORDER_tg::impl(Args args)
     orderManager.highLevel.printfln(DEBUG_HEADER, "tg received");
 }
 
+void ORDER_trstop::impl(Args args)
+{
+    orderManager.motionControlSystem.stopTranslation();
+}
+
+void ORDER_rostop::impl(Args args)
+{
+    orderManager.motionControlSystem.stopRotation();
+}
+
 void ORDER_sstop::impl(Args args)
 {
     orderManager.motionControlSystem.speedBasedMovement(MOVEMENT::NONE);

@@ -83,6 +83,8 @@ public:
     void updateSpeed();
     void control();
     void stop();
+    void stopTranslation();
+    void stopRotation();
 
     void translate(int16_t);
     void rotate(float);

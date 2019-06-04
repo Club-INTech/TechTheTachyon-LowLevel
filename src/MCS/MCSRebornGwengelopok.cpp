@@ -123,11 +123,12 @@ void MCS::updateSpeed()
     robotStatus.speedLeftWheel = averageLeftSpeed.value();
     robotStatus.speedRightWheel = averageRightSpeed.value();
 
-    if(robotStatus.controlledTranslation)
+    bool controlled = ! robotStatus.forcedMovement;
+    if(robotStatus.controlledTranslation && !expectedWallImpact)
     {
         robotStatus.speedTranslation = translationPID.compute(currentDistance);
     }
-    else
+    else if(controlled)
     {
         robotStatus.speedTranslation = 0.0f;
     }
@@ -136,7 +137,7 @@ void MCS::updateSpeed()
     {
         robotStatus.speedRotation = rotationPID.compute(robotStatus.orientation);
     }
-    else
+    else if(controlled)
     {
         robotStatus.speedRotation = 0.0f;
     }
@@ -238,7 +239,8 @@ void MCS::manageStop() {
 
     averageRotationDerivativeError.add(rotationPID.getDerivativeError());
     averageTranslationDerivativeError.add(translationPID.getDerivativeError());
-    if(robotStatus.moving && ABS(translationPID.getDerivativeError())<= controlSettings.tolerancyDerivative && ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && ABS(rotationPID.getDerivativeError())<=controlSettings.tolerancyDerivative && ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
+    bool controlled = ! robotStatus.forcedMovement;
+    if(controlled && robotStatus.moving && ABS(translationPID.getDerivativeError())<= controlSettings.tolerancyDerivative && ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation && ABS(rotationPID.getDerivativeError())<=controlSettings.tolerancyDerivative && ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
         leftMotor.setDirection(Direction::NONE);
         rightMotor.setDirection(Direction::NONE);
         robotStatus.Lbooly = robotStatus.controlledP2P;
@@ -261,7 +263,7 @@ void MCS::manageStop() {
             expectedWallImpact = false;
             timeCounter = 0;
             robotStatus.stuck = true;
-//            InterruptStackPrint::Instance().push("blocage symétrique");
+            InterruptStackPrint::Instance().push("blocage symétrique");
             stop();
         }
         timeCounter++;
@@ -321,6 +323,9 @@ void MCS::stop() {
     rotationPID.resetOutput(0);
     translationPID.setGoal(currentDistance);
     rotationPID.setGoal(robotStatus.orientation);
+
+    robotStatus.speedTranslation = 0.0f;
+    robotStatus.speedRotation = 0.0f;
 
     InterruptStackPrint::Instance().push("[DEBUG] On s'arrête!!");
     //if(robotStatus.movement != MOVEMENT::NONE) {
@@ -415,6 +420,14 @@ void MCS::followTrajectory(const double* xTable, const double* yTable, int count
     }
 }
 
+void MCS::stopTranslation() {
+    robotStatus.speedTranslation = 0.0f;
+}
+
+void MCS::stopRotation() {
+    robotStatus.speedRotation = 0.0f;
+}
+
 void MCS::speedBasedMovement(MOVEMENT movement) {
     if(!robotStatus.controlled)
     {
@@ -426,25 +439,21 @@ void MCS::speedBasedMovement(MOVEMENT movement) {
     switch(movement)
     {
         case MOVEMENT::FORWARD:
-            leftSpeedPID.setGoal(controlSettings.maxTranslationSpeed);
-            rightSpeedPID.setGoal(controlSettings.maxTranslationSpeed);
             robotStatus.speedTranslation = controlSettings.maxTranslationSpeed;
             break;
+
         case MOVEMENT::BACKWARD:
-            leftSpeedPID.setGoal(-controlSettings.maxTranslationSpeed);
-            rightSpeedPID.setGoal(-controlSettings.maxTranslationSpeed);
             robotStatus.speedTranslation = -controlSettings.maxTranslationSpeed;
             break;
+
         case MOVEMENT::TRIGO:
-            leftSpeedPID.setGoal(-controlSettings.maxRotationSpeed);
-            rightSpeedPID.setGoal(controlSettings.maxRotationSpeed);
             robotStatus.speedRotation = controlSettings.maxRotationSpeed;
             break;
+
         case MOVEMENT::ANTITRIGO:
-            leftSpeedPID.setGoal(controlSettings.maxRotationSpeed);
-            rightSpeedPID.setGoal(-controlSettings.maxRotationSpeed);
             robotStatus.speedRotation = -controlSettings.maxRotationSpeed;
             break;
+
         case MOVEMENT::NONE:
         default:
             leftSpeedPID.setGoal(0);

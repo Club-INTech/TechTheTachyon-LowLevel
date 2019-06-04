@@ -85,6 +85,8 @@ ORDER(sstop,0);
 ORDER(maxtr,1);
 ORDER(maxro,1);
 ORDER(maxtrro,2);
+ORDER(trstop,0);
+ORDER(rostop,0);
 
 /*			 _________________________________
 * 		   *|                                 |*
