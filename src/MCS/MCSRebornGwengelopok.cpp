@@ -124,7 +124,7 @@ void MCS::updateSpeed()
     robotStatus.speedRightWheel = averageRightSpeed.value();
 
     bool controlled = ! robotStatus.forcedMovement;
-    if(robotStatus.controlledTranslation && !expectedWallImpact)
+    if(robotStatus.controlledTranslation)
     {
         robotStatus.speedTranslation = translationPID.compute(currentDistance);
     }
