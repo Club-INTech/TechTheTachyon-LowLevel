@@ -13,9 +13,9 @@
 #include "Utils/Singleton.hpp"
 #include "Config/pin_mapping.h"
 #include "MCS/MCSReborn.h"
+#include "MCS/RobotStatus.h"
 #include "COM/ComMgr.h"
 #include "AbstractSensorUS.h"
-#include "MCS/RobotStatus.h"
 #include "SICKDT35_B15851.h"
 
 

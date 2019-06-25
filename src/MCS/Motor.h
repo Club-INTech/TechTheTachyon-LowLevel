@@ -17,11 +17,11 @@
 #ifndef COMPLETE_LOW_LEVEL_MOTOR_H
 #define COMPLETE_LOW_LEVEL_MOTOR_H
 
+#include "Arduino.h"
 #include "Utils/safe_enum.hpp"
-#include <stdint.h>
-#include "Config/pin_mapping.h"
 #include "Utils/utils.h"
-#include <Arduino.h>
+#include "Config/pin_mapping.h"
+#include <stdint.h>
 
 struct direction_def {
 	enum type {

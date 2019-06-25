@@ -7,9 +7,9 @@
 
 #include "Interfaces/SerialInterface.h"
 #include "Interfaces/EthernetInterface.h"
-#include "../Utils/Singleton.hpp"
+#include "Utils/Singleton.hpp"
+#include "Utils/Median.h"
 #include "Config/define_com_options.h"
-#include "../Utils/Median.h"
 #include <map>
 #include <array>
 

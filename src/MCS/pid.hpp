@@ -98,12 +98,15 @@ public:
 	float getKp() const {
 		return kp;
 	}
+
 	float getKi() const {
 		return ki;
 	}
+
 	float getKd() const {
 		return kd;
 	}
+
 	T getAWU() const {
 		return integral_max_value;
 	}

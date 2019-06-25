@@ -18,26 +18,17 @@ void stepperInterrupt() {
 }
 
 void ActuatorsMgr::initTorques() {
-    ActuatorsMgr::Instance().leftArm->initTorque();
     ActuatorsMgr::Instance().rightArm->initTorque();
+#if defined(MAIN)
+    ActuatorsMgr::Instance().leftArm->initTorque();
+#elif defined(SLAVE)
+    ActuatorsMgr::Instance().motor4->toggleTorque(true);
+#endif
 }
 
-void ActuatorsMgr::initPWMs() {
-    // FIXME
-    pinMode(STEP_PIN_LEFT, INPUT);
-    pinMode(STEP_PIN_RIGHT, INPUT);
-
-    pinMode(DIR_PIN_LEFT, INPUT);
-    pinMode(DIR_PIN_RIGHT, INPUT);
-    // FIXME
-
-    pinMode(RST_PIN_LEFT, OUTPUT);
-    pinMode(RST_PIN_RIGHT, OUTPUT);
-    digitalWrite(RST_PIN_LEFT, HIGH);
-    digitalWrite(RST_PIN_RIGHT, HIGH);
-}
 
 void ActuatorsMgr::handleInterrupt() {
+#if defined(MAIN)
     if(leftStepCount > 0) {
         if(leftStepCount % 2 == 0) {
             digitalWrite(STEP_PIN_LEFT, HIGH);
@@ -64,6 +55,7 @@ void ActuatorsMgr::handleInterrupt() {
             nextLeftStepCount = 0;
         }
     }
+#endif
 
     if(rightStepCount > 0) {
         if (rightStepCount % 2 == 0) {
@@ -93,6 +85,7 @@ void ActuatorsMgr::handleInterrupt() {
     }
 }
 
+#if defined(MAIN)
 void ActuatorsMgr::moveLeftStepper(int32_t count, int32_t nextCount) {
     timerForLeftStepper = STEPPER_DELAY;
     this->leftDirection = count > 0 ? UP : DOWN;
@@ -111,6 +104,7 @@ void ActuatorsMgr::moveLeftStepper(int32_t count, int32_t nextCount) {
     leftStepper.setTargetAbs(leftStepCount);
     stepControl.moveAsync(leftStepper);*/
 }
+#endif
 
 void ActuatorsMgr::moveRightStepper(int32_t count, int32_t nextCount) {
     timerForRightStepper = STEPPER_DELAY;
@@ -123,14 +117,50 @@ void ActuatorsMgr::moveRightStepper(int32_t count, int32_t nextCount) {
     rightStepCount = ABS(count)*STEP_COUNT;
 
     nextRightStepCount = nextCount;
- //   analogWrite(STEP_PIN_RIGHT, 128);
-/*    rightStepCount += count*STEP_COUNT;
+}
+
+#if defined(SLAVE)
+
+void ActuatorsMgr::moveRightStepperOust(int32_t count, int32_t nextCount) {
+    timerForRightStepper = STEPPER_DELAY;
+    this->rightDirection = count > 0 ? UP : DOWN;
+    if(count > 0) {
+        digitalWrite(DIR_PIN_RIGHT, HIGH);
+    } else {
+        digitalWrite(DIR_PIN_RIGHT, LOW);
+    }
+    rightStepCount = ABS(count)*STEP_COUNT_OUST;
+
+    nextRightStepCount = nextCount;
+    //   analogWrite(STEP_PIN_RIGHT, 128);
+/*    rightStepCount += count*STEP_COUNT_OUST;
     rightStepper.setTargetAbs(rightStepCount);
     stepControl.moveAsync(rightStepper);*/
 }
 
+void ActuatorsMgr::moveRightStepperOust2(int32_t count, int32_t nextCount) {
+    timerForRightStepper = STEPPER_DELAY;
+    this->rightDirection = count > 0 ? UP : DOWN;
+    if(count > 0) {
+        digitalWrite(DIR_PIN_RIGHT, HIGH);
+    } else {
+        digitalWrite(DIR_PIN_RIGHT, LOW);
+    }
+    rightStepCount = ABS(count)*(STEP_COUNT+STEP_COUNT_OUST);
+
+    nextRightStepCount = nextCount;
+    //   analogWrite(STEP_PIN_RIGHT, 128);
+/*    rightStepCount += count*STEP_COUNT_OUST;
+    rightStepper.setTargetAbs(rightStepCount);
+    stepControl.moveAsync(rightStepper);*/
+}
+
+#endif
+
 void ActuatorsMgr::checkArmMovements() {
+#if defined(MAIN)
     leftArm->update();
+#endif
     rightArm->update();
 }
 

@@ -1,5 +1,4 @@
 #include "Motor.h"
-#include "Config/pin_mapping.h"
 
 void Motor::setDirection(Direction directionToSet)
 {

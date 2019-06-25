@@ -20,9 +20,11 @@ void SensorMgr::init() {
 	distanceSensors[0].setResistorValue(165);
 	distanceSensors[1].setResistorValue(165);
 	distanceSensors[2].setResistorValue(165);
+#if defined(MAIN)
 	distanceSensors[3].setResistorValue(165);
 	distanceSensors[4].setResistorValue(165);
 	distanceSensors[5].setResistorValue(165);
+#endif
 
 	jumperPlugged = isJumperEngaged();
 	basicBlocked = false;

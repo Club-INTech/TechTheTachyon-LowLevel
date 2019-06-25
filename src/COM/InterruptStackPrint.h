@@ -8,7 +8,7 @@
 #include <cstdint>
 #include <Arduino.h>
 #include "Config/defines.h"
-#include "../Utils/Singleton.hpp"
+#include "Utils/Singleton.hpp"
 #include "ComMgr.h"
 
 class InterruptStackPrint : public Singleton<InterruptStackPrint>

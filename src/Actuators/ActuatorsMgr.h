@@ -10,15 +10,14 @@
 #include "XL430.h"
 #include "SyncWrite.h"
 
+#include "Config/defines.h"
 #include "Config/pin_mapping.h"
 #include "Utils/Singleton.hpp"
 #include "Utils/utils.h"
-#include "Config/defines.h"
 
 #include "ActuatorValues.h"
 #include "Arm.hpp"
 #include <vector>
-#include <AX12.h>
 
 static HardwareSerial& XLSerial = Serial1;
 
@@ -37,14 +36,12 @@ private:
 	int32_t nextRightStepCount;
 	volatile int32_t timerForLeftStepper = -1;
 	volatile int32_t timerForRightStepper = -1;
-	/* Stepper leftStepper = Stepper(STEP_PIN_LEFT, DIR_PIN_LEFT);
-     Stepper rightStepper = Stepper(STEP_PIN_RIGHT, DIR_PIN_RIGHT);
-     StepControl<> stepControl = StepControl<>();*/
 
 public:
     //Gestion des XL430
     DynamixelManager* dynamixelManager = new DynamixelManager(&XLSerial, &DebugSerial);
 
+    // TODO : Généraliser
     // Liste des moteurs du bras 1
 	XL430* motor1 = (XL430*) dynamixelManager->createMotor(1, XL430GeneratorFunction);//new XL430(1,*manager);
 	XL430* motor2 = (XL430*) dynamixelManager->createMotor(2, XL430GeneratorFunction);//new XL430(2,*manager);
@@ -64,10 +61,11 @@ public:
     * Appelé tous les 800 µs pour faire bouger les steppers
     */
 	void handleInterrupt();
-	void initPWMs();
 	void initTorques();
 	void moveLeftStepper(int32_t count, int32_t nextCount = 0);
 	void moveRightStepper(int32_t count, int32_t nextCount = 0);
+	void moveRightStepperOust(int32_t count, int32_t nextCount = 0);
+	void moveRightStepperOust2(int32_t count, int32_t nextCount = 0);
 
 	void checkArmMovements();
 	void rebootArms();

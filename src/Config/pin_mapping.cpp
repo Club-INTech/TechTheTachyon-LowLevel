@@ -45,6 +45,16 @@ void InitAllPins() {
     digitalWrite(LEFT_PUMP_PIN, LOW);
     pinMode(RIGHT_PUMP_PIN, OUTPUT);
     digitalWrite(RIGHT_PUMP_PIN, LOW);
+
+    // Éclairages
+    pinMode(LED1,OUTPUT);
+    digitalWrite(LED1,LOW);
+    pinMode(LED2,OUTPUT);
+    digitalWrite(LED2,LOW);
+    pinMode(LED3,OUTPUT);
+    digitalWrite(LED3,LOW);
+    pinMode(LED4,OUTPUT);
+    digitalWrite(LED4,LOW);
 }
 
 #elif defined(SLAVE)

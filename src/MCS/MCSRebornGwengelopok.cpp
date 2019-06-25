@@ -3,7 +3,6 @@
 //
 
 #include "MCSReborn.h"
-#include "Config/pin_mapping.h"
 
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
@@ -210,32 +209,6 @@ void MCS::control()
 
 void MCS::manageStop() {
     static int timeCounter =0;
-    /*if(translationPID.active) {
-        if((ABS(translationPID.getError()) <= controlSettings.tolerancyTranslation) && (ABS(translationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative)){
-            translationPID.active = false;
-            InterruptStackPrint::Instance().push("arret tolerance translation");
-            Serial.println("Tolérance translation");
-        }
-    }
-    if(rotationPID.active) {
-        if((ABS(rotationPID.getError()) <= controlSettings.tolerancyAngle && (ABS(rotationPID.getDerivativeError()) <= controlSettings.tolerancyDerivative ))){
-            rotationPID.active = false;
-            InterruptStackPrint::Instance().push("arret tolerance rotation");
-            Serial.println("Tolérance rotation");
-        }
-    }
-
-
-    if(!translationPID.active && !rotationPID.active ) {
-        if( !robotStatus.forcedMovement )
-        {
-            leftMotor.brake();
-            rightMotor.brake();
-            if(ABS(robotStatus.speedLeftWheel) <= controlSettings.tolerancySpeed && ABS(robotStatus.speedRightWheel) <= controlSettings.tolerancySpeed){
-                stop();
-            }
-        }
-    }*/
 
     averageRotationDerivativeError.add(rotationPID.getDerivativeError());
     averageTranslationDerivativeError.add(translationPID.getDerivativeError());

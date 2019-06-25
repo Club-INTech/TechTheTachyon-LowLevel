@@ -5,10 +5,10 @@
 *
 **/
 
-#include "COM/Order/OrderManager.h"
 #include "Utils/Monitoring.h"
 #include "Config/pin_mapping.h"
 #include "COM/InterruptStackPrint.h"
+#include "COM/Order/OrderManager.h"
 
 //#include "MCS/HardwareEncoder_ISRDEF.h"
 
@@ -25,17 +25,6 @@ void positionInterrupt() {
 }
 
 int main() {
-	pinMode(LED1,OUTPUT);
-	pinMode(LED2,OUTPUT);
-	pinMode(LED3,OUTPUT);
-	pinMode(LED4,OUTPUT);
-
-	digitalWrite(LED1,HIGH);
-    digitalWrite(LED2,HIGH);
-    digitalWrite(LED3,HIGH);
-    digitalWrite(LED4,HIGH);
-
-
 	/*************************
 	 * Initialisation du LL, gère:
 	 * La série
@@ -44,7 +33,6 @@ int main() {
 	 *************************/
 
     /* Série */
-	ActuatorsMgr::Instance().initPWMs();
     SensorMgr::Instance().init();
 
 
@@ -55,9 +43,7 @@ int main() {
 	/* Actuators */
 	// Par sécurité on met tout les actuators à LOW quand on les initialise
 	/* Pompe */
-	pinMode(LEFT_PUMP_PIN,OUTPUT);
 	pinMode(RIGHT_PUMP_PIN,OUTPUT);
-	digitalWrite(LEFT_PUMP_PIN,LOW);
 	digitalWrite(RIGHT_PUMP_PIN,LOW);
 
 	/* Electrovanne */
@@ -85,11 +71,7 @@ int main() {
     stepperTimer.priority(253);
     stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
 
-	// Timer pour la mise à jour de la position
-/*	IntervalTimer posTimer; // TODO: Passer sur un Metro?
-	posTimer.priority(253);
-    posTimer.begin(positionInterrupt, POSITION_UPDATE_PERIOD);
-*/
+
 	Serial.println("Starting...");
     delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
     ActuatorsMgr::Instance().initTorques();
@@ -101,13 +83,6 @@ int main() {
 	 * L'execution des ordres de ce dernier
 	 * Les capteurs
 	 */
-
-    digitalWrite(LED1,LOW);
-    digitalWrite(LED2,LOW);
-    digitalWrite(LED3,LOW);
-    digitalWrite(LED4,LOW);
-
-    int i=0;
 
     while (true) {
         interruptStackPrint.print();

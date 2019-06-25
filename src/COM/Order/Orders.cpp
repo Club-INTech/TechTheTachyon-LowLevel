@@ -2,10 +2,9 @@
 // Created by asphox on 29/04/18.
 //
 
-
 #include "Orders.h"
-#include "../../MCS/RobotStatus.h"
-#include "../../Actuators/ActuatorValues.h"
+
+// TODO : Nettoyer
 
 void ORDER_ping::impl(Args args)
 {

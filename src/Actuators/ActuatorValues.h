@@ -5,6 +5,9 @@
 #ifndef LL_ACTUTORVALUES_H
 #define LL_ACTUTORVALUES_H
 
+// TODO : Envoi des déplacements de bras par le HL
+//        Utilité que ce soit là plutôt qu'avec le reste de la config ?
+
 /*
  * AX12-IDs
  */

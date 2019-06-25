@@ -7,24 +7,25 @@
 
 #include "Utils/Singleton.hpp"
 #include "Utils/average.hpp"
+#include "Utils/utils.h"
 #include "Config/defines.h"
 #include "Config/pin_mapping.h"
-#include "Utils/utils.h"
+#include "COM/ComMgr.h"
+#include "COM/InterruptStackPrint.h"
+
 #include "ControlSettings.h"
 #include "RobotStatus.h"
 #include "Motor.h"
 #include "pid.hpp"
 #include "SelfContainedPID.hpp"
 #include "PointToPointTrajectory.h"
-#include <cmath>
-//#include "HardwareEncoder.h"
-
 #define ENCODER_OPTIMIZE_INTERRUPTS
 #include "Encoder.h"
-#include "../COM/InterruptStackPrint.h"
+
+#include <cmath>
 
 // TODO : Tout docu
-// TODO : P'tet passer les config dans un fichier dans Config/ ?
+// TODO : P'tet passer les config dans un fichier dans Config ?
 class MCS : public Singleton<MCS>
 {
 
@@ -63,8 +64,13 @@ private:
 
     Average<float, 100> averageLeftSpeed;
     Average<float, 100> averageRightSpeed;
+#if defined(MAIN)
     Average<float, 25> averageRotationDerivativeError;
     Average<float, 25> averageTranslationDerivativeError;
+#elif defined(SLAVE)
+    Average<float, 10> averageRotationDerivativeError;
+    Average<float, 10> averageTranslationDerivativeError;
+#endif
 
     bool sequentialMovement;
     PointToPointTrajectory trajectory;

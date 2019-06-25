@@ -31,7 +31,7 @@ EthernetInterface::EthernetInterface()
     Serial.print("Ethernet Ready\nLocal ip: ");
     Serial.println(Ethernet.localIP());
 
-    attachInterrupt(INT, testInterrupt, CHANGE);
+//    attachInterrupt(INT, testInterrupt, CHANGE);
 }
 
 void EthernetInterface::resetCard() {

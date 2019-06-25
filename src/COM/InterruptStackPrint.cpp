@@ -36,7 +36,7 @@ void InterruptStackPrint::print()
 inline void InterruptStackPrint::doPrint() {
     while(readPointer != writePointer) {
         ComMgr::Instance().printfln(headerStack[readPointer], "%s", stack[readPointer].c_str());
-        ComMgr::Instance().printfln(DEBUG_HEADER, "StackPrint n°%i/%i", readPointer, writePointer);
+//        ComMgr::Instance().printfln(DEBUG_HEADER, "StackPrint n°%i/%i", readPointer, writePointer);
 
         readPointer++;
         readPointer %= INTERRUPT_PRINT_STACK_MAX_SIZE;
