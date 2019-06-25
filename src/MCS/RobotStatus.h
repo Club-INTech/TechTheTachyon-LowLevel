@@ -14,8 +14,8 @@ struct RobotStatus
     bool controlled;
     bool controlledTranslation;
     bool controlledRotation;
-    bool controlledP2P;
-    bool Lbooly;
+    bool inRotationInGoto;
+    bool inGoto;
     bool forcedMovement;
     bool moving;
     bool stuck;

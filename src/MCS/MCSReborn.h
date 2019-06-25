@@ -25,7 +25,7 @@
 #include <cmath>
 
 // TODO : Tout docu
-// TODO : P'tet passer les config dans un fichier dans Config ?
+// TODO : P'tet passer les config dans un fichier dans src/Config ?
 class MCS : public Singleton<MCS>
 {
 
