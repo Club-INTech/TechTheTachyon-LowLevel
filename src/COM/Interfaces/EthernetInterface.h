@@ -17,12 +17,12 @@ MOSI	11/11
 #include "Utils/Singleton.hpp"
 #include "Utils/stdarg.h"
 #include <WString.h>
-#include "Utils/defines.h"
+#include "Config/defines.h"
 #include <SPI.h>
 #include <Ethernet.h>
 #include <utility/w5100.h>
 #include "MCS/MCSReborn.h"
-#include "Utils/pin_mapping.h"
+#include "Config/pin_mapping.h"
 #include "AbstractComInterface.h"
 
 #define PORT 13500

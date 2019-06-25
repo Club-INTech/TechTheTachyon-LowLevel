@@ -7,7 +7,7 @@
 
 #include "COM/Order/OrderManager.h"
 #include "Utils/Monitoring.h"
-#include "Utils/pin_mapping.h"
+#include "Config/pin_mapping.h"
 #include "COM/InterruptStackPrint.h"
 
 //#include "MCS/HardwareEncoder_ISRDEF.h"

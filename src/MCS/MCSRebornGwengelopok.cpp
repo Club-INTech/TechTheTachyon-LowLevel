@@ -3,7 +3,7 @@
 //
 
 #include "MCSReborn.h"
-#include "../Utils/pin_mapping.h"
+#include "Config/pin_mapping.h"
 
 
 MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {

@@ -20,7 +20,7 @@
 #include "Sensors/SensorMgr.h"
 #include "COM/ComMgr.h"
 #include "Actuators/ActuatorsMgr.h"
-#include "Utils/defines.h"
+#include "Config/defines.h"
 #include "Utils/utils.h"
 #include "COM/Hooks/Hook.h"
 #include "OrderData.h"

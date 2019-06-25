@@ -6,7 +6,7 @@
 #define LL_SDLOG_H
 
 #include "SD.h"
-#include "Utils/defines.h"
+#include "Config/defines.h"
 
 class SDLog {
 

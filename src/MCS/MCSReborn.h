@@ -7,8 +7,8 @@
 
 #include "Utils/Singleton.hpp"
 #include "Utils/average.hpp"
-#include "Utils/defines.h"
-#include "Utils/pin_mapping.h"
+#include "Config/defines.h"
+#include "Config/pin_mapping.h"
 #include "Utils/utils.h"
 #include "ControlSettings.h"
 #include "RobotStatus.h"
@@ -24,7 +24,7 @@
 #include "../COM/InterruptStackPrint.h"
 
 // TODO : Tout docu
-
+// TODO : P'tet passer les config dans un fichier dans Config/ ?
 class MCS : public Singleton<MCS>
 {
 

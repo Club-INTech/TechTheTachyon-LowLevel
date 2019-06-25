@@ -19,7 +19,7 @@
 
 #include "Utils/safe_enum.hpp"
 #include <stdint.h>
-#include "Utils/pin_mapping.h"
+#include "Config/pin_mapping.h"
 #include "Utils/utils.h"
 #include <Arduino.h>
 

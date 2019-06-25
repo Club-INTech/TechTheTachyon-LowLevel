@@ -11,7 +11,7 @@
 
 #include "Utils/Median.h"
 #include "Utils/Singleton.hpp"
-#include "Utils/pin_mapping.h"
+#include "Config/pin_mapping.h"
 #include "MCS/MCSReborn.h"
 #include "COM/ComMgr.h"
 #include "AbstractSensorUS.h"

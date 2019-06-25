@@ -18,9 +18,15 @@ constexpr uint8_t RX_WORD_COUNT = 10; // Nombre de mots max par ordre
 
 constexpr uint8_t INTERRUPT_PRINT_STACK_MAX_SIZE = 200;
 
+#if defined(MAIN)
 constexpr uint8_t NBR_OF_US_SENSOR = 0;
 constexpr uint8_t NBR_OF_DISTANCE_SENSOR = 6;
 constexpr uint8_t NBR_SICK_MEASUREMENTS = 100;
+#elif defined(SLAVE)
+constexpr uint8_t NBR_OF_US_SENSOR = 0;
+constexpr uint8_t NBR_OF_DISTANCE_SENSOR = 3;
+constexpr uint8_t NBR_SICK_MEASUREMENTS = 100;
+#endif
 
 // Divers headers de communication pour l'éthernet
 constexpr uint8_t HEADER_LENGTH = 2;
@@ -59,13 +65,23 @@ constexpr double    STEPPER_PERIOD = 1000000.0 / STEPPER_FREQUENCY; // Durée en
 constexpr uint16_t  POSITION_UPDATE_FREQUENCY = 20; // 20 Hz
 constexpr double    POSITION_UPDATE_PERIOD = 1000000.0 / POSITION_UPDATE_FREQUENCY; // Durée en µs entre deux mesures
 
+#if defined(MAIN)
 constexpr uint16_t  TICKS_PER_TURN =            4096;   // Unité : ticks
 constexpr float     COD_WHEEL_DIAMETER =        64.32*99.00/100.0;  // Unité : mm 63.57
 
 //distance roue codeuse pneu = 14.36mm
 
-constexpr uint8_t   DISTANCE_COD_GAUCHE_CENTRE = 115; // Unité : mm 115
+constexpr uint8_t   DISTANCE_COD_GAUCHE_CENTRE = 115; // Unité : mm
 constexpr uint8_t   DISTANCE_COD_DROITE_CENTRE = 115; // Unité : mm
+#elif defined(SLAVE)
+constexpr uint16_t  TICKS_PER_TURN =            4096;   // Unité : ticks
+constexpr float     COD_WHEEL_DIAMETER =        64.35;  // Unité : mm 63.57
+
+//distance roue codeuse pneu = 14.36mm
+
+constexpr uint8_t   DISTANCE_COD_GAUCHE_CENTRE = 118; // Unité : mm
+constexpr uint8_t   DISTANCE_COD_DROITE_CENTRE = 118; // Unité : mm
+#endif
 
 constexpr float     TICK_TO_MM = static_cast<float>(PI*COD_WHEEL_DIAMETER/TICKS_PER_TURN); // Unité : mm/ticks
 constexpr float     TICK_TO_RADIAN = TICK_TO_MM / DISTANCE_COD_GAUCHE_CENTRE; // Unité : rad/ticks

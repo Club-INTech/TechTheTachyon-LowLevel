@@ -7,7 +7,7 @@
 
 #include <stdint.h>
 #include <Utils/average.hpp>
-#include "Utils/defines.h"
+#include "Config/defines.h"
 
 class SICKDT35_B15851 {
 

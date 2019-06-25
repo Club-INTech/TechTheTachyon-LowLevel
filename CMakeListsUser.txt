@@ -1,8 +1,16 @@
+set(CMAKE_CONFIGURATION_TYPES "Main;Slave" CACHE STRING "" FORCE)
+
+if (CMAKE_BUILD_TYPE MATCHES Main)
+	add_definitions(-DMAIN)
+elseif (CMAKE_BUILD_TYPE MATCHES Slave)
+	add_definitions(-DSLAVE)
+endif()
+
 include(CMakeListsPrivate.txt)
 
 add_custom_target(
-    PLATFORMIO_BUILD_MASTER ALL
-    COMMAND ${PLATFORMIO_CMD} -f -c clion run -e master
+    PLATFORMIO_BUILD_MAIN ALL
+    COMMAND ${PLATFORMIO_CMD} -f -c clion run -e main
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
@@ -14,8 +22,8 @@ add_custom_target(
 
 
 add_custom_target(
-    PLATFORMIO_UPLOAD_MASTER ALL
-    COMMAND ${PLATFORMIO_CMD} -f -c clion run --target upload -e master
+    PLATFORMIO_UPLOAD_MAIN ALL
+    COMMAND ${PLATFORMIO_CMD} -f -c clion run --target upload -e main
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
