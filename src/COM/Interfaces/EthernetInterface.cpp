@@ -21,8 +21,8 @@ void testInterrupt() {
 
 EthernetInterface::EthernetInterface()
 {
-    W5100Class::SSIZE = bufferSize*1024;
-    W5100Class::SMASK = W5100Class::SSIZE-1;
+//    W5100Class::SSIZE = bufferSize*1024;
+//    W5100Class::SMASK = W5100Class::SSIZE-1;
 	resetCard();
     interfaceInstance = this;
 
@@ -67,8 +67,8 @@ void EthernetInterface::resetCard() {
     uint8_t mr = W5100.readSnMR(0);
     W5100.writeSnMR(0, static_cast<uint8_t>(mr | (1 << 5)));
 
-    W5100Class::SSIZE = 16*1024;
-    W5100Class::SMASK = W5100Class::SSIZE-1;
+//    W5100Class::SSIZE = 16*1024;
+//    W5100Class::SMASK = W5100Class::SSIZE-1;
     for(int i = 0;i<MAX_SOCK_NUM;i++) {
         W5100.writeSnRX_SIZE(i, 0);
         W5100.writeSnTX_SIZE(i, 0);

@@ -1,7 +1,7 @@
 .vscode
 .idea
 __vm
-.pioenvs
+.pio
 lib
 .travis.yml
 CMakeLists.txt
@@ -30,9 +30,6 @@ CMakeLists.txt
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
-
-# CMake
-cmake-build-debug/
 
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml

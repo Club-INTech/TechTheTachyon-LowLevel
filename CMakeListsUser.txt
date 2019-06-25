@@ -1,0 +1,26 @@
+include(CMakeListsPrivate.txt)
+
+add_custom_target(
+    PLATFORMIO_BUILD_MASTER ALL
+    COMMAND ${PLATFORMIO_CMD} -f -c clion run -e master
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+add_custom_target(
+    PLATFORMIO_BUILD_SLAVE ALL
+    COMMAND ${PLATFORMIO_CMD} -f -c clion run -e slave
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+
+add_custom_target(
+    PLATFORMIO_UPLOAD_MASTER ALL
+    COMMAND ${PLATFORMIO_CMD} -f -c clion run --target upload -e master
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+add_custom_target(
+    PLATFORMIO_UPLOAD_SLAVE ALL
+    COMMAND ${PLATFORMIO_CMD} -f -c clion run --target upload -e slave
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
