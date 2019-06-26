@@ -210,6 +210,7 @@ ORDER(oust,0);
 ORDER(range,0);
 
 #endif
+
 /* Ascenseurs */
 ORDER(up,1);
 ORDER(down,1);
@@ -236,6 +237,7 @@ ORDER(waitJumper, 0);
 ORDER(endMatch, 0);
 
 // Permet de bouger un bras sans se soucier du type
+#if defined(MAIN)
 #define MOVE_ARM(side, actions)             \
 if(!strcmp(args[0], "right")) {             \
     Arm<XL430>* arm = manager.rightArm;      \
@@ -244,6 +246,13 @@ if(!strcmp(args[0], "right")) {             \
     Arm<XL430>* arm = manager.leftArm;      \
     actions;                                \
 }
+#elif defined(SLAVE)
+#define MOVE_ARM(side, actions)             \
+if(!strcmp(args[0], "right")) {             \
+    Arm<XL430>* arm = manager.rightArm;      \
+    actions;                                \
+}
+#endif
 
 
 #endif //TECHTHETOWN_LOWLEVEL_ORDERS_H

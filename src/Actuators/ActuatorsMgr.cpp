@@ -99,10 +99,6 @@ void ActuatorsMgr::moveLeftStepper(int32_t count, int32_t nextCount) {
     leftStepCount = ABS(count)*STEP_COUNT;
 
     nextLeftStepCount = nextCount;
-   // analogWrite(STEP_PIN_LEFT, 128);
-/*    leftStepCount += count*STEP_COUNT;
-    leftStepper.setTargetAbs(leftStepCount);
-    stepControl.moveAsync(leftStepper);*/
 }
 #endif
 
@@ -165,6 +161,8 @@ void ActuatorsMgr::checkArmMovements() {
 }
 
 void ActuatorsMgr::rebootArms() {
+#if defined(MAIN)
     leftArm->rebootXLsIfNecessary();
+#endif
     rightArm->rebootXLsIfNecessary();
 }
