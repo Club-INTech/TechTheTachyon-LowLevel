@@ -535,7 +535,7 @@ void ORDER_dh::impl(Args args) {
     if (orderManager.hookList.hookWithId(hookId)) {
         orderManager.hookList.disableHook((uint8_t) hookId); //Singe proof ?
     } else {
-        orderManager.highLevel.printfln(DEBUG_HEADER, "ERREUR::Activation d'un hook inexistant");
+        orderManager.highLevel.printfln(DEBUG_HEADER, "ERREUR::Désactivation d'un hook inexistant");
     }
 }
 
@@ -574,7 +574,9 @@ void ORDER_suck::impl(Args args)
         digitalWrite(RIGHT_PUMP_PIN, HIGH);
     }
     else {
+#if defined(MAIN)
         digitalWrite(LEFT_PUMP_PIN, HIGH);
+#endif
     }
 }
 
@@ -584,67 +586,34 @@ void ORDER_unsuck::impl(Args args)
         digitalWrite(RIGHT_PUMP_PIN, LOW);
     }
     else{
+#if defined(MAIN)
         digitalWrite(LEFT_PUMP_PIN, LOW);
+#endif
     }
 }
 
 void ORDER_up::impl(Args args)
 {
-    //int nbPas = 700;
     if (!strcmp(args[0], "right")) {
-        /*digitalWrite(DIR_PIN_RIGHT, HIGH);
-
-        for (int i = 0; i < nbPas; ++i) {
-            digitalWrite(STEP_PIN_RIGHT, HIGH);
-            delayMicroseconds(ELEVATOR_TEMPO);
-            digitalWrite(STEP_PIN_RIGHT, LOW);
-            delayMicroseconds(ELEVATOR_TEMPO);
-        }*/
         ActuatorsMgr::Instance().moveRightStepper(1);
-       // orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
     }
     else{
-        /*digitalWrite(DIR_PIN_LEFT, HIGH);
-
-        for (int i = 0; i < nbPas; ++i) {
-            digitalWrite(STEP_PIN_LEFT, HIGH);
-            delayMicroseconds(ELEVATOR_TEMPO);
-            digitalWrite(STEP_PIN_LEFT, LOW);
-            delayMicroseconds(ELEVATOR_TEMPO);
-        }*/
-      //  orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper gauche de 1 unité!\n");
+#if defined(MAIN)
         ActuatorsMgr::Instance().moveLeftStepper(1);
+#endif
     }
 
 }
 
 void ORDER_down::impl(Args args)
 {
-    //int nbPas = 700;
     if (!strcmp(args[0], "right")) {
-       /* digitalWrite(DIR_PIN_RIGHT, LOW);
-
-        for (int i = 0; i < nbPas; ++i) {
-            digitalWrite(STEP_PIN_RIGHT, HIGH);
-            delayMicroseconds(ELEVATOR_TEMPO);
-            digitalWrite(STEP_PIN_RIGHT, LOW);
-            delayMicroseconds(ELEVATOR_TEMPO);
-        }*/
-
         ActuatorsMgr::Instance().moveRightStepper(-1);
-       // orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
     }
     else{
-      /*  digitalWrite(DIR_PIN_LEFT, LOW);
-
-        for (int i = 0; i < nbPas; ++i) {
-            digitalWrite(STEP_PIN_LEFT, HIGH);
-            delayMicroseconds(ELEVATOR_TEMPO);
-            digitalWrite(STEP_PIN_LEFT, LOW);
-            delayMicroseconds(ELEVATOR_TEMPO);
-        }*/
+#if defined(MAIN)
         ActuatorsMgr::Instance().moveLeftStepper(-1);
-       // orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper gauche de 1 unité!\n");
+#endif
     }
 }
 
@@ -657,8 +626,10 @@ void ORDER_updown::impl(Args args)
     }
     else
     {
+#if defined(MAIN)
         ActuatorsMgr::Instance().moveLeftStepper(1,-1);
         orderManager.highLevel.printf(DEBUG_HEADER, "Monte ouis descend le stepper gauche d'une unité\n");
+#endif
     }
 }
 
@@ -670,17 +641,50 @@ void ORDER_downup::impl(Args args)
         orderManager.highLevel.printf(DEBUG_HEADER, "Descend puis monte le stepper droit d'une unité\n");
     } else
     {
+#if defined(MAIN)
         ActuatorsMgr::Instance().moveLeftStepper(-1,1);
         orderManager.highLevel.printf(DEBUG_HEADER, "Descend puis monte le stepper gauche d'une unité\n");
+#endif
     }
 }
+
+// Mouvements de dégageage de palet
+#if defined(SLAVE)
+
+void ORDER_downOust::impl(Args args)
+{
+    ActuatorsMgr::Instance().moveRightStepperOust(-1);
+//    orderManager.highLevel.printf(DEBUG_HEADER, "Descend le stepper droit de 1 unité!\n");
+
+}
+
+void ORDER_upOust::impl(Args args)
+{
+    //int nbPas = 700;
+
+    ActuatorsMgr::Instance().moveRightStepperOust(1);
+//    orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
+
+}
+
+void ORDER_upUpOust::impl(Args args)
+{
+    //int nbPas = 700;
+
+    ActuatorsMgr::Instance().moveRightStepperOust2(1);
+//    orderManager.highLevel.printf(DEBUG_HEADER, "Monte le stepper droit de 1 unité!\n");
+
+}
+
+#endif
+
+
+#if defined(MAIN)
 
 void ORDER_dist2stock::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
-             //arm->setPosition(positionPrePreDistributeur);
-             //arm->setPosition(positionIntermediaire);
              arm->setPosition(positionIntermediaireDist2Stock);
              arm->setPosition(positionStockageDepot);
          )
@@ -752,7 +756,6 @@ void ORDER_stockDepot::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
-             //arm->setPosition(positionIntermediaire);
              arm->setPosition(positionStockageDepot);
     )
 }
@@ -761,7 +764,6 @@ void ORDER_stock::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     MOVE_ARM(args[0],
-            // arm->setPosition(positionIntermediaire);
                      arm->setPosition(positionStockagePrise);
     )
 }
@@ -904,6 +906,283 @@ void ORDER_freeElevator::impl(Args args)
     )
 }
 
+#elif defined(SLAVE)
+
+void ORDER_oust::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    XL430* mot = manager.motor4;
+    mot->setGoalAngle(270);
+}
+
+void ORDER_range::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    XL430* mot = manager.motor4;
+    mot->setGoalAngle(180);
+}
+
+void ORDER_dist::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionDistributeur);
+
+}void ORDER_distSecondaire::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPositionNoRetry(positionIntermediaireSecondaire);
+    arm->setPositionNoRetry(positionIntermediaireSecondaire2);
+    arm->setPosition(positionDistributeurSecondairePreRecule);
+    arm->setPosition(positionDistributeurSecondaire);
+}
+
+void ORDER_dist2stock::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPositionNoRetry(positionIntermediaireSecondaire2);
+    arm->setPositionNoRetry(positionIntermediaireSecondaire);
+    arm->setPositionNoRetry(positionStockageSecondaire);
+}
+
+void ORDER_grnd::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionIntermediaire);
+    arm->setPosition(positionSolIntermediaire);
+    arm->setPosition(positionSol);
+}
+
+void ORDER_stock::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionIntermediaire);
+    arm->setPosition(positionStockage);
+}
+
+void ORDER_stockSecondaire::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionIntermediaireSecondaire2);
+    arm->setPosition(positionIntermediaireSecondaire);
+    arm->setPosition(positionStockageSecondaire);
+}
+
+void ORDER_stockSecondaireForRed::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPositionNoRetry(positionStockageSecondaire);
+}
+
+void ORDER_acc::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionAccelerateur);
+}
+
+void ORDER_accSecondaire::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    //arm->setPosition(positionIntermediaireSecondaire);
+    arm->setPosition(positionAccelerateurSecondaire);
+}
+
+void ORDER_accSecondaire2::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionAccelerateurSecondaire);
+    //arm->setPosition(positionAccelerateurSecondaire2);
+}
+
+void ORDER_letRedBeGood::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionLetRedBeGood);
+}
+
+void ORDER_getBlueAcc::impl(Args args) {
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    if (strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430> *arm = manager.rightArm;
+    arm->setPosition(positionAccelerateurBleu);
+}
+
+void ORDER_putPuckAcc::impl(Args args) {
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    if (strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430> *arm = manager.rightArm;
+    arm->setPosition(positionPreBalance);
+    arm->setPosition(positionPreAccelerateurDepotPalet);
+    arm->setPosition(positionAccelerateurDepotPalet);
+}
+
+void ORDER_putPuckAccFinalize::impl(Args args) {
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    if (strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430> *arm = manager.rightArm;
+    arm->setPosition(positionPostAccelerateurDepotPalet);
+}
+
+void ORDER_oustBras::impl(Args args) {
+    ActuatorsMgr &manager = ActuatorsMgr::Instance();
+    if (strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430> *arm = manager.rightArm;
+    arm->setPosition(positionLetOust);
+}
+
+void ORDER_bal::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionBalance);
+}
+
+void ORDER_stock2bal::impl(Args args){
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+
+    arm->setPosition(positionPreBalance);
+    arm->setPosition(positionPreBalance2);
+    arm->setPosition(positionBalance);
+}
+
+
+void ORDER_gold::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPositionNoRetry(positionPreGoldonium);
+    arm->setPositionNoRetry(positionGoldonium);
+    arm->setPositionNoRetry(positionPostGoldonium);
+    arm->setPositionNoRetry(positionPostPostGoldonium);
+
+}
+
+void ORDER_goldBlue::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPositionNoRetry(positionPreGoldonium);
+    arm->setPositionNoRetry(positionGoldonium);
+    arm->setPositionNoRetry(positionPostGoldonium);
+
+}
+
+
+void ORDER_musclorRed::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPositionNoRetry(positionMusclor);
+    arm->setPositionNoRetry(positionMusclor2);
+}
+
+void ORDER_musclor::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPositionNoRetry(positionMusclor);
+    arm->setPositionNoRetry(positionMusclor2);
+    arm->setPositionNoRetry(positionFinMusclor);
+}
+
+void ORDER_goldDepot::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    // TODO
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPositionNoRetry(positionPreGoldonium);
+
+}
+
+void ORDER_brasToutDroit::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionDroit);
+}
+
+void ORDER_brasRecule::impl(Args args)
+{
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    if(strcmp(args[0], "right") != 0) {
+        ComMgr::Instance().printfln(DEBUG_HEADER, "'y a pas de bras gauche!");
+    }
+    Arm<XL430>* arm = manager.rightArm;
+    arm->setPosition(positionRecule);
+}
+
+#endif
+
 void ORDER_XLm::impl(Args args)
 {
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
@@ -934,7 +1213,9 @@ void ORDER_valveon::impl(Args args)
         digitalWrite(RIGHT_VALVE_PIN, HIGH);
     }
     else {
+#if defined(MAIN)
         digitalWrite(LEFT_VALVE_PIN, HIGH);
+#endif
     }
 }
 
@@ -945,12 +1226,10 @@ void ORDER_valveoff::impl(Args args)
         digitalWrite(RIGHT_VALVE_PIN, LOW);
     }
     else {
+#if defined(MAIN)
         digitalWrite(LEFT_VALVE_PIN, LOW);
+#endif
     }
-}
-
-void ORDER_elec::impl(Args args) {
-    // TODO
 }
 
 void ORDER_rangeSICK::impl(Args args) {
@@ -976,15 +1255,23 @@ void ORDER_testSICK::impl(Args args) {
     }
 }
 
+// TODO : Tester si avec un for et des printfln("", "%d "); ça marcherait
 void ORDER_lectureSICK::impl(Args args) {
     SensorMgr mgr = SensorMgr::Instance();
-    orderManager.highLevel.printfln(SICK_HEADER, "%d %d %d %d %d %d",
-            mgr.getDistanceSensor(0).readDistance(),
-            mgr.getDistanceSensor(1).readDistance(),
-            mgr.getDistanceSensor(2).readDistance(),
-            mgr.getDistanceSensor(3).readDistance(),
-            mgr.getDistanceSensor(4).readDistance(),
-            mgr.getDistanceSensor(5).readDistance());
+    if(NBR_OF_DISTANCE_SENSOR == 3) {
+        orderManager.highLevel.printfln(SICK_HEADER, "%d %d %d",
+                                        mgr.getDistanceSensor(0).readDistance(),
+                                        mgr.getDistanceSensor(1).readDistance(),
+                                        mgr.getDistanceSensor(2).readDistance());
+    } else {
+        orderManager.highLevel.printfln(SICK_HEADER, "%d %d %d %d %d %d",
+                                        mgr.getDistanceSensor(0).readDistance(),
+                                        mgr.getDistanceSensor(1).readDistance(),
+                                        mgr.getDistanceSensor(2).readDistance(),
+                                        mgr.getDistanceSensor(3).readDistance(),
+                                        mgr.getDistanceSensor(4).readDistance(),
+                                        mgr.getDistanceSensor(5).readDistance());
+    }
 }
 
 void ORDER_disableTorque::impl(Args args) {
@@ -1074,12 +1361,13 @@ void ORDER_torqueXL :: impl(Args args){
 }
 
 void ORDER_waitJumper::impl(Args args) {
-    // ============================
-    // Commenter pour les tests
-    // ============================
     Serial.println("Waiting for jumper...");
 
+#if defined(MAIN)
     digitalWrite(LED1, HIGH);
+#elif defined(SLAVE)
+    digitalWrite(LED1_1, LOW);
+#endif
 
     // attente de front
     while(digitalRead(PIN_JMPR) == HIGH) {
@@ -1089,20 +1377,26 @@ void ORDER_waitJumper::impl(Args args) {
         InterruptStackPrint::Instance().print();
     }
     ComMgr::Instance().printfln(EVENT_HEADER, "gogogofast");
+#if defined(MAIN)
     digitalWrite(LED1, LOW);
-
-    // ============================
-    // Fin de Commenter pour les tests
-    // ============================
+#elif defined(SLAVE)
+    digitalWrite(LED1_1, HIGH);
+    digitalWrite(LED1_2, LOW);
+#endif
 }
 
 void ORDER_endMatch::impl(Args args) {
+#if defined(MAIN)
     digitalWrite(LEFT_PUMP_PIN, LOW);
-    digitalWrite(RIGHT_PUMP_PIN, LOW);
     digitalWrite(LEFT_VALVE_PIN, HIGH);
+#endif
+    digitalWrite(RIGHT_PUMP_PIN, LOW);
     digitalWrite(RIGHT_VALVE_PIN, HIGH);
     orderManager.execute("stop");
     orderManager.execute("sstop");
+
+#if defined(MAIN)
+
     while(true) {
         digitalWrite(LED1, LOW);
         digitalWrite(LED2, LOW);
@@ -1115,4 +1409,26 @@ void ORDER_endMatch::impl(Args args) {
         digitalWrite(LED4, HIGH);
         delay(100);
     }
+
+#elif defined(SLAVE)
+
+    digitalWrite(LED1_3, HIGH);
+    digitalWrite(LED2_1, HIGH);
+    digitalWrite(LED2_2, HIGH);
+    digitalWrite(LED3_1, HIGH);
+    digitalWrite(LED3_2, HIGH);
+    while(true) {
+        digitalWrite(LED1_1, LOW);
+        digitalWrite(LED1_2, LOW);
+        digitalWrite(LED2_3, LOW);
+        digitalWrite(LED3_3, LOW);
+        delay(100);
+        digitalWrite(LED1_1, HIGH);
+        digitalWrite(LED1_2, HIGH);
+        digitalWrite(LED2_3, HIGH);
+        digitalWrite(LED3_3, HIGH);
+        delay(100);
+    }
+
+#endif
 }

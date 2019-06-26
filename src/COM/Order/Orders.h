@@ -143,6 +143,11 @@ ORDER(ptpdemoseq,0);
 /* Bras */
 ORDER(XLm,2);
 ORDER(XLs,2);
+ORDER(posBras,1);
+
+// This is horrible and should probably burn
+#if defined(MAIN)
+
 ORDER(dist,1);
 ORDER(dist2stock,1);
 ORDER(dist6,1);
@@ -169,23 +174,58 @@ ORDER(brasRecule,1);
 ORDER(freeElevator,1);
 ORDER(deposePaletZoneDep,1);
 ORDER(deposePaletZoneDep2Stock,1);
-ORDER(posBras,1);
 ORDER(forceArmsReboot,0);
 
+#elif defined(SLAVE)
+
+ORDER(dist,1);
+ORDER(distSecondaire, 1);
+ORDER(grnd,1);
+ORDER(musclor, 0);
+ORDER(musclorRed, 0);
+ORDER(stock,1);
+ORDER(stockSecondaire,1);
+ORDER(stockSecondaireForRed,1);
+ORDER(dist2stock,1);
+ORDER(acc,1);
+ORDER(accSecondaire, 1);
+ORDER(accSecondaire2,1); //pour le recule2acc
+ORDER(letRedBeGood,1);
+ORDER(gold,0);
+ORDER(goldBlue,0);
+ORDER(goldDepot, 0)
+ORDER(bal,1);
+ORDER(stock2bal,1);
+ORDER(torqueBras,1);
+ORDER(torqueXL,1);
+ORDER(brasToutDroit,1);
+ORDER(brasRecule,1);
+ORDER(getBlueAcc, 1);       //prendre le palet bleu de l'acc avec le secondaire
+ORDER(putPuckAcc, 1);       //mettre un palet dans l'acc avec le secondaire
+ORDER(putPuckAccFinalize, 1);
+ORDER(oustBras, 1);
+
+/* Pousse palet en dehors des ascenceurs */
+ORDER(oust,0);
+ORDER(range,0);
+
+#endif
 /* Ascenseurs */
 ORDER(up,1);
 ORDER(down,1);
 ORDER(updown,1);
 ORDER(downup,1);
+#if defined(SLAVE)
+ORDER(upOust,0);
+ORDER(upUpOust,0);
+ORDER(downOust,0);
+#endif
 
 /*Pompes et électrovannes*/
 ORDER(suck,1);
 ORDER(unsuck,1);
 ORDER(valveon,1);
 ORDER(valveoff,1);
-
-/*Electron*/
-ORDER(elec,0);
 
 /* SICK */
 ORDER(testSICK, 1);
