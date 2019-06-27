@@ -8,7 +8,7 @@
 // TODO : Envoi des déplacements de bras par le HL
 //        Utilité que ce soit là plutôt qu'avec le reste de la config ?
 
-static Stream& DebugSerial = Serial2;//SerialUSB;
+static Stream& DebugSerial = Serial;//SerialUSB;
 
 // Définition des différentes positions
 const static float positionDroit[3] = {180.0f,180.0f,180.0f};

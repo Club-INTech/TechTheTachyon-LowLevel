@@ -7,6 +7,25 @@
 
 ActuatorsMgr::ActuatorsMgr() : dynamixelManager(new DynamixelManager(&XLSerial, &DebugSerial))
 {
+    motor1 = (XL430*) dynamixelManager->createMotor(1, XL430GeneratorFunction);//new XL430(1,*manager);
+    motor2 = (XL430*) dynamixelManager->createMotor(2, XL430GeneratorFunction);//new XL430(2,*manager);
+    motor3 = (XL430*) dynamixelManager->createMotor(3, XL430GeneratorFunction);//new XL430(3,*manager);
+
+    rightArm = new Arm<XL430>("right", *dynamixelManager, new XL430[3]{*motor1, *motor2, *motor3});
+
+#if defined(MAIN)
+
+    motor4 = (XL430*) dynamixelManager->createMotor(4, XL430GeneratorFunction);//new XL430(1,*manager);
+    motor5 = (XL430*) dynamixelManager->createMotor(5, XL430GeneratorFunction);//new XL430(2,*manager);
+    motor6 = (XL430*) dynamixelManager->createMotor(6, XL430GeneratorFunction);//new XL430(3,*manager);
+
+    leftArm = new Arm<XL430>("left", *dynamixelManager, new XL430[3]{*motor4,*motor5,*motor6});
+
+#elif defined(SLAVE)
+
+    motor4 = (XL430*) dynamixelManager->createMotor(4, XL430GeneratorFunction);//new XL430(7,*manager);
+
+#endif
 }
 
 ActuatorsMgr::~ActuatorsMgr()

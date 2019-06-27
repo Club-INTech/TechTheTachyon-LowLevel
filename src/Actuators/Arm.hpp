@@ -25,16 +25,16 @@ private:
     MotorType& wrist;
     const char* sideName;
     char* syncAngles = new char[MotorType::goalAngle.length*3];
-    MotorType* XLlist;
-    SyncWrite* syncVelocityLimit = new SyncWrite(manager, 3, MotorType::velocityLimit);
-    SyncWrite* syncAngleWriteData = new SyncWrite(manager, 3, MotorType::goalAngle);
-    SyncWrite* syncToggleTorqueWriteData = new SyncWrite(manager, 3, MotorType::torqueEnable);
-    SyncWrite* syncReturnDelay = new SyncWrite(manager, 3, MotorType::returnDelay);
-    SyncRead* syncMovingRead = new SyncRead(manager, 3, MotorType::moving);
-    SyncRead* syncMovingStatus = new SyncRead(manager, 3, MotorType::movingStatus);
-    SyncRead* syncHardwareError = new SyncRead(manager, 3, MotorType::hardwareError);
-    SyncWrite* syncWatchdog = new SyncWrite(manager, 3, MotorType::watchdog);
-    SyncWrite* syncHomePos = new SyncWrite(manager, 3, MotorType::movingOffset);
+    MotorType* motorList;
+    SyncWrite* syncVelocityLimit;
+    SyncWrite* syncAngleWriteData;
+    SyncWrite* syncToggleTorqueWriteData;
+    SyncWrite* syncReturnDelay;
+    SyncRead* syncMovingRead;
+    SyncRead* syncMovingStatus;
+    SyncRead* syncHardwareError;
+    SyncWrite* syncWatchdog;
+    SyncWrite* syncHomePos;
     ArmStatus status = OK;
 
     float targetPositions[3] = {0.0f};
@@ -73,11 +73,20 @@ private:
     bool reactivated[6] = {true, true, true, true, true, true};
 
 public:
-    Arm(const char* sideName, DynamixelManager& manager, MotorType* list): sideName(sideName), manager(manager), XLlist(list), base(list[0]), elbow(list[1]), wrist(list[2]), status(ArmStatus::OK) {
-
+    Arm(const char* sideName, DynamixelManager& manager, MotorType* list): sideName(sideName), manager(manager), motorList(list), base(list[0]), elbow(list[1]), wrist(list[2]), status(ArmStatus::OK) {
     }
 
     void initTorque() {
+        syncVelocityLimit = new SyncWrite(manager, 3, MotorType::velocityLimit);
+        syncAngleWriteData = new SyncWrite(manager, 3, MotorType::goalAngle);
+        syncToggleTorqueWriteData = new SyncWrite(manager, 3, MotorType::torqueEnable);
+        syncReturnDelay = new SyncWrite(manager, 3, MotorType::returnDelay);
+        syncMovingRead = new SyncRead(manager, 3, MotorType::moving);
+        syncMovingStatus = new SyncRead(manager, 3, MotorType::movingStatus);
+        syncHardwareError = new SyncRead(manager, 3, MotorType::hardwareError);
+        syncWatchdog = new SyncWrite(manager, 3, MotorType::watchdog);
+        syncHomePos = new SyncWrite(manager, 3, MotorType::movingOffset);
+
         setupSync(syncMovingRead);
         setupSync(syncMovingStatus);
         setupSync(syncHardwareError);
@@ -111,7 +120,11 @@ public:
     baud->send();*/
 
         ComMgr::Instance().printf(DEBUG_HEADER, "Setting velocity limit... ");
+#if defined(MAIN)
         char velocityLimit[] = {0, 0, 0, 0};
+#elif defined(SLAVE)
+        char velocityLimit[] = {196, 0, 0, 0};
+#endif
         syncVelocityLimit->setData(0, velocityLimit);
         syncVelocityLimit->setData(1, velocityLimit);
         syncVelocityLimit->setData(2, velocityLimit);
@@ -151,7 +164,7 @@ public:
         setPosition(positions, resetRetryCounter, true);
     }
 
-    void setPosition(const float* positions, bool resetRetryCounter = true, bool noRetry = false) {
+    void setPosition(const float* positions, bool resetRetryCounter = true, bool noRetry = true) {
         if(status == MOVING) {
             positionsAsked[writeIndex][0] = positions[0];
             positionsAsked[writeIndex][1] = positions[1];
@@ -198,7 +211,7 @@ public:
     }
 
     MotorType* getXLlist() {
-        return XLlist;
+        return motorList;
     }
 
     void fetchAngles(float *angles) {
