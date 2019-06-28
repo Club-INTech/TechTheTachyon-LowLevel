@@ -7,7 +7,7 @@
 
 #include <Arduino.h>
 #include <vector>
-#include "Utils/average.hpp"
+#include "Utils/Average.hpp"
 #include "Utils/stdarg.h"
 #include "COM/SDLog.h"
 

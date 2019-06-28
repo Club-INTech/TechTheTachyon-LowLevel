@@ -18,24 +18,20 @@
 #define COMPLETE_LOW_LEVEL_MOTOR_H
 
 #include "Arduino.h"
-#include "Utils/safe_enum.hpp"
-#include "Utils/utils.h"
-#include "Config/pin_mapping.h"
+#include "Utils/Utils.h"
+#include "Config/PinMapping.h"
+
 #include <stdint.h>
 
-struct direction_def {
-	enum type {
-		BACKWARD, FORWARD, NONE, BRAKE
-	};
-};
-struct side_def {
-	enum type {
-		LEFT, RIGHT
-	};
+enum class Direction
+{
+	BACKWARD, FORWARD, NONE, BRAKE
 };
 
-typedef safe_enum<direction_def> Direction;
-typedef safe_enum<side_def> Side;
+enum class Side
+{
+    LEFT, RIGHT
+};
 
 class Motor {
 private:

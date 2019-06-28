@@ -7,7 +7,7 @@
 
 #include <cstdint>
 #include <Arduino.h>
-#include "Config/defines.h"
+#include "Config/Defines.h"
 #include "Utils/Singleton.hpp"
 #include "ComMgr.h"
 

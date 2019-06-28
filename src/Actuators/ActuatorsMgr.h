@@ -10,10 +10,10 @@
 #include "XL430.h"
 #include "SyncWrite.h"
 
-#include "Config/defines.h"
-#include "Config/pin_mapping.h"
+#include "Config/Defines.h"
+#include "Config/PinMapping.h"
 #include "Utils/Singleton.hpp"
-#include "Utils/utils.h"
+#include "Utils/Utils.h"
 
 #include "ActuatorValues.h"
 #include "Arm.hpp"

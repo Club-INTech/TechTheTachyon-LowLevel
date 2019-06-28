@@ -6,8 +6,8 @@
 #define TECHTHETACHYON_LOWLEVEL_SICKDT35_B15851_H
 
 #include <stdint.h>
-#include <Utils/average.hpp>
-#include "Config/defines.h"
+#include <Utils/Average.hpp>
+#include "Config/Defines.h"
 
 class SICKDT35_B15851 {
 

@@ -17,12 +17,12 @@ MOSI	11/11
 #include "Utils/Singleton.hpp"
 #include "Utils/stdarg.h"
 #include <WString.h>
-#include "Config/defines.h"
+#include "Config/Defines.h"
 #include <SPI.h>
 #include <Ethernet.h>
 #include <utility/w5100.h>
-#include "MCS/MCSReborn.h"
-#include "Config/pin_mapping.h"
+#include "MotionControlSystem/MCS.h"
+#include "Config/PinMapping.h"
 #include "AbstractComInterface.h"
 
 #define PORT 13500

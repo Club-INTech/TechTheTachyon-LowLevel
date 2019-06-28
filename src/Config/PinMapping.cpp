@@ -1,7 +1,7 @@
 //
 // Created by jglrxavpok on 16/05/19.
 //
-#include "pin_mapping.h"
+#include "PinMapping.h"
 
 
 #if defined(MAIN)

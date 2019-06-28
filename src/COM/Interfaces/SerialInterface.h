@@ -7,8 +7,8 @@
 
 #include "Utils/Singleton.hpp"
 #include "Utils/stdarg.h"
-#include "Config/defines.h"
-#include "Utils/average.hpp"
+#include "Config/Defines.h"
+#include "Utils/Average.hpp"
 #include "AbstractComInterface.h"
 
 

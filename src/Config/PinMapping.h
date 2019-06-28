@@ -1,7 +1,7 @@
 #ifndef _PIN_MAPPING_h
 #define _PIN_MAPPING_h
 
-#include "defines.h"
+#include "Defines.h"
 
 #if defined(MAIN)
 

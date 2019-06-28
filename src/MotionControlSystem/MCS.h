@@ -6,17 +6,17 @@
 #define LL_MCSREBORN_H
 
 #include "Utils/Singleton.hpp"
-#include "Utils/average.hpp"
-#include "Utils/utils.h"
-#include "Config/defines.h"
-#include "Config/pin_mapping.h"
+#include "Utils/Average.hpp"
+#include "Utils/Utils.h"
+#include "Config/Defines.h"
+#include "Config/PinMapping.h"
 #include "COM/ComMgr.h"
 #include "COM/InterruptStackPrint.h"
 
 #include "ControlSettings.h"
 #include "RobotStatus.h"
 #include "Motor.h"
-#include "pid.hpp"
+#include "PID.hpp"
 #include "SelfContainedPID.hpp"
 #include "PointToPointTrajectory.h"
 #define ENCODER_OPTIMIZE_INTERRUPTS

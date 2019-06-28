@@ -5,7 +5,7 @@
 #ifndef TECHTHETACHYON_LOWLEVEL_SELFCONTAINEDPID_H
 #define TECHTHETACHYON_LOWLEVEL_SELFCONTAINEDPID_H
 #include <stdint.h>
-#include "pid.hpp"
+#include "PID.hpp"
 
 template <typename T>
 class SelfContainedPID: public PID<T> {

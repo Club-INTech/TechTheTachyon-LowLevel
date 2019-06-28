@@ -16,12 +16,12 @@
 #include <Arduino.h>
 #include <WString.h>
 #include "Utils/Singleton.hpp"
-#include "MCS/MCSReborn.h"
+#include "MotionControlSystem/MCS.h"
 #include "Sensors/SensorMgr.h"
 #include "COM/ComMgr.h"
 #include "Actuators/ActuatorsMgr.h"
-#include "Config/defines.h"
-#include "Utils/utils.h"
+#include "Config/Defines.h"
+#include "Utils/Utils.h"
 #include "COM/Hooks/Hook.h"
 #include "OrderData.h"
 #include "Orders.h"

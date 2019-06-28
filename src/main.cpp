@@ -6,11 +6,11 @@
 **/
 
 #include "Utils/Monitoring.h"
-#include "Config/pin_mapping.h"
+#include "Config/PinMapping.h"
 #include "COM/InterruptStackPrint.h"
 #include "COM/Order/OrderManager.h"
 
-//#include "MCS/HardwareEncoder_ISRDEF.h"
+//#include "MotionControlSystem/HardwareEncoder_ISRDEF.h"
 
 /* Interruptions d'asservissements */
 void motionControlInterrupt() {

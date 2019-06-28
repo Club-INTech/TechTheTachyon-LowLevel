@@ -7,9 +7,9 @@
 
 #include "AbstractOrder.h"
 #include "OrderManager.h"
-#include "Utils/utils.h"
-#include "Config/pin_mapping.h"
-#include "MCS/RobotStatus.h"
+#include "Utils/Utils.h"
+#include "Config/PinMapping.h"
+#include "MotionControlSystem/RobotStatus.h"
 #include "Actuators/ActuatorValues.h"
 #include "Actuators/ActuatorsMgr.h"
 

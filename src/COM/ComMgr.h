@@ -9,7 +9,7 @@
 #include "Interfaces/EthernetInterface.h"
 #include "Utils/Singleton.hpp"
 #include "Utils/Median.h"
-#include "Config/define_com_options.h"
+#include "Config/ComOptions.h"
 #include <map>
 #include <array>
 
