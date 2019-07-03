@@ -20,7 +20,6 @@ MOSI	11/11
 #include "Config/Defines.h"
 #include <SPI.h>
 #include <Ethernet.h>
-#include <utility/w5100.h>
 #include "MotionControlSystem/MCS.h"
 #include "Config/PinMapping.h"
 #include "AbstractComInterface.h"
@@ -43,6 +42,9 @@ private:
 
 	/* Attributs Ethernet */
 
+	//EthernetServer server;
+	EthernetClient client;
+
 public:
 	EthernetInterface();
 	bool connect(IPAddress,int);
@@ -60,15 +62,6 @@ public:
 	void resetCard();
 
     void reconnectIfNeeded();
-
-//EthernetServer server;
-EthernetClient client = EthernetClient(0);
-	int sentCount = 0;
-
-	void flushRoutine();
-
-    void wizMemoryDump();
 };
-static EthernetInterface* interfaceInstance;
 
 #endif
