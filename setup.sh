@@ -28,7 +28,9 @@ function installPlatformio {
 echo "Initialisation du dépôt du bas niveau"
 echo "Clonage des submodule"
 
-git submodule update --init Dynamixel-Com
+for module in $(grep .gitmodules -e "path" | cut -f3 -d' '); do
+	git submodule update --init $module
+done
 
 echo "Fin du clonage"
 echo "Initialisation avec platformio"
@@ -36,18 +38,18 @@ echo "Initialisation avec platformio"
 if [ -z "$(which platformio)" ]; then
 	echo "Platformio n'est pas installé !"
 
-	echo -n "Voulez vous tenter d'installer platformio ? [y/n] "
+	echo -n "Voulez vous tenter d'installer platformio ? [o/N] "
 	read answer
 	
-	if [[ "$answer" =~ [yY] ]]; then
+	if [[ "$answer" =~ [yYoO] ]]; then
 		echo ""
 		if [ -z "$(which pip2)" ]; then
 			echo "Pip2 n'est pas installé ! "
 
-			echo -n "Voulez vous tenter d'installer pip2 ? [y/n] "
+			echo -n "Voulez vous tenter d'installer pip2 ? [o/N] "
 			read answer
 
-			if [[ "$answer" =~ [yY] ]]; then
+			if [[ "$answer" =~ [yYoO] ]]; then
 				if [ "$(which apt)" ]; then
 					sudo apt install python-pip
 					if [ -z "$(which pip2)" ]; then
