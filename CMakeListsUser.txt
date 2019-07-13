@@ -9,26 +9,32 @@ endif()
 include(CMakeListsPrivate.txt)
 
 add_custom_target(
-    PLATFORMIO_BUILD_MAIN ALL
+    INTECH_BUILD_MAIN ALL
     COMMAND ${PLATFORMIO_CMD} -f -c clion run -e main
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_custom_target(
-    PLATFORMIO_BUILD_SLAVE ALL
+    INTECH_BUILD_SLAVE ALL
     COMMAND ${PLATFORMIO_CMD} -f -c clion run -e slave
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 
 add_custom_target(
-    PLATFORMIO_UPLOAD_MAIN ALL
+    INTECH_UPLOAD_MAIN ALL
     COMMAND ${PLATFORMIO_CMD} -f -c clion run --target upload -e main
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_custom_target(
-    PLATFORMIO_UPLOAD_SLAVE ALL
+    INTECH_UPLOAD_SLAVE ALL
     COMMAND ${PLATFORMIO_CMD} -f -c clion run --target upload -e slave
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+add_custom_target(
+    INTECH_BUILD_BOTH ALL
+    COMMAND ${PLATFORMIO_CMD} -f -c clion run -e main -e slave
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
