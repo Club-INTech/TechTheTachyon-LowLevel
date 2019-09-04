@@ -8,7 +8,7 @@ Pour pouvoir utiliser le projet:
 - Deux possibilités : 
 
 1. 
-   - **Initialisez le sous-module DynamixelCom avec la commande** `git submodule update --init Dynamixel-Com`
+   - **Initialisez le sous-module DynamixelCom avec la commande** `git submodule update --init lib/Dynamixel-Com`
    - Ouvrez un terminal dans le dossier du dépot, et effectuez la commande \
      ```pio init --ide IDE --board teensy35```\
      avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio Code
