@@ -580,8 +580,7 @@ void ORDER_suck::impl(Args args)
     }
 }
 
-void ORDER_pump::impl(Args args)
-{
+void ORDER_pump::impl(Args args) {
     if (!strcmp(args[0], "RIGHT")) {
         if (!strcmp(args[1], "on")) {
             digitalWrite(RIGHT_PUMP_PIN, HIGH);
@@ -1250,6 +1249,24 @@ void ORDER_valveoff::impl(Args args)
         digitalWrite(LEFT_VALVE_PIN, LOW);
 #endif
     }
+}
+
+void ORDER_valve::impl(Args args) {
+    if (!strcmp(args[0], "RIGHT")) {
+        if (!strcmp(args[1], "on")) {
+            digitalWrite(RIGHT_VALVE_PIN, HIGH);
+        } else {
+            digitalWrite(RIGHT_VALVE_PIN, LOW);
+        }
+    } else {
+#if defined(MAIN)
+        if (!strcmp(args[1], "on")) {
+            digitalWrite(LEFT_VALVE_PIN, HIGH);
+        } else {
+            digitalWrite(LEFT_VALVE_PIN, LOW);
+        }
+    }
+#endif
 }
 
 void ORDER_rangeSICK::impl(Args args) {
