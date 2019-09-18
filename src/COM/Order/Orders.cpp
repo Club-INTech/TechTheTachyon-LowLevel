@@ -580,6 +580,26 @@ void ORDER_suck::impl(Args args)
     }
 }
 
+void ORDER_pump::impl(Args args)
+{
+    if (!strcmp(args[0], "RIGHT")) {
+        if (!strcmp(args[1], "on")) {
+            digitalWrite(RIGHT_PUMP_PIN, HIGH);
+        } else {
+            digitalWrite(RIGHT_PUMP_PIN, LOW);
+        }
+    }
+    else {
+#if defined(MAIN)
+        if (!strcmp(args[1], "on")) {
+            digitalWrite(LEFT_PUMP_PIN, HIGH);
+        } else {
+            digitalWrite(LEFT_PUMP_PIN, LOW);
+        }
+#endif
+    }
+}
+
 void ORDER_unsuck::impl(Args args)
 {
     if (!strcmp(args[0], "right")) {

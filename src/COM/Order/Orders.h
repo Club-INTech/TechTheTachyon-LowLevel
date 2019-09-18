@@ -224,6 +224,7 @@ ORDER(downOust,0);
 
 /*Pompes et électrovannes*/
 ORDER(suck,1);
+ORDER(pump, 2);
 ORDER(unsuck,1);
 ORDER(valveon,1);
 ORDER(valveoff,1);
