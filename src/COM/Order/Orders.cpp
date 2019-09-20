@@ -1265,8 +1265,8 @@ void ORDER_valve::impl(Args args) {
         } else {
             digitalWrite(LEFT_VALVE_PIN, LOW);
         }
-    }
 #endif
+    }
 }
 
 void ORDER_rangeSICK::impl(Args args) {

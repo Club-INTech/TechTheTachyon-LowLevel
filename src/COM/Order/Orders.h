@@ -224,11 +224,11 @@ ORDER(downOust,0);
 
 /*Pompes et électrovannes*/
 ORDER(pump, 2);
-ORDER(suck,1);
-ORDER(unsuck,1);
+ORDER(suck,1);              //unused
+ORDER(unsuck,1);            //unused
 ORDER(valve,2);
-ORDER(valveon,1);
-ORDER(valveoff,1);
+ORDER(valveon,1);           //unused
+ORDER(valveoff,1);          //unused
 
 /* SICK */
 ORDER(testSICK, 1);
