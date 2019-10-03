@@ -377,3 +377,4 @@ __pycache__/
 .piolibdeps
 CMakeListsPrivate.txt
 **/serialOutput/
+.pioenvs
