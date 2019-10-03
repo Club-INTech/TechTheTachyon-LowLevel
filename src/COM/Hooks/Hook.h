@@ -4,7 +4,7 @@
 #define _HOOK_h
 
 #include "COM/Interfaces/EthernetInterface.h"
-#include "WProgram.h"
+#include "Arduino.h"
 
 class Hook
 {

@@ -28,12 +28,12 @@ constexpr uint8_t ENCODER_RIGHT_B = 32;
 /* CAPTEURS */
 constexpr uint8_t PIN_JMPR = 10;
 constexpr uint8_t SICK_PINS[NBR_OF_DISTANCE_SENSOR] = {
-        A22, // 1er
-        A21, // 2e
-        A20, // 3e
-        A19, // 4e
-        A18, // 5e
-        A17, // 6e
+        A2, // 1er
+        A3, // 2e
+        A4, // 3e
+        A5, // 4e
+        A6, // 5e
+        A1, // 6e
 };
 
 // TechTheTachyon
