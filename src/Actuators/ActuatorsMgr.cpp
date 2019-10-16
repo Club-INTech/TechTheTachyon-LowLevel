@@ -5,7 +5,7 @@
 #include <COM/InterruptStackPrint.h>
 #include "ActuatorsMgr.h"
 
-ActuatorsMgr::ActuatorsMgr() : dynamixelManager(new DynamixelManager(&XLSerial, &DebugSerial))
+ActuatorsMgr::ActuatorsMgr() : dynamixelManager(new DynamixelManager(PIN_RX_DYNAMIXEL,PIN_TX_DYNAMIXEL, &DebugSerial))
 {
     motor1 = (XL430*) dynamixelManager->createMotor(1, XL430GeneratorFunction);//new XL430(1,*manager);
     motor2 = (XL430*) dynamixelManager->createMotor(2, XL430GeneratorFunction);//new XL430(2,*manager);
