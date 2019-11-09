@@ -1,43 +1,31 @@
 # TechTheTachyon-LowLevel
 ## SETUP
-NB: Plusieurs aspects de configuration du projet sont pensés pour utiliser platformio avec CLion et ne sont ni testés ni prévus pour d'autres IDE.
+> NB: Plusieurs aspects de configuration du projet sont pensés pour utiliser platformio avec CLion et ne sont ni testés ni prévus pour d'autres IDE.
 
-Pour pouvoir utiliser le projet:
-- Installer Platformio ***version > 4.0*** ([Guide d'installation](https://club-intech.minet.net/images/9/97/Guide_PIO.pdf))
-- Clonez ce dépot
-- Deux possibilités : 
-
-1. 
-   - **Initialisez le sous-module DynamixelCom avec la commande** `git submodule update --init lib/Dynamixel-Com`
-   - Ouvrez un terminal dans le dossier du dépot, et effectuez la commande \
+Pour configurer le projet, deux possibilités:
+1. Utiliser le script `setup.sh`. Se charge d'installer platformio avec apt ou pacman et d'initialiser le projet.
+2. À la main, en suivant les étapes suivantes
+   1. Installer Platformio ***version > 4.1*** ([Guide d'installation](https://club-intech.minet.net/images/9/97/Guide_PIO.pdf))
+   2. **Initialisez le sous-module DynamixelCom avec la commande**: `git submodule update --init`
+   3. Ouvrez un terminal dans le dossier du dépot, et effectuez la commande \
      ```pio init --ide IDE --board teensy35```\
      avec IDE=clion si vous utilisez CLion, ou vscode si vous utilisez Visual Studio Code
 2. 
    - ```./setup.sh``` Uniquement pour CLion pour le moment. (Peut se charger de l'installation de platformio avec apt et pacman)
-- Ouvrez le dossier du dépot avec CLion ou VSCode.
-- Gagnez la coupe
 
----
+Une fois que le projet est configuré, vous pouvez l'ouvrir avec l'IDE de votre choix.
 
-Pour CLion, si vous voulez profiter de la gestion automatique des `#if defined()` :
- - Settigns -> Build, Execution, Deployment -> CMake
- - En dessous de "Profiles" il y a une liste avec seulement `Debug` dedans. Appuyez deux fois sur le plus.
- - Vous devez maintenant avoir une liste avec `Debug`, `Main` et `Slave`. Vous pouvez supprimer `Debug` si vous le voulez.
- - Dans l'éditeur, là où vous choisissez de de build ou d'upload, vous pouvez maintenant sélectionner `Main` ou `Slave` !
- 
-Vous aurez à répéter l'ajout des profils à chaque fois que vous ferez un `pio init [...]`.
- 
 ## UTILISATION
 
 Afin de fusionner les branches des deux robots et d'éviter les divergences, un système à base de define et de `#if defined` \
-a été mit en place. Cela change légèrement la façon dont est géré le build et l'upload :
+a été mit en place.
 
- - ***Ne pas utiliser `PLATFORMIO_BUILD` ou `PLATFORMIO_UPLOAD`***.
-   - L'utilisation d'un environnement platformio "leurre" pour éviter la détection de define automatique de platformio implique que le leurre ne soit pas compilable. Ces commandes tenteront de le compiler/uploader et échoueront car de nombreuses variables et fonctions ne seront pas définies.
- - Utiliser les cibles `INTECH_[X]_[ROBOT]` en fonction de si vous voulez build/upload pour le principal (MAIN) ou le secondaire (SLAVE)
-   - La cible `INTECH_BUILD_BOTH` permet de compiler pour les deux robots en même temps.
-   
-Vous n'avez pas besoin d'avoir ajouté les profils CMake pour pouvoir effectuer ces actions.
+ Pour choisir un robot en particulier:
+ 1. Choisir le nom du robot dans la liste au dessus des cibles (`PLATFORMIO_BUILD` etc)
+ 2. Vous devriez avoir `PLATFORMIO_** | main` ou `PLATFORMIO_** | slave` 
+ 3. Exécuter la cible désirée (`PLATFORMIO_BUILD` pour build, `PLATFORMIO_UPLOAD` pour upload...)
+ 
+ La configuration `All` permet d'exécuter la commande pour les deux robots
  
 ## TODO
 
@@ -47,6 +35,7 @@ Vous n'avez pas besoin d'avoir ajouté les profils CMake pour pouvoir effectuer 
 - [x] Implémenter les nouveaux ordres
 - [ ] Ordre propre pour la récupération de données d'asservissement + scripts en conséquence
 - [ ] Mise en place de cas d'erreur explicites et plus nombreux pour le HL
+- [ ] Meilleure façon de séparer les robots dans le code
 - [ ] Gagner la Coupe
 
 ## TABLE DES ORDRES
