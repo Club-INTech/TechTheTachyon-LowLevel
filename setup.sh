@@ -2,8 +2,8 @@
 
 function installPlatformio {
 	echo "Installation de platformio"
-	sudo pip2 install platformio
-	if [ -z "$(which pio)" ]; then
+	sudo pip3 install platformio
+	if [ -z "$(command -v pio)" ]; then
 		echo "Échec de l'installation de platformio, abandon."
 	else
 		echo "Installation réussie, mise à jour de platformio"
@@ -18,7 +18,7 @@ function installPlatformio {
 		else
 			sudo service udev restart
 			sudo groupadd dialout
-			sudo usermod $(id -un) -aG dialout
+			sudo usermod "$(id -un)" -aG dialout
 		fi
 
 		echo "Installation terminée !"
@@ -28,14 +28,12 @@ function installPlatformio {
 echo "Initialisation du dépôt du bas niveau"
 echo "Clonage des submodule"
 
-for module in $(grep .gitmodules -e "path" | cut -f3 -d' '); do
-	git submodule update --init $module
-done
+git submodule update --init
 
 echo "Fin du clonage"
 echo "Initialisation avec platformio"
 
-if [ -z "$(which platformio)" ]; then
+if [ -z "$(command -v platformio)" ]; then
 	echo "Platformio n'est pas installé !"
 
 	echo -n "Voulez vous tenter d'installer platformio ? [o/N] "
@@ -43,32 +41,32 @@ if [ -z "$(which platformio)" ]; then
 	
 	if [[ "$answer" =~ [yYoO] ]]; then
 		echo ""
-		if [ -z "$(which pip2)" ]; then
-			echo "Pip2 n'est pas installé ! "
+		if [ -z "$(command -v pip2)" ]; then
+			echo "Pip3 n'est pas installé ! "
 
-			echo -n "Voulez vous tenter d'installer pip2 ? [o/N] "
+			echo -n "Voulez vous tenter d'installer pip3 ? [o/N] "
 			read answer
 
 			if [[ "$answer" =~ [yYoO] ]]; then
-				if [ "$(which apt)" ]; then
-					sudo apt install python-pip
-					if [ -z "$(which pip2)" ]; then
-						echo "Échec de l'installation de pip2, abandon."
+				if [ "$(command -v apt)" ]; then
+					sudo apt install python3-pip
+					if [ -z "$(command -v pip3)" ]; then
+						echo "Échec de l'installation de pip3, abandon."
 					else
 						installPlatformio
 					fi
-				elif [ "$(which pacman)" ]; then
-					sudo pacman -S python2-pip
-					if [ -z "$(which pip2)" ]; then
-						echo "Échec de l'installation de pip2, abandon."
+				elif [ "$(command -v pacman)" ]; then
+					sudo pacman -S python3-pip
+					if [ -z "$(command -v pip3)" ]; then
+						echo "Échec de l'installation de pip3, abandon."
 					else
 						installPlatformio
 					fi
 				else 
-					echo "Je ne sais pas comment installer pip2 sur votre système, abandon."
+					echo "Je ne sais pas comment installer pip3 sur votre système, abandon."
 				fi
 			else
-				echo "Pas d'installation de pip2."
+				echo "Pas d'installation de pip3."
 			fi
 		else
 			installPlatformio
@@ -78,7 +76,7 @@ if [ -z "$(which platformio)" ]; then
 	fi
 fi
 
-if [ "$(which platformio)" ]; then
+if [ "$(command -v platformio)" ]; then
 	pio init --ide clion --board teensy35
 	echo "Platformio initialisé."
 else
