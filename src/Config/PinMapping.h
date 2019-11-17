@@ -96,6 +96,10 @@ constexpr uint8_t SICK_PINS[NBR_OF_DISTANCE_SENSOR] = {
         16, // 3e
 };
 
+
+constexpr uint8_t PIN_TX_DYNAMIXEL = 0;
+constexpr uint8_t PIN_RX_DYNAMIXEL = 0;
+
 // TechTheTachyon
 /* Ascenceurs */
 

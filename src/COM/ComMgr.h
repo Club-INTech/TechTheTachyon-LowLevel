@@ -36,6 +36,7 @@ public:
     void printfln(Header header,const char*, ...) __attribute__((format(printf, 3, 4)));
     void printf(Header header,const char*,...) __attribute__((format(printf, 3, 4)));
     void printOnSerial(const char*);
+    void startMatch();
 
 
     void resetEth();

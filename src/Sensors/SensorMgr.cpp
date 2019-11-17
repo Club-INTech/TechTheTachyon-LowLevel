@@ -9,7 +9,7 @@ void SensorMgr::init() {
 	pinMode(PIN_JMPR,INPUT_PULLUP);
 	analogReadResolution(ANALOG_RESOLUTION);
 
-	Wire.begin();
+	//Wire.begin(); //TODO
 
 	for(int i = 0 ; i < NBR_OF_DISTANCE_SENSOR; i++) {
 		// TODO: tester chacun des SICK

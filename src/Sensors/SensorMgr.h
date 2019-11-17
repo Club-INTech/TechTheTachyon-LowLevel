@@ -6,7 +6,6 @@
 #include <Arduino.h>
 #include <array>
 #include <algorithm>
-#include <i2c_t3.h>
 //#include <Wire.h>
 
 #include "Utils/Median.h"

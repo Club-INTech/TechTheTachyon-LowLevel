@@ -83,5 +83,5 @@ public:
 
 };
 
-void stepperInterrupt();
+void stepperInterrupt(HardwareTimer*);
 #endif

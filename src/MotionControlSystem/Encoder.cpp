@@ -9,9 +9,10 @@ Encoder::Encoder(int pin1, int pin2) {
 }
 
 int32_t Encoder::read() {
-    return nullptr;
+    //TODO
+    return 1;
 }
 
 void Encoder::write(int val_reset) {
-
+    //TODO
 }

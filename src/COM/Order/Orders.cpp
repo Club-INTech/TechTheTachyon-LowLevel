@@ -252,7 +252,10 @@ void ORDER_rawposdata::impl(Args args)
     orderManager.highLevel.printfln(DEBUG_HEADER,"%d,%d,%f,%f,%d,%f,%d",
                                     xPos,yPos,angle,leftSpeed, leftSpeedGoal,rightSpeed,rightSpeedGoal);
     */
-    Serial.printf("%d,%d,%f,%f,%d,%f,%d\n", xPos,yPos,angle,leftSpeed, leftSpeedGoal,rightSpeed,rightSpeedGoal);
+    char s[50];
+
+    snprintf(s,50,"%d,%d,%f,%f,%d,%f,%d\n", xPos,yPos,angle,leftSpeed, leftSpeedGoal,rightSpeed,rightSpeedGoal);
+    Serial.print(s);
     //int32_t right, left;
     //motionControlSystem.getPWMS(left,right);
     //Serial.println(right);

@@ -71,7 +71,7 @@ void Motor::init()
 {
 	//TODO: Initialiser les PWM
 	analogWriteResolution(8);
-	analogWriteFrequency(pin_pwm, 20000); //FIXME: A CHANGER APRES NOUVEAU PONT EN H
+	analogWriteFrequency(20000); //FIXME: A CHANGER APRES NOUVEAU PONT EN H +pin_pwm ??
 }
 
 void Motor::run(int16_t newpwm)

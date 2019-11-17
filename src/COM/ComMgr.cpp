@@ -107,10 +107,14 @@ ComMgr::~ComMgr()
 }
 
 void ComMgr::resetEth() {
-    if( com_options & ETHERNET_RW )
-    {
-        ((EthernetInterface *)ethernet)->resetCard();
+    if (com_options & ETHERNET_RW) {
+        ((EthernetInterface *) ethernet)->resetCard();
     }
 }
+
+void ComMgr::startMatch(){
+        //TODO
+}
+
 
 

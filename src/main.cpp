@@ -13,7 +13,7 @@
 //#include "MotionControlSystem/HardwareEncoder_ISRDEF.h"
 
 /* Interruptions d'asservissements */
-void motionControlInterrupt() {
+void motionControlInterrupt(HardwareTimer* hardwareTimer) {
 	static MCS &motionControlSystem = MCS::Instance();
 	motionControlSystem.control();
 	motionControlSystem.manageStop();
@@ -24,7 +24,9 @@ void positionInterrupt() {
 	motionControlSystem.sendPositionUpdate();
 }
 
-int main() {
+void setup(){}
+
+void loop() {
 	/*************************
 	 * Initialisation du LL, gère:
 	 * La série
@@ -61,15 +63,23 @@ int main() {
     InterruptStackPrint& interruptStackPrint = InterruptStackPrint::Instance();
 
     // MotionControlSystem interrupt on timer
-    IntervalTimer motionControlInterruptTimer;
-    motionControlInterruptTimer.priority(0);
-    motionControlInterruptTimer.begin(motionControlInterrupt, MCS_PERIOD); // Setup de l'interruption d'asservissement
+    HardwareTimer motionControlInterruptTimer(TIM6);
+    motionControlInterruptTimer.setMode(1, TIMER_OUTPUT_COMPARE);
+    motionControlInterruptTimer.setOverflow(MCS_FREQ,HERTZ_FORMAT);
+    motionControlInterruptTimer.attachInterrupt(motionControlInterrupt);
+    // FIXME: Wait for upstream update
+    //    motionControlInterruptTimer.setInterruptPriority(0,0);
+    motionControlInterruptTimer.resume();
 
 
     // Timer pour steppers
-    IntervalTimer stepperTimer;
-    stepperTimer.priority(253);
-    stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
+    HardwareTimer stepperTimer(TIM7);
+    stepperTimer.setMode(1,TIMER_OUTPUT_COMPARE);
+    stepperTimer.setOverflow(STEPPER_FREQUENCY, HERTZ_FORMAT);
+    stepperTimer.attachInterrupt(stepperInterrupt);
+    // FIXME: Wait for upstream update
+    //    stepperTimer.setInterruptPriority(10,0);
+    stepperTimer.resume();
 
 
 	Serial.println("Starting...");

@@ -32,7 +32,7 @@ ActuatorsMgr::~ActuatorsMgr()
 {
 }
 
-void stepperInterrupt() {
+void stepperInterrupt(HardwareTimer* hardwareTimer) {
     ActuatorsMgr::Instance().handleInterrupt();
 }
 
