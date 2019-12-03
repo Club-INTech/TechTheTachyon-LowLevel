@@ -83,10 +83,17 @@ int main() {
 	 * L'execution des ordres de ce dernier
 	 * Les capteurs
 	 */
-
+    orderMgr.execute("montlhery");
+    orderMgr.execute("av");
+    int i = 0;
     while (true) {
+        i++;
+        orderMgr.execute("rawposdata");
         interruptStackPrint.print();
         orderMgr.communicate();
+        if(i==500){
+            Serial.println("DATAEND");
+        }
     }
 }
 

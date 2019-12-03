@@ -30,26 +30,26 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
 #if defined(MAIN)
 
-    leftSpeedPID.setTunings(1.65, 0.005, 50, 0);
+    leftSpeedPID.setTunings(0, 0, 0, 0);
     leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(1.35, 0.005, 50, 0);
+    rightSpeedPID.setTunings(0, 0, 0, 0);
     rightSpeedPID.enableAWU(false);
 
-    translationPID.setTunings(4.35,0.000001,0,0);
+    translationPID.setTunings(0,0,0,0);
     translationPID.enableAWU(false);
-    rotationPID.setTunings(3.5,0.000001,0,0);
+    rotationPID.setTunings(0,0,0,0);
     rotationPID.enableAWU(false);
 
 #elif defined(SLAVE)
 
-    leftSpeedPID.setTunings(1.7, 0.002, 40, 0);
+    leftSpeedPID.setTunings(0, 0, 0, 0);
     leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(1.5, 0.002, 40, 0);
+    rightSpeedPID.setTunings(0, 0, 0, 0);
     rightSpeedPID.enableAWU(false);
 
-    translationPID.setTunings(4.4,0.000001,0,0);
+    translationPID.setTunings(0,0,0,0);
     translationPID.enableAWU(false);
-    rotationPID.setTunings(5.6,0.000001,0,0);
+    rotationPID.setTunings(0,0,0,0);
     rotationPID.enableAWU(false);
 
 #endif
@@ -77,9 +77,9 @@ void MCS::initSettings() {
 
     /* rad */
 #if defined(MAIN)
-    controlSettings.tolerancyAngle = 0.0005;
+    controlSettings.tolerancyAngle = 0.1;
 #elif defined(SLAVE)
-    controlSettings.tolerancyAngle = 0.018;
+    controlSettings.tolerancyAngle = 0.1;
 #endif
 
     /* mm */
@@ -389,32 +389,6 @@ void MCS::rotate(float angle) {
         differenceAngle = robotStatus.orientation-targetAngle;
     }
 
-#if defined(MAIN)
-
-    if(1.57<ABS(differenceAngle)) {
-        rotationPID.setTunings(3.5,0.000001,0,0);
-    }
-    else if (0.75<ABS(differenceAngle) and ABS(differenceAngle)<=1.57) {
-        rotationPID.setTunings(5.1,0.000001,0,0);
-    }
-    else {
-        rotationPID.setTunings(9,0.000001,0,0);
-    }
-
-#elif defined(SLAVE)
-
-    if((1<=ABS(differenceAngle) and ABS(differenceAngle)<1.5)){
-        //rotationPID.setTunings(7.74,0.000001,0,0);
-        rotationPID.setTunings(-5.4*ABS(differenceAngle)+13.07,0.000001,0,0);
-    }
-    else if(ABS(differenceAngle)>=1.5){
-        rotationPID.setTunings(-1.15*ABS(differenceAngle)+7.23,0.000001,0,0);
-    }
-    else{
-        rotationPID.setTunings(-13.54*ABS(differenceAngle)+20.53,0.000001,10,0);
-    }
-
-#endif
 
     if( ! rotationPID.active) {
         rotationPID.fullReset();
