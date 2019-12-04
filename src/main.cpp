@@ -84,11 +84,14 @@ int main() {
 	 * Les capteurs
 	 */
     orderMgr.execute("montlhery");
+    delay(100);
     orderMgr.execute("av");
     int i = 0;
     while (true) {
         i++;
-        orderMgr.execute("rawposdata");
+        if (i%10) {
+            orderMgr.execute("rawposdata");
+        }
         interruptStackPrint.print();
         orderMgr.communicate();
         if(i==500){

@@ -30,26 +30,26 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
 #if defined(MAIN)
 
-    leftSpeedPID.setTunings(0, 0, 0, 0);
+    leftSpeedPID.setTunings(1, 0, 0, 0);
     leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(0, 0, 0, 0);
+    rightSpeedPID.setTunings(1, 0, 0, 0);
     rightSpeedPID.enableAWU(false);
 
-    translationPID.setTunings(0,0,0,0);
+    translationPID.setTunings(1,0,0,0);
     translationPID.enableAWU(false);
-    rotationPID.setTunings(0,0,0,0);
+    rotationPID.setTunings(1,0,0,0);
     rotationPID.enableAWU(false);
 
 #elif defined(SLAVE)
 
-    leftSpeedPID.setTunings(0, 0, 0, 0);
+    leftSpeedPID.setTunings(1, 0, 0, 0);
     leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(0, 0, 0, 0);
+    rightSpeedPID.setTunings(1, 0, 0, 0);
     rightSpeedPID.enableAWU(false);
 
-    translationPID.setTunings(0,0,0,0);
+    translationPID.setTunings(1,0,0,0);
     translationPID.enableAWU(false);
-    rotationPID.setTunings(0,0,0,0);
+    rotationPID.setTunings(1,0,0,0);
     rotationPID.enableAWU(false);
 
 #endif

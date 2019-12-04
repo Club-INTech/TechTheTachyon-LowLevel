@@ -59,9 +59,9 @@ void OrderManager::communicate() {
         executeHooks();
     }
 
-    if (sendPos.check()) {
-        motionControlSystem.sendPositionUpdate();
-    }
+//    if (sendPos.check()) {
+//        motionControlSystem.sendPositionUpdate();
+//    }
  }
 
  void OrderManager::execute(const char* orderToExecute)
