@@ -70,8 +70,8 @@ constexpr uint8_t RST = 24;
 
 
 // Moteurs
-constexpr uint8_t INA_LEFT = 28;
-constexpr uint8_t INB_LEFT = 27;
+constexpr uint8_t INA_LEFT = 27;
+constexpr uint8_t INB_LEFT = 28;
 constexpr uint8_t PIN_PWM_LEFT = 25;
 
 constexpr uint8_t INA_RIGHT = 8;

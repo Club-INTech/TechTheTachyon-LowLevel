@@ -59,6 +59,6 @@ while true; do
 	esac
 done
 
-python3 extraction_asserv.py "$outFile" "$1"
+pythonGraph "$fileName" "$outFile" "$1"
 
 )

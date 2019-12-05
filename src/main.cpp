@@ -73,8 +73,11 @@ int main() {
 
 
 	Serial.println("Starting...");
-    delay(2000);//Laisse le temps aux capteurs de clignotter leur ID
-    ActuatorsMgr::Instance().initTorques();
+	pinMode(LED_BUILTIN,OUTPUT);
+	digitalWrite(LED_BUILTIN,HIGH);
+    delay(3000);//Laisse le temps aux capteurs de clignotter leur ID
+    digitalWrite(LED_BUILTIN,LOW);
+//    ActuatorsMgr::Instance().initTorques();
 
     Serial.println("Ready!");
 	/**
@@ -89,6 +92,7 @@ int main() {
     int i = 0;
     while (true) {
         i++;
+        delay(20);
         if (i%10) {
             orderMgr.execute("rawposdata");
         }
@@ -96,6 +100,8 @@ int main() {
         orderMgr.communicate();
         if(i==500){
             Serial.println("DATAEND");
+            orderMgr.execute("sstop");
+            orderMgr.execute("stop");
         }
     }
 }
