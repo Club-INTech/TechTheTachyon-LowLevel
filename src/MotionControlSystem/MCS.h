@@ -102,7 +102,9 @@ public:
 
     void setControl(bool);
     void controlledTranslation(bool);
+    bool getControlledTranslation();
     void controlledRotation(bool);
+    bool getControlledRotation();
     void setForcedMovement(bool);
     void setTranslationSpeed(float);
     void setRotationSpeed(float);

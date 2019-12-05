@@ -100,8 +100,8 @@ int main() {
         orderMgr.communicate();
         if(i==500){
             Serial.println("DATAEND");
-            orderMgr.execute("sstop");
-            orderMgr.execute("stop");
+            //orderMgr.execute("sstop");
+            //orderMgr.execute("stop");
         }
     }
 }
