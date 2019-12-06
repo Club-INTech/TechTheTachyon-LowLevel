@@ -87,23 +87,42 @@ int main() {
 	 * Les capteurs
 	 */
     orderMgr.execute("montlhery");
-    delay(100);
+    delay(200);
     orderMgr.execute("av");
     int i = 0;
+
+//    orderMgr.execute("ct0");
+//    orderMgr.execute("cr0");
+//    orderMgr.execute("cv0");
+//
+//    delay(1000);
+//
+//    digitalWrite(INA_LEFT, LOW);
+//    digitalWrite(INB_LEFT, HIGH);
+//
+//    digitalWrite(INA_RIGHT, LOW);
+//    digitalWrite(INB_LEFT, HIGH);
+//
+//    analogWrite(PIN_PWM_LEFT, 255);
+//    analogWrite(PIN_PWM_RIGHT, 255);
+
     while (true) {
         i++;
         delay(20);
         if (i%10) {
             orderMgr.execute("rawposdata");
         }
+        orderMgr.execute("cod");
         interruptStackPrint.print();
         orderMgr.communicate();
         if(i==500){
-            Serial.println("DATAEND");
-            //orderMgr.execute("sstop");
-            //orderMgr.execute("stop");
+           Serial.println("DATAEND");
+           orderMgr.execute("sstop");
+            orderMgr.execute("stop");
         }
     }
+
+
 }
 
                    /*``.           `-:--.`
