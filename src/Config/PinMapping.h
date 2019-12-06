@@ -65,14 +65,14 @@ constexpr uint8_t LED4 = 31;
 #elif defined(SLAVE)
 
 /* Ethernet */
-constexpr uint8_t CS = 10;
+constexpr uint8_t CS = 999;
 constexpr uint8_t RST = 24;
 
 
 // Moteurs
 constexpr uint8_t INA_LEFT = 27;
 constexpr uint8_t INB_LEFT = 28;
-constexpr uint8_t PIN_PWM_LEFT = 25;
+constexpr uint8_t PIN_PWM_LEFT = 10;
 
 constexpr uint8_t INA_RIGHT = 8;
 constexpr uint8_t INB_RIGHT = 9;
