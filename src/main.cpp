@@ -86,9 +86,10 @@ int main() {
 	 * L'execution des ordres de ce dernier
 	 * Les capteurs
 	 */
-    orderMgr.execute("montlhery");
+
     delay(200);
-    orderMgr.execute("av");
+
+    orderMgr.execute("t 1.57");
     int i = 0;
 
 //    orderMgr.execute("ct0");
@@ -109,13 +110,12 @@ int main() {
     while (true) {
         i++;
         delay(20);
-        if (i%10) {
+        if (i%10 && i < 300) {
             orderMgr.execute("rawposdata");
         }
-        orderMgr.execute("cod");
         interruptStackPrint.print();
         orderMgr.communicate();
-        if(i==500){
+        if(i==300){
            Serial.println("DATAEND");
            orderMgr.execute("sstop");
             orderMgr.execute("stop");

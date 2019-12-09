@@ -42,14 +42,13 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
 #elif defined(SLAVE)
 
-    leftSpeedPID.setTunings(0.045, 0.000195, 0.0078, 0);
+    leftSpeedPID.setTunings(0.045, 0.00020, 0.0078, 0);
     leftSpeedPID.enableAWU(false);
     rightSpeedPID.setTunings(0.048, 0.00022, 0.03, 0);
     rightSpeedPID.enableAWU(false);
-
-    translationPID.setTunings(1,0,0,0);
+    translationPID.setTunings(2.2,0.00001,0,0);
     translationPID.enableAWU(false);
-    rotationPID.setTunings(1,0,0,0);
+    rotationPID.setTunings(0.2,0.001,1.5,0);
     rotationPID.enableAWU(false);
 
 #endif
@@ -68,7 +67,7 @@ void MCS::initSettings() {
     controlSettings.maxDeceleration = 1;//2;
 
     /* rad/s */
-    controlSettings.maxRotationSpeed = 0;
+    controlSettings.maxRotationSpeed = 2*PI;
 
 
     /* mm/s */
@@ -88,7 +87,7 @@ void MCS::initSettings() {
     controlSettings.tolerancyX=10;
     controlSettings.tolerancyY=10;
 #elif defined(SLAVE)
-    controlSettings.tolerancyTranslation = 2;
+    controlSettings.tolerancyTranslation = 1;
     controlSettings.tolerancyX=10;
     controlSettings.tolerancyY=10;
 #endif
@@ -246,6 +245,7 @@ void MCS::manageStop() {
             if(robotStatus.inRotationInGoto) {
                 gotoTimer = MIN_TIME_BETWEEN_GOTO_TR_ROT;
             }
+            digitalWrite(LED3_3,LOW);
             stop();
             robotStatus.inRotationInGoto = ElBooly;
         }
@@ -405,7 +405,7 @@ void MCS::rotate(float angle) {
 #if defined(MAIN)
     digitalWrite(LED2,LOW);
 #elif defined(SLAVE)
-    digitalWrite(LED2_1,LOW);
+    digitalWrite(LED2_3,LOW);
 #endif
 }
 
