@@ -79,6 +79,7 @@ int main() {
     digitalWrite(LED_BUILTIN,LOW);
 //    ActuatorsMgr::Instance().initTorques();
 
+
     Serial.println("Ready!");
 	/**
 	 * Boucle principale, y est géré:
@@ -88,8 +89,9 @@ int main() {
 	 */
 
     delay(200);
-
-    orderMgr.execute("t 1.57");
+    orderMgr.execute("montlhery");
+//    delay(200);
+    orderMgr.execute("av");
     int i = 0;
 
 //    orderMgr.execute("ct0");
