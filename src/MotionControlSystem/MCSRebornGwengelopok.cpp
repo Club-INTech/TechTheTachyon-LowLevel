@@ -42,13 +42,13 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
 #elif defined(SLAVE)
 
-    leftSpeedPID.setTunings(0.999, 0.0019, 10, 0);//0.00133
+    leftSpeedPID.setTunings(0.4, 0.0013, 5, 0);//0.0015
     leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(0.9047, 0.0019, 10, 0);//0.0015
+    rightSpeedPID.setTunings(0.4, 0.0013, 5, 0);//0.0015
     rightSpeedPID.enableAWU(false);
-    translationPID.setTunings(2.2,0.00001,0,0);
+    translationPID.setTunings(2.5,0,0.01,0);//0.00001
     translationPID.enableAWU(false);
-    rotationPID.setTunings(2.3,0.000001,0,0);  //2.3 0.000001
+    rotationPID.setTunings(1,0,0,0);  //2.3 0.000001
     rotationPID.enableAWU(false);
 
 #endif

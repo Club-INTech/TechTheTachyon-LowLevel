@@ -87,11 +87,11 @@ int main() {
 	 * L'execution des ordres de ce dernier
 	 * Les capteurs
 	 */
-
+//
     delay(200);
     orderMgr.execute("montlhery");
-//    delay(200);
-    orderMgr.execute("av");
+////    delay(200);
+//    //orderMgr.execute("av");
     int i = 0;
 
 //    orderMgr.execute("ct0");
@@ -108,10 +108,15 @@ int main() {
 //
 //    analogWrite(PIN_PWM_LEFT, 255);
 //    analogWrite(PIN_PWM_RIGHT, 255);
+    orderMgr.execute("av");
 
     while (true) {
+
         i++;
         delay(20);
+//        if (i==70){
+//            orderMgr.execute("sstop");
+//        }
         if (i%10 && i < 300) {
             orderMgr.execute("rawposdata");
         }
@@ -119,7 +124,7 @@ int main() {
         orderMgr.communicate();
         if(i==300){
            Serial.println("DATAEND");
-           orderMgr.execute("sstop");
+           //orderMgr.execute("sstop");
             orderMgr.execute("stop");
         }
     }

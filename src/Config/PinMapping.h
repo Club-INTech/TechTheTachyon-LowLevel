@@ -74,15 +74,15 @@ constexpr uint8_t INA_LEFT = 27;
 constexpr uint8_t INB_LEFT = 28;
 constexpr uint8_t PIN_PWM_LEFT = 10;
 
-constexpr uint8_t INA_RIGHT = 8;
-constexpr uint8_t INB_RIGHT = 9;
+constexpr uint8_t INA_RIGHT = 9; //8 pour le secondaire
+constexpr uint8_t INB_RIGHT = 8; //9 pour le secondaire
 constexpr uint8_t PIN_PWM_RIGHT = 7;
 
 //Roues codeuses
 constexpr uint8_t ENCODER_LEFT_B = 3;
 constexpr uint8_t ENCODER_LEFT_A = 4;
-constexpr uint8_t ENCODER_RIGHT_B = 30;
-constexpr uint8_t ENCODER_RIGHT_A = 29;
+constexpr uint8_t ENCODER_RIGHT_B = 29; //30 pour le secondaire
+constexpr uint8_t ENCODER_RIGHT_A = 30; //29 pour le secondaire
 
 
 /* CAPTEURS */
