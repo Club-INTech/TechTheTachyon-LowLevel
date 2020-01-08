@@ -11,6 +11,7 @@ enum class MOVEMENT { FORWARD, BACKWARD, TRIGO, ANTITRIGO, CURVE, NONE };
 
 struct RobotStatus
 {
+    bool translation;
     bool controlled;
     bool controlledTranslation;
     bool controlledRotation;

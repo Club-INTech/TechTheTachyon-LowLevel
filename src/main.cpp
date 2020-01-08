@@ -89,9 +89,9 @@ int main() {
 	 */
 //
     delay(200);
-    orderMgr.execute("montlhery");
+//    orderMgr.execute("montlhery");
 ////    delay(200);
-//    //orderMgr.execute("av");
+    orderMgr.execute("av");
     int i = 0;
 
 //    orderMgr.execute("ct0");
@@ -108,7 +108,9 @@ int main() {
 //
 //    analogWrite(PIN_PWM_LEFT, 255);
 //    analogWrite(PIN_PWM_RIGHT, 255);
-    orderMgr.execute("av");
+//    orderMgr.execute("av");
+    //orderMgr.execute("d 1");
+    //orderMgr.execute( 500 200);
 
     while (true) {
 
@@ -117,14 +119,14 @@ int main() {
 //        if (i==70){
 //            orderMgr.execute("sstop");
 //        }
-        if (i%10 && i < 300) {
+        if (i%10) {
             orderMgr.execute("rawposdata");
         }
         interruptStackPrint.print();
         orderMgr.communicate();
         if(i==300){
            Serial.println("DATAEND");
-           //orderMgr.execute("sstop");
+           orderMgr.execute("sstop");
             orderMgr.execute("stop");
         }
     }

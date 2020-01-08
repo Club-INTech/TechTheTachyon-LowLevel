@@ -71,8 +71,8 @@ constexpr float     COD_WHEEL_DIAMETER =        64.32*99.00/100.0;  // Unité : 
 
 //distance roue codeuse pneu = 14.36mm
 
-constexpr uint8_t   DISTANCE_COD_GAUCHE_CENTRE = 115; // Unité : mm
-constexpr uint8_t   DISTANCE_COD_DROITE_CENTRE = 115; // Unité : mm
+constexpr uint8_t   DISTANCE_COD_GAUCHE_CENTRE = 171.175; // Unité : mm //115
+constexpr uint8_t   DISTANCE_COD_DROITE_CENTRE = 171.175; // Unité : mm //115
 #elif defined(SLAVE)
 constexpr uint16_t  TICKS_PER_TURN =            4096;   // Unité : ticks
 constexpr float     COD_WHEEL_DIAMETER =        64.35;  // Unité : mm 63.57
