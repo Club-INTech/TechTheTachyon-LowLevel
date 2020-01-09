@@ -26,6 +26,8 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.sentMoveAbnormal = false;
     robotStatus.movement = MOVEMENT::NONE;
     expectedWallImpact = false;
+    rotationPID.active = false;
+    translationPID.active = false;
 
 
 #if defined(MAIN)
@@ -142,7 +144,7 @@ void MCS::updatePositionOrientation() {
 
  float dx = targetX-robotStatus.x;
     float dy = targetY-robotStatus.y;
-    float translation = sqrt(dx * dx + dy * dy);
+    float translation = sqrtf(dx * dx + dy * dy);
     float rotation = atan2f(dy, dx);
 
     float currentAngle = getAngle();
@@ -158,7 +160,7 @@ void MCS::updatePositionOrientation() {
         }
     }
     rotate(rotation);
-    if (ABS(currentAngle-rotation) < 10)
+    if (ABS(currentAngle-rotation) < 0.349)
     {
         robotStatus.translation = true;
     }
@@ -401,7 +403,13 @@ void MCS::translate(int16_t amount) {
     if(!robotStatus.controlledTranslation)
         return;
     targetDistance = amount;
-    translationPID.fullReset();
+
+
+    if (!translationPID.active){
+        translationPID.active = true;
+        translationPID.fullReset();
+    }
+    //translationPID.fullReset();
     if(amount == 0) {
         translationPID.setGoal(currentDistance);
         robotStatus.moving = true;
@@ -418,7 +426,7 @@ void MCS::translate(int16_t amount) {
 }
 
 void MCS::rotate(float angle) {
-    rotationPID.active = false;
+//    rotationPID.active = false;
     if(!robotStatus.controlledRotation){
         return;
     }
@@ -436,10 +444,14 @@ void MCS::rotate(float angle) {
     }
 
 
-    if( ! rotationPID.active) {
-        rotationPID.fullReset();
+    if (!rotationPID.active){
         rotationPID.active = true;
+        rotationPID.fullReset();
     }
+//    if( ! rotationPID.active) {
+//        rotationPID.fullReset();
+//        rotationPID.active = true;
+//    }
     robotStatus.movement = (differenceAngle < PI && differenceAngle > - PI) ? MOVEMENT::TRIGO : MOVEMENT::ANTITRIGO;
 
     rotationPID.setGoal(targetAngle);
@@ -463,7 +475,7 @@ void MCS::gotoPoint2(int16_t x, int16_t y) {
 //    robotStatus.inGoto=true;
 //    targetX = x;
 //    targetY = y;
-////    digitalWrite(LED2,LOW);
+//    digitalWrite(LED2,LOW);
 //    float dx = x-robotStatus.x;
 //    float dy = y-robotStatus.y;
 //    ComMgr::Instance().printfln(DEBUG_HEADER, "goto %i %i (diff is %f %f) x= %f; y= %f", x, y, dx, dy, robotStatus.x, robotStatus.y);
@@ -473,7 +485,8 @@ void MCS::gotoPoint2(int16_t x, int16_t y) {
 //    rotate(rotation);
 //    robotStatus.moving = true;
 //    robotStatus.inRotationInGoto = true;
-
+    translationPID.fullReset();
+    rotationPID.fullReset();
 robotStatus.translation=false;
     robotStatus.inGoto=true;
     targetX = x;
