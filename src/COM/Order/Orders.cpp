@@ -1208,6 +1208,7 @@ void ORDER_XLm::impl(Args args)
     uint8_t id = orderManager.parseInt(args[0]);
     XL430* motor = (XL430*)manager.dynamixelManager->getMotor(id);
     motor->setGoalAngle(orderManager.parseFloat(args[1])+xlOffsets[id-1]);
+
 }
 
 void ORDER_XLs::impl(Args args)
@@ -1215,6 +1216,14 @@ void ORDER_XLs::impl(Args args)
     ActuatorsMgr& manager = ActuatorsMgr::Instance();
     XL430* motor = (XL430*)manager.dynamixelManager->getMotor(orderManager.parseInt(args[0]));
     motor->setGoalVelocity(orderManager.parseFloat(args[1]));
+}
+
+void ORDER_BrasOut::impl(Args args) {
+
+    ActuatorsMgr& manager = ActuatorsMgr::Instance();
+    XL430* mot = manager.motor5;
+    mot->changeLED(true);
+    mot->setGoalAngle(90.0f);
 }
 
 void ORDER_posBras::impl(Args args) {

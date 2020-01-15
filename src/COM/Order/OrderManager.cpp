@@ -33,31 +33,31 @@ void OrderManager::communicate() {
     static Metro checkHooksTimer = Metro(20);
     static Metro sendPos = Metro(50);
 
-    if (checkMovement.check())
-    {
-        if (!motionControlSystem.sentMoveAbnormal() && motionControlSystem.isMoveAbnormal()) {//Si on est bloqué et qu'on n'a pas encore prévenu
-            motionControlSystem.setMoveAbnormalSent(true);
-            highLevel.printfln(EVENT_HEADER, "unableToMove p");
-        }
-        else if (motionControlSystem.sentMoveAbnormal() && !motionControlSystem.isMoveAbnormal()) {//Si on est plus bloqué et qu'on avait prévenu
-            motionControlSystem.setMoveAbnormalSent(false);
-        }
-    }
+//    if (checkMovement.check())
+//    {
+//        if (!motionControlSystem.sentMoveAbnormal() && motionControlSystem.isMoveAbnormal()) {//Si on est bloqué et qu'on n'a pas encore prévenu
+//            motionControlSystem.setMoveAbnormalSent(true);
+//            highLevel.printfln(EVENT_HEADER, "unableToMove p");
+//        }
+//        else if (motionControlSystem.sentMoveAbnormal() && !motionControlSystem.isMoveAbnormal()) {//Si on est plus bloqué et qu'on avait prévenu
+//            motionControlSystem.setMoveAbnormalSent(false);
+//        }
+//    }
 
-    if(rebootXLs.check()) {
-        actuatorsMgr.rebootArms();
-    }
-
-    if(checkArms.check())
-    {
-        actuatorsMgr.checkArmMovements();
-    }
-
-    if (checkHooksTimer.check() && hooksEnabled)
-    {
-        checkHooks();
-        executeHooks();
-    }
+//    if(rebootXLs.check()) {
+//        actuatorsMgr.rebootArms();
+//    }
+//
+//    if(checkArms.check())
+//    {
+//        actuatorsMgr.checkArmMovements();
+//    }
+//
+//    if (checkHooksTimer.check() && hooksEnabled)
+//    {
+//        checkHooks();
+//        executeHooks();
+//    }
 
 //    if (sendPos.check()) {
 //        motionControlSystem.sendPositionUpdate();

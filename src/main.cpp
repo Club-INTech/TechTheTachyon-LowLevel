@@ -67,9 +67,9 @@ int main() {
 
 
     // Timer pour steppers
-    IntervalTimer stepperTimer;
-    stepperTimer.priority(253);
-    stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
+//    IntervalTimer stepperTimer;
+//    stepperTimer.priority(253);
+//    stepperTimer.begin(stepperInterrupt, STEPPER_PERIOD); // Setup de l'interruption pour les steppers
 
 
 	Serial.println("Starting...");
@@ -77,7 +77,7 @@ int main() {
 	digitalWrite(LED_BUILTIN,HIGH);
     delay(3000);//Laisse le temps aux capteurs de clignotter leur ID
     digitalWrite(LED_BUILTIN,LOW);
-//    ActuatorsMgr::Instance().initTorques();
+    ActuatorsMgr::Instance().initTorques();
 
 
     Serial.println("Ready!");
@@ -89,11 +89,11 @@ int main() {
 	 */
 //
     delay(200);
-//    orderMgr.execute("montlhery");
-////    delay(200);
-    //orderMgr.execute("av");
-    int i = 0;
 
+////    delay(200);
+
+    int i = 0;
+    orderMgr.execute("montlhery");
 //    orderMgr.execute("ct0");
 //    orderMgr.execute("cr0");
 //    orderMgr.execute("cv0");
@@ -108,9 +108,11 @@ int main() {
 //
 //    analogWrite(PIN_PWM_LEFT, 255);
 //    analogWrite(PIN_PWM_RIGHT, 255);
-//    orderMgr.execute("av");
-    //orderMgr.execute("d 1");
-    //orderMgr.execute( 500 200);
+//    orderMgr.execute("t 1.57");
+//    orderMgr.execute("d 800");
+    orderMgr.execute("av");
+
+
 
     while (true) {
 
@@ -119,9 +121,7 @@ int main() {
 //        if (i==70){
 //            orderMgr.execute("sstop");
 //        }
-        if (i%10) {
-            orderMgr.execute("rawposdata");
-        }
+        orderMgr.execute("rawposdata");
         interruptStackPrint.print();
         orderMgr.communicate();
         if(i==300){

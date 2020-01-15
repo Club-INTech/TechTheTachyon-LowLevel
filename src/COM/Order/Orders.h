@@ -144,6 +144,7 @@ ORDER(ptpdemoseq,0);
 ORDER(XLm,2);
 ORDER(XLs,2);
 ORDER(posBras,1);
+ORDER(BrasOut,0);
 
 // This is horrible and should probably burn
 #if defined(MAIN)
