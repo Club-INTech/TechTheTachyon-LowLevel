@@ -40,12 +40,6 @@ private:
     Motor leftMotor;
     Motor rightMotor;
 
-    SelfContainedPID<float> leftSpeedPID;
-    SelfContainedPID<float> rightSpeedPID;
-    SelfContainedPID<float> translationPID;
-//    SelfContainedPID<float> rotationPID180;
-//    SelfContainedPID<float> rotationPID90;
-    SelfContainedPID<float> rotationPID;
 
     int32_t currentDistance;
     int16_t targetX;
@@ -80,6 +74,14 @@ private:
 
 
 public:
+
+    SelfContainedPID<float> leftSpeedPID;
+    SelfContainedPID<float> rightSpeedPID;
+    SelfContainedPID<float> translationPID;
+//    SelfContainedPID<float> rotationPID180;
+//    SelfContainedPID<float> rotationPID90;
+    SelfContainedPID<float> rotationPID;
+
     MCS();
 
     void initEncoders();

@@ -70,17 +70,17 @@ constexpr uint8_t RST = 24;
 
 
 // Moteurs
-constexpr uint8_t INA_LEFT = 27;
-constexpr uint8_t INB_LEFT = 28;
-constexpr uint8_t PIN_PWM_LEFT = 10;
+constexpr uint8_t INA_LEFT = 8;
+constexpr uint8_t INB_LEFT = 9;
+constexpr uint8_t PIN_PWM_LEFT = 7;
 
-constexpr uint8_t INA_RIGHT = 8; //8 pour le secondaire
-constexpr uint8_t INB_RIGHT = 9; //9 pour le secondaire
-constexpr uint8_t PIN_PWM_RIGHT = 7;
+constexpr uint8_t INA_RIGHT = 27; //8 pour le secondaire
+constexpr uint8_t INB_RIGHT = 28; //9 pour le secondaire
+constexpr uint8_t PIN_PWM_RIGHT = 10; //7
 
 //Roues codeuses
-constexpr uint8_t ENCODER_LEFT_B = 4;
-constexpr uint8_t ENCODER_LEFT_A = 3;
+constexpr uint8_t ENCODER_LEFT_B = 3;
+constexpr uint8_t ENCODER_LEFT_A = 4;
 constexpr uint8_t ENCODER_RIGHT_B = 30; //30 pour le secondaire
 constexpr uint8_t ENCODER_RIGHT_A = 29; //29 pour le secondaire
 

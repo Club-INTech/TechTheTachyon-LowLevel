@@ -67,7 +67,7 @@ constexpr double    POSITION_UPDATE_PERIOD = 1000000.0 / POSITION_UPDATE_FREQUEN
 
 #if defined(MAIN)
 constexpr uint16_t  TICKS_PER_TURN =            4096;   // Unité : ticks
-constexpr float     COD_WHEEL_DIAMETER =        64.32*99.00/100.0;  // Unité : mm 63.57
+constexpr float     COD_WHEEL_DIAMETER =        67.5;  // Unité : mm 63.57   64.32*99.00/100.0
 
 //distance roue codeuse pneu = 14.36mm
 
@@ -75,12 +75,12 @@ constexpr uint8_t   DISTANCE_COD_GAUCHE_CENTRE = 171.175; // Unité : mm //115
 constexpr uint8_t   DISTANCE_COD_DROITE_CENTRE = 171.175; // Unité : mm //115
 #elif defined(SLAVE)
 constexpr uint16_t  TICKS_PER_TURN =            4096;   // Unité : ticks
-constexpr float     COD_WHEEL_DIAMETER =        64.35;  // Unité : mm 63.57
+constexpr float     COD_WHEEL_DIAMETER =        68;  // Unité : mm 63.57
 
 //distance roue codeuse pneu = 14.36mm
 
-constexpr uint8_t   DISTANCE_COD_GAUCHE_CENTRE = 138.5; // Unité : mm
-constexpr uint8_t   DISTANCE_COD_DROITE_CENTRE = 138.5; // Unité : mm
+constexpr uint8_t   DISTANCE_COD_GAUCHE_CENTRE = 144; // Unité : mm ; avant 138.5
+constexpr uint8_t   DISTANCE_COD_DROITE_CENTRE = 144; // Unité : mm ; avant 138.5
 #endif
 
 constexpr float     TICK_TO_MM = static_cast<float>(PI*COD_WHEEL_DIAMETER/TICKS_PER_TURN); // Unité : mm/ticks

@@ -239,6 +239,8 @@ ORDER(lectureSICK, 0);
 ORDER(waitJumper, 0);
 ORDER(endMatch, 0);
 
+ORDER(returnErrors,0);
+
 // Permet de bouger un bras sans se soucier du type
 #if defined(MAIN)
 #define MOVE_ARM(side, actions)             \

@@ -1478,3 +1478,9 @@ void ORDER_endMatch::impl(Args args) {
 
 #endif
 }
+
+void ORDER_returnErrors::impl(Args args)
+{
+    SelfContainedPID<float>& pid = orderManager.motionControlSystem.leftSpeedPID;
+    orderManager.highLevel.printfln(STD_HEADER,"\neP : %f\neI : %f\neD : %f", pid.getError(), pid.getIntegralErrol(), pid.getDerivativeError());
+}
