@@ -26,8 +26,9 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     robotStatus.sentMoveAbnormal = false;
     robotStatus.movement = MOVEMENT::NONE;
     expectedWallImpact = false;
-    rotationPID.active = true;
-    translationPID.active = true;
+    rotationPID.active = false;
+    translationPID.active = false;
+    robotStatus.translation = false;
 
 
 #if defined(MAIN)
@@ -49,9 +50,9 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
     leftSpeedPID.enableAWU(false);
     rightSpeedPID.setTunings(0.718591667, 0.00125, 30, 0);//0.0015
     rightSpeedPID.enableAWU(false);
-    translationPID.setTunings(2.75,0,5,0);//0.00001
+    translationPID.setTunings(2.75,0,5,0);//2.75  0  5
     translationPID.enableAWU(false);
-    rotationPID.setTunings(3.2,0,0,0);  //2.3 0.000001
+    rotationPID.setTunings(3.2,0.0000,0,0);  //3.2  0  0
     rotationPID.enableAWU(false);
 
 #endif
@@ -66,7 +67,7 @@ void MCS::initSettings() {
 
 
     /* mm/s/MCS_PERIOD */
-    controlSettings.maxAcceleration = 1.5;//2;
+    controlSettings.maxAcceleration = 1.5;//1.5;
     controlSettings.maxDeceleration = 2;//2;
 
     /* rad/s */
@@ -81,7 +82,7 @@ void MCS::initSettings() {
 #if defined(MAIN)
     controlSettings.tolerancyAngle = 0.1;
 #elif defined(SLAVE)
-    controlSettings.tolerancyAngle = 0.01;
+    controlSettings.tolerancyAngle = 0.04;//0.01
 #endif
 
     /* mm */
@@ -90,7 +91,7 @@ void MCS::initSettings() {
     controlSettings.tolerancyX=10;
     controlSettings.tolerancyY=10;
 #elif defined(SLAVE)
-    controlSettings.tolerancyTranslation = 1;
+    controlSettings.tolerancyTranslation = 1;//1
     controlSettings.tolerancyX=10;
     controlSettings.tolerancyY=10;
 #endif
@@ -156,7 +157,7 @@ void MCS::updatePositionOrientation() {
                 rotation -= 2 * PI;
             }
         }
-        if (translation > 30) {
+        if (translation > 200) {
             rotate(rotation);
         }
 
@@ -286,7 +287,8 @@ void MCS::manageStop() {
             ABS(averageTranslationDerivativeError.value())<= controlSettings.tolerancyDerivative &&
             ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation &&
             ABS(averageRotationDerivativeError.value())<=controlSettings.tolerancyDerivative &&
-            ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
+            ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle ||
+           ABS(robotStatus.speedLeftWheel)<=controlSettings.tolerancySpeed && ABS(robotStatus.speedRightWheel)<=controlSettings.tolerancySpeed && ABS(robotStatus.speedTranslation-robotStatus.speedRotation) <= 1 && ABS(robotStatus.speedTranslation+robotStatus.speedRotation) <= 1){
             leftMotor.setDirection(Direction::NONE);
             rightMotor.setDirection(Direction::NONE);
             bool ElBooly = robotStatus.inRotationInGoto;
@@ -354,6 +356,7 @@ void MCS::stop() {
     rightMotor.stop();
 
     translationPID.setGoal(currentDistance);
+    rotationPID.setGoal(robotStatus.orientation);
 
     translationPID.resetOutput(0);
     rotationPID.resetOutput(0);
@@ -362,6 +365,7 @@ void MCS::stop() {
         robotStatus.inGoto = false;
         robotStatus.inRotationInGoto = false;
         robotStatus.moving = false;
+
 
         InterruptStackPrint::Instance().push(EVENT_HEADER,"unableToMove");
     }
@@ -401,13 +405,18 @@ void MCS::stop() {
     leftSpeedPID.resetErrors();
     rightSpeedPID.resetErrors();
 
+    robotStatus.translation = false;
+
     robotStatus.stuck=false;
+    robotStatus.inGoto=false;
+    robotStatus.moving = false;
 }
 
 void MCS::translate(int16_t amount) {
     if(!robotStatus.controlledTranslation)
         return;
     targetDistance = amount;
+    robotStatus.translation = true;
 
 
     if (!translationPID.active){

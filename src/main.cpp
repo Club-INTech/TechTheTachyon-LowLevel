@@ -109,9 +109,12 @@ int main() {
 //    analogWrite(PIN_PWM_LEFT, 255);
 //    analogWrite(PIN_PWM_RIGHT, 255);
 //    orderMgr.execute("t 1.57");
+
 //    orderMgr.execute("d 1000");
 
+
 //    orderMgr.execute("av");
+//    orderMgr.execute("goto 500 500");
 
 
     int stopTick = 110;
@@ -125,7 +128,7 @@ int main() {
         orderMgr.communicate();
 //        if(i==stopTick){
 //            orderMgr.execute("sstop");
-//            //orderMgr.execute("stop");
+//            orderMgr.execute("stop");
 //        }
         if (i==stopTick*2)
         {
