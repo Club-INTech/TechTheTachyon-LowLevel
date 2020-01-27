@@ -37,7 +37,7 @@ public:
     float tolerancyDifferenceSpeed;
 
     uint8_t tolerancyDiferential;
-    uint8_t tolerancyDerivative;
+    float tolerancyDerivative;
 };
 
 #endif //LL_CONTROLSETTINGS_H

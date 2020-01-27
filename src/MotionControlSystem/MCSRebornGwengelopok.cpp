@@ -82,7 +82,7 @@ void MCS::initSettings() {
 #if defined(MAIN)
     controlSettings.tolerancyAngle = 0.1;
 #elif defined(SLAVE)
-    controlSettings.tolerancyAngle = 0.04;//0.01
+    controlSettings.tolerancyAngle = 0.01;//0.01
 #endif
 
     /* mm */
@@ -103,7 +103,7 @@ void MCS::initSettings() {
 #if defined(MAIN)
     controlSettings.tolerancyDerivative = 7;
 #elif defined(SLAVE)
-    controlSettings.tolerancyDerivative = 10;
+    controlSettings.tolerancyDerivative = 0.00000001;
 #endif
 
     /* patate */
@@ -143,12 +143,13 @@ void MCS::updatePositionOrientation() {
 //
 //    currentDistance = distance;
 
-    float dx = targetX-robotStatus.x;
-    float dy = targetY-robotStatus.y;
-    float translation = sqrtf(dx * dx + dy * dy);
-    float rotation = atan2f(dy, dx);
 
     if (robotStatus.inGoto) {
+        float dx = targetX-robotStatus.x;
+        float dy = targetY-robotStatus.y;
+        float translation = sqrtf(dx * dx + dy * dy);
+        float rotation = atan2f(dy, dx);
+
         float currentAngle = getAngle();
         if (ABS(currentAngle - rotation) > (float) PI) {
             if (rotation < 0) {
@@ -157,12 +158,16 @@ void MCS::updatePositionOrientation() {
                 rotation -= 2 * PI;
             }
         }
-        if (translation > 200) {
-            rotate(rotation);
+        if (translation < 50) {
+            robotStatus.inGoto = false;
+            translate(translation);
         }
 
-        if (ABS(currentAngle - rotation) < 0.349) //0.349
+        rotate(rotation);
+
+        if (ABS(currentAngle - rotation) < 0.05 && ABS(rotationPID.getDerivativeError()) < controlSettings.tolerancyDerivative) //0.349
         {
+            digitalWrite(LED1_1,LOW);
             robotStatus.translation = true;
         }
         if (robotStatus.translation) {
@@ -283,23 +288,32 @@ void MCS::manageStop() {
     {
         averageRotationDerivativeError.add(rotationPID.getDerivativeError());
         averageTranslationDerivativeError.add(translationPID.getDerivativeError());
-        if(robotStatus.moving &&
+        if(robotStatus.moving && !robotStatus.inGoto &&
             ABS(averageTranslationDerivativeError.value())<= controlSettings.tolerancyDerivative &&
             ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation &&
             ABS(averageRotationDerivativeError.value())<=controlSettings.tolerancyDerivative &&
-            ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle ||
-           ABS(robotStatus.speedLeftWheel)<=controlSettings.tolerancySpeed && ABS(robotStatus.speedRightWheel)<=controlSettings.tolerancySpeed && ABS(robotStatus.speedTranslation-robotStatus.speedRotation) <= 1 && ABS(robotStatus.speedTranslation+robotStatus.speedRotation) <= 1){
-            leftMotor.setDirection(Direction::NONE);
-            rightMotor.setDirection(Direction::NONE);
-            bool ElBooly = robotStatus.inRotationInGoto;
-            if(robotStatus.inRotationInGoto) {
-                gotoTimer = MIN_TIME_BETWEEN_GOTO_TR_ROT;
-            }
-            digitalWrite(LED3_3,LOW);
+            ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
+                leftMotor.setDirection(Direction::NONE);
+                rightMotor.setDirection(Direction::NONE);
+                bool ElBooly = robotStatus.inRotationInGoto;
+                if (robotStatus.inRotationInGoto) {
+                    gotoTimer = MIN_TIME_BETWEEN_GOTO_TR_ROT;
+                }
+                digitalWrite(LED3_3, LOW);
 
-            stop();
-            robotStatus.inRotationInGoto = ElBooly;
+                stop();
+                robotStatus.inRotationInGoto = ElBooly;
+
         }
+
+//    if (ABS(robotStatus.speedLeftWheel + robotStatus.speedRightWheel)/2 <= controlSettings.tolerancySpeed &&
+//        ABS(leftSpeedPID.getDerivativeError()) <= controlSettings.tolerancyDerivative &&
+//        ABS(rightSpeedPID.getDerivativeError()) <= controlSettings.tolerancyDerivative) {
+//        leftSpeedPID.active = false;
+//        leftSpeedPID.fullReset();
+//        leftSpeedPID.resetOutput(0);
+//        leftMotor.brake();
+//    }
 
 //        if((ABS(leftSpeedPID.getCurrentState())<0.4*ABS(leftSpeedPID.getCurrentGoal())) && ABS((rightSpeedPID.getCurrentState())<0.4*ABS(rightSpeedPID.getCurrentGoal())) && robotStatus.moving && expectedWallImpact){          //si robot a les deux roues bloquées
 //            if (timeCounter==100) {
@@ -497,7 +511,7 @@ void MCS::gotoPoint2(int16_t x, int16_t y) {
 //    ComMgr::Instance().printfln(DEBUG_HEADER, "Required angle: %f", rotation);
 //
 //    rotate(rotation);
-//    robotStatus.moving = true;
+////    robotStatus.moving = true;
 //    robotStatus.inRotationInGoto = true;
 
 

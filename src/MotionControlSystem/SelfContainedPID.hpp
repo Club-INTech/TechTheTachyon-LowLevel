@@ -44,7 +44,7 @@ public:
 
     void fullReset() {
         PID<T>::resetErrors();
-        // FIXME setGoal(0);
+        setGoal(0);
     }
 
     void resetOutput(T newValue) {
