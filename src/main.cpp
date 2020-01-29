@@ -112,7 +112,6 @@ int main() {
 
 //    orderMgr.execute("d 1000");
 
-
 //    orderMgr.execute("av");
 //    orderMgr.execute("goto 500 500");
 
@@ -123,7 +122,7 @@ int main() {
 //
         i++;
         delay(20);
-//        orderMgr.execute("rawposdata");
+        orderMgr.execute("rawposdata");
 
         interruptStackPrint.print();
         orderMgr.communicate();

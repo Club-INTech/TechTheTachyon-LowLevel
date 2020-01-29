@@ -76,7 +76,7 @@ void MCS::initSettings() {
 
     /* mm/s */
     controlSettings.maxTranslationSpeed = 1000;
-    controlSettings.tolerancySpeed = 200;
+    controlSettings.tolerancySpeed = 5;
 
     /* rad */
 #if defined(MAIN)
@@ -165,9 +165,8 @@ void MCS::updatePositionOrientation() {
 
         rotate(rotation);
 
-        if (ABS(currentAngle - rotation) < 0.05 && ABS(rotationPID.getDerivativeError()) < controlSettings.tolerancyDerivative) //0.349
+        if (ABS(currentAngle - rotation) < 0.1 ) //0.349
         {
-            digitalWrite(LED1_1,LOW);
             robotStatus.translation = true;
         }
         if (robotStatus.translation) {
@@ -219,8 +218,12 @@ void MCS::updateSpeed()
     robotStatus.speedTranslation = MAX(-controlSettings.maxTranslationSpeed, MIN(controlSettings.maxTranslationSpeed, robotStatus.speedTranslation));
     robotStatus.speedRotation = MAX(-controlSettings.maxRotationSpeed, MIN(controlSettings.maxRotationSpeed, robotStatus.speedRotation)) * DISTANCE_COD_GAUCHE_CENTRE;
 
-    leftSpeedPID.setGoal(robotStatus.speedTranslation-robotStatus.speedRotation);
-    rightSpeedPID.setGoal(robotStatus.speedTranslation+robotStatus.speedRotation);
+    if (leftSpeedPID.active) {
+        leftSpeedPID.setGoal(robotStatus.speedTranslation - robotStatus.speedRotation);
+    }
+    if (rightSpeedPID.active) {
+        rightSpeedPID.setGoal(robotStatus.speedTranslation + robotStatus.speedRotation);
+    }
 
     if( leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal > controlSettings.maxAcceleration ) {
         leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration );
@@ -305,15 +308,19 @@ void MCS::manageStop() {
                 robotStatus.inRotationInGoto = ElBooly;
 
         }
-
-//    if (ABS(robotStatus.speedLeftWheel + robotStatus.speedRightWheel)/2 <= controlSettings.tolerancySpeed &&
-//        ABS(leftSpeedPID.getDerivativeError()) <= controlSettings.tolerancyDerivative &&
-//        ABS(rightSpeedPID.getDerivativeError()) <= controlSettings.tolerancyDerivative) {
-//        leftSpeedPID.active = false;
-//        leftSpeedPID.fullReset();
-//        leftSpeedPID.resetOutput(0);
-//        leftMotor.brake();
-//    }
+        if (ABS(robotStatus.speedLeftWheel)<=controlSettings.tolerancySpeed && ABS(robotStatus.speedRightWheel)<=controlSettings.tolerancySpeed &&
+            ABS(robotStatus.speedTranslation-robotStatus.speedRotation) <= 1 && ABS(robotStatus.speedTranslation+robotStatus.speedRotation) <= 1 &&
+            ABS(leftSpeedPID.getDerivativeError()) <= controlSettings.tolerancyDerivative &&
+            ABS(rightSpeedPID.getDerivativeError()) <= controlSettings.tolerancyDerivative &&
+            leftSpeedPID.active && rightSpeedPID.active){
+            digitalWrite(LED3_2, LOW);
+            robotStatus.controlled = false;
+            robotStatus.moving = false;
+            robotStatus.inGoto = false;
+//          leftSpeedPID.fullReset();
+//          leftSpeedPID.resetOutput(0);
+//          leftMotor.brake();
+        }
 
 //        if((ABS(leftSpeedPID.getCurrentState())<0.4*ABS(leftSpeedPID.getCurrentGoal())) && ABS((rightSpeedPID.getCurrentState())<0.4*ABS(rightSpeedPID.getCurrentGoal())) && robotStatus.moving && expectedWallImpact){          //si robot a les deux roues bloquées
 //            if (timeCounter==100) {
@@ -427,10 +434,13 @@ void MCS::stop() {
 }
 
 void MCS::translate(int16_t amount) {
+    robotStatus.controlled = true;
     if(!robotStatus.controlledTranslation)
         return;
     targetDistance = amount;
     robotStatus.translation = true;
+    leftSpeedPID.active = true;
+    rightSpeedPID.active = true;
 
 
     if (!translationPID.active){
@@ -455,11 +465,13 @@ void MCS::translate(int16_t amount) {
 
 void MCS::rotate(float angle) {
 //    rotationPID.active = false;
+    robotStatus.controlled = true;
     if(!robotStatus.controlledRotation){
         return;
     }
     targetAngle = angle;
-
+    leftSpeedPID.active = true;
+    rightSpeedPID.active = true;
     float differenceAngle = robotStatus.orientation-targetAngle;
     while(ABS(differenceAngle) > PI)
     {
@@ -514,6 +526,7 @@ void MCS::gotoPoint2(int16_t x, int16_t y) {
 ////    robotStatus.moving = true;
 //    robotStatus.inRotationInGoto = true;
 
+    robotStatus.controlled = true;
 
     robotStatus.translation=false;
     robotStatus.inGoto=true;
@@ -522,6 +535,8 @@ void MCS::gotoPoint2(int16_t x, int16_t y) {
 
     robotStatus.moving = true;
     robotStatus.inRotationInGoto = true;
+    leftSpeedPID.active = true;
+    rightSpeedPID.active = true;
 }
 
 void MCS::followTrajectory(const double* xTable, const double* yTable, int count) {
