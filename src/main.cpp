@@ -122,8 +122,8 @@ int main() {
 //
         i++;
         delay(20);
-        orderMgr.execute("rawposdata");
-
+//        orderMgr.execute("rawposdata");
+//
         interruptStackPrint.print();
         orderMgr.communicate();
 //        if(i==stopTick){

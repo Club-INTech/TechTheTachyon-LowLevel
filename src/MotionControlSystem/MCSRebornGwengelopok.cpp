@@ -158,14 +158,15 @@ void MCS::updatePositionOrientation() {
                 rotation -= 2 * PI;
             }
         }
-        if (translation < 50) {
+        if (translation < 100) {
             robotStatus.inGoto = false;
             translate(translation);
+            InterruptStackPrint::Instance().push(EVENT_HEADER, "stoppedMoving");
         }
 
         rotate(rotation);
 
-        if (ABS(currentAngle - rotation) < 0.1 ) //0.349
+        if (ABS(currentAngle - rotation) < 0.01) //0.654
         {
             robotStatus.translation = true;
         }
@@ -287,15 +288,14 @@ void MCS::control()
 void MCS::manageStop() {
     static int timeCounter =0;
 
-    if(robotStatus.controlledTranslation || robotStatus.controlledRotation)
-    {
+    if(robotStatus.controlledTranslation || robotStatus.controlledRotation) {
         averageRotationDerivativeError.add(rotationPID.getDerivativeError());
         averageTranslationDerivativeError.add(translationPID.getDerivativeError());
-        if(robotStatus.moving && !robotStatus.inGoto &&
-            ABS(averageTranslationDerivativeError.value())<= controlSettings.tolerancyDerivative &&
-            ABS(translationPID.getCurrentState()-translationPID.getCurrentGoal())<=controlSettings.tolerancyTranslation &&
-            ABS(averageRotationDerivativeError.value())<=controlSettings.tolerancyDerivative &&
-            ABS(rotationPID.getCurrentState()-rotationPID.getCurrentGoal())<=controlSettings.tolerancyAngle){
+        if (robotStatus.moving && !robotStatus.inGoto &&
+            ABS(averageTranslationDerivativeError.value()) <= controlSettings.tolerancyDerivative &&
+            ABS(translationPID.getCurrentState() - translationPID.getCurrentGoal()) <=controlSettings.tolerancyTranslation && (
+            (ABS(averageRotationDerivativeError.value()) <= controlSettings.tolerancyDerivative &&
+            ABS(rotationPID.getCurrentState() - rotationPID.getCurrentGoal()) <= controlSettings.tolerancyAngle) || expectedWallImpact)) {
                 leftMotor.setDirection(Direction::NONE);
                 rightMotor.setDirection(Direction::NONE);
                 bool ElBooly = robotStatus.inRotationInGoto;
@@ -376,6 +376,8 @@ void MCS::stop() {
     leftMotor.stop();
     rightMotor.stop();
 
+    expectedWallImpact = false;
+
     translationPID.setGoal(currentDistance);
     rotationPID.setGoal(robotStatus.orientation);
 
@@ -406,7 +408,7 @@ void MCS::stop() {
 //
 //        }
 //        else {
-//            InterruptStackPrint::Instance().push(EVENT_HEADER, "stoppedMoving");
+            InterruptStackPrint::Instance().push(EVENT_HEADER, "stoppedMoving");
 //            robotStatus.inGoto=false;
 //            leftSpeedPID.setGoal(0);
 //            rightSpeedPID.setGoal(0);
@@ -427,7 +429,6 @@ void MCS::stop() {
     rightSpeedPID.resetErrors();
 
     robotStatus.translation = false;
-
     robotStatus.stuck=false;
     robotStatus.inGoto=false;
     robotStatus.moving = false;
