@@ -36,6 +36,7 @@ rightSpeed = []
 rightSpeedSetpoint = []
 leftSpeed = []
 leftSpeedSetpoint = []
+difference = []
 
 speeds = (leftSpeed,rightSpeed)
 speedSetpoints = (leftSpeedSetpoint,rightSpeedSetpoint)
@@ -121,19 +122,28 @@ if(mode == "angle" or mode == ""):
     subplot(212)
     plot(abscisses[1:-1],[(float(angles[i+1])-float(angles[i-1]))/0.002 for i in range(1,len(angles)-1)])
     plot(abscisses,[0]*len(abscisses))
+
+for i in range(len(speeds[0])):
+    difference.append(speeds[0][i] - speeds[1][i])
     
 if(mode == "speed" or mode == ""):
     Img = figure(figsize=(14,14))
     speedSubs = (subplot(211),subplot(212))
     for i in [0,1]:
-        speedSubs[i].plot(abscisses,speeds[i])
-        speedSubs[i].plot(abscisses,speedSetpoints[i])
+        speedSubs[0].plot(abscisses,speeds[i])
+        speedSubs[0].plot(abscisses,speedSetpoints[i])
+    speedSubs[1].plot(abscisses,difference)
+    speedSubs[1].plot(abscisses,[0]*len(abscisses))
     Img.savefig("serialOutput/"+file+"- speeds.png")
     clf()
 
     for i in [0,1]:
-        subplot(2,1,i+1)
+        subplot(2,1,1)
         plot(abscisses,speeds[i])
         plot(abscisses,speedSetpoints[i])
+    subplot(2,1,2)
+    plot(abscisses,difference)
+    plot(abscisses,[0]*len(abscisses))
+
 
 show()

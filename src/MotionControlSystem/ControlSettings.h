@@ -13,6 +13,7 @@ public:
     /* mm/s/MC_FREQ */
     float maxAcceleration;
     float maxDeceleration;
+    float maxAccelerationTranslation;
 
     /* mm/s */
     float maxTranslationSpeed;

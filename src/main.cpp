@@ -75,7 +75,7 @@ int main() {
 	Serial.println("Starting...");
 	pinMode(LED_BUILTIN,OUTPUT);
 	digitalWrite(LED_BUILTIN,HIGH);
-    delay(3000);//Laisse le temps aux capteurs de clignotter leur ID
+//    delay(3000);//Laisse le temps aux capteurs de clignotter leur ID
     digitalWrite(LED_BUILTIN,LOW);
     ActuatorsMgr::Instance().initTorques();
 
@@ -121,9 +121,10 @@ int main() {
     while (true) {
 //
         i++;
-        delay(20);
 //        orderMgr.execute("rawposdata");
-//
+        delay(20);
+
+
         interruptStackPrint.print();
         orderMgr.communicate();
 //        if(i==stopTick){

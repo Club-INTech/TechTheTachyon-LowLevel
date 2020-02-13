@@ -33,10 +33,9 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
 #if defined(MAIN)
 
-
     leftSpeedPID.setTunings(1, 0.00, 0, 0); //0.5   0.000755   21.5
     leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(1.1, 0.00, 0, 0); //0.85 0.000755 0
+    rightSpeedPID.setTunings(1.5, 0.00, 0, 0); //0.85 0.000755 0
     rightSpeedPID.enableAWU(false);
 
     translationPID.setTunings(2,0,0,0);
@@ -46,13 +45,14 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
 #elif defined(SLAVE)
 
-    leftSpeedPID.setTunings(0.53, 0.00105, 30, 0);//0.0015
+
+    leftSpeedPID.setTunings(1, 0.00239, 30, 0);//0.53  0.00105
     leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(0.718591667, 0.00125, 30, 0);//0.0015
+    rightSpeedPID.setTunings(1, 0.002, 30, 0);//0.718591667  0.00125
     rightSpeedPID.enableAWU(false);
-    translationPID.setTunings(2.75,0,5,0);//2.75  0  5
+    translationPID.setTunings(2,0,5,0);//2.75  0  5
     translationPID.enableAWU(false);
-    rotationPID.setTunings(3.2,0.0000,0,0);  //3.2  0  0
+    rotationPID.setTunings(4,0,30,0);  //4.8  0.00001  15.5
     rotationPID.enableAWU(false);
 
 #endif
@@ -68,7 +68,8 @@ void MCS::initSettings() {
 
     /* mm/s/MCS_PERIOD */
     controlSettings.maxAcceleration = 1.5;//1.5;
-    controlSettings.maxDeceleration = 2;//2;
+    controlSettings.maxDeceleration = 2.5;//2;
+    controlSettings.maxAccelerationTranslation = 1.5;
 
     /* rad/s */
     controlSettings.maxRotationSpeed = 2*PI; //2*PI
@@ -103,7 +104,7 @@ void MCS::initSettings() {
 #if defined(MAIN)
     controlSettings.tolerancyDerivative = 7;
 #elif defined(SLAVE)
-    controlSettings.tolerancyDerivative = 0.00000001;
+    controlSettings.tolerancyDerivative = 0.0000001;
 #endif
 
     /* patate */
@@ -120,6 +121,7 @@ void MCS::initStatus() {
     robotStatus.controlledTranslation = true;
     previousLeftSpeedGoal = 0;
     previousRightSpeedGoal = 0;
+    previousSpeedTranslation = 0;
     previousLeftTicks = 0;
     previousRightTicks = 0;
 }
@@ -215,9 +217,17 @@ void MCS::updateSpeed()
         robotStatus.speedRotation = 0.0f;
     }
 
-
     robotStatus.speedTranslation = MAX(-controlSettings.maxTranslationSpeed, MIN(controlSettings.maxTranslationSpeed, robotStatus.speedTranslation));
     robotStatus.speedRotation = MAX(-controlSettings.maxRotationSpeed, MIN(controlSettings.maxRotationSpeed, robotStatus.speedRotation)) * DISTANCE_COD_GAUCHE_CENTRE;
+
+//    if (ABS(robotStatus.speedTranslation - previousSpeedTranslation) > controlSettings.maxAccelerationTranslation) {
+//        if (robotStatus.speedTranslation >= previousSpeedTranslation) {
+//            robotStatus.speedTranslation = previousSpeedTranslation + controlSettings.maxAccelerationTranslation;
+//        }
+//        else {
+//            robotStatus.speedTranslation = previousSpeedTranslation - controlSettings.maxAccelerationTranslation;
+//        }
+//    }
 
     if (leftSpeedPID.active) {
         leftSpeedPID.setGoal(robotStatus.speedTranslation - robotStatus.speedRotation);
@@ -226,22 +236,42 @@ void MCS::updateSpeed()
         rightSpeedPID.setGoal(robotStatus.speedTranslation + robotStatus.speedRotation);
     }
 
-    if( leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal > controlSettings.maxAcceleration ) {
-        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration );
+//    if( leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal > controlSettings.maxAcceleration ) {
+//        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration );
+//    }
+//    if( previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration && !robotStatus.stuck) {
+//        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxDeceleration );
+//    }
+//
+//    if( rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal > controlSettings.maxAcceleration ) {
+//        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxAcceleration );
+//    }
+//    if( previousRightSpeedGoal - rightSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration && !robotStatus.stuck) {
+//        rightSpeedPID.setGoal(previousRightSpeedGoal - controlSettings.maxDeceleration);
+//    }
+
+    int leftSign = leftSpeedPID.getCurrentGoal() / ABS(leftSpeedPID.getCurrentGoal());
+    int rightSign = rightSpeedPID.getCurrentGoal() / ABS(rightSpeedPID.getCurrentGoal());
+
+    if( leftSign * (leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal) > controlSettings.maxAcceleration ) {
+        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration * leftSign );
+        digitalWrite(LED1_3,HIGH);
     }
-    if( previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration && !robotStatus.stuck) {
-        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxDeceleration );
+    if( leftSign * (previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration && !robotStatus.stuck) {
+        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxDeceleration * leftSign );
+        digitalWrite(LED1_3,LOW);
     }
 
-    if( rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal > controlSettings.maxAcceleration ) {
-        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxAcceleration );
+    if( rightSign * (rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal) > controlSettings.maxAcceleration ) {
+        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxAcceleration * rightSign );
     }
-    if( previousRightSpeedGoal - rightSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration && !robotStatus.stuck) {
-        rightSpeedPID.setGoal( previousRightSpeedGoal - controlSettings.maxDeceleration );
+    if( rightSign * (previousRightSpeedGoal - rightSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration && !robotStatus.stuck) {
+        rightSpeedPID.setGoal( previousRightSpeedGoal - controlSettings.maxDeceleration * rightSign );
     }
 
     previousLeftSpeedGoal = leftSpeedPID.getCurrentGoal();
     previousRightSpeedGoal = rightSpeedPID.getCurrentGoal();
+    previousSpeedTranslation = robotStatus.speedTranslation;
 }
 void MCS::control()
 {
@@ -317,6 +347,7 @@ void MCS::manageStop() {
             robotStatus.controlled = false;
             robotStatus.moving = false;
             robotStatus.inGoto = false;
+
 //          leftSpeedPID.fullReset();
 //          leftSpeedPID.resetOutput(0);
 //          leftMotor.brake();
@@ -557,12 +588,11 @@ void MCS::stopRotation() {
 }
 
 void MCS::speedBasedMovement(MOVEMENT movement) {
-    if(!robotStatus.controlled)
-    {
-        return;
-    }
-
+    robotStatus.controlled = true;
     robotStatus.moving = true;
+
+    leftSpeedPID.active = true;
+    rightSpeedPID.active = true;
 
     switch(movement)
     {
