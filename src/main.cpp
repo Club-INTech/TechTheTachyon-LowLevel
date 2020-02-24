@@ -131,10 +131,10 @@ int main() {
 //            orderMgr.execute("sstop");
 //            orderMgr.execute("stop");
 //        }
-        if (i==stopTick*2)
-        {
-            Serial.println("DATAEND");
-        }
+//        if (i==stopTick*2)
+//        {
+//            Serial.println("DATAEND");
+//        }
     }
 
 
