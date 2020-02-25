@@ -52,6 +52,8 @@ private:
     float previousLeftSpeedGoal;
     float previousRightSpeedGoal;
     float previousSpeedTranslation;
+    float previousLeftSpeedError;
+    float previousRightSpeedError;
     int16_t targetDistance;
     float targetAngle;
     float angleOffset;
