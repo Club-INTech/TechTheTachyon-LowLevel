@@ -79,7 +79,7 @@ void MCS::initSettings() {
 
     /* mm/s */
     controlSettings.maxTranslationSpeed = 1000;
-    controlSettings.tolerancySpeed = 5;
+    controlSettings.tolerancySpeed = 2;
 
     /* rad */
 #if defined(MAIN)
@@ -95,8 +95,8 @@ void MCS::initSettings() {
     controlSettings.tolerancyY=10;
 #elif defined(SLAVE)
     controlSettings.tolerancyTranslation = 1;//1
-    controlSettings.tolerancyX=10;
-    controlSettings.tolerancyY=10;
+    controlSettings.tolerancyX=5;
+    controlSettings.tolerancyY=5;
 #endif
 
     /* ms */
@@ -295,6 +295,8 @@ void MCS::control()
     previousLeftTicks = leftTicks;
     previousRightTicks = rightTicks;
 
+//    digitalWrite(LED3_2, !expectedWallImpact);
+
 //#if defined(MAIN)
 //    digitalWrite(LED3, robotStatus.moving);
 //#elif defined(SLAVE)
@@ -321,6 +323,8 @@ void MCS::control()
 
 void MCS::manageStop() {
     static int timeCounter =0;
+    static int timeCounter2 =0;
+
 
     if(robotStatus.controlledTranslation || robotStatus.controlledRotation) {
         averageRotationDerivativeError.add(rotationPID.getDerivativeError());
@@ -338,7 +342,7 @@ void MCS::manageStop() {
             if (robotStatus.inRotationInGoto) {
                 gotoTimer = MIN_TIME_BETWEEN_GOTO_TR_ROT;
             }
-            digitalWrite(LED3_3, LOW);
+//            digitalWrite(LED3_3, LOW);
 
             stop();
             robotStatus.inRotationInGoto = ElBooly;
@@ -351,7 +355,7 @@ void MCS::manageStop() {
             ABS(leftSpeedPID.getDerivativeError()) <= controlSettings.tolerancyDerivative &&
             ABS(rightSpeedPID.getDerivativeError()) <= controlSettings.tolerancyDerivative &&
             leftSpeedPID.active && rightSpeedPID.active) {
-            digitalWrite(LED3_2, LOW);
+//            digitalWrite(LED3_2, LOW);
             robotStatus.controlled = false;
             robotStatus.moving = false;
             robotStatus.inGoto = false;
@@ -361,15 +365,16 @@ void MCS::manageStop() {
             if (timeCounter % 50 == 0) {
                 if (
                     (ABS(leftSpeedPID.getCurrentState()) < 0.1 * ABS(leftSpeedPID.getCurrentGoal())) &&
-                    ABS((rightSpeedPID.getCurrentState()) < 0.1 * ABS(rightSpeedPID.getCurrentGoal()))) {
+                    ABS(rightSpeedPID.getCurrentState()) < 0.1 * ABS(rightSpeedPID.getCurrentGoal())) {
 
                     robotStatus.stuck = true;
                     robotStatus.moving = false;
                     stop();
+//                    robotStatus.controlled = false;
                     leftMotor.setDirection(Direction::NONE);
                     rightMotor.setDirection(Direction::NONE);
                     InterruptStackPrint::Instance().push("blocage symétrique");
-                    digitalWrite(LED1_1, HIGH);
+                    digitalWrite(LED3_3, LOW);
                     timeCounter = 1;
                 }
                 previousLeftSpeedError = leftSpeedPID.getError();
@@ -379,6 +384,21 @@ void MCS::manageStop() {
         }
         else {
             timeCounter = 1;
+        }
+
+
+
+        if(robotStatus.stuck) {
+            if (timeCounter2 == 100){
+                stop();
+//                leftMotor.setDirection(Direction::NONE);
+//                rightMotor.setDirection(Direction::NONE);
+                expectedWallImpact = false;
+                robotStatus.stuck = false;
+            }
+            else {
+                timeCounter2++;
+            }
         }
 
 //        if((ABS(leftSpeedPID.getCurrentState())<0.4*ABS(leftSpeedPID.getCurrentGoal())) && ABS((rightSpeedPID.getCurrentState())<0.4*ABS(rightSpeedPID.getCurrentGoal())) && robotStatus.moving && expectedWallImpact){          //si robot a les deux roues bloquées
@@ -428,6 +448,7 @@ void MCS::manageStop() {
 }
 
 void MCS::stop() {
+    static int timeCounter =0;
 #if defined(MAIN)
     digitalWrite(LED2,HIGH);
 #elif defined(SLAVE)
@@ -496,6 +517,7 @@ void MCS::stop() {
 
 void MCS::translate(int16_t amount) {
     robotStatus.controlled = true;
+    robotStatus.stuck = false;
     if(!robotStatus.controlledTranslation)
         return;
     targetDistance = amount;
@@ -527,6 +549,7 @@ void MCS::translate(int16_t amount) {
 void MCS::rotate(float angle) {
 //    rotationPID.active = false;
     robotStatus.controlled = true;
+    robotStatus.stuck = false;
     if(!robotStatus.controlledRotation){
         return;
     }

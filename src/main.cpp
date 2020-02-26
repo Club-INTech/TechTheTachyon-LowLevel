@@ -114,14 +114,14 @@ int main() {
 
 //    orderMgr.execute("d 1000");
 //    orderMgr.execute("goto 500 500");
-
-
+//digitalWrite(LED1_1, LOW);
+//    orderMgr.execute("d 1500");
     int stopTick = 110;
 
     while (true) {
 //
         i++;
-//        orderMgr.execute("rawposdata");
+        orderMgr.execute("rawposdata");
         delay(20);
 
 
