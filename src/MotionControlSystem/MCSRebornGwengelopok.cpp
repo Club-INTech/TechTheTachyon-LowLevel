@@ -48,11 +48,11 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 #elif defined(SLAVE)
 
 
-    leftSpeedPID.setTunings(1, 0.00239, 30, 0);//0.53  0.00105
+    leftSpeedPID.setTunings(1, 0.00239, 25, 0);//0.53  0.00105
     leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(1, 0.002, 30, 0);//0.718591667  0.00125
+    rightSpeedPID.setTunings(1, 0.002, 25, 0);//0.718591667  0.00125
     rightSpeedPID.enableAWU(false);
-    translationPID.setTunings(2,0,5,0);//2.75  0  5
+    translationPID.setTunings(2,0,5,0);//2  0  5
     translationPID.enableAWU(false);
     rotationPID.setTunings(4,0,30,0);  //4.8  0.00001  15.5
     rotationPID.enableAWU(false);
@@ -79,7 +79,7 @@ void MCS::initSettings() {
 
     /* mm/s */
     controlSettings.maxTranslationSpeed = 1000;
-    controlSettings.tolerancySpeed = 2;
+    controlSettings.tolerancySpeed = 5;
 
     /* rad */
 #if defined(MAIN)
@@ -106,7 +106,7 @@ void MCS::initSettings() {
 #if defined(MAIN)
     controlSettings.tolerancyDerivative = 7;
 #elif defined(SLAVE)
-    controlSettings.tolerancyDerivative = 0.0000001;
+    controlSettings.tolerancyDerivative = 10;
 #endif
 
     /* patate */
@@ -257,17 +257,17 @@ void MCS::updateSpeed()
 
     if( leftSign * (leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal) > controlSettings.maxAcceleration ) {
         leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration * leftSign );
-        digitalWrite(LED1_3,HIGH);
+//        digitalWrite(LED1_3,HIGH);
     }
-    if( leftSign * (previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration && !robotStatus.stuck) {
+    if( leftSign * (previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration && !robotStatus.stuck && !expectedWallImpact) {
         leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxDeceleration * leftSign );
-        digitalWrite(LED1_3,LOW);
+//        digitalWrite(LED1_3,LOW);
     }
 
     if( rightSign * (rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal) > controlSettings.maxAcceleration ) {
         rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxAcceleration * rightSign );
     }
-    if( rightSign * (previousRightSpeedGoal - rightSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration && !robotStatus.stuck) {
+    if( rightSign * (previousRightSpeedGoal - rightSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration && !robotStatus.stuck && !expectedWallImpact) {
         rightSpeedPID.setGoal( previousRightSpeedGoal - controlSettings.maxDeceleration * rightSign );
     }
 
@@ -287,10 +287,24 @@ void MCS::control()
 
     updateSpeed();
 
-    int32_t leftPWM = leftSpeedPID.compute(robotStatus.speedLeftWheel);
-    int32_t rightPWM = rightSpeedPID.compute(robotStatus.speedRightWheel);
-    leftMotor.run(leftPWM);
-    rightMotor.run(rightPWM);
+//    char buf[50];
+//    sprintf(buf, "left: %f; right: %f", robotStatus.speedLeftWheel, robotStatus.speedRightWheel);
+//    InterruptStackPrint::Instance().push(DEBUG_HEADER, buf);
+
+    /*if(ABS(leftSpeedPID.getCurrentGoal()) >= controlSettings.tolerancySpeed || ABS(rightSpeedPID.getCurrentGoal()) >= controlSettings.tolerancySpeed
+    || ABS(translationPID.getCurrentState() - translationPID.getCurrentGoal()) >= controlSettings.tolerancyTranslation
+    || ABS(robotStatus.orientation - targetAngle) >= controlSettings.tolerancyAngle) {*/
+        int32_t leftPWM = leftSpeedPID.compute(robotStatus.speedLeftWheel);
+        leftMotor.run(leftPWM);
+        int32_t rightPWM = rightSpeedPID.compute(robotStatus.speedRightWheel);
+        rightMotor.run(rightPWM);
+     //   digitalWrite(LED1_3, HIGH);
+     //   robotStatus.moving = true;
+    /*} else {
+        leftMotor.stop();
+        rightMotor.stop();
+        digitalWrite(LED1_3, LOW);
+    }*/
 
     previousLeftTicks = leftTicks;
     previousRightTicks = rightTicks;
@@ -348,7 +362,7 @@ void MCS::manageStop() {
             robotStatus.inRotationInGoto = ElBooly;
 
         }
-        if (ABS(robotStatus.speedLeftWheel) <= controlSettings.tolerancySpeed &&
+     /*   if (ABS(robotStatus.speedLeftWheel) <= controlSettings.tolerancySpeed &&
             ABS(robotStatus.speedRightWheel) <= controlSettings.tolerancySpeed &&
             ABS(robotStatus.speedTranslation - robotStatus.speedRotation) <= 1 &&
             ABS(robotStatus.speedTranslation + robotStatus.speedRotation) <= 1 &&
@@ -356,36 +370,34 @@ void MCS::manageStop() {
             ABS(rightSpeedPID.getDerivativeError()) <= controlSettings.tolerancyDerivative &&
             leftSpeedPID.active && rightSpeedPID.active) {
 //            digitalWrite(LED3_2, LOW);
-            robotStatus.controlled = false;
+//            robotStatus.controlled = false;
+//                stop();
             robotStatus.moving = false;
             robotStatus.inGoto = false;
-        }
+        }*/
 
-        if (robotStatus.moving) {
-            if (timeCounter % 50 == 0) {
-                if (
-                    (ABS(leftSpeedPID.getCurrentState()) < 0.1 * ABS(leftSpeedPID.getCurrentGoal())) &&
-                    ABS(rightSpeedPID.getCurrentState()) < 0.1 * ABS(rightSpeedPID.getCurrentGoal())) {
+        if (
+            (ABS(robotStatus.speedLeftWheel) < 0.1 * ABS(leftSpeedPID.getCurrentGoal())) &&
+            ABS(robotStatus.speedRightWheel) < 0.1 * ABS(rightSpeedPID.getCurrentGoal())
+            && robotStatus.moving) {
 
-                    robotStatus.stuck = true;
-                    robotStatus.moving = false;
-                    stop();
+            digitalWrite(LED3_3, LOW);
+            if (timeCounter >= 50) {
+                robotStatus.stuck = true;
+                robotStatus.moving = false;
+                stop();
 //                    robotStatus.controlled = false;
-                    leftMotor.setDirection(Direction::NONE);
-                    rightMotor.setDirection(Direction::NONE);
-                    InterruptStackPrint::Instance().push("blocage symétrique");
-                    digitalWrite(LED3_3, LOW);
-                    timeCounter = 1;
-                }
-                previousLeftSpeedError = leftSpeedPID.getError();
-                previousRightSpeedError = rightSpeedPID.getError();
+//                    leftMotor.setDirection(Direction::NONE);
+//                    rightMotor.setDirection(Direction::NONE);
+                InterruptStackPrint::Instance().push("blocage symétrique");
+                timeCounter = 0;
+            } else {
+                timeCounter++;
             }
-            timeCounter++;
+        } else {
+            digitalWrite(LED3_3, HIGH);
+            timeCounter = 0;
         }
-        else {
-            timeCounter = 1;
-        }
-
 
 
         if(robotStatus.stuck) {
@@ -461,14 +473,15 @@ void MCS::stop() {
 
     translationPID.setGoal(currentDistance);
     rotationPID.setGoal(robotStatus.orientation);
-
+    leftSpeedPID.setGoal(0);
+    rightSpeedPID.setGoal(0);
     translationPID.resetOutput(0);
     rotationPID.resetOutput(0);
     if (robotStatus.stuck)
     {
-        robotStatus.inGoto = false;
+//        robotStatus.inGoto = false;
         robotStatus.inRotationInGoto = false;
-        robotStatus.moving = false;
+//        robotStatus.moving = false;
 
 
         InterruptStackPrint::Instance().push(EVENT_HEADER,"unableToMove");
@@ -524,7 +537,7 @@ void MCS::translate(int16_t amount) {
     robotStatus.translation = true;
     leftSpeedPID.active = true;
     rightSpeedPID.active = true;
-
+    digitalWrite(LED3_2, HIGH);
 
     if (!translationPID.active){
         translationPID.active = true;

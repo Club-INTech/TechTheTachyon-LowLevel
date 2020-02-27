@@ -110,7 +110,7 @@ int main() {
 //    analogWrite(PIN_PWM_RIGHT, 255);
 //    orderMgr.execute("t 1.57");
 
-//    orderMgr.execute("d 1000");
+  //  orderMgr.execute("d 1000");
 
 //    orderMgr.execute("d 1000");
 //    orderMgr.execute("goto 500 500");
@@ -132,10 +132,10 @@ int main() {
 //            orderMgr.execute("sstop");
 //            orderMgr.execute("stop");
 //        }
-//        if (i==stopTick*2)
-//        {
-//            Serial.println("DATAEND");
-//        }
+        if (i==stopTick*2)
+        {
+            Serial.println("DATAEND");
+        }
     }
 
 
