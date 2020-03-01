@@ -112,7 +112,7 @@ int main() {
 
 //    orderMgr.execute("av");
 
-    orderMgr.execute("d 1000");
+//    orderMgr.execute("d 1000");
 //    orderMgr.execute("goto 500 500");
 
 //    orderMgr.execute("d 1500");
@@ -128,10 +128,10 @@ int main() {
 
         interruptStackPrint.print();
         orderMgr.communicate();
-//        if(i==stopTick){
-//            orderMgr.execute("sstop");
-//            orderMgr.execute("stop");
-//        }
+        if(i==stopTick){
+            orderMgr.execute("sstop");
+            orderMgr.execute("stop");
+        }
         if (i==stopTick*2)
         {
             Serial.println("DATAEND");
