@@ -110,19 +110,19 @@ int main() {
 //    analogWrite(PIN_PWM_RIGHT, 255);
 //    orderMgr.execute("t 1.57");
 
-  //  orderMgr.execute("d 1000");
+//    orderMgr.execute("av");
 
-//    orderMgr.execute("d 1000");
+    orderMgr.execute("d 1000");
 //    orderMgr.execute("goto 500 500");
-//digitalWrite(LED1_1, LOW);
+
 //    orderMgr.execute("d 1500");
-    int stopTick = 110;
+    int stopTick = 200;
 
     while (true) {
 //
         i++;
         orderMgr.execute("rawposdata");
-        delay(20);
+        delay(10);
 
 
 

@@ -20,10 +20,10 @@ constexpr uint8_t INB_RIGHT = 27; //8
 constexpr uint8_t PIN_PWM_RIGHT = 10; //7
 
 /* Roues codeuses */
-constexpr uint8_t ENCODER_LEFT_A = 3; //3
-constexpr uint8_t ENCODER_LEFT_B = 4; //4
-constexpr uint8_t ENCODER_RIGHT_A = 29; //29
-constexpr uint8_t ENCODER_RIGHT_B = 30; //30
+constexpr uint8_t ENCODER_LEFT_A = 29; //4
+constexpr uint8_t ENCODER_LEFT_B = 30; //3
+constexpr uint8_t ENCODER_RIGHT_A = 4; //29
+constexpr uint8_t ENCODER_RIGHT_B = 3; //30
 
 /* CAPTEURS */
 constexpr uint8_t PIN_JMPR = 10;
