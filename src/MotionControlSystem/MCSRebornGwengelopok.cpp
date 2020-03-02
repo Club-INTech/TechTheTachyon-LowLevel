@@ -35,9 +35,9 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
 #if defined(MAIN)
 
-    leftSpeedPID.setTunings(0.8, 0.0022, 25, 0000); //1   0.00268   25
+    leftSpeedPID.setTunings(0.8, 0.0022, 25, 0); //0.8    0.0022    25
     leftSpeedPID.enableAWU(false);
-    rightSpeedPID.setTunings(0.638, 0.002182, 25, 0000); //1.05 0.0027 25
+    rightSpeedPID.setTunings(0.8, 0.00225, 25, 0); //0.638    0.002182    25
     rightSpeedPID.enableAWU(false);
 
     translationPID.setTunings(3,0,0,0);
@@ -237,38 +237,38 @@ void MCS::updateSpeed()
         rightSpeedPID.setGoal(robotStatus.speedTranslation + robotStatus.speedRotation);
     }
 
-    if( leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal > controlSettings.maxAcceleration ) {
-        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration );
+//    if( leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal > controlSettings.maxAcceleration ) {
+//        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration );
+//    }
+//    if( previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration && !robotStatus.stuck) {
+//        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxDeceleration );
+//    }
+//
+//    if( rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal > controlSettings.maxAcceleration ) {
+//        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxAcceleration );
+//    }
+//    if( previousRightSpeedGoal - rightSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration && !robotStatus.stuck) {
+//        rightSpeedPID.setGoal(previousRightSpeedGoal - controlSettings.maxDeceleration);
+//    }
+//
+    int leftSign = leftSpeedPID.getCurrentGoal() / ABS(leftSpeedPID.getCurrentGoal());
+    int rightSign = rightSpeedPID.getCurrentGoal() / ABS(rightSpeedPID.getCurrentGoal());
+
+    if( leftSign * (leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal) > controlSettings.maxAcceleration ) {
+        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration * leftSign );
+//        digitalWrite(LED1_3,HIGH);
     }
-    if( previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration && !robotStatus.stuck) {
-        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxDeceleration );
+    if( leftSign * (previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration && !robotStatus.stuck && !expectedWallImpact) {
+        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxDeceleration * leftSign );
+//        digitalWrite(LED1_3,LOW);
     }
 
-    if( rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal > controlSettings.maxAcceleration ) {
-        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxAcceleration );
+    if( rightSign * (rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal) > controlSettings.maxAcceleration ) {
+        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxAcceleration * rightSign );
     }
-    if( previousRightSpeedGoal - rightSpeedPID.getCurrentGoal() > controlSettings.maxDeceleration && !robotStatus.stuck) {
-        rightSpeedPID.setGoal(previousRightSpeedGoal - controlSettings.maxDeceleration);
+    if( rightSign * (previousRightSpeedGoal - rightSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration && !robotStatus.stuck && !expectedWallImpact) {
+        rightSpeedPID.setGoal( previousRightSpeedGoal - controlSettings.maxDeceleration * rightSign );
     }
-//
-//    int leftSign = leftSpeedPID.getCurrentGoal() / ABS(leftSpeedPID.getCurrentGoal());
-//    int rightSign = rightSpeedPID.getCurrentGoal() / ABS(rightSpeedPID.getCurrentGoal());
-//
-//    if( leftSign * (leftSpeedPID.getCurrentGoal() - previousLeftSpeedGoal) > controlSettings.maxAcceleration ) {
-//        leftSpeedPID.setGoal( previousLeftSpeedGoal + controlSettings.maxAcceleration * leftSign );
-////        digitalWrite(LED1_3,HIGH);
-//    }
-//    if( leftSign * (previousLeftSpeedGoal - leftSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration && !robotStatus.stuck && !expectedWallImpact) {
-//        leftSpeedPID.setGoal( previousLeftSpeedGoal - controlSettings.maxDeceleration * leftSign );
-////        digitalWrite(LED1_3,LOW);
-//    }
-//
-//    if( rightSign * (rightSpeedPID.getCurrentGoal() - previousRightSpeedGoal) > controlSettings.maxAcceleration ) {
-//        rightSpeedPID.setGoal( previousRightSpeedGoal + controlSettings.maxAcceleration * rightSign );
-//    }
-//    if( rightSign * (previousRightSpeedGoal - rightSpeedPID.getCurrentGoal()) > controlSettings.maxDeceleration && !robotStatus.stuck && !expectedWallImpact) {
-//        rightSpeedPID.setGoal( previousRightSpeedGoal - controlSettings.maxDeceleration * rightSign );
-//    }
 
     previousLeftSpeedGoal = leftSpeedPID.getCurrentGoal();
     previousRightSpeedGoal = rightSpeedPID.getCurrentGoal();

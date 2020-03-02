@@ -108,7 +108,7 @@ int main() {
 //
 //    analogWrite(PIN_PWM_LEFT, 255);
 //    analogWrite(PIN_PWM_RIGHT, 255);
-//    orderMgr.execute("t 1.57");
+//    orderMgr.execute("t 3.1416");
 
 //    orderMgr.execute("av");
 
@@ -121,17 +121,17 @@ int main() {
     while (true) {
 //
         i++;
-        orderMgr.execute("rawposdata");
+//        orderMgr.execute("rawposdata");
         delay(10);
 
 
 
         interruptStackPrint.print();
         orderMgr.communicate();
-        if(i==stopTick){
-            orderMgr.execute("sstop");
-            orderMgr.execute("stop");
-        }
+//        if(i==stopTick){
+//            orderMgr.execute("sstop");
+//            orderMgr.execute("stop");
+//        }
         if (i==stopTick*2)
         {
             Serial.println("DATAEND");
