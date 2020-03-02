@@ -42,7 +42,7 @@ MCS::MCS(): leftMotor(Side::LEFT), rightMotor(Side::RIGHT)  {
 
     translationPID.setTunings(3,0,0,0);
     translationPID.enableAWU(false);
-    rotationPID.setTunings(3,0,0,0);
+    rotationPID.setTunings(4,0,0,0);
     rotationPID.enableAWU(false);
 
 #elif defined(SLAVE)
@@ -82,7 +82,7 @@ void MCS::initSettings() {
 
     /* rad */
 #if defined(MAIN)
-    controlSettings.tolerancyAngle = 0.01;
+    controlSettings.tolerancyAngle = 0.001;
 #elif defined(SLAVE)
     controlSettings.tolerancyAngle = 0.01;//0.01
 #endif

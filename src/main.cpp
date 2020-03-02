@@ -112,7 +112,7 @@ int main() {
 
 //    orderMgr.execute("av");
 
-//    orderMgr.execute("d 1000");
+    orderMgr.execute("d 1000");
 //    orderMgr.execute("goto 500 500");
 
 //    orderMgr.execute("d 1500");
@@ -121,7 +121,7 @@ int main() {
     while (true) {
 //
         i++;
-//        orderMgr.execute("rawposdata");
+        orderMgr.execute("rawposdata");
         delay(10);
 
 
