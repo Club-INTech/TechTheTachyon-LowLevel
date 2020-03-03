@@ -77,7 +77,7 @@ void MCS::initSettings() {
 
 
     /* mm/s */
-    controlSettings.maxTranslationSpeed = 1000;
+    controlSettings.maxTranslationSpeed = 300;
     controlSettings.tolerancySpeed = 7;
 
     /* rad */
@@ -404,6 +404,7 @@ void MCS::manageStop() {
         if(blocked) {
             if (timeCounter2 == 100){
                 stop();
+                translationPID.setGoal(currentDistance-1);
 //                leftMotor.setDirection(Direction::NONE);
 //                rightMotor.setDirection(Direction::NONE);
                 expectedWallImpact = false;
@@ -415,7 +416,7 @@ void MCS::manageStop() {
         }
 
 
-        if(ABS(leftSpeedPID.getCurrentState() - leftSpeedPID.getCurrentGoal()) - ABS(rightSpeedPID.getCurrentState() - rightSpeedPID.getCurrentGoal()) > 1000 && !expectedWallImpact && robotStatus.moving) {
+        if(ABS(ABS(leftSpeedPID.getCurrentState() - leftSpeedPID.getCurrentGoal()) - ABS(rightSpeedPID.getCurrentState() - rightSpeedPID.getCurrentGoal())) > 200 && !expectedWallImpact && robotStatus.moving) {
             robotStatus.stuck = true;
             robotStatus.moving = false;
             leftMotor.setDirection(Direction::NONE);

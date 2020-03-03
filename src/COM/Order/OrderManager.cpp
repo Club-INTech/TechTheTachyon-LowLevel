@@ -60,7 +60,7 @@ void OrderManager::communicate() {
 //    }
 
     if (sendPos.check()) {
-        motionControlSystem.sendPositionUpdate();
+//        motionControlSystem.sendPositionUpdate();
     }
  }
 
