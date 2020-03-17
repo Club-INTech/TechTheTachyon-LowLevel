@@ -77,7 +77,7 @@ void MCS::initSettings() {
 
 
     /* mm/s */
-    controlSettings.maxTranslationSpeed = 300;
+    controlSettings.maxTranslationSpeed = 1000;
     controlSettings.tolerancySpeed = 7;
 
     /* rad */
@@ -422,6 +422,7 @@ void MCS::manageStop() {
             leftMotor.setDirection(Direction::NONE);
             rightMotor.setDirection(Direction::NONE);
             stop();
+            translationPID.setGoal(currentDistance-20);
 //            digitalWrite(LED3_3, LOW);
         }
 
